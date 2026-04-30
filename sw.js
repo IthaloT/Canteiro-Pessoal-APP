@@ -1,4 +1,4 @@
-const CACHE = 'canteiro-v1';
+const CACHE = 'canteiro-v2';
 const ASSETS = ['/', '/index.html', '/manifest.json'];
 
 self.addEventListener('install', e => {
