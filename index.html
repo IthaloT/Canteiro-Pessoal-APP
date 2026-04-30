@@ -1169,7 +1169,7 @@ function closeGoalConfirm(status) {
 /* ═══════════════════════════════════════════════════════════
    PORÃO
 ═══════════════════════════════════════════════════════════ */
-const VICIO_CYCLE = ['resistiu', 'quase', 'cedi', null];
+const VICIO_CYCLE = ['resistiu', 'cedi', null];
 
 function renderPorao() {
   renderVicios();
@@ -1190,24 +1190,51 @@ function renderVicios() {
     const regs = v.registros || {};
     const streak = calcVicioStreak(regs);
     const isResistiu = regs[t] === 'resistiu';
+    const isCedi = regs[t] === 'cedi';
     const dots = last30.map(d => {
-      const est = regs[d] || 'empty';
+      const est = regs[d];
       const isT = d === t;
-      return `<div class="v-dot ${est}${isT?' today':''}" onclick="cycleVicioDay('${v.id}','${d}')" title="${d}"></div>`;
+      const cls = est === 'resistiu' ? 'resistiu' : est === 'cedi' ? 'cedi' : 'empty';
+      return `<div class="v-dot ${cls}${isT?' today':''}" onclick="cycleVicioDay('${v.id}','${d}')" title="${d}"></div>`;
     }).join('');
+    const btnClass = isResistiu ? 'btn-g' : 'btn-a';
+    const btnTxt   = isResistiu ? '✓ Resistiu hoje' : isCedi ? '✗ Cedeu hoje — corrigir?' : '+ Marcar hoje como Resistiu';
     return `<div class="vicio-card">
       <div class="vicio-hdr">
         <span class="vicio-nome">${esc(v.nome)}</span>
         <span class="streak${streak===0?' zero':''}">🔥 ${streak} dias</span>
         <button class="xbtn" onclick="removeVicio('${v.id}')">×</button>
       </div>
-      <div style="font-size:10px;color:var(--t3);margin-bottom:6px;font-family:Georgia,serif">Últimos 30 dias — clique para ciclar estados</div>
+      <div style="font-size:10px;color:var(--t3);margin-bottom:6px;font-family:Georgia,serif">Últimos 30 dias · 🟢 Resistiu · 🔴 Cedeu</div>
       <div class="v-grid">${dots}</div>
-      <button class="btn ${isResistiu?'btn-g':'btn-a'} btn-sm" onclick="cycleVicioDay('${v.id}','${t}')">
-        ${isResistiu ? '✓ Hoje: Resistiu' : '+ Marcar hoje como Resistiu'}
-      </button>
+      <div style="display:flex;gap:7px;margin-top:8px">
+        <button class="btn ${btnClass} btn-sm" style="flex:1" onclick="markVicioResistiu('${v.id}')">
+          ${isResistiu ? '✓ Resistiu hoje' : '+ Resistiu hoje'}
+        </button>
+        <button class="btn btn-sm" style="border:1px solid var(--red);color:var(--red);background:none;${isCedi?'background:var(--rd);font-weight:bold':''}" onclick="markVicioCedi('${v.id}')">
+          ${isCedi ? '✗ Cedeu (marcado)' : '✗ Cedeu hoje'}
+        </button>
+      </div>
     </div>`;
   }).join('');
+}
+
+function markVicioResistiu(id) {
+  const v = S.vicios.find(x => x.id === id); if (!v) return;
+  if (!v.registros) v.registros = {};
+  const t = today();
+  if (v.registros[t] === 'resistiu') delete v.registros[t];
+  else v.registros[t] = 'resistiu';
+  persist(); renderVicios();
+}
+
+function markVicioCedi(id) {
+  const v = S.vicios.find(x => x.id === id); if (!v) return;
+  if (!v.registros) v.registros = {};
+  const t = today();
+  if (v.registros[t] === 'cedi') delete v.registros[t];
+  else v.registros[t] = 'cedi';
+  persist(); renderVicios();
 }
 
 function cycleVicioDay(id, date) {
@@ -1269,8 +1296,16 @@ function renderHistory() {
       <div class="hist-nome">${esc(h.nome)}<div style="font-size:10px;color:var(--t3)">${h.tipo} · ${fmtDate(h.encerradoEm)}</div></div>
       ${h.rodada > 1 ? `<span class="hist-rodada">${h.rodada}ª rodada</span>` : ''}
       <span class="hist-badge ${h.statusFinal}">${h.statusFinal}</span>
+      <button class="xbtn" onclick="deleteFromHistory('${h.id}')" title="Remover do histórico">×</button>
     </div>`
   ).join('');
+}
+
+function deleteFromHistory(id) {
+  showConfirm('Remover este item do histórico permanentemente?', () => {
+    S.historico = S.historico.filter(x => x.id !== id);
+    persist(); renderHistory();
+  });
 }
 
 document.getElementById('mbg-history').addEventListener('click', e => {
