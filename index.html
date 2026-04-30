@@ -748,7 +748,7 @@ function showConfirm(msg, onOk) {
    HÁBITOS
 ═══════════════════════════════════════════════════════════ */
 const DAY_LABELS = ['Seg','Ter','Qua','Qui','Sex','Sáb','Dom'];
-const HAB_CYCLE = [null, 'feito', 'parcial', 'faltou'];
+const HAB_CYCLE = ['feito', 'parcial', 'faltou', null];
 
 function renderHabitos() {
   const week = getWeekDays();
@@ -800,8 +800,9 @@ function cycleHabitoDay(id, date) {
   const h = S.habitos.find(x => x.id === id);
   if (!h) return;
   if (!h.registros) h.registros = {};
-  const cur = h.registros[date];
-  const next = HAB_CYCLE[(HAB_CYCLE.indexOf(cur) + 1) % HAB_CYCLE.length];
+  const cur = h.registros[date] || null;
+  const idx = HAB_CYCLE.indexOf(cur);
+  const next = HAB_CYCLE[(idx === -1 ? 0 : idx + 1) % HAB_CYCLE.length];
   if (next === null) delete h.registros[date];
   else h.registros[date] = next;
   persist(); renderHabitos();
@@ -1168,7 +1169,7 @@ function closeGoalConfirm(status) {
 /* ═══════════════════════════════════════════════════════════
    PORÃO
 ═══════════════════════════════════════════════════════════ */
-const VICIO_CYCLE = [null, 'resistiu', 'quase', 'cedi'];
+const VICIO_CYCLE = ['resistiu', 'quase', 'cedi', null];
 
 function renderPorao() {
   renderVicios();
@@ -1212,8 +1213,9 @@ function renderVicios() {
 function cycleVicioDay(id, date) {
   const v = S.vicios.find(x => x.id === id); if (!v) return;
   if (!v.registros) v.registros = {};
-  const cur  = v.registros[date];
-  const next = VICIO_CYCLE[(VICIO_CYCLE.indexOf(cur) + 1) % VICIO_CYCLE.length];
+  const cur  = v.registros[date] || null;
+  const idx  = VICIO_CYCLE.indexOf(cur);
+  const next = VICIO_CYCLE[(idx === -1 ? 0 : idx + 1) % VICIO_CYCLE.length];
   if (next === null) delete v.registros[date];
   else v.registros[date] = next;
   persist(); renderVicios();
