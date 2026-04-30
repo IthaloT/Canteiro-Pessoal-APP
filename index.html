@@ -1347,7 +1347,7 @@ function init() {
 
   // PWA service worker
   if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('sw.js').catch(() => {});
+    navigator.serviceWorker.register('/Canteiro-Pessoal-APP/sw.js', { scope: '/Canteiro-Pessoal-APP/' }).catch(() => {});
   }
 
   // Online/offline indicator
