@@ -1018,14 +1018,14 @@ function renderPredio() {
   ['frentes','ciclos','horizontes','pilares'].forEach(tipo => renderPrediSection(tipo));
 
   // Ciclos limit
-  const limit = S.ciclos.filter(x => x.status === 'ativo').length >= 3;
+  const limit = S.ciclos.filter(x => !x.status || x.status === 'ativo').length >= 3;
   document.getElementById('warn-ciclos').style.display = limit ? 'block' : 'none';
   document.getElementById('btn-add-ciclo').style.display = limit ? 'none' : 'inline-flex';
 }
 
 function renderPrediSection(tipo) {
   const list = document.getElementById('list-' + tipo);
-  const items = S[tipo].filter(x => x.status === 'ativo');
+  const items = S[tipo].filter(x => !x.status || x.status === 'ativo');
 
   if (items.length === 0) {
     list.innerHTML = '<div class="empty" style="padding:10px 0">Nenhum item ativo.</div>';
