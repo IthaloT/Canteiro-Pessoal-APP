@@ -1,5 +1,11 @@
-const CACHE = 'canteiro-v2';
-const ASSETS = ['/', '/index.html', '/manifest.json'];
+const CACHE = 'canteiro-v3';
+const BASE = '/Canteiro-Pessoal-APP';
+const ASSETS = [
+  BASE + '/',
+  BASE + '/index.html',
+  BASE + '/manifest.json',
+  BASE + '/sw.js'
+];
 
 self.addEventListener('install', e => {
   e.waitUntil(
@@ -16,13 +22,16 @@ self.addEventListener('activate', e => {
 });
 
 self.addEventListener('fetch', e => {
-  // Não cacheia chamadas para o Apps Script
   if (e.request.url.includes('script.google.com')) return;
   e.respondWith(
-    caches.match(e.request).then(cached => cached || fetch(e.request).then(res => {
-      const clone = res.clone();
-      caches.open(CACHE).then(c => c.put(e.request, clone));
-      return res;
-    }))
+    caches.match(e.request).then(cached => {
+      if (cached) return cached;
+      return fetch(e.request).then(res => {
+        if (!res || res.status !== 200 || res.type !== 'basic') return res;
+        const clone = res.clone();
+        caches.open(CACHE).then(c => c.put(e.request, clone));
+        return res;
+      });
+    })
   );
 });
