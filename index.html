@@ -809,8 +809,14 @@ function cycleHabitoDay(id, date) {
 }
 
 function removeHabito(id) {
-  showConfirm('Remover este hábito e todo seu histórico?', () => {
+  showConfirm('Remover este hábito? O histórico de dados será preservado nos filtros do dashboard.', () => {
+    const h = S.habitos.find(x => x.id === id);
+    if (h) {
+      if (!S.habitosArquivados) S.habitosArquivados = [];
+      S.habitosArquivados.push({ ...h, removidoEm: today() });
+    }
     S.habitos = S.habitos.filter(x => x.id !== id);
+    // Remove vínculo de hábitos arquivados de objetos do prédio
     persist(); renderHabitos();
   });
 }
