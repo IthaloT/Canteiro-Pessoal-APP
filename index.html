@@ -52,10 +52,10 @@ nav{display:flex;border-bottom:1px solid var(--b1);flex-shrink:0;background:var(
 
 /* ── Main ──────────────────────────────────────────────────── */
 main{flex:1;overflow:hidden;display:flex;flex-direction:column}
-.sec{display:none;flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:16px}
+.sec{display:none;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:16px}
 .sec.active{display:block}
-.sec#sec-dash{padding:0}
-.sec#sec-dash.active{display:flex}
+#sec-dash{padding:0}
+#sec-dash.active{display:flex;flex-direction:column}
 
 /* ── Section title ──────────────────────────────────────────── */
 .sec-h{font-size:9px;letter-spacing:1.8px;text-transform:uppercase;color:var(--t3);margin-bottom:12px;padding-bottom:7px;border-bottom:1px solid var(--b1);display:flex;align-items:center;justify-content:space-between;font-family:Georgia,serif}
@@ -533,7 +533,7 @@ select option{background:var(--s2)}
 </div>
 
 <!-- ══ DASHBOARD ═════════════════════════════════════════════ -->
-<div id="sec-dash" class="sec" style="padding:0">
+<div id="sec-dash" class="sec">
 
   <!-- Filtros fixos no topo -->
   <div id="dash-filter-bar" style="flex-shrink:0">
@@ -1500,9 +1500,11 @@ function renderHistory() {
 }
 
 function deleteFromHistory(id) {
-  showConfirm('Remover este item do histórico permanentemente?', () => {
+  showConfirm('Remover este item do histórico?', () => {
     S.historico = S.historico.filter(x => x.id !== id);
-    persist(); renderHistory();
+    persist();
+    scheduleSync(); // garante que o Sheets também é atualizado
+    renderHistory();
   });
 }
 
