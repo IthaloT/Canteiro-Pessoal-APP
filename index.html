@@ -540,6 +540,22 @@ select option{background:var(--s2)}
 </div>
 </div>
 
+<!-- ══ MODAL: Editar item do Prédio ══════════════════════════ -->
+<div class="mbg" id="mbg-edit-predi">
+<div class="modal">
+  <button class="m-close" onclick="closeM('mbg-edit-predi')">×</button>
+  <div class="m-title">Editar nome</div>
+  <input type="hidden" id="edit-predi-tipo">
+  <input type="hidden" id="edit-predi-id">
+  <div class="lbl">Nome</div>
+  <input type="text" id="edit-predi-nome" placeholder="Nome do item...">
+  <div class="m-actions">
+    <button class="btn btn-g" onclick="closeM('mbg-edit-predi')">Cancelar</button>
+    <button class="btn btn-a" onclick="saveEditPredi()">Salvar</button>
+  </div>
+</div>
+</div>
+
 <!-- ══ MODAL: Vícios ════════════════════════════════════════ -->
 <div class="mbg" id="mbg-add-vicio">
 <div class="modal">
@@ -1081,7 +1097,8 @@ function renderPrediSection(tipo) {
       </div>
       ${habSection}
       <div class="pi-actions">
-        <button class="pi-btn close-btn" onclick="openCloseGoal('${tipo}','${item.id}')">Encerrar meta →</button>
+        <button class="pi-btn" onclick="openEditPredi('${tipo}','${item.id}')">✎ Editar</button>
+        <button class="pi-btn close-btn" onclick="openCloseGoal('${tipo}','${item.id}')">Encerrar →</button>
         <button class="pi-btn" onclick="removePredi('${tipo}','${item.id}')">Remover</button>
       </div>
     </div>`;
@@ -1134,6 +1151,24 @@ function removePredi(tipo, id) {
     S[tipo] = S[tipo].filter(x => x.id !== id);
     persist(); renderPredio();
   });
+}
+
+function openEditPredi(tipo, id) {
+  const item = S[tipo].find(x => x.id === id); if (!item) return;
+  document.getElementById('edit-predi-tipo').value = tipo;
+  document.getElementById('edit-predi-id').value   = id;
+  document.getElementById('edit-predi-nome').value = item.nome || item.texto || '';
+  openM('mbg-edit-predi');
+}
+
+function saveEditPredi() {
+  const tipo = document.getElementById('edit-predi-tipo').value;
+  const id   = document.getElementById('edit-predi-id').value;
+  const nome = document.getElementById('edit-predi-nome').value.trim();
+  if (!nome) return document.getElementById('edit-predi-nome').focus();
+  const item = S[tipo].find(x => x.id === id);
+  if (item) { if ('nome' in item) item.nome = nome; else item.texto = nome; }
+  persist(); closeM('mbg-edit-predi'); renderPredio();
 }
 
 /* ── Fechar meta ─────────────────────────────────────────── */
@@ -1302,7 +1337,7 @@ function renderHistory() {
       <div class="hist-nome">${esc(h.nome)}<div style="font-size:10px;color:var(--t3)">${h.tipo} · ${fmtDate(h.encerradoEm)}</div></div>
       ${h.rodada > 1 ? `<span class="hist-rodada">${h.rodada}ª rodada</span>` : ''}
       <span class="hist-badge ${h.statusFinal}">${h.statusFinal}</span>
-      <button class="xbtn" onclick="deleteFromHistory('${h.id}')" title="Remover do histórico">×</button>
+      <button style="background:none;border:none;color:var(--red);font-size:16px;cursor:pointer;padding:0 4px;flex-shrink:0" onclick="deleteFromHistory('${h.id}')" title="Remover">×</button>
     </div>`
   ).join('');
 }
