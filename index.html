@@ -1273,6 +1273,11 @@ async function pullFromCloud() {
     const remoteSync = (remote.data.meta || {}).ultimaSync || '';
     const localSync  = (S.meta || {}).ultimaSync || '';
 
+    // Se o usuário zerou intencionalmente, só aceita dados da nuvem
+    // posteriores ao momento do zero (significa que outro dispositivo editou depois)
+    const zeroedAt = localStorage.getItem('canteiro_zeroed') || '';
+    if (zeroedAt && remoteSync <= zeroedAt) return;
+
     // Só atualiza se a nuvem tiver dados mais recentes que o local
     if (remoteSync && remoteSync > localSync) {
       const localSettings = S.settings;
@@ -2760,11 +2765,27 @@ function clearDescarte() {
 }
 function zerarTudoConfirm() {
   showConfirm('Zerar TODOS os dados? Esta ação não pode ser desfeita.', () => {
-    showConfirm('Tem certeza absoluta? Tudo será apagado.', () => {
+    showConfirm('Tem certeza absoluta? Tudo será apagado, inclusive na nuvem.', async () => {
       const settings = S.settings;
       S = blank();
       S.settings = settings;
-      persist();
+      // Timestamp recente garante que a nuvem não vai "vencer" no próximo pull
+      S.meta.ultimaSync = new Date().toISOString();
+      // Marca no localStorage que o usuário zerou intencionalmente
+      localStorage.setItem('canteiro_zeroed', S.meta.ultimaSync);
+      localStorage.setItem(KEY, JSON.stringify(S));
+      // Envia estado vazio para a nuvem (bypassa proteção anti-vazio)
+      const url = settings.scriptUrl;
+      if (url && navigator.onLine) {
+        try {
+          await fetch(url, {
+            method: 'POST',
+            mode: 'no-cors',
+            headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+            body: JSON.stringify({ data: S, forceEmpty: true })
+          });
+        } catch(e) {}
+      }
       location.reload();
     });
   });
