@@ -31,10 +31,11 @@ body{display:flex;flex-direction:column;overflow:hidden}
 /* ── Header ────────────────────────────────────────────────── */
 #hdr{
   padding:12px 16px 10px;border-bottom:1px solid var(--b1);
-  display:flex;align-items:center;gap:10px;flex-shrink:0;
+  display:flex;align-items:center;gap:8px;flex-shrink:0;flex-wrap:nowrap;
   background:var(--bg);padding-top:max(12px,env(safe-area-inset-top));
+  overflow:hidden;
 }
-.logo{font-size:18px;letter-spacing:-.3px;flex:1}
+.logo{font-size:18px;letter-spacing:-.3px;white-space:nowrap;flex-shrink:0}
 .logo em{color:var(--acc);font-style:normal}
 .sync-dot{width:7px;height:7px;border-radius:50%;background:var(--t3);flex-shrink:0;transition:background .3s}
 .sync-dot.ok{background:var(--green)}
@@ -504,7 +505,28 @@ select option{background:var(--s2)}
 .missao-saved{font-size:11px;color:var(--green);font-family:Georgia,serif;opacity:0;transition:opacity .4s}
 .missao-saved.show{opacity:1}
 
-/* ── Longo prazo — countdown ────────────────────────────────── */
+/* ── Caixa de Ideias ────────────────────────────────────────── */
+.ideia-card{background:var(--s1);border:1px solid var(--b1);border-radius:var(--r);padding:11px 13px;margin-bottom:7px;animation:fadeIn .18s ease}
+.ideia-card-top{display:flex;align-items:flex-start;gap:8px;margin-bottom:8px}
+.ideia-txt{flex:1;font-size:14px;line-height:1.4;color:var(--text);word-break:break-word}
+.ideia-tags{display:flex;flex-wrap:wrap;gap:4px;margin-bottom:8px}
+.ideia-tag{
+  font-size:10px;padding:2px 8px;border-radius:10px;cursor:pointer;
+  font-family:Georgia,serif;letter-spacing:.3px;border:1px solid var(--b1);
+  background:var(--s2);color:var(--t2);transition:var(--tr);user-select:none;
+}
+.ideia-tag.ativa{background:var(--acc-d);border-color:var(--acc-g);color:var(--acc)}
+.ideia-tag.gerenciar{border-style:dashed;color:var(--t3)}
+.ideia-tag.gerenciar:hover{border-color:var(--acc);color:var(--acc)}
+.ideia-actions{display:flex;gap:5px;flex-wrap:wrap}
+.ideia-meta{font-size:10px;color:var(--t3);font-family:Georgia,serif;margin-top:4px}
+
+/* modal gerenciar tags */
+.tag-list-item{display:flex;align-items:center;gap:8px;padding:7px 0;border-bottom:1px solid var(--b1);font-size:13px}
+.tag-list-item:last-child{border-bottom:none}
+.tag-list-item span{flex:1;color:var(--text)}
+.tag-del-btn{background:none;border:none;color:var(--t3);font-size:16px;cursor:pointer;padding:0 4px;line-height:1}
+.tag-del-btn:hover{color:var(--red)}
 .countdown-tag{font-size:10px;color:var(--blue);background:var(--bd);border:1px solid rgba(74,127,193,.3);border-radius:3px;padding:2px 7px;font-family:Georgia,serif;display:inline-block;margin-top:4px}
 </style>
 </head>
@@ -518,12 +540,12 @@ select option{background:var(--s2)}
 
 <!-- ── Header ─────────────────────────────────────────────── -->
 <div id="hdr">
-  <span class="logo">Can<em>teiro</em> <span style="font-size:12px;color:var(--t2);font-weight:normal;letter-spacing:0">Pessoal</span></span>
-  <div id="sync-dot" class="sync-dot" title="Status da sync"></div>
-  <span id="sync-lbl" style="font-size:10px;color:var(--t3);font-family:Georgia,serif"></span>
-  <span class="version-badge" title="Versão do app">v2.1</span>
-  <button class="icon-btn" onclick="openM('mbg-history')">Hist.</button>
-  <button class="icon-btn" onclick="openSettingsModal()">⚙</button>
+  <span class="logo">Can<em>teiro</em> <span style="font-size:11px;color:var(--t2);font-weight:normal;letter-spacing:0">Pessoal</span></span>
+  <div id="sync-dot" class="sync-dot" title="Status da sync" style="flex-shrink:0"></div>
+  <span id="sync-lbl" style="font-size:10px;color:var(--t3);font-family:Georgia,serif;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap"></span>
+  <span class="version-badge" style="flex-shrink:0" title="Versão do app">v2.1</span>
+  <button class="icon-btn" style="flex-shrink:0" onclick="openM('mbg-history')">Hist.</button>
+  <button class="icon-btn" style="flex-shrink:0" onclick="openSettingsModal()">⚙</button>
 </div>
 
 <!-- ── Nav ────────────────────────────────────────────────── -->
@@ -574,9 +596,12 @@ select option{background:var(--s2)}
       <div id="col-feito"></div>
     </div>
   </div>
+  <div class="sec-h mt2">
+    Caixa de Ideias <span class="badge" id="ideias-cnt">0</span>
+    <button class="btn btn-g btn-sm" onclick="openGerenciarTags()">🏷 Tags</button>
+  </div>
+  <div id="list-ideias"></div>
 </div>
-
-<!-- ══ PRÉDIO ════════════════════════════════════════════════ -->
 <div id="sec-predio" class="sec">
 
   <div class="floor" id="fl-frentes">
@@ -709,6 +734,7 @@ select option{background:var(--s2)}
   <div id="t-s1">
     <div class="m-actions">
       <button class="btn btn-g" onclick="tAct('discard')">🗑 Descartar</button>
+      <button class="btn btn-g" onclick="tAct('idea')">💡 Ideia</button>
       <button class="btn btn-g" onclick="tAct('project')">📁 Criar Ação</button>
       <button class="btn btn-a" onclick="tAct('task')">✓ Criar Tarefa</button>
     </div>
@@ -734,6 +760,29 @@ select option{background:var(--s2)}
       <button class="btn btn-a" onclick="tConfirmProj()">Criar Ação</button>
     </div>
   </div>
+
+  <div id="t-s4" style="display:none">
+    <div class="lbl" style="margin-top:4px">Tags (opcional)</div>
+    <div id="t-s4-tags" class="ideias-tags" style="display:flex;flex-wrap:wrap;gap:5px;margin:8px 0"></div>
+    <div class="m-actions">
+      <button class="btn btn-g" onclick="tBack()">← Voltar</button>
+      <button class="btn btn-a" onclick="tConfirmIdea()">Salvar ideia 💡</button>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ══ MODAL: Gerenciar Tags de Ideias ═══════════════════════ -->
+<div class="mbg" id="mbg-tags">
+<div class="modal">
+  <button class="m-close" onclick="closeM('mbg-tags')">×</button>
+  <div class="m-title">Tags de Ideias</div>
+  <div class="lbl">Nova tag</div>
+  <div class="add-row" style="margin-bottom:14px">
+    <input type="text" id="inp-nova-tag" placeholder="Ex: Negócios, Pessoal, Produto..." onkeydown="if(event.key==='Enter')addTag()">
+    <button class="btn btn-a" onclick="addTag()">+</button>
+  </div>
+  <div id="list-tags"></div>
 </div>
 </div>
 
@@ -1183,6 +1232,7 @@ function blank() {
     horizontes: [], ciclos: [], frentes: [],
     habitos: [], habitosArquivados: [],
     inbox: [], tarefas: [],
+    ideias: [], tagIdeias: [],
     vicios: [], descarte: [], historico: []
   };
 }
@@ -1218,7 +1268,8 @@ function isStateEmpty(state) {
     (state.pilares||[]).length +
     (state.horizontes||[]).length +
     (state.ciclos||[]).length +
-    (state.frentes||[]).length;
+    (state.frentes||[]).length +
+    (state.ideias||[]).length;
   const temMissao = (state.fundacao||{}).missao;
   return totalItems === 0 && !temMissao;
 }
@@ -1663,6 +1714,7 @@ function addInbox() {
 function renderCaderno() {
   renderInbox();
   renderKanban();
+  renderIdeias();
 }
 
 function renderInbox() {
@@ -1698,7 +1750,7 @@ function openTriage(id) {
   tID = id; tUrg = false; tImp = false;
   const item = S.inbox.find(x => x.id === id);
   document.getElementById('triage-txt').textContent = item.texto;
-  ['t-s1','t-s2','t-s3'].forEach((s, i) => document.getElementById(s).style.display = i === 0 ? 'block' : 'none');
+  ['t-s1','t-s2','t-s3','t-s4'].forEach((s, i) => document.getElementById(s).style.display = i === 0 ? 'block' : 'none');
   document.getElementById('tog-urg').classList.remove('on');
   document.getElementById('tog-imp').classList.remove('on');
   openM('mbg-triage');
@@ -1711,6 +1763,12 @@ function tAct(action) {
     if (item) { item.status = 'descartado'; S.descarte.push({ id: uid(), texto: item.texto, data: today() }); }
     persist(); closeM('mbg-triage'); renderCaderno(); return;
   }
+  if (action === 'idea') {
+    // Popula tags disponíveis no step 4
+    renderTriageTags();
+    document.getElementById('t-s4').style.display = 'block';
+    return;
+  }
   if (action === 'task') document.getElementById('t-s2').style.display = 'block';
   else { document.getElementById('inp-triage-proj').value = ''; document.getElementById('t-s3').style.display = 'block'; }
 }
@@ -1719,6 +1777,7 @@ function tBack() {
   document.getElementById('t-s1').style.display = 'block';
   document.getElementById('t-s2').style.display = 'none';
   document.getElementById('t-s3').style.display = 'none';
+  document.getElementById('t-s4').style.display = 'none';
 }
 
 function flipTog(type) {
@@ -1742,6 +1801,141 @@ function tConfirmProj() {
   if (item) item.status = 'triado';
   S.frentes.push({ id: uid(), nome, descricao: item ? item.texto : '', prazo: '', status: 'ativo', rodada: 1, criadoEm: today() });
   persist(); closeM('mbg-triage'); renderCaderno(); renderPredio();
+}
+
+/* ═══════════════════════════════════════════════════════════
+   CAIXA DE IDEIAS
+═══════════════════════════════════════════════════════════ */
+let tIdeaTags = []; // tags selecionadas na triagem
+
+function renderTriageTags() {
+  const container = document.getElementById('t-s4-tags');
+  tIdeaTags = [];
+  if (!S.tagIdeias || S.tagIdeias.length === 0) {
+    container.innerHTML = '<span style="font-size:11px;color:var(--t3);font-family:Georgia,serif">Nenhuma tag criada ainda. Crie tags em Caderno → 🏷 Tags.</span>';
+    return;
+  }
+  container.innerHTML = S.tagIdeias.map(t =>
+    `<span class="ideia-tag" id="ttag-${t.id}" onclick="toggleTriageTag('${t.id}','${esc(t.nome)}')">${esc(t.nome)}</span>`
+  ).join('');
+}
+
+function toggleTriageTag(id, nome) {
+  const el = document.getElementById('ttag-' + id);
+  const idx = tIdeaTags.findIndex(t => t.id === id);
+  if (idx === -1) {
+    tIdeaTags.push({ id, nome });
+    el.classList.add('ativa');
+  } else {
+    tIdeaTags.splice(idx, 1);
+    el.classList.remove('ativa');
+  }
+}
+
+function tConfirmIdea() {
+  const item = S.inbox.find(x => x.id === tID);
+  if (item) item.status = 'triado';
+  if (!S.ideias) S.ideias = [];
+  S.ideias.push({
+    id: uid(),
+    texto: item ? item.texto : '',
+    tags: [...tIdeaTags],
+    criadoEm: today()
+  });
+  persist(); closeM('mbg-triage'); renderCaderno();
+}
+
+function renderIdeias() {
+  if (!S.ideias) S.ideias = [];
+  const cnt = document.getElementById('ideias-cnt');
+  if (cnt) cnt.textContent = S.ideias.length;
+  const list = document.getElementById('list-ideias');
+  if (!list) return;
+  if (S.ideias.length === 0) {
+    list.innerHTML = '<div class="empty" style="padding:12px 0">Nenhuma ideia ainda.<br>Trie um item da Caixa de Entrada como 💡 Ideia.</div>';
+    return;
+  }
+  list.innerHTML = S.ideias.slice().reverse().map(ideia => {
+    const tagsHtml = (ideia.tags || []).length
+      ? `<div class="ideia-tags">${(ideia.tags).map(t => `<span class="ideia-tag ativa">${esc(t.nome)}</span>`).join('')}</div>`
+      : '';
+    return `<div class="ideia-card">
+      <div class="ideia-card-top">
+        <div class="ideia-txt">${esc(ideia.texto)}</div>
+        <button class="xbtn" onclick="removeIdeia('${ideia.id}')" title="Remover">×</button>
+      </div>
+      ${tagsHtml}
+      <div class="ideia-actions">
+        <button class="btn btn-g btn-sm" onclick="ideiaParaKanban('${ideia.id}')">→ Kanban</button>
+      </div>
+      <div class="ideia-meta">${fmtDate(ideia.criadoEm)}</div>
+    </div>`;
+  }).join('');
+}
+
+function removeIdeia(id) {
+  showConfirm('Remover esta ideia?', () => {
+    S.ideias = (S.ideias || []).filter(x => x.id !== id);
+    persist(); renderIdeias();
+  });
+}
+
+function ideiaParaKanban(id) {
+  const ideia = (S.ideias || []).find(x => x.id === id);
+  if (!ideia) return;
+  S.tarefas.push({
+    id: uid(), texto: ideia.texto,
+    urgente: false, importante: false,
+    coluna: 'afazer', criadoEm: today()
+  });
+  S.ideias = (S.ideias || []).filter(x => x.id !== id);
+  persist(); renderIdeias(); renderKanban();
+  showToast('💡 Ideia enviada para o Kanban');
+}
+
+/* ── Tags de Ideias ──────────────────────────────────────── */
+function openGerenciarTags() {
+  if (!S.tagIdeias) S.tagIdeias = [];
+  document.getElementById('inp-nova-tag').value = '';
+  renderListTags();
+  openM('mbg-tags');
+}
+
+function renderListTags() {
+  const list = document.getElementById('list-tags');
+  if (!S.tagIdeias || S.tagIdeias.length === 0) {
+    list.innerHTML = '<div style="font-size:12px;color:var(--t3);font-family:Georgia,serif;padding:8px 0">Nenhuma tag criada ainda.</div>';
+    return;
+  }
+  list.innerHTML = S.tagIdeias.map(t =>
+    `<div class="tag-list-item">
+      <span class="ideia-tag ativa">${esc(t.nome)}</span>
+      <span style="flex:1"></span>
+      <button class="tag-del-btn" onclick="removeTag('${t.id}')" title="Remover tag">×</button>
+    </div>`
+  ).join('');
+}
+
+function addTag() {
+  const inp = document.getElementById('inp-nova-tag');
+  const nome = inp.value.trim();
+  if (!nome) return inp.focus();
+  if (!S.tagIdeias) S.tagIdeias = [];
+  if (S.tagIdeias.some(t => t.nome.toLowerCase() === nome.toLowerCase())) {
+    inp.value = '';
+    return;
+  }
+  S.tagIdeias.push({ id: uid(), nome });
+  inp.value = '';
+  persist(); renderListTags();
+}
+
+function removeTag(id) {
+  S.tagIdeias = (S.tagIdeias || []).filter(t => t.id !== id);
+  (S.ideias || []).forEach(ideia => {
+    ideia.tags = (ideia.tags || []).filter(t => t.id !== id);
+  });
+  persist(); renderListTags(); renderIdeias();
 }
 
 /* ── Kanban ──────────────────────────────────────────────── */
@@ -2175,9 +2369,8 @@ function toggleCfgSection(id) {
 function openSettingsModal() {
   document.getElementById('inp-script-url').value = S.settings.scriptUrl || '';
   setSyncStatus(navigator.onLine ? (S.meta.ultimaSync ? 'ok' : '') : 'err', '');
-  // Abre seção nuvem por padrão
-  const nuvemSection = document.getElementById('cfg-nuvem');
-  if (nuvemSection) nuvemSection.classList.add('open');
+  // Fecha todas as seções ao abrir — usuário abre a que precisar
+  document.querySelectorAll('.cfg-section').forEach(s => s.classList.remove('open'));
   // Renderiza lista de manutenção
   renderMaintenance();
   openM('mbg-settings');
@@ -2902,6 +3095,8 @@ function init() {
   if (!S.fundacao.historico) S.fundacao.historico = [];
   if (!S.pilares_arquivados) S.pilares_arquivados = [];
   if (!S.habitosArquivados) S.habitosArquivados = [];
+  if (!S.ideias) S.ideias = [];
+  if (!S.tagIdeias) S.tagIdeias = [];
 
   // Fix add habito button
   document.querySelector('[onclick="openM(\'mbg-add-habito\')"]').onclick = openM_addHabito;
