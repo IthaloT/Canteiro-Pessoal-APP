@@ -6,10 +6,10 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="Canteiro">
+<meta name="apple-mobile-web-app-title" content="Canteiro Pessoal">
 <meta name="theme-color" content="#0E0E0E">
 <link rel="manifest" href="manifest.json">
-<title>Canteiro</title>
+<title>Canteiro Pessoal</title>
 <style>
 /* ── Variables ─────────────────────────────────────────────── */
 :root{
@@ -392,26 +392,104 @@ select option{background:var(--s2)}
 .dash-delete-btn:hover{background:var(--red);color:var(--text)}
 
 @media(min-width:480px){.dash-kpis{grid-template-columns:repeat(4,1fr)}}
+
+/* ── Toast "Salvo ✓" ───────────────────────────────────────── */
+#toast{
+  position:fixed;bottom:calc(var(--nav) + 16px);left:50%;transform:translateX(-50%) translateY(20px);
+  background:var(--s3);border:1px solid var(--b2);color:var(--text);
+  font-size:12px;padding:7px 16px;border-radius:20px;font-family:Georgia,serif;
+  opacity:0;transition:opacity .2s,transform .2s;pointer-events:none;z-index:500;
+  white-space:nowrap;
+}
+#toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+/* ── Offline banner ────────────────────────────────────────── */
+#offline-banner{
+  display:none;position:fixed;top:0;left:0;right:0;
+  background:var(--rd);border-bottom:1px solid var(--red);
+  color:var(--red);font-size:11px;text-align:center;padding:6px;
+  font-family:Georgia,serif;letter-spacing:.3px;z-index:600;
+}
+#offline-banner.show{display:block}
+
+/* ── Version badge ─────────────────────────────────────────── */
+.version-badge{
+  font-size:9px;color:var(--t3);font-family:Georgia,serif;
+  letter-spacing:.3px;padding:2px 6px;border:1px solid var(--b1);
+  border-radius:10px;cursor:default;
+}
+
+/* ── Onboarding overlay ────────────────────────────────────── */
+#onboarding{
+  position:fixed;inset:0;background:var(--bg);z-index:1000;
+  display:flex;flex-direction:column;overflow-y:auto;
+  -webkit-overflow-scrolling:touch;
+}
+#onboarding.hidden{display:none}
+.ob-step{display:none;flex-direction:column;min-height:100%;padding:32px 24px 24px;animation:fadeIn .25s ease}
+.ob-step.active{display:flex}
+.ob-progress{display:flex;gap:5px;justify-content:center;margin-bottom:32px;flex-shrink:0}
+.ob-dot{width:6px;height:6px;border-radius:50%;background:var(--b2);transition:background .3s}
+.ob-dot.done{background:var(--acc)}
+.ob-icon{font-size:48px;margin-bottom:16px;text-align:center}
+.ob-title{font-size:22px;font-weight:bold;color:var(--text);margin-bottom:12px;line-height:1.3;letter-spacing:-.3px}
+.ob-title em{color:var(--acc);font-style:normal}
+.ob-body{flex:1;font-size:14px;color:var(--t2);line-height:1.7;font-family:Georgia,serif}
+.ob-body strong{color:var(--text)}
+.ob-body .ob-item{background:var(--s1);border:1px solid var(--b1);border-radius:var(--r);padding:12px 14px;margin-bottom:8px}
+.ob-item-tag{font-size:9px;letter-spacing:1px;text-transform:uppercase;color:var(--acc);background:var(--acc-d);border:1px solid var(--acc-g);border-radius:3px;padding:2px 7px;font-family:Georgia,serif;display:inline-block;margin-bottom:5px}
+.ob-item-title{font-size:14px;color:var(--text);font-weight:bold;margin-bottom:3px}
+.ob-item-desc{font-size:12px;color:var(--t2);line-height:1.5}
+.ob-item-example{font-size:11px;color:var(--t3);margin-top:4px;font-style:italic}
+.ob-footer{margin-top:24px;display:flex;gap:10px;flex-shrink:0}
+.ob-btn-skip{flex:1;padding:12px;border:1px solid var(--b1);border-radius:var(--rs);background:none;color:var(--t2);font-family:Georgia,serif;font-size:13px;cursor:pointer;transition:var(--tr)}
+.ob-btn-skip:hover{border-color:var(--b2)}
+.ob-btn-next{flex:2;padding:12px;background:var(--acc);color:#0E0E0E;border:none;border-radius:var(--rs);font-family:Georgia,serif;font-size:14px;font-weight:bold;cursor:pointer;transition:var(--tr);letter-spacing:.2px}
+.ob-btn-next:hover{background:#E8B425}
+
+/* ── Info tooltip no Prédio ────────────────────────────────── */
+.info-btn{
+  background:none;border:1px solid var(--b1);color:var(--t3);
+  border-radius:50%;width:18px;height:18px;font-size:10px;cursor:pointer;
+  display:inline-flex;align-items:center;justify-content:center;
+  font-family:Georgia,serif;transition:var(--tr);flex-shrink:0;margin-left:4px;
+}
+.info-btn:hover{border-color:var(--acc);color:var(--acc)}
+
+/* ── Device sync modal ─────────────────────────────────────── */
+.device-choice{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:16px 0}
+.device-opt{padding:18px 12px;border:1px solid var(--b1);border-radius:var(--r);cursor:pointer;text-align:center;transition:var(--tr);font-family:Georgia,serif}
+.device-opt:hover{border-color:var(--acc);background:var(--acc-d)}
+.device-opt-icon{font-size:28px;margin-bottom:8px}
+.device-opt-lbl{font-size:13px;color:var(--text);font-weight:bold}
+.device-opt-sub{font-size:11px;color:var(--t2);margin-top:3px;line-height:1.4}
 </style>
 </head>
 <body>
 
+<!-- ── Offline banner ──────────────────────────────────────── -->
+<div id="offline-banner">📵 Sem conexão — dados salvos localmente</div>
+
+<!-- ── Toast ──────────────────────────────────────────────── -->
+<div id="toast"></div>
+
 <!-- ── Header ─────────────────────────────────────────────── -->
 <div id="hdr">
-  <span class="logo">Can<em>teiro</em></span>
+  <span class="logo">Can<em>teiro</em> <span style="font-size:12px;color:var(--t2);font-weight:normal;letter-spacing:0">Pessoal</span></span>
   <div id="sync-dot" class="sync-dot" title="Status da sync"></div>
   <span id="sync-lbl" style="font-size:10px;color:var(--t3);font-family:Georgia,serif"></span>
+  <span class="version-badge" title="Versão do app">v2.1</span>
   <button class="icon-btn" onclick="openM('mbg-history')">Hist.</button>
-  <button class="icon-btn" onclick="openM('mbg-settings')">⚙</button>
+  <button class="icon-btn" onclick="openSettingsModal()">⚙</button>
 </div>
 
 <!-- ── Nav ────────────────────────────────────────────────── -->
 <nav>
   <button class="tab active" id="tab-habitos"  onclick="setTab('habitos',this)">Hábitos</button>
   <button class="tab"        id="tab-caderno"  onclick="setTab('caderno',this)">Caderno</button>
-  <button class="tab"        id="tab-predio"   onclick="setTab('predio',this)">Prédio</button>
-  <button class="tab"        id="tab-porao"    onclick="setTab('porao',this)">Porão</button>
-  <button class="tab"        id="tab-dash"     onclick="setTab('dash',this)">Acomp.</button>
+  <button class="tab"        id="tab-predio"   onclick="setTab('predio',this)">Metas</button>
+  <button class="tab"        id="tab-porao"    onclick="setTab('porao',this)">Vícios</button>
+  <button class="tab"        id="tab-dash"     onclick="setTab('dash',this)">Painel</button>
 </nav>
 
 <main>
@@ -460,66 +538,66 @@ select option{background:var(--s2)}
 
   <div class="floor" id="fl-frentes">
     <div class="floor-hdr" onclick="flipFloor('frentes')">
-      <span class="floor-tag">Frentes</span>
+      <span class="floor-tag">Ações</span>
       <span class="floor-name">Projetos ativos</span>
       <em class="floor-caret">▾</em>
     </div>
     <div class="floor-body">
-      <div class="lbl">Frentes de trabalho com começo, meio e fim</div>
-      <button class="btn btn-g btn-sm gap" onclick="openAddPredi('frentes')">+ Nova frente</button>
+      <div class="lbl">Projetos práticos com começo, meio e fim — até 2 meses</div>
+      <button class="btn btn-g btn-sm gap" onclick="openAddPredi('frentes')">+ Nova ação</button>
       <div id="list-frentes" class="gap"></div>
     </div>
   </div>
 
   <div class="floor" id="fl-ciclos">
     <div class="floor-hdr" onclick="flipFloor('ciclos')">
-      <span class="floor-tag">Ciclos</span>
-      <span class="floor-name">Metas trimestrais</span>
+      <span class="floor-tag">Trimestre</span>
+      <span class="floor-name">Metas dos próximos 90 dias</span>
       <em class="floor-caret">▾</em>
     </div>
     <div class="floor-body">
       <div class="lbl">Máximo 3 focos para os próximos 90 dias</div>
-      <div id="warn-ciclos" class="warn" style="display:none;font-size:11px;color:var(--red);margin-top:4px">Limite de 3 ciclos atingido.</div>
-      <button class="btn btn-g btn-sm gap" id="btn-add-ciclo" onclick="openAddPredi('ciclos')">+ Novo ciclo</button>
+      <div id="warn-ciclos" class="warn" style="display:none;font-size:11px;color:var(--red);margin-top:4px">Limite de 3 metas trimestrais atingido.</div>
+      <button class="btn btn-g btn-sm gap" id="btn-add-ciclo" onclick="openAddPredi('ciclos')">+ Nova meta trimestral</button>
       <div id="list-ciclos" class="gap"></div>
     </div>
   </div>
 
   <div class="floor" id="fl-horizontes">
     <div class="floor-hdr" onclick="flipFloor('horizontes')">
-      <span class="floor-tag">Horizontes</span>
-      <span class="floor-name">Metas épicas de longo prazo</span>
+      <span class="floor-tag">Longo prazo</span>
+      <span class="floor-name">Metas épicas de 5 a 10 anos</span>
       <em class="floor-caret">▾</em>
     </div>
     <div class="floor-body">
-      <div class="lbl">Grandes vitórias que mudam o jogo</div>
-      <button class="btn btn-g btn-sm gap" onclick="openAddPredi('horizontes')">+ Novo horizonte</button>
+      <div class="lbl">A fotografia do seu futuro — grandes vitórias que mudam o jogo</div>
+      <button class="btn btn-g btn-sm gap" onclick="openAddPredi('horizontes')">+ Nova meta de longo prazo</button>
       <div id="list-horizontes" class="gap"></div>
     </div>
   </div>
 
   <div class="floor" id="fl-pilares">
     <div class="floor-hdr" onclick="flipFloor('pilares')">
-      <span class="floor-tag">Pilares</span>
-      <span class="floor-name">Grandes áreas de foco</span>
+      <span class="floor-tag">Áreas de foco</span>
+      <span class="floor-name">As "gavetas" permanentes da sua vida</span>
       <em class="floor-caret">▾</em>
     </div>
     <div class="floor-body">
-      <div class="lbl">Caminhos que você decidiu honrar</div>
-      <button class="btn btn-g btn-sm gap" onclick="openAddPredi('pilares')">+ Novo pilar</button>
+      <div class="lbl">Caminhos que você decidiu honrar — sempre ativos</div>
+      <button class="btn btn-g btn-sm gap" onclick="openAddPredi('pilares')">+ Nova área de foco</button>
       <div id="list-pilares" class="gap"></div>
     </div>
   </div>
 
   <div class="floor" id="fl-fundacao">
     <div class="floor-hdr" onclick="flipFloor('fundacao')">
-      <span class="floor-tag">Fundação</span>
-      <span class="floor-name">Missão única</span>
+      <span class="floor-tag">Propósito maior</span>
+      <span class="floor-name">Missão única para a vida</span>
       <em class="floor-caret">▾</em>
     </div>
     <div class="floor-body">
-      <div class="lbl">O propósito inegociável que sustenta tudo</div>
-      <textarea id="inp-missao" rows="3" placeholder="Ex: Construir liberdade financeira através de negócios que resolvem problemas reais..." class="gap" oninput="debSave()"></textarea>
+      <div class="lbl">A bússola inegociável que sustenta tudo</div>
+      <textarea id="inp-missao" rows="3" placeholder="Ex: Construir liberdade financeira através de negócios que resolvem problemas reais e criar impacto nas pessoas ao meu redor..." class="gap" oninput="debSave()"></textarea>
     </div>
   </div>
 
@@ -530,6 +608,9 @@ select option{background:var(--s2)}
   <div class="sec-h">
     Rastreador de vícios
     <button class="btn btn-g btn-sm" onclick="openM('mbg-add-vicio')">+ Novo</button>
+  </div>
+  <div style="font-size:11px;color:var(--t3);margin-bottom:12px;line-height:1.6;font-family:Georgia,serif">
+    Produtividade é saber dizer NÃO. A cada dia que você clica em "Resistiu", sua sequência de vitórias cresce. 🔥
   </div>
   <div id="list-vicios"></div>
 
@@ -542,7 +623,7 @@ select option{background:var(--s2)}
 
   <!-- Filtros fixos no topo -->
   <div id="dash-filter-bar" style="flex-shrink:0">
-    <div class="df-title">Acompanhamento</div>
+    <div class="df-title">⬡ Painel</div>
     <div class="df-periods">
       <button class="df-p active" onclick="setDashPeriod('week',this)">Semana</button>
       <button class="df-p" onclick="setDashPeriod('month',this)">Mês</button>
@@ -573,7 +654,7 @@ select option{background:var(--s2)}
   <div id="t-s1">
     <div class="m-actions">
       <button class="btn btn-g" onclick="tAct('discard')">🗑 Descartar</button>
-      <button class="btn btn-g" onclick="tAct('project')">📁 Criar Frente</button>
+      <button class="btn btn-g" onclick="tAct('project')">📁 Criar Ação</button>
       <button class="btn btn-a" onclick="tAct('task')">✓ Criar Tarefa</button>
     </div>
   </div>
@@ -591,11 +672,11 @@ select option{background:var(--s2)}
   </div>
 
   <div id="t-s3" style="display:none">
-    <div class="lbl" style="margin-top:4px">Nome da frente</div>
+    <div class="lbl" style="margin-top:4px">Nome da ação</div>
     <input type="text" id="inp-triage-proj" placeholder="Ex: Validar plataforma de marketing" style="margin-top:6px">
     <div class="m-actions">
       <button class="btn btn-g" onclick="tBack()">← Voltar</button>
-      <button class="btn btn-a" onclick="tConfirmProj()">Criar Frente</button>
+      <button class="btn btn-a" onclick="tConfirmProj()">Criar Ação</button>
     </div>
   </div>
 </div>
@@ -786,6 +867,214 @@ select option{background:var(--s2)}
 </div>
 </div>
 
+<!-- ══ MODAL: Novo dispositivo ═══════════════════════════════ -->
+<div class="mbg" id="mbg-new-device">
+<div class="modal">
+  <div class="m-tag">Bem-vindo de volta</div>
+  <div class="m-title">Encontramos dados no Sheets</div>
+  <p style="font-size:13px;color:var(--t2);line-height:1.6;margin-bottom:4px;font-family:Georgia,serif">
+    Este parece ser um dispositivo novo, mas existe uma URL do Apps Script configurada. O que você prefere fazer?
+  </p>
+  <div class="device-choice">
+    <div class="device-opt" onclick="deviceChoiceLocal()">
+      <div class="device-opt-icon">📱</div>
+      <div class="device-opt-lbl">Começar limpo</div>
+      <div class="device-opt-sub">Usar este app como está, sem importar dados</div>
+    </div>
+    <div class="device-opt" onclick="deviceChoiceRestore()">
+      <div class="device-opt-icon">☁️</div>
+      <div class="device-opt-lbl">Restaurar do Sheets</div>
+      <div class="device-opt-sub">Importar meus dados do Google Sheets</div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ══ ONBOARDING ════════════════════════════════════════════ -->
+<div id="onboarding">
+
+  <!-- Progresso -->
+  <div id="ob-progress-bar" style="position:fixed;top:0;left:0;right:0;z-index:1001;padding:16px 24px 0;background:var(--bg)">
+    <div class="ob-progress">
+      <div class="ob-dot done" id="ob-d0"></div>
+      <div class="ob-dot" id="ob-d1"></div>
+      <div class="ob-dot" id="ob-d2"></div>
+      <div class="ob-dot" id="ob-d3"></div>
+      <div class="ob-dot" id="ob-d4"></div>
+      <div class="ob-dot" id="ob-d5"></div>
+    </div>
+  </div>
+
+  <!-- Step 0: Boas-vindas -->
+  <div class="ob-step active" id="ob-0" style="padding-top:64px">
+    <div class="ob-icon">🌱</div>
+    <div class="ob-title">Bem-vindo ao <em>Canteiro Pessoal</em></div>
+    <div class="ob-body">
+      <p>O Canteiro não é mais uma daquelas listas infinitas de tarefas que só geram ansiedade.</p>
+      <br>
+      <p>Ele é o seu <strong>espaço privado</strong> para organizar o caos, proteger o seu tempo e focar apenas no que realmente importa.</p>
+      <br>
+      <p style="color:var(--acc);font-size:15px;text-align:center;padding:12px;background:var(--acc-d);border-radius:var(--r);border:1px solid var(--acc-g)">
+        <strong>Constância vale mais do que perfeição.</strong>
+      </p>
+      <br>
+      <p>Você tem <strong>5 abas</strong> principais. Vamos entender cada uma em 2 minutos?</p>
+    </div>
+    <div class="ob-footer">
+      <button class="ob-btn-skip" onclick="skipOnboarding()">Pular</button>
+      <button class="ob-btn-next" onclick="obNext(1)">Vamos lá →</button>
+    </div>
+  </div>
+
+  <!-- Step 1: Metas -->
+  <div class="ob-step" id="ob-1" style="padding-top:64px">
+    <div class="ob-icon">🎯</div>
+    <div class="ob-title"><em>Metas</em> — O seu mapa</div>
+    <div class="ob-body">
+      <p>Esta é a tela mais importante. Funciona como um funil, da sua maior missão até o que você faz amanhã:</p>
+      <br>
+      <div class="ob-item">
+        <div class="ob-item-tag">Propósito maior</div>
+        <div class="ob-item-title">Para a vida</div>
+        <div class="ob-item-desc">A sua bússola inegociável. Qual a sua grande missão?</div>
+        <div class="ob-item-example">"Construir liberdade financeira e criar negócios que impactem pessoas."</div>
+      </div>
+      <div class="ob-item">
+        <div class="ob-item-tag">Áreas de foco</div>
+        <div class="ob-item-title">Sempre ativas</div>
+        <div class="ob-item-desc">As "gavetas" da sua vida que precisam de atenção.</div>
+        <div class="ob-item-example">Exemplos: Saúde Física · Carreira · Meus Negócios</div>
+      </div>
+      <div class="ob-item">
+        <div class="ob-item-tag">Longo prazo</div>
+        <div class="ob-item-title">5 a 10 anos</div>
+        <div class="ob-item-desc">A fotografia do seu futuro. Onde você quer chegar?</div>
+        <div class="ob-item-example">"Ter minha marca vendendo em todo o país."</div>
+      </div>
+      <div class="ob-item">
+        <div class="ob-item-tag">Trimestre</div>
+        <div class="ob-item-title">Próximos 90 dias</div>
+        <div class="ob-item-desc">Máximo <strong>3 focos</strong> para este trimestre.</div>
+        <div class="ob-item-example">"Fazer a primeira venda do meu produto na Shopee."</div>
+      </div>
+      <div class="ob-item">
+        <div class="ob-item-tag">Ações</div>
+        <div class="ob-item-title">Até 2 meses</div>
+        <div class="ob-item-desc">Os projetos práticos que você precisa resolver agora. Têm começo, meio e fim.</div>
+        <div class="ob-item-example">"Fazer o design das embalagens e precificar o produto."</div>
+      </div>
+    </div>
+    <div class="ob-footer">
+      <button class="ob-btn-skip" onclick="obPrev(0)">← Voltar</button>
+      <button class="ob-btn-next" onclick="obNext(2)">Próximo →</button>
+    </div>
+  </div>
+
+  <!-- Step 2: Caderno -->
+  <div class="ob-step" id="ob-2" style="padding-top:64px">
+    <div class="ob-icon">📝</div>
+    <div class="ob-title"><em>Caderno</em> — Onde o trabalho acontece</div>
+    <div class="ob-body">
+      <p>Se as Metas são o mapa, o Caderno é a <strong>mão na massa</strong>.</p>
+      <br>
+      <div class="ob-item">
+        <div class="ob-item-tag">Caixa de entrada</div>
+        <div class="ob-item-title">Capture tudo, sem filtro</div>
+        <div class="ob-item-desc">Sua mente serve para ter ideias, não para guardá-las. Lembrou de pagar uma conta? Teve uma ideia do nada? Despeje aqui.</div>
+      </div>
+      <div class="ob-item">
+        <div class="ob-item-tag">Kanban</div>
+        <div class="ob-item-title">A Fazer · Fazendo · Feito</div>
+        <div class="ob-item-desc">Para cá vão as tarefas da sua semana.</div>
+        <div class="ob-item-example" style="color:var(--acc);font-style:normal;font-weight:bold">Regra de ouro: nunca mais de 3 coisas em "Fazendo". Termine uma antes de puxar outra.</div>
+      </div>
+    </div>
+    <div class="ob-footer">
+      <button class="ob-btn-skip" onclick="obPrev(1)">← Voltar</button>
+      <button class="ob-btn-next" onclick="obNext(3)">Próximo →</button>
+    </div>
+  </div>
+
+  <!-- Step 3: Hábitos -->
+  <div class="ob-step" id="ob-3" style="padding-top:64px">
+    <div class="ob-icon">🧱</div>
+    <div class="ob-title"><em>Hábitos</em> — Tijolo por tijolo</div>
+    <div class="ob-body">
+      <p>Os hábitos constroem seus projetos. Mas aqui nós não cobramos que você seja um robô.</p>
+      <br>
+      <div class="ob-item">
+        <div class="ob-item-tag">A regra do meio feito</div>
+        <div class="ob-item-title">Parcial conta ½ ponto</div>
+        <div class="ob-item-desc">Planejou estudar 1h mas só teve energia para 30min? Aperte <strong>Parcial (½)</strong>. Você ganha pontos por ter aparecido e tentado.</div>
+        <div class="ob-item-example" style="color:var(--green);font-style:normal">Melhor feito do que perfeito.</div>
+      </div>
+      <div class="ob-item">
+        <div class="ob-item-tag">Tudo tem um porquê</div>
+        <div class="ob-item-title">Conecte ao seu objetivo</div>
+        <div class="ob-item-desc">Ao criar um hábito, vincule-o a uma <strong>Ação</strong> ou meta lá da aba Metas. Se você faz algo todo dia que não te leva ao objetivo... por quê está fazendo?</div>
+      </div>
+    </div>
+    <div class="ob-footer">
+      <button class="ob-btn-skip" onclick="obPrev(2)">← Voltar</button>
+      <button class="ob-btn-next" onclick="obNext(4)">Próximo →</button>
+    </div>
+  </div>
+
+  <!-- Step 4: Vícios + Painel -->
+  <div class="ob-step" id="ob-4" style="padding-top:64px">
+    <div class="ob-icon">🛡️</div>
+    <div class="ob-title"><em>Vícios</em> e <em>Painel</em></div>
+    <div class="ob-body">
+      <div class="ob-item">
+        <div class="ob-item-tag">Vícios — Seu guarda-costas</div>
+        <div class="ob-item-title">Rastreie distrações</div>
+        <div class="ob-item-desc">Adicione comportamentos que roubam seu foco. A cada dia que você clica "Resistiu", sua sequência de vitórias 🔥 cresce.</div>
+        <div class="ob-item-example">"Rolar o TikTok antes de dormir" · "Jogar no horário de estudo"</div>
+      </div>
+      <div class="ob-item">
+        <div class="ob-item-tag">Painel — O retrovisor</div>
+        <div class="ob-item-title">5 minutos todo domingo</div>
+        <div class="ob-item-desc">Veja os gráficos da semana. Que dia você estava mais cansado? Que hábito ficou para trás? Use para planejar uma semana mais leve.</div>
+        <div class="ob-item-example" style="color:var(--acc);font-style:normal">Não se julgue — apenas ajuste a rota.</div>
+      </div>
+    </div>
+    <div class="ob-footer">
+      <button class="ob-btn-skip" onclick="obPrev(3)">← Voltar</button>
+      <button class="ob-btn-next" onclick="obNext(5)">Próximo →</button>
+    </div>
+  </div>
+
+  <!-- Step 5: Setup Sheets -->
+  <div class="ob-step" id="ob-5" style="padding-top:64px">
+    <div class="ob-icon">☁️</div>
+    <div class="ob-title">Sincronização com <em>Google Sheets</em></div>
+    <div class="ob-body">
+      <p>Seus dados ficam <strong>100% no seu celular</strong> mesmo sem internet. O Sheets é só um backup automático.</p>
+      <br>
+      <div class="ob-item">
+        <div class="ob-item-tag">Para ativar o backup (opcional)</div>
+        <div class="ob-item-title">Passo a passo simples</div>
+        <div class="ob-item-desc" style="line-height:2">
+          1. Crie uma planilha em <strong>sheets.google.com</strong><br>
+          2. Clique em <strong>Extensões → Apps Script</strong><br>
+          3. Cole o código do arquivo <strong>script.gs</strong><br>
+          4. Clique em <strong>Implantar → App da Web</strong><br>
+          5. Copie a URL gerada<br>
+          6. Cole aqui em <strong>⚙ Configurações</strong>
+        </div>
+      </div>
+      <div style="margin-top:12px;padding:10px;background:var(--gd);border:1px solid rgba(61,158,106,.3);border-radius:var(--rs)">
+        <div style="font-size:11px;color:var(--green);font-family:Georgia,serif">✓ O app funciona perfeitamente sem o Sheets. Você pode configurar depois.</div>
+      </div>
+    </div>
+    <div class="ob-footer">
+      <button class="ob-btn-skip" onclick="obPrev(4)">← Voltar</button>
+      <button class="ob-btn-next" onclick="finishOnboarding()">Começar agora ✓</button>
+    </div>
+  </div>
+
+</div>
+
 <script>
 /* ═══════════════════════════════════════════════════════════
    ESTADO & STORAGE
@@ -812,6 +1101,7 @@ function persist() {
   const m = document.getElementById('inp-missao');
   if (m) S.fundacao.missao = m.value;
   localStorage.setItem(KEY, JSON.stringify(S));
+  showToast('Salvo ✓');
   scheduleSync();
 }
 
@@ -824,12 +1114,32 @@ function scheduleSync() {
   syncTimer2 = setTimeout(doSync, 4000);
 }
 
+function isStateEmpty(state) {
+  if (!state) return true;
+  const totalItems =
+    (state.habitos||[]).length +
+    (state.inbox||[]).length +
+    (state.tarefas||[]).length +
+    (state.vicios||[]).length +
+    (state.historico||[]).length +
+    (state.pilares||[]).length +
+    (state.horizontes||[]).length +
+    (state.ciclos||[]).length +
+    (state.frentes||[]).length;
+  const temMissao = (state.fundacao||{}).missao;
+  return totalItems === 0 && !temMissao;
+}
+
 async function doSync() {
   const url = S.settings.scriptUrl;
   if (!url || !navigator.onLine) return;
+  // Proteção: não sincroniza estado vazio
+  if (isStateEmpty(S)) {
+    setSyncStatus('ok', 'Sync protegida');
+    return;
+  }
   setSyncStatus('syncing', 'Sincronizando...');
   try {
-    // Sempre envia local para o Sheets — local é a fonte da verdade
     S.meta.ultimaSync = new Date().toISOString();
     localStorage.setItem(KEY, JSON.stringify(S));
     await fetch(url, {
@@ -988,7 +1298,10 @@ function renderHabitos() {
     const vinculos = ids.map(id => getPrediLabel(id)).filter(Boolean);
 
     const vinculoHtml = vinculos.length
-      ? `<div class="habito-vinculos">${vinculos.map(v => `<span class="habito-vtag">↳ ${esc(v.tipo)}: ${esc(v.nome.slice(0,20))}</span>`).join('')}</div>`
+      ? `<div class="habito-vinculos">${vinculos.map(v => {
+          const tipoLabel = {frentes:'Ação',ciclos:'Trimestre',horizontes:'Longo prazo',pilares:'Área de foco'}[v.tipo] || v.tipo;
+          return `<span class="habito-vtag">↳ ${esc(tipoLabel)}: ${esc(v.nome.slice(0,20))}</span>`;
+        }).join('')}</div>`
       : '';
 
     const days = week.map((d, i) => {
@@ -1052,7 +1365,8 @@ function openEditHabito(id) {
     S[tipo].filter(x => !x.status || x.status === 'ativo').forEach(item => {
       const opt = document.createElement('option');
       opt.value = item.id;
-      opt.textContent = `[${tipo}] ${(item.nome||item.texto||'').slice(0,40)}`;
+      const tipoLabel = {frentes:'Ação',ciclos:'Trimestre',horizontes:'Longo prazo',pilares:'Área de foco'}[tipo] || tipo;
+      opt.textContent = `[${tipoLabel}] ${(item.nome||item.texto||'').slice(0,40)}`;
       sel.appendChild(opt);
     });
   });
@@ -1082,8 +1396,9 @@ function renderEditVinculos(ids) {
   container.innerHTML = ids.map(id => {
     const lbl = getPrediLabel(id);
     if (!lbl) return '';
+    const tipoLabel = {frentes:'Ação',ciclos:'Trimestre',horizontes:'Longo prazo',pilares:'Área de foco'}[lbl.tipo] || lbl.tipo;
     return `<div style="display:flex;align-items:center;gap:6px;margin-bottom:5px">
-      <span class="habito-vtag" style="font-size:11px;padding:3px 8px">${esc(lbl.tipo)}: ${esc(lbl.nome.slice(0,30))}</span>
+      <span class="habito-vtag" style="font-size:11px;padding:3px 8px">${esc(tipoLabel)}: ${esc(lbl.nome.slice(0,30))}</span>
       <button onclick="removeVinculo('${id}')" style="background:none;border:none;color:var(--red);cursor:pointer;font-size:14px;padding:0">×</button>
     </div>`;
   }).join('');
@@ -1116,7 +1431,8 @@ function openM_addHabito() {
     S[tipo].filter(x => x.status === 'ativo').forEach(item => {
       const opt = document.createElement('option');
       opt.value = item.id;
-      opt.textContent = `[${tipo}] ${(item.nome || item.texto || '').slice(0,40)}`;
+      const tipoLabel = {frentes:'Ação',ciclos:'Trimestre',horizontes:'Longo prazo',pilares:'Área de foco'}[tipo] || tipo;
+      opt.textContent = `[${tipoLabel}] ${(item.nome || item.texto || '').slice(0,40)}`;
       sel.appendChild(opt);
     });
   });
@@ -1297,10 +1613,10 @@ function saveTaskDirect() {
    PRÉDIO
 ═══════════════════════════════════════════════════════════ */
 const PREDI_CONFIGS = {
-  frentes:    { label: 'Nova frente',    lbl: 'Nome da frente',    extras: true  },
-  ciclos:     { label: 'Novo ciclo',     lbl: 'Meta trimestral',   extras: false },
-  horizontes: { label: 'Novo horizonte', lbl: 'Meta épica',        extras: false },
-  pilares:    { label: 'Novo pilar',     lbl: 'Área de foco',      extras: false }
+  frentes:    { label: 'Nova ação',              lbl: 'Nome da ação',         extras: true  },
+  ciclos:     { label: 'Nova meta trimestral',   lbl: 'Meta dos 90 dias',     extras: false },
+  horizontes: { label: 'Nova meta de longo prazo', lbl: 'Meta épica (5-10 anos)', extras: false },
+  pilares:    { label: 'Nova área de foco',      lbl: 'Área de foco',         extras: false }
 };
 
 function renderPredio() {
@@ -1987,7 +2303,7 @@ function renderDash() {
     ['frentes','ciclos','horizontes','pilares'].forEach(tipo => {
       const items = (S[tipo]||[]).filter(x=>!x.status||x.status==='ativo');
       if (!items.length) return;
-      const nomes = {frentes:'Frentes',ciclos:'Ciclos',horizontes:'Horizontes',pilares:'Pilares'};
+      const nomes = {frentes:'Ações',ciclos:'Trimestre',horizontes:'Longo prazo',pilares:'Áreas de foco'};
       html += `<div style="margin-bottom:10px">
         <div style="font-size:9px;color:var(--t3);letter-spacing:1px;text-transform:uppercase;margin-bottom:5px;font-family:Georgia,serif">${nomes[tipo]}</div>`;
       items.forEach(it=>{
@@ -2128,12 +2444,91 @@ function zerarTudoConfirm() {
 }
 
 /* ═══════════════════════════════════════════════════════════
+   TOAST — Feedback visual "Salvo ✓"
+═══════════════════════════════════════════════════════════ */
+let toastTimer = null;
+function showToast(msg, duration) {
+  const el = document.getElementById('toast');
+  if (!el) return;
+  el.textContent = msg || 'Salvo ✓';
+  el.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => el.classList.remove('show'), duration || 1800);
+}
+
+/* ═══════════════════════════════════════════════════════════
+   DETECÇÃO DE NOVO DISPOSITIVO
+═══════════════════════════════════════════════════════════ */
+function checkNewDevice() {
+  // Considera novo dispositivo se: há URL configurada, nunca fez sync local, e app está vazio
+  const hasUrl = S.settings.scriptUrl;
+  const neverSynced = !S.meta.ultimaSync;
+  const empty = isStateEmpty(S);
+  if (hasUrl && neverSynced && empty && navigator.onLine) {
+    openM('mbg-new-device');
+    return true;
+  }
+  return false;
+}
+
+function deviceChoiceLocal() {
+  closeM('mbg-new-device');
+}
+
+async function deviceChoiceRestore() {
+  closeM('mbg-new-device');
+  await restoreFromSheets();
+}
+
+/* ═══════════════════════════════════════════════════════════
+   ONBOARDING
+═══════════════════════════════════════════════════════════ */
+let obCurrentStep = 0;
+const OB_STEPS = 6;
+
+function obShowStep(n) {
+  obCurrentStep = n;
+  document.querySelectorAll('.ob-step').forEach((s,i) => {
+    s.classList.toggle('active', i === n);
+  });
+  for (let i = 0; i < OB_STEPS; i++) {
+    const dot = document.getElementById('ob-d' + i);
+    if (dot) dot.classList.toggle('done', i <= n);
+  }
+  // Scroll to top of onboarding
+  document.getElementById('onboarding').scrollTo(0,0);
+}
+
+function obNext(n) { obShowStep(n); }
+function obPrev(n) { obShowStep(n); }
+
+function skipOnboarding() {
+  localStorage.setItem('canteiro_onboarding_done', '1');
+  document.getElementById('onboarding').classList.add('hidden');
+}
+
+function finishOnboarding() {
+  localStorage.setItem('canteiro_onboarding_done', '1');
+  document.getElementById('onboarding').classList.add('hidden');
+  // Abre settings se não tem URL
+  if (!S.settings.scriptUrl) {
+    setTimeout(() => openSettingsModal(), 400);
+  }
+}
+
+function checkOnboarding() {
+  const done = localStorage.getItem('canteiro_onboarding_done');
+  if (!done) {
+    obShowStep(0);
+  } else {
+    document.getElementById('onboarding').classList.add('hidden');
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════
    INIT
 ═══════════════════════════════════════════════════════════ */
 function init() {
-  // Fix button onclick for settings icon
-  document.querySelector('[onclick="openM(\'mbg-settings\')"]').onclick = openSettingsModal;
-
   // Fix add habito button
   document.querySelector('[onclick="openM(\'mbg-add-habito\')"]').onclick = openM_addHabito;
 
@@ -2142,19 +2537,35 @@ function init() {
 
   // PWA service worker
   if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('/Canteiro-app/sw.js', { scope: '/Canteiro-app/' }).catch(() => {});
+    navigator.serviceWorker.register('/Canteiro-Pessoal-APP/sw.js', { scope: '/Canteiro-Pessoal-APP/' }).catch(() => {});
   }
 
   // Online/offline indicator
-  window.addEventListener('online',  () => { setSyncStatus('syncing', ''); triggerSync(); });
-  window.addEventListener('offline', () => setSyncStatus('err', 'Offline'));
+  window.addEventListener('online', () => {
+    document.getElementById('offline-banner').classList.remove('show');
+    setSyncStatus('syncing', '');
+    triggerSync();
+  });
+  window.addEventListener('offline', () => {
+    document.getElementById('offline-banner').classList.add('show');
+    setSyncStatus('err', 'Offline');
+  });
+
+  // Estado inicial de online/offline
+  if (!navigator.onLine) {
+    document.getElementById('offline-banner').classList.add('show');
+  }
 
   // Initial render
   renderHabitos();
 
-  // Initial sync check
+  // Onboarding
+  checkOnboarding();
+
+  // Initial sync check + detecção de novo dispositivo
   if (S.settings.scriptUrl && navigator.onLine) {
-    setTimeout(doSync, 1500);
+    const isNew = checkNewDevice();
+    if (!isNew) setTimeout(doSync, 1500);
   } else {
     setSyncStatus(navigator.onLine ? 'ok' : 'err', S.meta.ultimaSync ? fmt(S.meta.ultimaSync) : '');
   }
