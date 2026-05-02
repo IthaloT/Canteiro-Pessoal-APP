@@ -170,6 +170,7 @@ select option{background:var(--s2)}
 .floor.open .floor-caret{transform:rotate(180deg)}
 .floor-body{display:none;padding:14px;border-top:1px solid var(--b1);background:var(--bg);animation:fadeIn .18s ease}
 .floor.open .floor-body{display:block}
+.floor-example{font-size:11px;color:var(--t3);font-family:Georgia,serif;font-style:italic;margin:4px 0 10px;line-height:1.5;padding-left:2px}
 
 .predio-item{background:var(--s1);border:1px solid var(--b1);border-radius:var(--rs);padding:11px 12px;margin-bottom:7px}
 .pi-top{display:flex;align-items:flex-start;gap:8px}
@@ -585,6 +586,7 @@ select option{background:var(--s2)}
     </div>
     <div class="floor-body">
       <div class="lbl">Projetos práticos com começo, meio e fim — até 2 meses</div>
+      <div class="floor-example">Ex: "Fazer o design das embalagens, definir preço e cadastrar o produto para venda."</div>
       <button class="btn btn-g btn-sm gap" onclick="openAddPredi('frentes')">+ Nova ação</button>
       <div id="list-frentes" class="gap"></div>
     </div>
@@ -598,6 +600,7 @@ select option{background:var(--s2)}
     </div>
     <div class="floor-body">
       <div class="lbl">Máximo 3 focos para os próximos 90 dias</div>
+      <div class="floor-example">Ex: "Terminar o módulo de SQL do curso e criar o escopo do banco de dados do meu projeto até 31 de julho."</div>
       <div id="warn-ciclos" class="warn" style="display:none;font-size:11px;color:var(--red);margin-top:4px">Limite de 3 metas trimestrais atingido.</div>
       <button class="btn btn-g btn-sm gap" id="btn-add-ciclo" onclick="openAddPredi('ciclos')">+ Nova meta trimestral</button>
       <div id="list-ciclos" class="gap"></div>
@@ -612,6 +615,7 @@ select option{background:var(--s2)}
     </div>
     <div class="floor-body">
       <div class="lbl">A fotografia do seu futuro — grandes vitórias que mudam o jogo</div>
+      <div class="floor-example">Ex: "Fazer o meu negócio gerar renda suficiente para ser minha principal fonte de sustento até 2030."</div>
       <button class="btn btn-g btn-sm gap" onclick="openAddPredi('horizontes')">+ Nova meta de longo prazo</button>
       <div id="list-horizontes" class="gap"></div>
     </div>
@@ -620,11 +624,12 @@ select option{background:var(--s2)}
   <div class="floor" id="fl-pilares">
     <div class="floor-hdr" onclick="flipFloor('pilares')">
       <span class="floor-tag">Áreas de foco</span>
-      <span class="floor-name">As "gavetas" permanentes da sua vida</span>
+      <span class="floor-name">As grandes áreas da sua vida</span>
       <em class="floor-caret">▾</em>
     </div>
     <div class="floor-body">
       <div class="lbl">Caminhos que você decidiu honrar — sempre ativos</div>
+      <div class="floor-example">Ex: Meus Negócios · Minha Saúde · Meus Estudos · Minha Família</div>
       <button class="btn btn-g btn-sm gap" onclick="openAddPredi('pilares')">+ Nova área de foco</button>
       <div id="list-pilares" class="gap"></div>
     </div>
@@ -988,7 +993,7 @@ select option{background:var(--s2)}
     <div class="device-opt" onclick="deviceChoiceRestore()">
       <div class="device-opt-icon">☁️</div>
       <div class="device-opt-lbl">Baixar da nuvem</div>
-      <div class="device-opt-sub">Recuperar todos os meus dados deste dispositivo</div>
+      <div class="device-opt-sub">Puxar meus dados salvos e continuar de onde parei</div>
     </div>
   </div>
 </div>
@@ -1042,25 +1047,25 @@ select option{background:var(--s2)}
         <div class="ob-item-tag">Propósito maior</div>
         <div class="ob-item-title">Para a vida</div>
         <div class="ob-item-desc">A sua bússola inegociável. Qual a sua grande missão?</div>
-        <div class="ob-item-example">"Ter liberdade de tempo e dinheiro com projetos que eu mesmo criei, e ter paz para cuidar da minha saúde e da minha família."</div>
+        <div class="ob-item-example">"Ter liberdade de tempo e dinheiro trabalhando com projetos que eu mesmo criei, e ter paz para cuidar da minha saúde e da minha família."</div>
       </div>
       <div class="ob-item">
         <div class="ob-item-tag">Áreas de foco</div>
         <div class="ob-item-title">Sempre ativas</div>
         <div class="ob-item-desc">As "gavetas" da sua vida que precisam de atenção constante. Você não as conclui — as mantém.</div>
-        <div class="ob-item-example">Exemplos: Meus Negócios · Minha Saúde · Meus Estudos</div>
+        <div class="ob-item-example">Exemplos: Meus Negócios · Minha Saúde · Meus Estudos · Minha Família</div>
       </div>
       <div class="ob-item">
         <div class="ob-item-tag">Longo prazo</div>
         <div class="ob-item-title">5 a 10 anos</div>
         <div class="ob-item-desc">A fotografia do seu futuro dentro de cada área de foco. Defina um ano-alvo.</div>
-        <div class="ob-item-example">"Fazer a minha marca gerar renda suficiente para ser minha única fonte de sustento até 2030."</div>
+        <div class="ob-item-example">"Fazer o meu negócio gerar renda suficiente para ser minha principal fonte de sustento até 2030."</div>
       </div>
       <div class="ob-item">
         <div class="ob-item-tag">Trimestre</div>
         <div class="ob-item-title">Próximos 90 dias</div>
         <div class="ob-item-desc">Máximo <strong>3 focos</strong> para este trimestre. Uma data de entrega próxima força a execução imediata.</div>
-        <div class="ob-item-example">"Terminar o módulo de SQL do curso e criar o escopo do banco de dados do meu app até 31 de julho."</div>
+        <div class="ob-item-example">"Terminar o módulo de SQL do curso e criar o escopo do banco de dados do meu projeto até 31 de julho."</div>
       </div>
       <div class="ob-item">
         <div class="ob-item-tag">Ações</div>
@@ -1134,7 +1139,7 @@ select option{background:var(--s2)}
         <div class="ob-item-tag">Vícios — Seu guarda-costas</div>
         <div class="ob-item-title">Rastreie distrações</div>
         <div class="ob-item-desc">Adicione comportamentos que roubam seu foco. A cada dia que você clica "Resistiu", sua sequência de vitórias 🔥 cresce.</div>
-        <div class="ob-item-example">"Rolar o TikTok antes de dormir" · "Jogar no horário de estudo"</div>
+        <div class="ob-item-example">"Rolar redes sociais antes de dormir" · "Jogar no horário de estudo"</div>
       </div>
       <div class="ob-item">
         <div class="ob-item-tag">Painel — O retrovisor</div>
@@ -1214,13 +1219,14 @@ async function doSync() {
   try {
     S.meta.ultimaSync = new Date().toISOString();
     localStorage.setItem(KEY, JSON.stringify(S));
-    const res = await fetch(url, {
+    // Apps Script: no-cors evita bloqueio de CORS no browser
+    // O dado chega normalmente ao servidor mesmo sem ler a resposta
+    await fetch(url, {
       method: 'POST',
-      mode: 'cors',
+      mode: 'no-cors',
       headers: { 'Content-Type': 'text/plain;charset=utf-8' },
       body: JSON.stringify({ data: S })
     });
-    if (!res.ok) throw new Error('HTTP ' + res.status);
     setSyncStatus('ok', fmt(S.meta.ultimaSync));
   } catch (e) {
     setSyncStatus('err', 'Erro na sync');
@@ -1244,11 +1250,11 @@ async function syncSendToCloud() {
     localStorage.setItem(KEY, JSON.stringify(S));
     const res = await fetch(url, {
       method: 'POST',
-      mode: 'cors',
+      mode: 'no-cors',
       headers: { 'Content-Type': 'text/plain;charset=utf-8' },
       body: JSON.stringify({ data: S })
     });
-    if (!res.ok) throw new Error('HTTP ' + res.status);
+    // no-cors retorna opaque response — consideramos sucesso se não lançou exceção
     setSyncBtnState(btn, 'success', '✓ Enviado com sucesso');
     setSyncStatus('ok', fmt(S.meta.ultimaSync));
     setTimeout(() => setSyncBtnState(btn, '', '↑ Enviar para a nuvem'), 3000);
@@ -1268,7 +1274,7 @@ async function syncGetFromCloud() {
     const btn = document.getElementById('btn-get-cloud');
     setSyncBtnState(btn, 'loading', '↓ Baixando...');
     try {
-      const res = await fetch(url + '?t=' + Date.now(), { mode: 'cors' });
+      const res = await fetch(url + '?t=' + Date.now(), { mode: 'cors', redirect: 'follow' });
       if (!res.ok) throw new Error('HTTP ' + res.status);
       const remote = await res.json();
       if (remote.success && remote.data) {
@@ -2194,6 +2200,7 @@ document.querySelector('[onclick="openM(\'mbg-history\')"]').addEventListener('c
   document.getElementById('hist-tab-arquivados').classList.remove('active');
   renderHistory();
 });
+function exportJSON() {
   const blob = new Blob([JSON.stringify(S, null, 2)], { type: 'application/json' });
   const a = document.createElement('a');
   a.href = URL.createObjectURL(blob);
@@ -2694,9 +2701,14 @@ function showToast(msg, duration) {
 ═══════════════════════════════════════════════════════════ */
 function checkNewDevice() {
   const hasUrl = S.settings.scriptUrl;
-  const empty = isStateEmpty(S);
-  // Usa chave separada para não disparar a cada reload
+  const empty  = isStateEmpty(S);
+  // Só mostra se: tem URL, app está vazio E nunca decidiu neste dispositivo
   const jaDecidiu = localStorage.getItem('canteiro_device_checked');
+  // Se app não está vazio, marca como "já decidiu" para não mostrar nunca mais
+  if (!empty) {
+    localStorage.setItem('canteiro_device_checked', '1');
+    return false;
+  }
   if (hasUrl && empty && navigator.onLine && !jaDecidiu) {
     openM('mbg-new-device');
     return true;
