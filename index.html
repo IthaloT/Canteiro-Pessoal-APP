@@ -226,6 +226,7 @@ select option{background:var(--s2)}
 .modal{background:var(--s1);border:1px solid var(--b2);border-radius:16px 16px 0 0;padding:22px;width:100%;max-width:460px;position:relative;transform:translateY(20px);transition:transform .22s;max-height:92vh;overflow-y:auto}
 .mbg.open .modal{transform:translateY(0)}
 @media(min-width:500px){.modal{border-radius:14px}}
+#mbg-confirm{z-index:500}
 .m-title{font-size:15px;margin-bottom:14px;letter-spacing:-.2px}
 .m-tag{font-size:9px;color:var(--acc);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:7px;font-family:Georgia,serif}
 .m-text{font-size:15px;padding:11px;background:var(--s2);border-radius:var(--rs);border-left:2px solid var(--acc);margin-bottom:14px;line-height:1.5}
@@ -1238,6 +1239,53 @@ async function triggerSync() {
   await doSync();
 }
 
+/* ═══════════════════════════════════════════════════════════
+   PULL INTELIGENTE — recebe dados mais recentes da nuvem
+   Roda: ao abrir/focar o app + a cada 3 minutos
+═══════════════════════════════════════════════════════════ */
+let pullTimer = null;
+let lastPullAt = 0;
+const PULL_INTERVAL = 3 * 60 * 1000;   // 3 minutos
+const PULL_MIN_GAP  = 30 * 1000;       // mínimo 30s entre pulls
+
+async function pullFromCloud() {
+  const url = S.settings.scriptUrl;
+  if (!url || !navigator.onLine) return;
+  const now = Date.now();
+  if (now - lastPullAt < PULL_MIN_GAP) return; // evita pulls em rafaga
+  lastPullAt = now;
+
+  try {
+    const res = await fetch(url + '?t=' + now, { mode: 'cors', redirect: 'follow' });
+    if (!res.ok) return;
+    const remote = await res.json();
+    if (!remote.success || !remote.data) return;
+
+    const remoteSync = (remote.data.meta || {}).ultimaSync || '';
+    const localSync  = (S.meta || {}).ultimaSync || '';
+
+    // Só atualiza se a nuvem tiver dados mais recentes que o local
+    if (remoteSync && remoteSync > localSync) {
+      const localSettings = S.settings;
+      S = { ...blank(), ...remote.data, settings: localSettings };
+      if (!S.fundacao.historico)  S.fundacao.historico = [];
+      if (!S.pilares_arquivados)  S.pilares_arquivados = [];
+      if (!S.habitosArquivados)   S.habitosArquivados  = [];
+      localStorage.setItem(KEY, JSON.stringify(S));
+      renderAll();
+      setSyncStatus('ok', fmt(S.meta.ultimaSync));
+      showToast('↓ Dados atualizados da nuvem', 2500);
+    }
+  } catch (e) {
+    // Pull silencioso — não exibe erro para não incomodar
+  }
+}
+
+function schedulePull() {
+  clearInterval(pullTimer);
+  pullTimer = setInterval(pullFromCloud, PULL_INTERVAL);
+}
+
 // ↑ Enviar para a nuvem (manual, com feedback visual no botão)
 async function syncSendToCloud() {
   const url = S.settings.scriptUrl;
@@ -2125,7 +2173,10 @@ function saveSettings() {
   S.settings.scriptUrl = url;
   persist();
   setSyncStatus(url ? 'ok' : '', '');
-  if (url && navigator.onLine) setTimeout(doSync, 500);
+  if (url && navigator.onLine) {
+    setTimeout(doSync, 500);
+    schedulePull();
+  }
 }
 
 /* ═══════════════════════════════════════════════════════════
@@ -2808,10 +2859,19 @@ function init() {
     document.getElementById('offline-banner').classList.remove('show');
     setSyncStatus('syncing', '');
     triggerSync();
+    pullFromCloud(); // volta online → puxa imediatamente
   });
   window.addEventListener('offline', () => {
     document.getElementById('offline-banner').classList.add('show');
     setSyncStatus('err', 'Offline');
+    clearInterval(pullTimer);
+  });
+
+  // Pull ao voltar para o app (trocar de aba, desbloquear celular etc.)
+  document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'visible' && navigator.onLine) {
+      pullFromCloud();
+    }
   });
 
   if (!navigator.onLine) document.getElementById('offline-banner').classList.add('show');
@@ -2822,10 +2882,14 @@ function init() {
   // Onboarding
   checkOnboarding();
 
-  // Sync inicial
+  // Sync + pull iniciais
   if (S.settings.scriptUrl && navigator.onLine) {
     const isNew = checkNewDevice();
-    if (!isNew) setTimeout(doSync, 1500);
+    if (!isNew) {
+      // Pull primeiro (recebe dados mais recentes), depois envia local
+      pullFromCloud().then(() => setTimeout(doSync, 2000));
+      schedulePull(); // inicia ciclo de 3 minutos
+    }
   } else {
     setSyncStatus(navigator.onLine ? (S.meta.ultimaSync ? 'ok' : '') : 'err', S.meta.ultimaSync ? fmt(S.meta.ultimaSync) : '');
   }
