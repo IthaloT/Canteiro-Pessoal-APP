@@ -1,5 +1,5 @@
-const CACHE = 'canteiro-v3';
-const BASE = '/Canteiro-Pessoal-APP';
+const CACHE = 'canteiro-v2';
+const BASE = '/Canteiro-app';
 const ASSETS = [
   BASE + '/',
   BASE + '/index.html',
