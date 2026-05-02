@@ -1,5 +1,5 @@
-// Service Worker — Canteiro
-const CACHE = 'canteiro-v5';
+// Service Worker — Canteiro Pessoal
+const CACHE = 'canteiro-v6';
 
 self.addEventListener('install', e => {
   self.skipWaiting();
