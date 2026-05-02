@@ -771,7 +771,8 @@ select option{background:var(--s2)}
   <div class="sync-info" id="sync-info"></div>
   <div class="m-actions">
     <button class="btn btn-g" onclick="closeM('mbg-settings')">Fechar</button>
-    <button class="btn btn-g" onclick="triggerSync()">Sincronizar agora</button>
+    <button class="btn btn-g" onclick="triggerSync()">↑ Sincronizar agora</button>
+    <button class="btn btn-g" onclick="restoreFromSheets()">↓ Restaurar do Sheets</button>
     <button class="btn btn-a" onclick="saveSettings()">Salvar</button>
   </div>
   <div style="margin-top:16px;padding-top:14px;border-top:1px solid var(--b1)">
@@ -828,21 +829,7 @@ async function doSync() {
   if (!url || !navigator.onLine) return;
   setSyncStatus('syncing', 'Sincronizando...');
   try {
-    // Pull
-    const getRes = await fetch(url + '?t=' + Date.now());
-    const remote = await getRes.json();
-    if (remote.success && remote.data && remote.data.meta) {
-      const remoteTime = new Date(remote.data.meta.ultimaSync || 0).getTime();
-      const localTime  = new Date(S.meta.ultimaSync || 0).getTime();
-      if (remoteTime > localTime) {
-        // Remote is newer — merge remote data, keep local settings
-        const localSettings = S.settings;
-        S = { ...remote.data, settings: localSettings };
-        localStorage.setItem(KEY, JSON.stringify(S));
-        renderAll();
-      }
-    }
-    // Push
+    // Sempre envia local para o Sheets — local é a fonte da verdade
     S.meta.ultimaSync = new Date().toISOString();
     localStorage.setItem(KEY, JSON.stringify(S));
     await fetch(url, {
@@ -859,6 +846,26 @@ async function doSync() {
 async function triggerSync() {
   clearTimeout(syncTimer2);
   await doSync();
+}
+
+// Restaura dados do Sheets (use apenas em dispositivo novo)
+async function restoreFromSheets() {
+  const url = S.settings.scriptUrl;
+  if (!url || !navigator.onLine) return alert('Configure a URL do Sheets primeiro.');
+  setSyncStatus('syncing', 'Restaurando...');
+  try {
+    const res = await fetch(url + '?t=' + Date.now());
+    const remote = await res.json();
+    if (remote.success && remote.data) {
+      const localSettings = S.settings;
+      S = { ...remote.data, settings: localSettings };
+      localStorage.setItem(KEY, JSON.stringify(S));
+      renderAll();
+      setSyncStatus('ok', 'Restaurado do Sheets');
+    }
+  } catch(e) {
+    setSyncStatus('err', 'Erro ao restaurar');
+  }
 }
 
 function setSyncStatus(state, label) {
