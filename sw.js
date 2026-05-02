@@ -1,16 +1,8 @@
-const CACHE = 'canteiro-v2';
-const BASE = '/Canteiro-app';
-const ASSETS = [
-  BASE + '/',
-  BASE + '/index.html',
-  BASE + '/manifest.json',
-  BASE + '/sw.js'
-];
+// Service Worker — Canteiro
+const CACHE = 'canteiro-v5';
 
 self.addEventListener('install', e => {
-  e.waitUntil(
-    caches.open(CACHE).then(c => c.addAll(ASSETS)).then(() => self.skipWaiting())
-  );
+  self.skipWaiting();
 });
 
 self.addEventListener('activate', e => {
@@ -22,16 +14,17 @@ self.addEventListener('activate', e => {
 });
 
 self.addEventListener('fetch', e => {
-  if (e.request.url.includes('script.google.com')) return;
+  const url = e.request.url;
+  // Nunca cacheia index.html nem Apps Script — sempre busca versão nova
+  if (url.includes('script.google.com') || url.endsWith('/') || url.includes('index.html')) return;
   e.respondWith(
     caches.match(e.request).then(cached => {
       if (cached) return cached;
       return fetch(e.request).then(res => {
-        if (!res || res.status !== 200 || res.type !== 'basic') return res;
-        const clone = res.clone();
-        caches.open(CACHE).then(c => c.put(e.request, clone));
+        if (!res || res.status !== 200) return res;
+        caches.open(CACHE).then(c => c.put(e.request, res.clone()));
         return res;
-      });
+      }).catch(() => cached);
     })
   );
 });
