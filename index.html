@@ -456,6 +456,7 @@ select option{background:var(--s2)}
 }
 .info-btn:hover{border-color:var(--acc);color:var(--acc)}
 
+
 /* ── Device sync modal ─────────────────────────────────────── */
 .device-choice{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:16px 0}
 .device-opt{padding:18px 12px;border:1px solid var(--b1);border-radius:var(--r);cursor:pointer;text-align:center;transition:var(--tr);font-family:Georgia,serif}
@@ -463,6 +464,46 @@ select option{background:var(--s2)}
 .device-opt-icon{font-size:28px;margin-bottom:8px}
 .device-opt-lbl{font-size:13px;color:var(--text);font-weight:bold}
 .device-opt-sub{font-size:11px;color:var(--t2);margin-top:3px;line-height:1.4}
+
+/* ── Histórico abas ─────────────────────────────────────────── */
+.hist-tabs{display:flex;gap:0;margin-bottom:14px;border-bottom:1px solid var(--b1)}
+.hist-tab{flex:1;padding:9px 4px;text-align:center;font-size:11px;letter-spacing:.5px;cursor:pointer;color:var(--t3);border-bottom:2px solid transparent;background:none;border-top:none;border-left:none;border-right:none;font-family:Georgia,serif;transition:var(--tr);text-transform:uppercase}
+.hist-tab.active{color:var(--acc);border-bottom-color:var(--acc)}
+
+/* ── Settings collapsible sections ─────────────────────────── */
+.cfg-section{border:1px solid var(--b1);border-radius:var(--r);margin-bottom:10px;overflow:hidden}
+.cfg-section-hdr{display:flex;align-items:center;justify-content:space-between;padding:11px 14px;cursor:pointer;background:var(--s1);user-select:none;transition:background var(--tr)}
+.cfg-section-hdr:hover{background:var(--s2)}
+.cfg-section-title{font-size:13px;color:var(--text);display:flex;align-items:center;gap:8px}
+.cfg-section-status{font-size:10px;font-family:Georgia,serif;color:var(--t3)}
+.cfg-section-status.ok{color:var(--green)}
+.cfg-section-caret{font-size:10px;color:var(--t3);transition:transform .2s;flex-shrink:0}
+.cfg-section.open .cfg-section-caret{transform:rotate(180deg)}
+.cfg-section-body{display:none;padding:14px;border-top:1px solid var(--b1);background:var(--bg)}
+.cfg-section.open .cfg-section-body{display:block}
+
+/* ── Sync buttons com estado ────────────────────────────────── */
+.sync-action-btn{
+  width:100%;padding:11px;border-radius:var(--rs);font-size:13px;
+  cursor:pointer;font-family:Georgia,serif;transition:var(--tr);
+  display:flex;align-items:center;gap:8px;justify-content:center;
+  border:1px solid var(--b1);background:none;color:var(--text);
+  margin-bottom:8px;letter-spacing:.1px;
+}
+.sync-action-btn:hover:not(:disabled){border-color:var(--acc);color:var(--acc)}
+.sync-action-btn:disabled{opacity:.5;cursor:not-allowed}
+.sync-action-btn.loading{border-color:var(--acc);color:var(--acc);animation:pulse 1s infinite}
+.sync-action-btn.success{border-color:var(--green);color:var(--green)}
+.sync-action-btn.error{border-color:var(--red);color:var(--red)}
+.sync-action-desc{font-size:11px;color:var(--t3);font-family:Georgia,serif;line-height:1.6;margin-bottom:12px;padding:8px 10px;background:var(--s2);border-radius:var(--rs)}
+
+/* ── Propósito Maior — área de save manual ──────────────────── */
+.missao-footer{display:flex;align-items:center;justify-content:space-between;margin-top:8px}
+.missao-saved{font-size:11px;color:var(--green);font-family:Georgia,serif;opacity:0;transition:opacity .4s}
+.missao-saved.show{opacity:1}
+
+/* ── Longo prazo — countdown ────────────────────────────────── */
+.countdown-tag{font-size:10px;color:var(--blue);background:var(--bd);border:1px solid rgba(74,127,193,.3);border-radius:3px;padding:2px 7px;font-family:Georgia,serif;display:inline-block;margin-top:4px}
 </style>
 </head>
 <body>
@@ -597,7 +638,15 @@ select option{background:var(--s2)}
     </div>
     <div class="floor-body">
       <div class="lbl">A bússola inegociável que sustenta tudo</div>
-      <textarea id="inp-missao" rows="3" placeholder="Ex: Construir liberdade financeira através de negócios que resolvem problemas reais e criar impacto nas pessoas ao meu redor..." class="gap" oninput="debSave()"></textarea>
+      <div style="font-size:11px;color:var(--t3);margin:6px 0 8px;font-family:Georgia,serif;line-height:1.5">
+        Ex: "Ter liberdade de tempo e dinheiro trabalhando com projetos que eu mesmo criei, sem precisar bater ponto, e ter paz para cuidar da minha saúde e da minha família."
+      </div>
+      <textarea id="inp-missao" rows="4" placeholder="Escreva aqui o seu propósito maior..."></textarea>
+      <div class="missao-footer">
+        <span class="missao-saved" id="missao-saved-lbl">✓ Salvo</span>
+        <button class="btn btn-a btn-sm" onclick="saveMissao()">Salvar propósito</button>
+      </div>
+      <div id="list-proposito-historico" style="margin-top:12px"></div>
     </div>
   </div>
 
@@ -752,6 +801,10 @@ select option{background:var(--s2)}
     <div class="lbl gap">Prazo</div>
     <input type="date" id="inp-predi-prazo">
   </div>
+  <div id="horizonte-extras" style="display:none">
+    <div class="lbl gap">Ano-alvo (ex: 2030)</div>
+    <input type="number" id="inp-predi-ano" placeholder="Ex: 2030" min="2024" max="2060" style="width:140px">
+  </div>
   <div class="m-actions">
     <button class="btn btn-g" onclick="closeM('mbg-add-predi')">Cancelar</button>
     <button class="btn btn-a" onclick="savePredi()">Adicionar</button>
@@ -837,7 +890,11 @@ select option{background:var(--s2)}
 <div class="mbg" id="mbg-history">
 <div class="modal">
   <button class="m-close" onclick="closeM('mbg-history')">×</button>
-  <div class="m-title">Histórico de metas</div>
+  <div class="m-title">Histórico</div>
+  <div class="hist-tabs">
+    <button class="hist-tab active" id="hist-tab-metas" onclick="switchHistTab('metas')">Metas</button>
+    <button class="hist-tab" id="hist-tab-arquivados" onclick="switchHistTab('arquivados')">Arquivados</button>
+  </div>
   <div id="hist-list"></div>
 </div>
 </div>
@@ -847,26 +904,69 @@ select option{background:var(--s2)}
 <div class="modal">
   <button class="m-close" onclick="closeM('mbg-settings')">×</button>
   <div class="m-title">Configurações</div>
-  <div class="lbl">URL do Apps Script (Google Sheets)</div>
-  <input type="text" id="inp-script-url" placeholder="https://script.google.com/macros/s/...">
-  <div class="sync-info" id="sync-info"></div>
-  <div class="m-actions">
-    <button class="btn btn-g" onclick="closeM('mbg-settings')">Fechar</button>
-    <button class="btn btn-g" onclick="triggerSync()">↑ Sincronizar agora</button>
-    <button class="btn btn-g" onclick="restoreFromSheets()">↓ Restaurar do Sheets</button>
-    <button class="btn btn-a" onclick="saveSettings()">Salvar</button>
-  </div>
-  <div style="margin-top:16px;padding-top:14px;border-top:1px solid var(--b1)">
-    <div class="lbl" style="margin-bottom:8px">Dados locais</div>
-    <div class="m-actions">
-      <button class="btn btn-g btn-sm" onclick="exportJSON()">↑ Exportar JSON</button>
-      <button class="btn btn-g btn-sm" onclick="document.getElementById('imp-file').click()">↓ Importar JSON</button>
-      <input type="file" id="imp-file" accept=".json" style="display:none" onchange="importJSON(event)">
+
+  <!-- Nuvem -->
+  <div class="cfg-section" id="cfg-nuvem">
+    <div class="cfg-section-hdr" onclick="toggleCfgSection('nuvem')">
+      <div class="cfg-section-title">
+        ☁️ Sincronização com a nuvem
+        <span class="cfg-section-status" id="cfg-nuvem-status">Verificando...</span>
+      </div>
+      <span class="cfg-section-caret">▾</span>
+    </div>
+    <div class="cfg-section-body">
+      <div class="lbl" style="margin-bottom:6px">URL da nuvem (Apps Script)</div>
+      <input type="text" id="inp-script-url" placeholder="https://script.google.com/macros/s/...">
+      <div class="sync-info" id="sync-info" style="margin:8px 0"></div>
+      <button class="btn btn-a btn-sm" style="width:100%;margin-bottom:14px" onclick="saveSettings()">Salvar URL</button>
+
+      <div style="border-top:1px solid var(--b1);padding-top:12px">
+        <button class="sync-action-btn" id="btn-send-cloud" onclick="syncSendToCloud()">
+          ↑ Enviar para a nuvem
+        </button>
+        <div class="sync-action-desc">
+          Envia os dados deste aparelho para a nuvem. Use antes de trocar de dispositivo ou se a sincronização automática falhou.
+        </div>
+
+        <button class="sync-action-btn" id="btn-get-cloud" onclick="syncGetFromCloud()">
+          ↓ Baixar da nuvem
+        </button>
+        <div class="sync-action-desc" style="border-left:2px solid var(--yellow);padding-left:10px">
+          ⚠ Use apenas em um aparelho novo ou no primeiro acesso pelo navegador. Os dados deste dispositivo serão substituídos pelos dados da nuvem.
+        </div>
+      </div>
     </div>
   </div>
-  <div style="margin-top:16px;padding-top:14px;border-top:1px solid var(--b1)">
-    <div class="lbl" style="margin-bottom:8px">Guia do app</div>
-    <button class="btn btn-g btn-sm" style="width:100%" onclick="openGuide()">📖 Como usar o Canteiro</button>
+
+  <!-- Guia -->
+  <div class="cfg-section">
+    <div class="cfg-section-hdr" onclick="toggleCfgSection('guia')">
+      <div class="cfg-section-title">📖 Guia do app</div>
+      <span class="cfg-section-caret">▾</span>
+    </div>
+    <div class="cfg-section-body" id="cfg-guia">
+      <button class="btn btn-g btn-sm" style="width:100%" onclick="openGuide()">Como usar o Canteiro</button>
+    </div>
+  </div>
+
+  <!-- Avançado -->
+  <div class="cfg-section">
+    <div class="cfg-section-hdr" onclick="toggleCfgSection('avancado')">
+      <div class="cfg-section-title">🔧 Avançado</div>
+      <span class="cfg-section-caret">▾</span>
+    </div>
+    <div class="cfg-section-body" id="cfg-avancado">
+      <div class="lbl" style="margin-bottom:8px">Backup manual dos dados</div>
+      <div class="m-actions">
+        <button class="btn btn-g btn-sm" onclick="exportJSON()">↑ Exportar JSON</button>
+        <button class="btn btn-g btn-sm" onclick="document.getElementById('imp-file').click()">↓ Importar JSON</button>
+        <input type="file" id="imp-file" accept=".json" style="display:none" onchange="importJSON(event)">
+      </div>
+    </div>
+  </div>
+
+  <div style="margin-top:4px">
+    <button class="btn btn-g" style="width:100%" onclick="closeM('mbg-settings')">Fechar</button>
   </div>
 </div>
 </div>
@@ -874,21 +974,21 @@ select option{background:var(--s2)}
 <!-- ══ MODAL: Novo dispositivo ═══════════════════════════════ -->
 <div class="mbg" id="mbg-new-device">
 <div class="modal">
-  <div class="m-tag">Bem-vindo de volta</div>
-  <div class="m-title">Encontramos dados no Sheets</div>
+  <div class="m-tag">Primeiro acesso neste dispositivo</div>
+  <div class="m-title">Você tem dados salvos na nuvem</div>
   <p style="font-size:13px;color:var(--t2);line-height:1.6;margin-bottom:4px;font-family:Georgia,serif">
-    Este parece ser um dispositivo novo, mas existe uma URL do Apps Script configurada. O que você prefere fazer?
+    Detectamos que este dispositivo nunca foi usado com o Canteiro, mas há uma nuvem configurada. O que prefere fazer?
   </p>
   <div class="device-choice">
     <div class="device-opt" onclick="deviceChoiceLocal()">
       <div class="device-opt-icon">📱</div>
-      <div class="device-opt-lbl">Começar limpo</div>
-      <div class="device-opt-sub">Usar este app como está, sem importar dados</div>
+      <div class="device-opt-lbl">Começar do zero</div>
+      <div class="device-opt-sub">Usar este app vazio, sem importar dados da nuvem</div>
     </div>
     <div class="device-opt" onclick="deviceChoiceRestore()">
       <div class="device-opt-icon">☁️</div>
-      <div class="device-opt-lbl">Restaurar do Sheets</div>
-      <div class="device-opt-sub">Importar meus dados do Google Sheets</div>
+      <div class="device-opt-lbl">Baixar da nuvem</div>
+      <div class="device-opt-sub">Recuperar todos os meus dados deste dispositivo</div>
     </div>
   </div>
 </div>
@@ -942,31 +1042,31 @@ select option{background:var(--s2)}
         <div class="ob-item-tag">Propósito maior</div>
         <div class="ob-item-title">Para a vida</div>
         <div class="ob-item-desc">A sua bússola inegociável. Qual a sua grande missão?</div>
-        <div class="ob-item-example">"Construir liberdade financeira e criar negócios que impactem pessoas."</div>
+        <div class="ob-item-example">"Ter liberdade de tempo e dinheiro com projetos que eu mesmo criei, e ter paz para cuidar da minha saúde e da minha família."</div>
       </div>
       <div class="ob-item">
         <div class="ob-item-tag">Áreas de foco</div>
         <div class="ob-item-title">Sempre ativas</div>
-        <div class="ob-item-desc">As "gavetas" da sua vida que precisam de atenção.</div>
-        <div class="ob-item-example">Exemplos: Saúde Física · Carreira · Meus Negócios</div>
+        <div class="ob-item-desc">As "gavetas" da sua vida que precisam de atenção constante. Você não as conclui — as mantém.</div>
+        <div class="ob-item-example">Exemplos: Meus Negócios · Minha Saúde · Meus Estudos</div>
       </div>
       <div class="ob-item">
         <div class="ob-item-tag">Longo prazo</div>
         <div class="ob-item-title">5 a 10 anos</div>
-        <div class="ob-item-desc">A fotografia do seu futuro. Onde você quer chegar?</div>
-        <div class="ob-item-example">"Ter minha marca vendendo em todo o país."</div>
+        <div class="ob-item-desc">A fotografia do seu futuro dentro de cada área de foco. Defina um ano-alvo.</div>
+        <div class="ob-item-example">"Fazer a minha marca gerar renda suficiente para ser minha única fonte de sustento até 2030."</div>
       </div>
       <div class="ob-item">
         <div class="ob-item-tag">Trimestre</div>
         <div class="ob-item-title">Próximos 90 dias</div>
-        <div class="ob-item-desc">Máximo <strong>3 focos</strong> para este trimestre.</div>
-        <div class="ob-item-example">"Fazer a primeira venda do meu produto na Shopee."</div>
+        <div class="ob-item-desc">Máximo <strong>3 focos</strong> para este trimestre. Uma data de entrega próxima força a execução imediata.</div>
+        <div class="ob-item-example">"Terminar o módulo de SQL do curso e criar o escopo do banco de dados do meu app até 31 de julho."</div>
       </div>
       <div class="ob-item">
         <div class="ob-item-tag">Ações</div>
         <div class="ob-item-title">Até 2 meses</div>
-        <div class="ob-item-desc">Os projetos práticos que você precisa resolver agora. Têm começo, meio e fim.</div>
-        <div class="ob-item-example">"Fazer o design das embalagens e precificar o produto."</div>
+        <div class="ob-item-desc">Os projetos práticos que você precisa resolver agora. Sempre com verbo de ação claro: Fazer, Revisar, Subir.</div>
+        <div class="ob-item-example">"Fazer os exercícios da aula 5, revisar as tabelas e subir o código no repositório." (Prazo: 15 dias)</div>
       </div>
     </div>
     <div class="ob-footer">
@@ -1061,9 +1161,11 @@ function blank() {
   return {
     meta: { ultimaSync: null },
     settings: { scriptUrl: '' },
-    fundacao: { missao: '' },
-    pilares: [], horizontes: [], ciclos: [], frentes: [],
-    habitos: [], inbox: [], tarefas: [],
+    fundacao: { missao: '', historico: [] },
+    pilares: [], pilares_arquivados: [],
+    horizontes: [], ciclos: [], frentes: [],
+    habitos: [], habitosArquivados: [],
+    inbox: [], tarefas: [],
     vicios: [], descarte: [], historico: []
   };
 }
@@ -1074,8 +1176,6 @@ let saveTimer = null;
 function debSave() { clearTimeout(saveTimer); saveTimer = setTimeout(persist, 500); }
 
 function persist() {
-  const m = document.getElementById('inp-missao');
-  if (m) S.fundacao.missao = m.value;
   localStorage.setItem(KEY, JSON.stringify(S));
   showToast('Salvo ✓');
   scheduleSync();
@@ -1109,20 +1209,18 @@ function isStateEmpty(state) {
 async function doSync() {
   const url = S.settings.scriptUrl;
   if (!url || !navigator.onLine) return;
-  // Proteção: não sincroniza estado vazio
-  if (isStateEmpty(S)) {
-    setSyncStatus('ok', 'Sync protegida');
-    return;
-  }
+  if (isStateEmpty(S)) { setSyncStatus('ok', 'Sync protegida'); return; }
   setSyncStatus('syncing', 'Sincronizando...');
   try {
     S.meta.ultimaSync = new Date().toISOString();
     localStorage.setItem(KEY, JSON.stringify(S));
-    await fetch(url, {
+    const res = await fetch(url, {
       method: 'POST',
-      headers: { 'Content-Type': 'text/plain' },
+      mode: 'cors',
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
       body: JSON.stringify({ data: S })
     });
+    if (!res.ok) throw new Error('HTTP ' + res.status);
     setSyncStatus('ok', fmt(S.meta.ultimaSync));
   } catch (e) {
     setSyncStatus('err', 'Erro na sync');
@@ -1134,33 +1232,94 @@ async function triggerSync() {
   await doSync();
 }
 
-// Restaura dados do Sheets (use apenas em dispositivo novo)
-async function restoreFromSheets() {
+// ↑ Enviar para a nuvem (manual, com feedback visual no botão)
+async function syncSendToCloud() {
   const url = S.settings.scriptUrl;
-  if (!url || !navigator.onLine) return alert('Configure a URL do Sheets primeiro.');
-  setSyncStatus('syncing', 'Restaurando...');
+  if (!url) return alert('Configure a URL da nuvem primeiro.');
+  if (!navigator.onLine) return alert('Sem conexão. Conecte-se à internet e tente novamente.');
+  const btn = document.getElementById('btn-send-cloud');
+  setSyncBtnState(btn, 'loading', '↑ Enviando...');
   try {
-    const res = await fetch(url + '?t=' + Date.now());
-    const remote = await res.json();
-    if (remote.success && remote.data) {
-      const localSettings = S.settings;
-      S = { ...remote.data, settings: localSettings };
-      localStorage.setItem(KEY, JSON.stringify(S));
-      renderAll();
-      setSyncStatus('ok', 'Restaurado do Sheets');
-    }
+    S.meta.ultimaSync = new Date().toISOString();
+    localStorage.setItem(KEY, JSON.stringify(S));
+    const res = await fetch(url, {
+      method: 'POST',
+      mode: 'cors',
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+      body: JSON.stringify({ data: S })
+    });
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    setSyncBtnState(btn, 'success', '✓ Enviado com sucesso');
+    setSyncStatus('ok', fmt(S.meta.ultimaSync));
+    setTimeout(() => setSyncBtnState(btn, '', '↑ Enviar para a nuvem'), 3000);
   } catch(e) {
-    setSyncStatus('err', 'Erro ao restaurar');
+    setSyncBtnState(btn, 'error', '✗ Erro ao enviar');
+    setSyncStatus('err', 'Erro na sync');
+    setTimeout(() => setSyncBtnState(btn, '', '↑ Enviar para a nuvem'), 3000);
   }
+}
+
+// ↓ Baixar da nuvem (manual, com confirmação e feedback visual)
+async function syncGetFromCloud() {
+  const url = S.settings.scriptUrl;
+  if (!url) return alert('Configure a URL da nuvem primeiro.');
+  if (!navigator.onLine) return alert('Sem conexão. Conecte-se à internet e tente novamente.');
+  showConfirm('Baixar dados da nuvem? Os dados atuais deste dispositivo serão substituídos.', async () => {
+    const btn = document.getElementById('btn-get-cloud');
+    setSyncBtnState(btn, 'loading', '↓ Baixando...');
+    try {
+      const res = await fetch(url + '?t=' + Date.now(), { mode: 'cors' });
+      if (!res.ok) throw new Error('HTTP ' + res.status);
+      const remote = await res.json();
+      if (remote.success && remote.data) {
+        const localSettings = S.settings;
+        S = { ...blank(), ...remote.data, settings: localSettings };
+        if (!S.fundacao.historico) S.fundacao.historico = [];
+        if (!S.pilares_arquivados) S.pilares_arquivados = [];
+        localStorage.setItem(KEY, JSON.stringify(S));
+        renderAll();
+        setSyncBtnState(btn, 'success', '✓ Dados carregados');
+        setSyncStatus('ok', 'Baixado da nuvem');
+        setTimeout(() => setSyncBtnState(btn, '', '↓ Baixar da nuvem'), 3000);
+      } else throw new Error('Resposta inválida');
+    } catch(e) {
+      setSyncBtnState(btn, 'error', '✗ Erro ao baixar');
+      setSyncStatus('err', 'Erro ao baixar');
+      setTimeout(() => setSyncBtnState(btn, '', '↓ Baixar da nuvem'), 3000);
+    }
+  });
+}
+
+function setSyncBtnState(btn, state, label) {
+  if (!btn) return;
+  btn.className = 'sync-action-btn' + (state ? ' ' + state : '');
+  btn.textContent = label;
+  btn.disabled = state === 'loading';
+}
+
+// Restaura dados da nuvem — alias para compatibilidade
+async function restoreFromSheets() {
+  await syncGetFromCloud();
 }
 
 function setSyncStatus(state, label) {
   const dot = document.getElementById('sync-dot');
   const lbl = document.getElementById('sync-lbl');
-  dot.className = 'sync-dot ' + state;
-  lbl.textContent = label || '';
+  if (dot) dot.className = 'sync-dot ' + state;
+  if (lbl) lbl.textContent = label || '';
   const si = document.getElementById('sync-info');
-  if (si) si.textContent = 'Última sync: ' + (S.meta.ultimaSync ? fmt(S.meta.ultimaSync) : 'Nunca') + (S.settings.scriptUrl ? '' : ' — Configure a URL para sincronizar');
+  const hasUrl = S.settings.scriptUrl;
+  if (si) {
+    si.textContent = hasUrl
+      ? 'Última sync: ' + (S.meta.ultimaSync ? fmt(S.meta.ultimaSync) : 'Nunca')
+      : 'Nuvem não configurada.';
+  }
+  // Atualiza indicador no header da seção nuvem
+  const cfgStatus = document.getElementById('cfg-nuvem-status');
+  if (cfgStatus) {
+    cfgStatus.textContent = hasUrl ? '🟢 Configurada' : '⚪ Não configurada';
+    cfgStatus.className = 'cfg-section-status' + (hasUrl ? ' ok' : '');
+  }
 }
 
 /* ═══════════════════════════════════════════════════════════
@@ -1589,10 +1748,10 @@ function saveTaskDirect() {
    PRÉDIO
 ═══════════════════════════════════════════════════════════ */
 const PREDI_CONFIGS = {
-  frentes:    { label: 'Nova ação',              lbl: 'Nome da ação',         extras: true  },
-  ciclos:     { label: 'Nova meta trimestral',   lbl: 'Meta dos 90 dias',     extras: false },
-  horizontes: { label: 'Nova meta de longo prazo', lbl: 'Meta épica (5-10 anos)', extras: false },
-  pilares:    { label: 'Nova área de foco',      lbl: 'Área de foco',         extras: false }
+  frentes:    { label: 'Nova ação',                 lbl: 'Nome da ação',              extras: true,      anoAlvo: false },
+  ciclos:     { label: 'Nova meta trimestral',      lbl: 'Meta dos 90 dias',          extras: false,     anoAlvo: false },
+  horizontes: { label: 'Nova meta de longo prazo',  lbl: 'Meta épica (5-10 anos)',    extras: false,     anoAlvo: true  },
+  pilares:    { label: 'Nova área de foco',         lbl: 'Área de foco',              extras: false,     anoAlvo: false }
 };
 
 function renderPredio() {
@@ -1642,12 +1801,17 @@ function renderPrediSection(tipo) {
       </div>`;
     }
 
-    // Frentes get extra info
+    // Frentes e horizontes com info extra
     let metaRow = '';
     if (tipo === 'frentes') {
       const parts = [];
       if (item.prazo) parts.push(`até ${fmtDate(item.prazo)}`);
       if (parts.length) metaRow = `<div class="pi-meta">${parts.map(p => `<span>${esc(p)}</span>`).join('')}</div>`;
+    }
+    if (tipo === 'horizontes' && item.anoAlvo) {
+      const anos = item.anoAlvo - new Date().getFullYear();
+      const label = anos > 0 ? `Alvo: ${item.anoAlvo} · Faltam ${anos} ano${anos !== 1 ? 's' : ''}` : anos === 0 ? `Alvo: ${item.anoAlvo} · Este ano!` : `Alvo: ${item.anoAlvo} · Prazo passou`;
+      metaRow = `<div><span class="countdown-tag">${label}</span></div>`;
     }
 
     return `<div class="predio-item">
@@ -1661,8 +1825,11 @@ function renderPrediSection(tipo) {
       ${habSection}
       <div class="pi-actions">
         <button class="pi-btn" onclick="openEditPredi('${tipo}','${item.id}')">✎ Editar</button>
-        <button class="pi-btn close-btn" onclick="openCloseGoal('${tipo}','${item.id}')">Encerrar →</button>
-        <button class="pi-btn" onclick="removePredi('${tipo}','${item.id}')">Remover</button>
+        ${tipo === 'pilares'
+          ? `<button class="pi-btn" onclick="arquivarPilar('${item.id}')">Arquivar</button>`
+          : `<button class="pi-btn close-btn" onclick="openCloseGoal('${tipo}','${item.id}')">Encerrar →</button>
+             <button class="pi-btn" onclick="removePredi('${tipo}','${item.id}')">Remover</button>`
+        }
       </div>
     </div>`;
   }).join('');
@@ -1685,10 +1852,12 @@ function openAddPredi(tipo) {
   document.getElementById('add-predi-lbl').textContent = cfg.lbl;
   document.getElementById('inp-predi-nome').value = '';
   document.getElementById('frente-extras').style.display = cfg.extras ? 'block' : 'none';
+  document.getElementById('horizonte-extras').style.display = cfg.anoAlvo ? 'block' : 'none';
   if (cfg.extras) {
     document.getElementById('inp-predi-desc').value = '';
     document.getElementById('inp-predi-prazo').value = '';
   }
+  if (cfg.anoAlvo) document.getElementById('inp-predi-ano').value = '';
   openM('mbg-add-predi');
 }
 
@@ -1702,6 +1871,10 @@ function savePredi() {
     item.nome = nome;
     item.descricao = document.getElementById('inp-predi-desc').value.trim();
     item.prazo = document.getElementById('inp-predi-prazo').value;
+  } else if (tipo === 'horizontes') {
+    item.texto = nome;
+    const ano = parseInt(document.getElementById('inp-predi-ano').value);
+    if (ano > 2020) item.anoAlvo = ano;
   } else {
     item.texto = nome;
   }
@@ -1712,6 +1885,16 @@ function savePredi() {
 function removePredi(tipo, id) {
   showConfirm('Remover este item permanentemente?', () => {
     S[tipo] = S[tipo].filter(x => x.id !== id);
+    persist(); renderPredio();
+  });
+}
+
+function arquivarPilar(id) {
+  showConfirm('Arquivar esta área de foco? Ela ficará salva no Histórico.', () => {
+    const item = S.pilares.find(x => x.id === id); if (!item) return;
+    if (!S.pilares_arquivados) S.pilares_arquivados = [];
+    S.pilares_arquivados.push({ ...item, arquivadoEm: today() });
+    S.pilares = S.pilares.filter(x => x.id !== id);
     persist(); renderPredio();
   });
 }
@@ -1887,44 +2070,47 @@ function restoreDescarte(id) {
 }
 
 /* ═══════════════════════════════════════════════════════════
-   HISTÓRICO
+   PROPÓSITO MAIOR — save manual + histórico de versões
 ═══════════════════════════════════════════════════════════ */
-function renderHistory() {
-  const list = document.getElementById('hist-list');
-  if (S.historico.length === 0) {
-    list.innerHTML = '<div class="empty">Nenhuma meta encerrada ainda.</div>';
-    return;
+function saveMissao() {
+  const nova = document.getElementById('inp-missao').value.trim();
+  if (!nova) return;
+  if (!S.fundacao.historico) S.fundacao.historico = [];
+  const anterior = S.fundacao.missao || '';
+  // Só arquiva se houver texto diferente do atual
+  if (anterior && anterior !== nova) {
+    S.fundacao.historico.push({ texto: anterior, arquivadoEm: today() });
   }
-  list.innerHTML = S.historico.slice().reverse().map(h =>
-    `<div class="hist-item">
-      <div class="hist-nome">${esc(h.nome)}<div style="font-size:10px;color:var(--t3)">${h.tipo} · ${fmtDate(h.encerradoEm)}</div></div>
-      ${h.rodada > 1 ? `<span class="hist-rodada">${h.rodada}ª rodada</span>` : ''}
-      <span class="hist-badge ${h.statusFinal}">${h.statusFinal}</span>
-      <button style="background:none;border:none;color:var(--red);font-size:16px;cursor:pointer;padding:0 4px;flex-shrink:0" onclick="deleteFromHistory('${h.id}',event)" title="Remover">×</button>
-    </div>`
-  ).join('');
-}
-
-function deleteFromHistory(id, event) {
-  if (event) event.stopPropagation();
-  S.historico = S.historico.filter(x => x.id !== id);
+  S.fundacao.missao = nova;
   persist();
-  scheduleSync();
-  renderHistory();
+  // Feedback visual no botão
+  const lbl = document.getElementById('missao-saved-lbl');
+  if (lbl) { lbl.classList.add('show'); setTimeout(() => lbl.classList.remove('show'), 2500); }
 }
-
-document.getElementById('mbg-history').addEventListener('click', e => {
-  if (e.target.closest('.modal')) return;
-});
-// render history on open
-document.querySelector('[onclick="openM(\'mbg-history\')"]').addEventListener('click', renderHistory);
 
 /* ═══════════════════════════════════════════════════════════
-   CONFIGURAÇÕES
+   CONFIGURAÇÕES — seções colapsáveis
 ═══════════════════════════════════════════════════════════ */
+function toggleCfgSection(id) {
+  const sections = document.querySelectorAll('.cfg-section');
+  sections.forEach(s => {
+    const body = s.querySelector('.cfg-section-body');
+    const caret = s.querySelector('.cfg-section-caret');
+    const isThis = s.id === 'cfg-' + id || s.querySelector('#cfg-' + id);
+    if (body && caret) {
+      if (isThis) {
+        s.classList.toggle('open');
+      }
+    }
+  });
+}
+
 function openSettingsModal() {
   document.getElementById('inp-script-url').value = S.settings.scriptUrl || '';
-  setSyncStatus(navigator.onLine ? (S.meta.ultimaSync ? 'ok' : 'syncing') : 'err', '');
+  setSyncStatus(navigator.onLine ? (S.meta.ultimaSync ? 'ok' : '') : 'err', '');
+  // Abre seção nuvem por padrão
+  const nuvemSection = document.getElementById('cfg-nuvem');
+  if (nuvemSection) nuvemSection.classList.add('open');
   openM('mbg-settings');
 }
 
@@ -1932,11 +2118,82 @@ function saveSettings() {
   const url = document.getElementById('inp-script-url').value.trim();
   S.settings.scriptUrl = url;
   persist();
-  closeM('mbg-settings');
-  if (url) triggerSync();
+  setSyncStatus(url ? 'ok' : '', '');
+  if (url && navigator.onLine) setTimeout(doSync, 500);
 }
 
-function exportJSON() {
+/* ═══════════════════════════════════════════════════════════
+   HISTÓRICO — abas Metas / Arquivados
+═══════════════════════════════════════════════════════════ */
+let histTabAtiva = 'metas';
+
+function switchHistTab(tab) {
+  histTabAtiva = tab;
+  document.getElementById('hist-tab-metas').classList.toggle('active', tab === 'metas');
+  document.getElementById('hist-tab-arquivados').classList.toggle('active', tab === 'arquivados');
+  renderHistory();
+}
+
+function renderHistory() {
+  const list = document.getElementById('hist-list');
+  if (histTabAtiva === 'metas') {
+    if (!S.historico || S.historico.length === 0) {
+      list.innerHTML = '<div class="empty">Nenhuma meta encerrada ainda.</div>';
+      return;
+    }
+    list.innerHTML = S.historico.slice().reverse().map(h => {
+      const tipoLabel = {frentes:'Ação',ciclos:'Trimestre',horizontes:'Longo prazo',pilares:'Área de foco'}[h.tipo] || h.tipo;
+      return `<div class="hist-item">
+        <div class="hist-nome">${esc(h.nome)}<div style="font-size:10px;color:var(--t3)">${tipoLabel} · ${fmtDate(h.encerradoEm)}</div></div>
+        ${h.rodada > 1 ? `<span class="hist-rodada">${h.rodada}ª rodada</span>` : ''}
+        <span class="hist-badge ${h.statusFinal}">${h.statusFinal}</span>
+        <button style="background:none;border:none;color:var(--red);font-size:16px;cursor:pointer;padding:0 4px;flex-shrink:0" onclick="deleteFromHistory('${h.id}',event)" title="Remover">×</button>
+      </div>`;
+    }).join('');
+  } else {
+    // Arquivados: pilares arquivados + histórico do propósito maior
+    const pilArq = S.pilares_arquivados || [];
+    const propHist = (S.fundacao || {}).historico || [];
+    if (pilArq.length === 0 && propHist.length === 0) {
+      list.innerHTML = '<div class="empty">Nenhum item arquivado ainda.</div>';
+      return;
+    }
+    const itens = [
+      ...pilArq.map(p => ({ tipo: 'area', nome: p.texto || p.nome || '', data: p.arquivadoEm, id: p.id })),
+      ...propHist.map((p, i) => ({ tipo: 'proposito', nome: p.texto, data: p.arquivadoEm, id: 'ph-' + i }))
+    ].sort((a, b) => (b.data || '').localeCompare(a.data || ''));
+
+    list.innerHTML = itens.map(it => {
+      const tipoTag = it.tipo === 'area'
+        ? `<span style="font-size:9px;color:var(--acc);background:var(--acc-d);border:1px solid var(--acc-g);border-radius:3px;padding:1px 6px;font-family:Georgia,serif">Área de foco</span>`
+        : `<span style="font-size:9px;color:var(--blue);background:var(--bd);border:1px solid rgba(74,127,193,.3);border-radius:3px;padding:1px 6px;font-family:Georgia,serif">Propósito</span>`;
+      return `<div class="hist-item" style="flex-direction:column;align-items:flex-start;gap:5px">
+        <div style="display:flex;align-items:center;gap:7px;width:100%">
+          ${tipoTag}
+          <span style="font-size:10px;color:var(--t3);margin-left:auto">${fmtDate(it.data)}</span>
+        </div>
+        <div style="font-size:13px;color:var(--t2);line-height:1.5">${esc(it.nome)}</div>
+      </div>`;
+    }).join('');
+  }
+}
+
+function deleteFromHistory(id, event) {
+  if (event) event.stopPropagation();
+  S.historico = S.historico.filter(x => x.id !== id);
+  persist();
+  renderHistory();
+}
+
+document.getElementById('mbg-history').addEventListener('click', e => {
+  if (e.target.closest('.modal')) return;
+});
+document.querySelector('[onclick="openM(\'mbg-history\')"]').addEventListener('click', () => {
+  histTabAtiva = 'metas';
+  document.getElementById('hist-tab-metas').classList.add('active');
+  document.getElementById('hist-tab-arquivados').classList.remove('active');
+  renderHistory();
+});
   const blob = new Blob([JSON.stringify(S, null, 2)], { type: 'application/json' });
   const a = document.createElement('a');
   a.href = URL.createObjectURL(blob);
@@ -2436,11 +2693,11 @@ function showToast(msg, duration) {
    DETECÇÃO DE NOVO DISPOSITIVO
 ═══════════════════════════════════════════════════════════ */
 function checkNewDevice() {
-  // Considera novo dispositivo se: há URL configurada, nunca fez sync local, e app está vazio
   const hasUrl = S.settings.scriptUrl;
-  const neverSynced = !S.meta.ultimaSync;
   const empty = isStateEmpty(S);
-  if (hasUrl && neverSynced && empty && navigator.onLine) {
+  // Usa chave separada para não disparar a cada reload
+  const jaDecidiu = localStorage.getItem('canteiro_device_checked');
+  if (hasUrl && empty && navigator.onLine && !jaDecidiu) {
     openM('mbg-new-device');
     return true;
   }
@@ -2448,12 +2705,14 @@ function checkNewDevice() {
 }
 
 function deviceChoiceLocal() {
+  localStorage.setItem('canteiro_device_checked', '1');
   closeM('mbg-new-device');
 }
 
 async function deviceChoiceRestore() {
+  localStorage.setItem('canteiro_device_checked', '1');
   closeM('mbg-new-device');
-  await restoreFromSheets();
+  await syncGetFromCloud();
 }
 
 /* ═══════════════════════════════════════════════════════════
@@ -2519,11 +2778,13 @@ function checkOnboarding() {
    INIT
 ═══════════════════════════════════════════════════════════ */
 function init() {
+  // Garante campos novos em dados antigos carregados do localStorage
+  if (!S.fundacao.historico) S.fundacao.historico = [];
+  if (!S.pilares_arquivados) S.pilares_arquivados = [];
+  if (!S.habitosArquivados) S.habitosArquivados = [];
+
   // Fix add habito button
   document.querySelector('[onclick="openM(\'mbg-add-habito\')"]').onclick = openM_addHabito;
-
-  // Missão blur save
-  document.getElementById('inp-missao').addEventListener('blur', persist);
 
   // PWA service worker
   if ('serviceWorker' in navigator) {
@@ -2541,10 +2802,7 @@ function init() {
     setSyncStatus('err', 'Offline');
   });
 
-  // Estado inicial de online/offline
-  if (!navigator.onLine) {
-    document.getElementById('offline-banner').classList.add('show');
-  }
+  if (!navigator.onLine) document.getElementById('offline-banner').classList.add('show');
 
   // Initial render
   renderHabitos();
@@ -2552,12 +2810,12 @@ function init() {
   // Onboarding
   checkOnboarding();
 
-  // Initial sync check + detecção de novo dispositivo
+  // Sync inicial
   if (S.settings.scriptUrl && navigator.onLine) {
     const isNew = checkNewDevice();
     if (!isNew) setTimeout(doSync, 1500);
   } else {
-    setSyncStatus(navigator.onLine ? 'ok' : 'err', S.meta.ultimaSync ? fmt(S.meta.ultimaSync) : '');
+    setSyncStatus(navigator.onLine ? (S.meta.ultimaSync ? 'ok' : '') : 'err', S.meta.ultimaSync ? fmt(S.meta.ultimaSync) : '');
   }
 }
 
