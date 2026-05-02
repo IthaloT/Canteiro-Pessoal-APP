@@ -96,12 +96,12 @@ select option{background:var(--s2)}
 .week-label{display:flex;align-items:center;justify-content:space-between;font-size:11px;color:var(--t2);margin-bottom:10px;font-family:Georgia,serif}
 .habito-row{background:var(--s1);border:1px solid var(--b1);border-radius:var(--r);padding:10px 12px;margin-bottom:7px;animation:fadeIn .18s ease}
 @keyframes fadeIn{from{opacity:0;transform:translateY(-3px)}}
-.habito-top{display:flex;align-items:center;gap:8px;margin-bottom:8px}
-.habito-nome{font-size:14px;flex:1;min-width:0;color:var(--text);font-weight:normal}
-.habito-actions{display:flex;gap:4px;flex-shrink:0}
-.habito-edit{background:none;border:1px solid var(--b1);color:var(--t3);border-radius:var(--rs);padding:2px 7px;font-size:11px;cursor:pointer;font-family:Georgia,serif;transition:var(--tr)}
+.habito-top{display:flex;align-items:flex-start;gap:8px;margin-bottom:8px}
+.habito-nome{font-size:14px;flex:1;min-width:0;color:var(--text);line-height:1.3;word-break:break-word;white-space:normal}
+.habito-actions{display:flex;gap:4px;flex-shrink:0;margin-top:1px}
+.habito-edit{background:none;border:1px solid var(--b1);color:var(--t2);border-radius:var(--rs);padding:3px 9px;font-size:12px;cursor:pointer;font-family:Georgia,serif;transition:var(--tr)}
 .habito-edit:hover{border-color:var(--acc);color:var(--acc)}
-.habito-del{background:none;border:1px solid var(--b1);color:var(--t3);border-radius:var(--rs);padding:2px 7px;font-size:11px;cursor:pointer;font-family:Georgia,serif;transition:var(--tr)}
+.habito-del{background:none;border:1px solid var(--b1);color:var(--t2);border-radius:var(--rs);padding:3px 9px;font-size:12px;cursor:pointer;font-family:Georgia,serif;transition:var(--tr)}
 .habito-del:hover{border-color:var(--red);color:var(--red)}
 .habito-vinculos{display:flex;flex-wrap:wrap;gap:4px;margin-bottom:7px}
 .habito-vtag{font-size:9px;color:var(--acc);background:var(--acc-d);border:1px solid var(--acc-g);border-radius:3px;padding:1px 6px;font-family:Georgia,serif;letter-spacing:.3px}
@@ -118,7 +118,7 @@ select option{background:var(--s2)}
 .day-cell.parcial{background:var(--yd);border-color:rgba(201,146,26,.4);color:var(--yellow)}
 .day-cell.faltou{background:var(--rd);border-color:rgba(200,75,75,.4);color:var(--red)}
 .day-cell.today{outline:2px solid var(--acc);outline-offset:1px}
-.habito-stat{font-size:11px;color:var(--t2);flex-shrink:0;font-family:Georgia,serif;min-width:26px;text-align:right}
+.habito-stat{font-size:11px;color:var(--t2);flex-shrink:0;font-family:Georgia,serif;min-width:28px;text-align:right}
 
 /* ═══════════════════════════════════════════════════════════
    CADERNO — Inbox
@@ -1100,6 +1100,8 @@ function saveEditHabito() {
   h.vinculoId = h.vinculoIds[0] || null;
   persist(); closeM('mbg-edit-habito'); renderHabitos();
 }
+
+function openM_addHabito() {
   // populate vinculo select
   const sel = document.getElementById('inp-hab-vinculo');
   sel.innerHTML = '<option value="">Sem vínculo</option>';
