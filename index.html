@@ -54,8 +54,8 @@ nav{display:flex;border-bottom:1px solid var(--b1);flex-shrink:0;background:var(
 main{flex:1;overflow:hidden;display:flex;flex-direction:column}
 .sec{display:none;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:16px}
 .sec.active{display:block}
-#sec-dash{padding:0}
-#sec-dash.active{display:flex;flex-direction:column}
+#sec-dash{padding:0 !important}
+#sec-dash.active{display:flex !important;flex-direction:column}
 
 /* ── Section title ──────────────────────────────────────────── */
 .sec-h{font-size:9px;letter-spacing:1.8px;text-transform:uppercase;color:var(--t3);margin-bottom:12px;padding-bottom:7px;border-bottom:1px solid var(--b1);display:flex;align-items:center;justify-content:space-between;font-family:Georgia,serif}
@@ -94,26 +94,31 @@ select option{background:var(--s2)}
    HÁBITOS
 ═══════════════════════════════════════════════════════════ */
 .week-label{display:flex;align-items:center;justify-content:space-between;font-size:11px;color:var(--t2);margin-bottom:10px;font-family:Georgia,serif}
-.habito-row{background:var(--s1);border:1px solid var(--b1);border-radius:var(--r);padding:11px 12px;margin-bottom:7px;display:flex;align-items:center;gap:8px;animation:fadeIn .18s ease}
+.habito-row{background:var(--s1);border:1px solid var(--b1);border-radius:var(--r);padding:10px 12px;margin-bottom:7px;animation:fadeIn .18s ease}
 @keyframes fadeIn{from{opacity:0;transform:translateY(-3px)}}
-.habito-nome{font-size:13px;flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.habito-vinculo{font-size:9px;color:var(--acc);letter-spacing:.5px;display:block;margin-top:1px}
-.days-grid{display:flex;gap:3px;flex-shrink:0}
+.habito-top{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.habito-nome{font-size:14px;flex:1;min-width:0;color:var(--text);font-weight:normal}
+.habito-actions{display:flex;gap:4px;flex-shrink:0}
+.habito-edit{background:none;border:1px solid var(--b1);color:var(--t3);border-radius:var(--rs);padding:2px 7px;font-size:11px;cursor:pointer;font-family:Georgia,serif;transition:var(--tr)}
+.habito-edit:hover{border-color:var(--acc);color:var(--acc)}
+.habito-del{background:none;border:1px solid var(--b1);color:var(--t3);border-radius:var(--rs);padding:2px 7px;font-size:11px;cursor:pointer;font-family:Georgia,serif;transition:var(--tr)}
+.habito-del:hover{border-color:var(--red);color:var(--red)}
+.habito-vinculos{display:flex;flex-wrap:wrap;gap:4px;margin-bottom:7px}
+.habito-vtag{font-size:9px;color:var(--acc);background:var(--acc-d);border:1px solid var(--acc-g);border-radius:3px;padding:1px 6px;font-family:Georgia,serif;letter-spacing:.3px}
+.habito-bottom{display:flex;align-items:center;gap:6px}
+.days-grid{display:flex;gap:2px;flex:1}
 .day-cell{
-  width:28px;height:28px;border-radius:5px;cursor:pointer;
-  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  flex:1;height:26px;border-radius:4px;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
   border:1px solid var(--b1);background:var(--s2);transition:var(--tr);
-  flex-shrink:0;font-size:8px;color:var(--t3);font-family:Georgia,serif;
+  font-size:9px;color:var(--t3);font-family:Georgia,serif;min-width:0;
 }
 .day-cell:hover{border-color:var(--b2)}
 .day-cell.feito{background:var(--gd);border-color:rgba(61,158,106,.4);color:var(--green)}
 .day-cell.parcial{background:var(--yd);border-color:rgba(201,146,26,.4);color:var(--yellow)}
 .day-cell.faltou{background:var(--rd);border-color:rgba(200,75,75,.4);color:var(--red)}
 .day-cell.today{outline:2px solid var(--acc);outline-offset:1px}
-.habito-stat{font-size:11px;color:var(--t2);min-width:28px;text-align:right;font-family:Georgia,serif}
-.habito-del{background:none;border:none;color:var(--t3);cursor:pointer;font-size:15px;padding:0 2px;opacity:0;transition:opacity var(--tr)}
-.habito-row:hover .habito-del{opacity:1}
-.habito-del:hover{color:var(--red)}
+.habito-stat{font-size:11px;color:var(--t2);flex-shrink:0;font-family:Georgia,serif;min-width:26px;text-align:right}
 
 /* ═══════════════════════════════════════════════════════════
    CADERNO — Inbox
@@ -697,6 +702,26 @@ select option{background:var(--s2)}
 </div>
 </div>
 
+<!-- ══ MODAL: Editar hábito ══════════════════════════════════ -->
+<div class="mbg" id="mbg-edit-habito">
+<div class="modal">
+  <button class="m-close" onclick="closeM('mbg-edit-habito')">×</button>
+  <div class="m-title">Editar hábito</div>
+  <input type="hidden" id="edit-hab-id">
+  <div class="lbl">Nome</div>
+  <input type="text" id="edit-hab-nome" placeholder="Nome do hábito..." style="margin-bottom:12px">
+  <div class="lbl">Vínculos com o Prédio (múltiplos)</div>
+  <div id="edit-hab-vinculos-list" style="margin-bottom:8px"></div>
+  <select id="edit-hab-vinculo-sel" style="margin-bottom:8px">
+    <option value="">+ Adicionar vínculo...</option>
+  </select>
+  <div class="m-actions">
+    <button class="btn btn-g" onclick="closeM('mbg-edit-habito')">Cancelar</button>
+    <button class="btn btn-a" onclick="saveEditHabito()">Salvar</button>
+  </div>
+</div>
+</div>
+
 <!-- ══ MODAL: Editar item do Prédio ══════════════════════════ -->
 <div class="mbg" id="mbg-edit-predi">
 <div class="modal">
@@ -949,22 +974,36 @@ function renderHabitos() {
 
   list.innerHTML = S.habitos.map(h => {
     const regs = h.registros || {};
-    const link = h.vinculoId ? getPrediLabel(h.vinculoId) : null;
     const weekFeito = week.filter(d => regs[d] === 'feito').length;
+
+    // Suporte a vínculo único (vinculoId) e múltiplos (vinculoIds)
+    const ids = h.vinculoIds || (h.vinculoId ? [h.vinculoId] : []);
+    const vinculos = ids.map(id => getPrediLabel(id)).filter(Boolean);
+
+    const vinculoHtml = vinculos.length
+      ? `<div class="habito-vinculos">${vinculos.map(v => `<span class="habito-vtag">↳ ${esc(v.tipo)}: ${esc(v.nome.slice(0,20))}</span>`).join('')}</div>`
+      : '';
+
     const days = week.map((d, i) => {
       const est = regs[d] || '';
       const isToday = d === t;
       const icon = est === 'feito' ? '✓' : est === 'parcial' ? '½' : est === 'faltou' ? '✕' : DAY_LABELS[i].slice(0,1);
       return `<div class="day-cell${est ? ' ' + est : ''}${isToday ? ' today' : ''}" onclick="cycleHabitoDay('${h.id}','${d}')" title="${DAY_LABELS[i]}">${icon}</div>`;
     }).join('');
+
     return `<div class="habito-row">
-      <div style="flex:1;min-width:0">
+      <div class="habito-top">
         <div class="habito-nome">${esc(h.nome)}</div>
-        ${link ? `<span class="habito-vinculo">↳ ${esc(link.tipo)}: ${esc(link.nome.slice(0,22))}</span>` : ''}
+        <div class="habito-actions">
+          <button class="habito-edit" onclick="openEditHabito('${h.id}')">✎</button>
+          <button class="habito-del" onclick="removeHabito('${h.id}')">×</button>
+        </div>
       </div>
-      <div class="days-grid">${days}</div>
-      <div class="habito-stat">${weekFeito}/7</div>
-      <button class="habito-del" onclick="removeHabito('${h.id}')" title="Remover">×</button>
+      ${vinculoHtml}
+      <div class="habito-bottom">
+        <div class="days-grid">${days}</div>
+        <div class="habito-stat">${weekFeito}/7</div>
+      </div>
     </div>`;
   }).join('');
 }
@@ -994,7 +1033,73 @@ function removeHabito(id) {
   });
 }
 
-function openM_addHabito() {
+function openEditHabito(id) {
+  const h = S.habitos.find(x => x.id === id); if (!h) return;
+  document.getElementById('edit-hab-id').value = id;
+  document.getElementById('edit-hab-nome').value = h.nome || '';
+
+  // Popula select de vínculos disponíveis
+  const sel = document.getElementById('edit-hab-vinculo-sel');
+  sel.innerHTML = '<option value="">+ Adicionar vínculo...</option>';
+  ['frentes','ciclos','horizontes','pilares'].forEach(tipo => {
+    S[tipo].filter(x => !x.status || x.status === 'ativo').forEach(item => {
+      const opt = document.createElement('option');
+      opt.value = item.id;
+      opt.textContent = `[${tipo}] ${(item.nome||item.texto||'').slice(0,40)}`;
+      sel.appendChild(opt);
+    });
+  });
+
+  // Migra vinculoId antigo para vinculoIds
+  if (!h.vinculoIds) h.vinculoIds = h.vinculoId ? [h.vinculoId] : [];
+
+  renderEditVinculos(h.vinculoIds);
+  sel.onchange = () => {
+    const v = sel.value; if (!v) return;
+    const h2 = S.habitos.find(x => x.id === document.getElementById('edit-hab-id').value);
+    if (h2 && !h2.vinculoIds.includes(v)) {
+      h2.vinculoIds.push(v);
+      renderEditVinculos(h2.vinculoIds);
+    }
+    sel.value = '';
+  };
+  openM('mbg-edit-habito');
+}
+
+function renderEditVinculos(ids) {
+  const container = document.getElementById('edit-hab-vinculos-list');
+  if (!ids || ids.length === 0) {
+    container.innerHTML = '<div style="font-size:11px;color:var(--t3);font-family:Georgia,serif">Nenhum vínculo</div>';
+    return;
+  }
+  container.innerHTML = ids.map(id => {
+    const lbl = getPrediLabel(id);
+    if (!lbl) return '';
+    return `<div style="display:flex;align-items:center;gap:6px;margin-bottom:5px">
+      <span class="habito-vtag" style="font-size:11px;padding:3px 8px">${esc(lbl.tipo)}: ${esc(lbl.nome.slice(0,30))}</span>
+      <button onclick="removeVinculo('${id}')" style="background:none;border:none;color:var(--red);cursor:pointer;font-size:14px;padding:0">×</button>
+    </div>`;
+  }).join('');
+}
+
+function removeVinculo(vinculoId) {
+  const id = document.getElementById('edit-hab-id').value;
+  const h = S.habitos.find(x => x.id === id); if (!h) return;
+  h.vinculoIds = (h.vinculoIds||[]).filter(v => v !== vinculoId);
+  renderEditVinculos(h.vinculoIds);
+}
+
+function saveEditHabito() {
+  const id   = document.getElementById('edit-hab-id').value;
+  const nome = document.getElementById('edit-hab-nome').value.trim();
+  if (!nome) return document.getElementById('edit-hab-nome').focus();
+  const h = S.habitos.find(x => x.id === id); if (!h) return;
+  h.nome = nome;
+  if (!h.vinculoIds) h.vinculoIds = h.vinculoId ? [h.vinculoId] : [];
+  // Mantém vinculoId para retrocompatibilidade
+  h.vinculoId = h.vinculoIds[0] || null;
+  persist(); closeM('mbg-edit-habito'); renderHabitos();
+}
   // populate vinculo select
   const sel = document.getElementById('inp-hab-vinculo');
   sel.innerHTML = '<option value="">Sem vínculo</option>';
@@ -1494,18 +1599,17 @@ function renderHistory() {
       <div class="hist-nome">${esc(h.nome)}<div style="font-size:10px;color:var(--t3)">${h.tipo} · ${fmtDate(h.encerradoEm)}</div></div>
       ${h.rodada > 1 ? `<span class="hist-rodada">${h.rodada}ª rodada</span>` : ''}
       <span class="hist-badge ${h.statusFinal}">${h.statusFinal}</span>
-      <button style="background:none;border:none;color:var(--red);font-size:16px;cursor:pointer;padding:0 4px;flex-shrink:0" onclick="deleteFromHistory('${h.id}')" title="Remover">×</button>
+      <button style="background:none;border:none;color:var(--red);font-size:16px;cursor:pointer;padding:0 4px;flex-shrink:0" onclick="deleteFromHistory('${h.id}',event)" title="Remover">×</button>
     </div>`
   ).join('');
 }
 
-function deleteFromHistory(id) {
-  showConfirm('Remover este item do histórico?', () => {
-    S.historico = S.historico.filter(x => x.id !== id);
-    persist();
-    scheduleSync(); // garante que o Sheets também é atualizado
-    renderHistory();
-  });
+function deleteFromHistory(id, event) {
+  if (event) event.stopPropagation();
+  S.historico = S.historico.filter(x => x.id !== id);
+  persist();
+  scheduleSync();
+  renderHistory();
 }
 
 document.getElementById('mbg-history').addEventListener('click', e => {
@@ -1689,11 +1793,23 @@ function renderDash() {
       const pctP = days.length ? p/days.length : 0;
       const pctFa = days.length ? fa/days.length : 0;
       const cls = pctF>=0.8?'green':pctF>=0.5?'amber':'red';
+      // Vínculos múltiplos
+      const ids = h.vinculoIds || (h.vinculoId ? [h.vinculoId] : []);
+      const vLinks = ids.map(id => {
+        for (const t of ['frentes','ciclos','horizontes','pilares']) {
+          const it = (S[t]||[]).find(x=>x.id===id);
+          if (it) return (it.nome||it.texto||'').slice(0,18);
+        }
+        return null;
+      }).filter(Boolean);
+      const vinculoLine = vLinks.length ? `<div style="font-size:10px;color:var(--t3);margin-top:3px;font-family:Georgia,serif">↳ ${vLinks.join(' · ')}</div>` : '';
+
       html += `<div class="prog-row">
         <div class="prog-name">
           <span>${esc(h.nome)}</span>
           <span class="prog-name-pct">${f}/${days.length} dias (${Math.round(pctF*100)}%)</span>
         </div>
+        ${vinculoLine}
         <div class="prog-track">
           <div class="prog-fill ${cls}" style="width:${Math.round(pctF*100)}%"></div>
           <div class="prog-fill amber" style="width:${Math.round(pctP*100)}%"></div>
@@ -2017,7 +2133,7 @@ function init() {
 
   // PWA service worker
   if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('/Canteiro-Pessoal-APP/sw.js', { scope: '/Canteiro-Pessoal-APP/' }).catch(() => {});
+    navigator.serviceWorker.register('/Canteiro-app/sw.js', { scope: '/Canteiro-app/' }).catch(() => {});
   }
 
   // Online/offline indicator
