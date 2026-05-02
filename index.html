@@ -955,6 +955,17 @@ select option{background:var(--s2)}
     </div>
   </div>
 
+  <!-- Manutenção -->
+  <div class="cfg-section" id="cfg-manutencao">
+    <div class="cfg-section-hdr" onclick="toggleCfgSection('manutencao')">
+      <div class="cfg-section-title">🗑 Manutenção</div>
+      <span class="cfg-section-caret">▾</span>
+    </div>
+    <div class="cfg-section-body" id="cfg-manutencao-body">
+      <!-- preenchido por renderMaintenance() ao abrir -->
+    </div>
+  </div>
+
   <!-- Avançado -->
   <div class="cfg-section">
     <div class="cfg-section-hdr" onclick="toggleCfgSection('avancado')">
@@ -1241,18 +1252,16 @@ async function triggerSync() {
 
 /* ═══════════════════════════════════════════════════════════
    PULL INTELIGENTE — recebe dados mais recentes da nuvem
-   Roda: ao abrir/focar o app + a cada 3 minutos
+   Roda: ao abrir o app + ao voltar para o app
 ═══════════════════════════════════════════════════════════ */
-let pullTimer = null;
 let lastPullAt = 0;
-const PULL_INTERVAL = 3 * 60 * 1000;   // 3 minutos
-const PULL_MIN_GAP  = 30 * 1000;       // mínimo 30s entre pulls
+const PULL_MIN_GAP = 30 * 1000; // mínimo 30s entre pulls
 
 async function pullFromCloud() {
   const url = S.settings.scriptUrl;
   if (!url || !navigator.onLine) return;
   const now = Date.now();
-  if (now - lastPullAt < PULL_MIN_GAP) return; // evita pulls em rafaga
+  if (now - lastPullAt < PULL_MIN_GAP) return;
   lastPullAt = now;
 
   try {
@@ -1268,9 +1277,9 @@ async function pullFromCloud() {
     if (remoteSync && remoteSync > localSync) {
       const localSettings = S.settings;
       S = { ...blank(), ...remote.data, settings: localSettings };
-      if (!S.fundacao.historico)  S.fundacao.historico = [];
-      if (!S.pilares_arquivados)  S.pilares_arquivados = [];
-      if (!S.habitosArquivados)   S.habitosArquivados  = [];
+      if (!S.fundacao.historico) S.fundacao.historico = [];
+      if (!S.pilares_arquivados) S.pilares_arquivados = [];
+      if (!S.habitosArquivados)  S.habitosArquivados  = [];
       localStorage.setItem(KEY, JSON.stringify(S));
       renderAll();
       setSyncStatus('ok', fmt(S.meta.ultimaSync));
@@ -1282,8 +1291,7 @@ async function pullFromCloud() {
 }
 
 function schedulePull() {
-  clearInterval(pullTimer);
-  pullTimer = setInterval(pullFromCloud, PULL_INTERVAL);
+  // Mantido para compatibilidade — pull agora só acontece ao abrir/focar
 }
 
 // ↑ Enviar para a nuvem (manual, com feedback visual no botão)
@@ -2165,6 +2173,8 @@ function openSettingsModal() {
   // Abre seção nuvem por padrão
   const nuvemSection = document.getElementById('cfg-nuvem');
   if (nuvemSection) nuvemSection.classList.add('open');
+  // Renderiza lista de manutenção
+  renderMaintenance();
   openM('mbg-settings');
 }
 
@@ -2609,20 +2619,27 @@ function renderDash() {
     html += `</div>`;
   }
 
-  // ── ZONA DE EXCLUSÃO ─────────────────────────────────────────
-  html += buildDeleteZone();
+  // ── Metas ativas ─────────────────────────────────────────────
 
   document.getElementById('dash-content').innerHTML = html;
 }
 
 function buildDeleteZone() {
-  const habAtivos = S.habitos || [];
-  const habArq    = S.habitosArquivados || [];
-  const vicios    = S.vicios || [];
-  const hist      = S.historico || [];
-  const tarefas   = (S.tarefas||[]).filter(t=>t.coluna==='feito');
-  const descarte  = S.descarte || [];
-  const total     = habAtivos.length + habArq.length + vicios.length + hist.length + tarefas.length + descarte.length;
+  const habAtivos  = S.habitos || [];
+  const habArq     = S.habitosArquivados || [];
+  const vicios     = S.vicios || [];
+  const hist       = S.historico || [];
+  const tarefas    = (S.tarefas||[]).filter(t=>t.coluna==='feito');
+  const descarte   = S.descarte || [];
+  const pilArq     = S.pilares_arquivados || [];
+  const propHist   = (S.fundacao||{}).historico || [];
+  const total      = habAtivos.length + habArq.length + vicios.length +
+                     hist.length + tarefas.length + descarte.length +
+                     pilArq.length + propHist.length;
+
+  if (total === 0) {
+    return `<div style="font-size:12px;color:var(--t3);font-family:Georgia,serif;padding:8px 0">Nenhum item para excluir.</div>`;
+  }
 
   let items = '';
 
@@ -2650,7 +2667,7 @@ function buildDeleteZone() {
   hist.forEach(h => {
     items += `<div class="dash-delete-item">
       <span class="dash-delete-name">${esc(h.nome.slice(0,30))}</span>
-      <span class="dash-delete-meta">${h.tipo} · ${h.statusFinal}</span>
+      <span class="dash-delete-meta">${{frentes:'Ação',ciclos:'Trimestre',horizontes:'Longo prazo',pilares:'Área de foco'}[h.tipo]||h.tipo} · ${h.statusFinal}</span>
       <button class="dash-delete-btn" onclick="deleteHistHard('${h.id}')">Excluir</button>
     </div>`;
   });
@@ -2659,6 +2676,20 @@ function buildDeleteZone() {
       <span class="dash-delete-name">${esc(t.texto.slice(0,30))}</span>
       <span class="dash-delete-meta">tarefa concluída</span>
       <button class="dash-delete-btn" onclick="deleteTaskHard('${t.id}')">Excluir</button>
+    </div>`;
+  });
+  pilArq.forEach(p => {
+    items += `<div class="dash-delete-item">
+      <span class="dash-delete-name">${esc((p.texto||p.nome||'').slice(0,30))}</span>
+      <span class="dash-delete-meta">área de foco arquivada</span>
+      <button class="dash-delete-btn" onclick="deletePilarArqHard('${p.id}')">Excluir</button>
+    </div>`;
+  });
+  propHist.forEach((p, i) => {
+    items += `<div class="dash-delete-item">
+      <span class="dash-delete-name">${esc(p.texto.slice(0,30))}</span>
+      <span class="dash-delete-meta">propósito arquivado · ${fmtDate(p.arquivadoEm)}</span>
+      <button class="dash-delete-btn" onclick="deletePropHistHard(${i})">Excluir</button>
     </div>`;
   });
   if (descarte.length) {
@@ -2672,54 +2703,59 @@ function buildDeleteZone() {
     <button class="btn btn-red btn-sm" style="width:100%" onclick="zerarTudoConfirm()">⚠ Zerar TODOS os dados do app</button>
   </div>`;
 
-  return `<div class="dash-delete-zone">
-    <div style="display:flex;align-items:center;justify-content:space-between;cursor:pointer" onclick="toggleDeleteZone(this)">
-      <div class="dash-delete-title" style="margin-bottom:0">🗑 Zona de Manutenção <span style="font-weight:normal;opacity:.6">(${total} itens)</span></div>
-      <span id="dz-caret" style="color:var(--red);font-size:12px;transition:.2s">▸</span>
-    </div>
-    <div id="dz-body" style="display:none;margin-top:12px">${items}</div>
-  </div>`;
+  return `<div class="dash-delete-zone" style="border:none;padding:0;background:none">${items}</div>`;
 }
 
-function toggleDeleteZone(el) {
-  const body   = document.getElementById('dz-body');
-  const caret  = document.getElementById('dz-caret');
-  const open   = body.style.display === 'none';
-  body.style.display  = open ? 'block' : 'none';
-  caret.textContent   = open ? '▾' : '▸';
-}
+
 
 // ── Hard deletes (sem histórico) ─────────────────────────────────
+function renderMaintenance() {
+  const el = document.getElementById('cfg-manutencao-body');
+  if (el) el.innerHTML = buildDeleteZone();
+}
+
 function deleteHabitoHard(id) {
   showConfirm('Excluir este hábito e todos os dados permanentemente?', () => {
     S.habitos = (S.habitos||[]).filter(x => x.id !== id);
-    persist(); renderDash();
+    persist(); renderMaintenance();
   });
 }
 function deleteHabitoArqHard(id) {
   showConfirm('Excluir hábito arquivado permanentemente?', () => {
     S.habitosArquivados = (S.habitosArquivados||[]).filter(x => x.id !== id);
-    persist(); renderDash();
+    persist(); renderMaintenance();
   });
 }
 function deleteVicioHard(id) {
   showConfirm('Excluir este vício e todos os dados permanentemente?', () => {
     S.vicios = (S.vicios||[]).filter(x => x.id !== id);
-    persist(); renderPorao(); renderDash();
+    persist(); renderPorao(); renderMaintenance();
   });
 }
 function deleteHistHard(id) {
   S.historico = (S.historico||[]).filter(x => x.id !== id);
-  persist(); renderDash();
+  persist(); renderMaintenance();
 }
 function deleteTaskHard(id) {
   S.tarefas = (S.tarefas||[]).filter(x => x.id !== id);
-  persist(); renderDash();
+  persist(); renderMaintenance();
+}
+function deletePilarArqHard(id) {
+  showConfirm('Excluir esta área de foco arquivada permanentemente?', () => {
+    S.pilares_arquivados = (S.pilares_arquivados||[]).filter(x => x.id !== id);
+    persist(); renderMaintenance();
+  });
+}
+function deletePropHistHard(index) {
+  showConfirm('Excluir esta versão arquivada do propósito permanentemente?', () => {
+    if (S.fundacao.historico) S.fundacao.historico.splice(index, 1);
+    persist(); renderMaintenance();
+  });
 }
 function clearDescarte() {
   showConfirm('Limpar todos os itens do descarte?', () => {
     S.descarte = [];
-    persist(); renderDash();
+    persist(); renderMaintenance();
   });
 }
 function zerarTudoConfirm() {
@@ -2858,13 +2894,11 @@ function init() {
   window.addEventListener('online', () => {
     document.getElementById('offline-banner').classList.remove('show');
     setSyncStatus('syncing', '');
-    triggerSync();
-    pullFromCloud(); // volta online → puxa imediatamente
+    pullFromCloud().then(() => triggerSync());
   });
   window.addEventListener('offline', () => {
     document.getElementById('offline-banner').classList.add('show');
     setSyncStatus('err', 'Offline');
-    clearInterval(pullTimer);
   });
 
   // Pull ao voltar para o app (trocar de aba, desbloquear celular etc.)
@@ -2886,9 +2920,8 @@ function init() {
   if (S.settings.scriptUrl && navigator.onLine) {
     const isNew = checkNewDevice();
     if (!isNew) {
-      // Pull primeiro (recebe dados mais recentes), depois envia local
+      // Puxa primeiro (recebe dados mais recentes), depois envia local
       pullFromCloud().then(() => setTimeout(doSync, 2000));
-      schedulePull(); // inicia ciclo de 3 minutos
     }
   } else {
     setSyncStatus(navigator.onLine ? (S.meta.ultimaSync ? 'ok' : '') : 'err', S.meta.ultimaSync ? fmt(S.meta.ultimaSync) : '');
