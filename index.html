@@ -864,6 +864,10 @@ select option{background:var(--s2)}
       <input type="file" id="imp-file" accept=".json" style="display:none" onchange="importJSON(event)">
     </div>
   </div>
+  <div style="margin-top:16px;padding-top:14px;border-top:1px solid var(--b1)">
+    <div class="lbl" style="margin-bottom:8px">Guia do app</div>
+    <button class="btn btn-g btn-sm" style="width:100%" onclick="openGuide()">📖 Como usar o Canteiro</button>
+  </div>
 </div>
 </div>
 
@@ -2457,6 +2461,7 @@ async function deviceChoiceRestore() {
 ═══════════════════════════════════════════════════════════ */
 let obCurrentStep = 0;
 const OB_STEPS = 5;
+let obFromSettings = false; // controla se foi aberto pelo Settings
 
 function obShowStep(n) {
   obCurrentStep = n;
@@ -2467,26 +2472,43 @@ function obShowStep(n) {
     const dot = document.getElementById('ob-d' + i);
     if (dot) dot.classList.toggle('done', i <= n);
   }
-  // Scroll to top of onboarding
+  // Atualiza label do botão esquerdo do step 0 conforme contexto
+  const skipBtn = document.querySelector('#ob-0 .ob-btn-skip');
+  if (skipBtn) skipBtn.textContent = obFromSettings ? 'Fechar' : 'Pular';
+  // Atualiza label do botão direito do step final
+  const finishBtn = document.querySelector('#ob-4 .ob-btn-next');
+  if (finishBtn) finishBtn.textContent = obFromSettings ? 'Fechar ✓' : 'Começar agora ✓';
   document.getElementById('onboarding').scrollTo(0,0);
 }
 
 function obNext(n) { obShowStep(n); }
 function obPrev(n) { obShowStep(n); }
 
+// Aberto automaticamente na primeira vez
 function skipOnboarding() {
   localStorage.setItem('canteiro_onboarding_done', '1');
   document.getElementById('onboarding').classList.add('hidden');
+  obFromSettings = false;
 }
 
 function finishOnboarding() {
   localStorage.setItem('canteiro_onboarding_done', '1');
   document.getElementById('onboarding').classList.add('hidden');
+  obFromSettings = false;
+}
+
+// Aberto pelo botão no Settings
+function openGuide() {
+  closeM('mbg-settings');
+  obFromSettings = true;
+  document.getElementById('onboarding').classList.remove('hidden');
+  obShowStep(0);
 }
 
 function checkOnboarding() {
   const done = localStorage.getItem('canteiro_onboarding_done');
   if (!done) {
+    obFromSettings = false;
     obShowStep(0);
   } else {
     document.getElementById('onboarding').classList.add('hidden');
