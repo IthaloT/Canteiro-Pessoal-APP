@@ -932,9 +932,9 @@ select option{background:var(--s2)}
 
   /* ── All sections fill height ─────────────────────────── */
   main{ overflow:hidden }
-  .sec{ height:100%; overflow:hidden; padding:0 }
-  .sec.active{ display:flex; flex-direction:column }
-  #sec-predio.active{ display:grid !important }
+  .sec{ display:none; height:100%; overflow:hidden; padding:0 }
+  .sec.active{ display:flex !important; flex-direction:column }
+  #sec-predio.active{ display:grid !important; flex-direction:unset }
 
   /* ── ROTINA: comfortable max-width ───────────────────── */
   #sec-rotina{ overflow-y:auto; padding:24px 32px }
@@ -1500,6 +1500,132 @@ input:focus, textarea:focus, select:focus {
   text-align:center;line-height:1.8;
 }
 
+
+/* ── Rotina unified scroll ──────────────────────────────────── */
+.rotina-strip{
+  display:flex;align-items:center;padding:8px 16px;
+  border-bottom:1px solid var(--b1);font-size:11px;
+  color:var(--t2);font-family:var(--ui-font);
+  background:var(--s1);flex-shrink:0;min-height:36px;
+  letter-spacing:.3px;
+}
+.rotina-scroll{
+  flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;
+  padding-bottom:32px;
+}
+.rotina-section{ margin-bottom:4px }
+.rotina-sec-hdr{
+  display:flex;align-items:center;gap:8px;
+  padding:12px 16px 10px;
+  position:sticky;top:0;z-index:5;
+  border-bottom:1px solid var(--b1);
+  border-top:1px solid var(--b1);
+}
+.rsec-icon{ font-size:14px;flex-shrink:0 }
+.rsec-label{
+  font-size:9px;font-weight:700;letter-spacing:1.5px;
+  text-transform:uppercase;font-family:var(--ui-font);
+}
+.rsec-count{
+  font-size:10px;font-weight:700;padding:1px 7px;
+  border-radius:10px;font-family:var(--ui-font);
+}
+.rsec-meta{
+  font-size:10px;font-family:var(--ui-font);margin-left:2px;opacity:.65;
+}
+.rsec-add{
+  margin-left:auto;background:none;border:none;
+  font-size:20px;font-weight:300;cursor:pointer;
+  color:var(--t2);line-height:1;padding:0 4px;
+  transition:color var(--tr);
+}
+.rsec-add:hover{ color:var(--acc) }
+.rsec-body{ padding:10px 16px 6px }
+
+.rotina-sec-hdr--desafios{
+  background:rgba(124,106,232,.07);
+  border-left:3px solid #7C6AE8;
+}
+.rotina-sec-hdr--desafios .rsec-label{ color:#7C6AE8 }
+.rotina-sec-hdr--desafios .rsec-count{
+  background:rgba(124,106,232,.15);color:#7C6AE8;border:1px solid rgba(124,106,232,.3);
+}
+.rotina-sec-hdr--habitos{
+  background:rgba(61,158,106,.07);
+  border-left:3px solid var(--green);
+}
+.rotina-sec-hdr--habitos .rsec-label{ color:var(--green) }
+.rotina-sec-hdr--habitos .rsec-count{
+  background:rgba(61,158,106,.15);color:var(--green);border:1px solid rgba(61,158,106,.3);
+}
+.rotina-sec-hdr--vicios{
+  background:rgba(232,124,42,.07);
+  border-left:3px solid #E87C2A;
+}
+.rotina-sec-hdr--vicios .rsec-label{ color:#E87C2A }
+.rotina-sec-hdr--vicios .rsec-count{
+  background:rgba(232,124,42,.15);color:#E87C2A;border:1px solid rgba(232,124,42,.3);
+}
+
+@media(min-width:1024px){
+  #sec-rotina{ overflow:hidden;padding:0 !important }
+  .rotina-strip{ padding:10px 28px }
+  .rotina-sec-hdr{ padding:14px 28px 12px }
+  .rsec-body{ padding:12px 28px 8px }
+  .rotina-scroll .week-label{ padding:10px 28px 0 !important }
+}
+
+/* ── Kanban touch drag ──────────────────────────────────────── */
+.k-card.touch-dragging{ opacity:.3;transform:scale(.97);transition:none }
+
+/* ── Historico fullscreen ─────────────────────────────────── */
+.mbg-fullscreen.open{
+  align-items:stretch;justify-content:stretch;padding:0;
+}
+.mbg-fullscreen .modal-fullscreen{
+  width:100%;max-width:100%;height:100%;border-radius:0;
+  display:flex;flex-direction:column;padding:0;overflow:hidden;
+}
+.hist-fullscreen-hdr{
+  display:flex;align-items:center;gap:12px;
+  padding:16px 20px;border-bottom:1px solid var(--b1);
+  background:var(--s1);flex-shrink:0;
+}
+.hist-fullscreen-title{
+  font-size:14px;font-weight:600;font-family:var(--ui-font);flex:1;
+}
+.hist-fullscreen-body{ flex:1;overflow-y:auto;padding:20px }
+.heatmap-grid{
+  display:flex;gap:2px;flex-wrap:wrap;margin:8px 0 16px;
+}
+.heatmap-cell{
+  width:11px;height:11px;border-radius:2px;background:var(--s3);
+}
+.heatmap-cell.l1{ background:rgba(61,158,106,.2) }
+.heatmap-cell.l2{ background:rgba(61,158,106,.45) }
+.heatmap-cell.l3{ background:rgba(61,158,106,.7) }
+.heatmap-cell.l4{ background:var(--green) }
+@media(min-width:1024px){
+  .mbg-fullscreen .modal-fullscreen{
+    max-width:820px;height:88vh;border-radius:14px;margin:auto;
+  }
+  .mbg-fullscreen.open{ padding:0;align-items:center;justify-content:center }
+}
+
+
+/* ── Rotina section collapse ────────────────────────────────── */
+.rsec-show-more{
+  display:block;width:100%;padding:8px 16px;
+  background:none;border:none;border-top:1px solid var(--b1);
+  color:var(--t3);font-size:11px;cursor:pointer;
+  font-family:var(--ui-font);text-align:center;
+  transition:color var(--tr);letter-spacing:.3px;
+}
+.rsec-show-more:hover{ color:var(--acc) }
+@media(min-width:1024px){
+  .rsec-show-more{ padding:8px 28px }
+}
+
 </style>
 </head>
 <body>
@@ -1537,7 +1663,6 @@ input:focus, textarea:focus, select:focus {
   <button class="tab active" id="tab-rotina"   data-tip="Rotina"   onclick="setTab('rotina',this)"><span class="tab-icon">⚡</span><span class="tab-lbl">Rotina</span></button>
   <button class="tab"        id="tab-caderno"  data-tip="Caderno"  onclick="setTab('caderno',this)"><span class="tab-icon">📋</span><span class="tab-lbl">Caderno</span></button>
   <button class="tab"        id="tab-predio"   data-tip="Metas"    onclick="setTab('predio',this)"><span class="tab-icon">🎯</span><span class="tab-lbl">Metas</span></button>
-  <button class="tab"        id="tab-dash"     data-tip="Painel"   onclick="setTab('dash',this)"><span class="tab-icon">📊</span><span class="tab-lbl">Painel</span></button>
   <!-- Focus Timer -->
   <div class="focus-timer" id="focus-timer-widget" style="display:none">
     <div class="ft-ring-wrap">
@@ -1604,50 +1729,54 @@ input:focus, textarea:focus, select:focus {
 <!-- ══ HÁBITOS ══════════════════════════════════════════════ -->
 <div id="sec-rotina" class="sec active">
 
-  <!-- ── Rotina tab bar (3 abas) ── -->
-  <div class="rotina-tab-bar" id="rotina-tab-bar">
-    <button class="rotina-tab active" id="rtog-construir" onclick="setRotinaView('construir',this)">
-      🧱 Hábitos <span class="badge" id="rtab-hab-cnt">0</span>
-    </button>
-    <button class="rotina-tab" id="rtog-destruir" onclick="setRotinaView('destruir',this)">
-      💣 Vícios <span class="badge" id="rtab-vic-cnt">0</span>
-    </button>
-    <button class="rotina-tab" id="rtog-desafios" onclick="setRotinaView('desafios',this)">
-      🎯 Desafios <span class="badge" id="rtab-des-cnt">0</span>
-    </button>
-    <div class="rotina-tab-actions" id="rotina-tab-actions">
-      <button class="btn btn-g btn-sm" id="rotina-add-btn" onclick="rotinaAddAction()">+ Novo</button>
+  <!-- ── Micro-data strip ── -->
+  <div class="rotina-strip" id="rotina-strip"></div>
+
+  <!-- ── Single scroll page ── -->
+  <div class="rotina-scroll">
+
+    <!-- NÍVEL 1: DESAFIOS -->
+    <div class="rotina-section">
+      <div class="rotina-sec-hdr rotina-sec-hdr--desafios">
+        <span class="rsec-icon">🎯</span>
+        <span class="rsec-label">DESAFIOS ATIVOS</span>
+        <span class="rsec-count" id="rtab-des-cnt">0</span>
+        <button class="rsec-add" onclick="openM('mbg-add-desafio')" title="Novo desafio">+</button>
+      </div>
+      <div id="list-desafios" class="rsec-body"></div>
     </div>
+
+    <!-- NÍVEL 2: HÁBITOS -->
+    <div class="rotina-section">
+      <div class="rotina-sec-hdr rotina-sec-hdr--habitos">
+        <span class="rsec-icon">🧱</span>
+        <span class="rsec-label">HÁBITOS DE CONSTRUÇÃO</span>
+        <span class="rsec-count" id="rtab-hab-cnt">0</span>
+        <span class="rsec-meta" id="hab-hoje-meta"></span>
+        <button class="rsec-add" onclick="openM_addHabito()" title="Novo hábito">+</button>
+      </div>
+      <div class="week-label" style="padding:10px 16px 0">
+        <span id="week-range"></span>
+        <span id="week-stat" style="color:var(--acc)"></span>
+      </div>
+      <div id="list-habitos" class="rsec-body"></div>
+    </div>
+
+    <!-- NÍVEL 3: VÍCIOS -->
+    <div class="rotina-section">
+      <div class="rotina-sec-hdr rotina-sec-hdr--vicios">
+        <span class="rsec-icon">🛡️</span>
+        <span class="rsec-label">VÍCIOS RASTREADOS</span>
+        <span class="rsec-count" id="rtab-vic-cnt">0</span>
+        <button class="rsec-add" onclick="openM('mbg-add-vicio')" title="Novo vício">+</button>
+      </div>
+      <div id="list-vicios" class="rsec-body"></div>
+      <div id="disc-cnt" style="display:none">0</div>
+      <div id="list-descarte" style="display:none"></div>
+    </div>
+
   </div>
 
-  <!-- ── Painel Hábitos ── -->
-  <div id="rotina-construir" class="rotina-panel">
-    <div class="week-label">
-      <span id="week-range"></span>
-      <span id="week-stat" style="color:var(--acc)"></span>
-    </div>
-    <div id="list-habitos"></div>
-  </div>
-
-  <!-- ── Painel Vícios ── -->
-  <div id="rotina-destruir" class="rotina-panel" style="display:none">
-    <div style="font-size:11px;color:var(--t3);margin-bottom:14px;line-height:1.6;font-family:Georgia,serif">
-      Produtividade é saber dizer NÃO. Clique no dia para registrar. 🔥
-    </div>
-    <div id="list-vicios"></div>
-    <div id="disc-cnt" style="display:none">0</div>
-    <div id="list-descarte" style="display:none"></div>
-  </div>
-
-  <!-- ── Painel Desafios ── -->
-  <div id="rotina-desafios" class="rotina-panel" style="display:none">
-    <div style="font-size:11px;color:var(--t3);margin-bottom:14px;line-height:1.6;font-family:Georgia,serif">
-      Desafios têm prazo definido — construir um hábito ou resistir a um vício por X dias.
-    </div>
-    <div id="list-desafios"></div>
-  </div>
-
-</div>
 
 <!-- ══ CADERNO ══════════════════════════════════════════════ -->
 <div id="sec-caderno" class="sec">
@@ -1812,41 +1941,6 @@ input:focus, textarea:focus, select:focus {
 
 </div>
 
-<!-- ══ PORÃO ══════════════════════════════════════════════════ -->
-<!-- ══ DASHBOARD ═════════════════════════════════════════════ -->
-<div id="sec-dash" class="sec">
-
-  <!-- ── Desktop: left sidebar panel ── -->
-  <div id="dash-sidebar-panel">
-    <div id="dash-filter-bar">
-      <div class="df-title">⬡ Painel</div>
-      <div class="df-periods">
-        <button class="df-p active" onclick="setDashPeriod('week',this)">Semana</button>
-        <button class="df-p" onclick="setDashPeriod('month',this)">Mês</button>
-        <button class="df-p" onclick="setDashPeriod('quarter',this)">Trimestre</button>
-        <button class="df-p" onclick="setDashPeriod('year',this)">Ano</button>
-        <button class="df-p" onclick="setDashPeriod('custom',this)">Personalizado</button>
-      </div>
-      <div id="dash-custom-range" style="display:none">
-        <input type="date" id="dash-date-from" onchange="renderDash()">
-        <span style="color:var(--t2);font-size:12px">até</span>
-        <input type="date" id="dash-date-to" onchange="renderDash()">
-      </div>
-      <div id="dash-period-label" class="df-label"></div>
-    </div>
-
-    <!-- Quick stats sidebar -->
-    <div id="dash-sidebar-stats" style="padding:16px;flex:1"></div>
-  </div>
-
-  <!-- ── Desktop: main content panel ── -->
-  <div id="dash-main-panel">
-    <div id="dash-content" style="padding:0"></div>
-  </div>
-
-</div>
-
-</main>
 
 <!-- ══ MODAL: Triagem ════════════════════════════════════════ -->
 <div class="mbg" id="mbg-triage">
@@ -2020,6 +2114,7 @@ input:focus, textarea:focus, select:focus {
     <button class="btn btn-g" onclick="closeM('mbg-confirm')">Cancelar</button>
     <button class="btn btn-red" id="confirm-ok">Confirmar</button>
   </div>
+</div><!-- /hist-fullscreen-body -->
 </div>
 </div>
 
@@ -2204,8 +2299,8 @@ input:focus, textarea:focus, select:focus {
 </div>
 
 <!-- ══ MODAL: Histórico ══════════════════════════════════════ -->
-<div class="mbg" id="mbg-history">
-<div class="modal">
+<div class="mbg mbg-fullscreen" id="mbg-history">
+<div class="modal modal-fullscreen">
   <button class="m-close" onclick="closeM('mbg-history')">×</button>
   <div class="m-title">Histórico</div>
   <div class="hist-tabs">
@@ -2794,37 +2889,68 @@ function setTab(name, el) {
   document.getElementById('sec-' + name).classList.add('active');
   el.classList.add('active');
   const renders = {
-    rotina: () => { const v = rotinaView || 'construir'; setRotinaView(v); },
+    rotina: () => { renderHabitos(); renderPorao(); renderDesafios(); _updateRotinaTabCounts(); renderRotinaStrip(); },
     caderno: renderCaderno,
     predio: renderPredio,
-    dash: renderDash
   };
   renders[name]?.();
 }
 
-function setRotinaView(view, btn) {
-  rotinaView = view;
-  ['rotina-construir','rotina-destruir','rotina-desafios'].forEach(id => {
-    const el = document.getElementById(id);
-    if (el) el.style.display = 'none';
-  });
-  const panel = document.getElementById(
-    view === 'construir' ? 'rotina-construir' :
-    view === 'destruir'  ? 'rotina-destruir'  : 'rotina-desafios'
-  );
-  if (panel) panel.style.display = 'block';
-  document.querySelectorAll('.rotina-tab').forEach(t => t.classList.remove('active'));
-  if (btn) btn.classList.add('active');
-  else {
-    const id = {construir:'rtog-construir',destruir:'rtog-destruir',desafios:'rtog-desafios'}[view];
-    const el = document.getElementById(id);
-    if (el) el.classList.add('active');
-  }
-  if (view === 'construir') renderHabitos();
-  if (view === 'destruir')  renderPorao();
-  if (view === 'desafios')  renderDesafios();
-  _updateRotinaTabCounts();
+function setRotinaView(view) { rotinaView = view || 'construir'; }
+
+
+const RSEC_LIMIT = 4; // max items visible per section before collapse
+const _rsecExpanded = {}; // tracks which sections are expanded
+
+function rsecShowMore(id) {
+  _rsecExpanded[id] = !_rsecExpanded[id];
+  if      (id === 'habitos')  renderHabitos();
+  else if (id === 'vicios')   renderPorao();
+  else if (id === 'desafios') renderDesafios();
 }
+
+function rsecWrap(items, sectionId, renderFn) {
+  // items: array of rendered HTML strings
+  // Returns HTML with show-more button if needed
+  const expanded = _rsecExpanded[sectionId];
+  const limit = RSEC_LIMIT;
+  if (items.length <= limit) return items.join('');
+  const visible = expanded ? items : items.slice(0, limit);
+  const hidden = items.length - limit;
+  const btnLabel = expanded
+    ? `▲ Mostrar menos`
+    : `▼ Ver mais ${hidden} ${sectionId === 'habitos' ? 'hábito' : sectionId === 'vicios' ? 'vício' : 'desafio'}${hidden > 1 ? 's' : ''}`;
+  return visible.join('') + `<button class="rsec-show-more" onclick="rsecShowMore('${sectionId}')">${btnLabel}</button>`;
+}
+
+function renderRotinaStrip() {
+  const el = document.getElementById('rotina-strip');
+  if (!el) return;
+  const t = today();
+  const habs = (S.habitos||[]).filter(h => !h.arquivado);
+  const habFeitos = habs.filter(h => (h.registros||{})[t] === 'feito').length;
+  let bestStreak = 0;
+  habs.forEach(h => {
+    let s = 0; const d = new Date();
+    for (let i = 0; i < 365; i++) {
+      const ds = d.toLocaleDateString('sv'); d.setDate(d.getDate() - 1);
+      if ((h.registros||{})[ds] === 'feito') s++; else break;
+    }
+    if (s > bestStreak) bestStreak = s;
+  });
+  const desAtivos = (S.desafios||[]).filter(d => d.ativo !== false).length;
+  const vicOk  = (S.vicios||[]).filter(v => (v.registros||{})[t] === 'resistiu').length;
+  const vicTot = (S.vicios||[]).length;
+  const parts = [];
+  if (habs.length)  parts.push(`🧱 ${habFeitos}/${habs.length} hoje`);
+  if (bestStreak>1) parts.push(`🔥 ${bestStreak}d`);
+  if (desAtivos)    parts.push(`🎯 ${desAtivos} desafio${desAtivos>1?'s':''}`);
+  if (vicTot)       parts.push(`🛡️ ${vicOk}/${vicTot}`);
+  el.textContent = parts.join('  ·  ');
+  const meta = document.getElementById('hab-hoje-meta');
+  if (meta && habs.length) meta.textContent = `${habFeitos}/${habs.length} hoje`;
+}
+
 
 function rotinaAddAction() {
   if (rotinaView === 'construir') openM('mbg-add-habito');
@@ -2890,7 +3016,7 @@ function renderDesafios() {
     return;
   }
 
-  list.innerHTML = ativos.map(d => {
+  const _desCards = ativos.map(d => {
     const inicio = new Date(d.inicioEm + 'T00:00:00');
     const hoje = new Date(today() + 'T00:00:00');
     const diaAtual = Math.floor((hoje - inicio) / 86400000) + 1;
@@ -2938,7 +3064,8 @@ function renderDesafios() {
       </div>
       <div class="desafio-day-grid">${dayGrid}</div>
     </div>`;
-  }).join('');
+  });
+  list.innerHTML = ativos.length === 0 ? '<div class="empty" style="padding:40px 16px">🎯<br>Nenhum desafio ativo.<br><span style="font-size:11px;color:var(--t3)">Crie um desafio para se comprometer com algo por um período definido.</span></div>' : rsecWrap(_desCards, 'desafios');
 }
 
 function cycleDesafioDay(id, ds) {
@@ -2990,13 +3117,6 @@ const DAY_LABELS = ['Seg','Ter','Qua','Qui','Sex','Sáb','Dom'];
 const HAB_CYCLE = ['feito', 'parcial', 'faltou', null];
 
 // ── Helpers de cálculo de % com freqAlvo e diasAtivos ──────────
-function getHabDiasAtivos(h, days) {
-  if (!h.diasAtivos) return days; // null = todos os dias
-  return days.filter(d => {
-    const dow = new Date(d + 'T12:00:00').getDay();
-    return h.diasAtivos.includes(dow);
-  });
-}
 function calcPctHabito(h, days) {
   const diasValidos = getHabDiasAtivos(h, days);
   const freqAlvo = Math.min(h.freqAlvo || 7, diasValidos.length || 1);
@@ -3032,7 +3152,7 @@ function renderHabitos() {
     return;
   }
 
-  list.innerHTML = S.habitos.map(h => {
+  const _habCards = S.habitos.map(h => {
     const regs = h.registros || {};
     const { feito, alvo, pct: habPct } = calcPctHabito(h, week);
     const diasAtivosSet = h.diasAtivos ? new Set(h.diasAtivos) : null;
@@ -3073,7 +3193,8 @@ function renderHabitos() {
         <div class="habito-stat">${feito}/${alvo} <span style="font-size:9px;color:${habPct>=100?'var(--green)':habPct>=50?'var(--acc)':'var(--red)'}">${habPct}%</span></div>
       </div>
     </div>`;
-  }).join('');
+  });
+  list.innerHTML = S.habitos.length === 0 ? '' : rsecWrap(_habCards, 'habitos');
 }
 
 function cycleHabitoDay(id, date) {
@@ -3168,6 +3289,73 @@ function saveEditHabito() {
   persist(); closeM('mbg-edit-habito'); renderHabitos();
 }
 
+/* ── Vincular accordion picker ──────────────────────────────── */
+const _vpCallbacks = {};
+let _addHabVinculos = [];
+
+function buildVincularPicker(containerId, onSelectFn) {
+  _vpCallbacks[containerId] = onSelectFn;
+  const container = document.getElementById(containerId);
+  if (!container) return;
+  const tipos = [
+    {key:'frentes',    label:'Ação'},
+    {key:'ciclos',     label:'Trimestre'},
+    {key:'horizontes', label:'Longo Prazo'},
+    {key:'pilares',    label:'Área de foco'},
+  ];
+  let out = '';
+  tipos.forEach(t => {
+    const items = (S[t.key]||[]).filter(x => !x.status||x.status==='ativo');
+    if (!items.length) return;
+    const catId = `${containerId}__${t.key}`;
+    out += `<div class="vp-cat" onclick="toggleVpCat('${catId}')">
+      <span class="vp-arrow" id="vpa-${catId}">▸</span>
+      <span class="vp-cat-label">${t.label}</span>
+      <span class="badge">${items.length}</span>
+    </div>
+    <div class="vp-items" id="${catId}" style="display:none">
+      ${items.map(it => `<div class="vp-item" onclick="selectVpItem('${containerId}','${it.id}','${t.key}')">${esc((it.nome||it.texto||'').slice(0,48))}</div>`).join('')}
+    </div>`;
+  });
+  container.innerHTML = out || '<div style="padding:8px 11px;font-size:11px;color:var(--t3);font-family:Georgia,serif">Nenhum item disponível.</div>';
+}
+
+function toggleVpCat(catId) {
+  const body = document.getElementById(catId);
+  const arrow = document.getElementById('vpa-' + catId);
+  if (!body) return;
+  const open = body.style.display !== 'none';
+  body.style.display = open ? 'none' : 'block';
+  if (arrow) arrow.textContent = open ? '▸' : '▾';
+}
+
+function selectVpItem(containerId, itemId, tipo) {
+  if (_vpCallbacks[containerId]) _vpCallbacks[containerId](itemId, tipo);
+}
+
+function renderVinculosChips(ids, chipsContainerId, removeFn) {
+  const container = document.getElementById(chipsContainerId);
+  if (!container) return;
+  if (!ids || ids.length === 0) {
+    container.innerHTML = '<span style="font-size:11px;color:var(--t3);font-family:Georgia,serif">Nenhum vínculo ainda</span>';
+    return;
+  }
+  const labels = {frentes:'Ação',ciclos:'Trimestre',horizontes:'L.Prazo',pilares:'Área'};
+  container.innerHTML = ids.map(id => {
+    const lbl = getPrediLabel(id);
+    if (!lbl) return '';
+    return `<span class="chip">${labels[lbl.tipo]||lbl.tipo}: ${esc((lbl.nome||'').slice(0,22))}<span class="chip-x" onclick="${removeFn}('${id}')">×</span></span>`;
+  }).join('');
+}
+
+function populatePilarSelect(selId) {
+  const sel = document.getElementById(selId);
+  if (!sel) return;
+  const ativos = (S.pilares||[]).filter(x => !x.status||x.status==='ativo');
+  sel.innerHTML = '<option value="">Sem vínculo</option>' +
+    ativos.map(p => `<option value="${p.id}">${esc(p.texto||p.nome||'')}</option>`).join('');
+}
+
 function openM_addHabito() {
   _addHabVinculos = [];
   renderVinculosChips([], 'add-hab-vinculos-chips', 'removeAddHabVinculo');
@@ -3229,7 +3417,7 @@ function saveHabito() {
   const freqAlvo = diasAtivos ? diasAtivos.length : 7;
   const vinculoId = _addHabVinculos[0] || null;
   S.habitos.push({ id: uid(), nome, vinculoId, vinculoIds: [..._addHabVinculos], registros: {}, freqAlvo, diasAtivos });
-  persist(); closeM('mbg-add-habito'); renderHabitos();
+  persist(); closeM('mbg-add-habito'); renderHabitos(); _updateRotinaTabCounts(); renderRotinaStrip();
 }
 
 /* ═══════════════════════════════════════════════════════════
@@ -3654,29 +3842,83 @@ function updateDropIndicator(colEl, clientY) {
   }
 }
 
+let _touchDragId=null,_touchDragEl=null,_touchGhost=null,_touchLongTimer=null;
+
 function initKanbanDrop() {
   document.querySelectorAll('.k-col[data-col]').forEach(colEl => {
     const contentEl = colEl.querySelector('[id^="col-"]');
     colEl.addEventListener('dragover', e => {
-      e.preventDefault();
-      colEl.classList.add('drag-over');
+      e.preventDefault(); colEl.classList.add('drag-over');
       if (contentEl) updateDropIndicator(contentEl, e.clientY);
     });
     colEl.addEventListener('dragleave', e => {
       if (!colEl.contains(e.relatedTarget)) {
         colEl.classList.remove('drag-over');
-        if (contentEl) contentEl.querySelectorAll('.k-drop-indicator').forEach(el => el.remove());
+        if (contentEl) contentEl.querySelectorAll('.k-drop-indicator').forEach(el=>el.remove());
       }
     });
     colEl.addEventListener('drop', e => {
-      e.preventDefault();
-      colEl.classList.remove('drag-over');
+      e.preventDefault(); colEl.classList.remove('drag-over');
       if (!contentEl) return;
       const dropIdx = getDropIndex(contentEl, e.clientY);
-      contentEl.querySelectorAll('.k-drop-indicator').forEach(el => el.remove());
+      contentEl.querySelectorAll('.k-drop-indicator').forEach(el=>el.remove());
       if (dragTaskId) moveTaskTo(dragTaskId, colEl.dataset.col, dropIdx);
     });
   });
+  // Touch: long-press on handle activates drag
+  document.addEventListener('touchstart', e => {
+    const handle = e.target.closest('.k-drag-handle');
+    if (!handle) return;
+    const card = handle.closest('.k-card'); if (!card) return;
+    _touchLongTimer = setTimeout(() => {
+      _touchDragId = card.dataset.id; _touchDragEl = card;
+      card.classList.add('touch-dragging');
+      _touchGhost = card.cloneNode(true);
+      Object.assign(_touchGhost.style, {
+        position:'fixed',zIndex:'999',opacity:'.88',pointerEvents:'none',
+        width:card.offsetWidth+'px',transform:'rotate(2deg) scale(1.03)',
+        boxShadow:'0 10px 30px rgba(0,0,0,.5)',borderRadius:'8px'
+      });
+      document.body.appendChild(_touchGhost);
+      const t=e.touches[0];
+      _touchGhost.style.left=(t.clientX-card.offsetWidth/2)+'px';
+      _touchGhost.style.top=(t.clientY-36)+'px';
+      if(navigator.vibrate) navigator.vibrate(40);
+    }, 320);
+  }, {passive:false});
+
+  document.addEventListener('touchmove', e => {
+    clearTimeout(_touchLongTimer);
+    if (!_touchDragId) return;
+    e.preventDefault();
+    const t=e.touches[0];
+    if(_touchGhost){
+      _touchGhost.style.left=(t.clientX-(_touchDragEl?_touchDragEl.offsetWidth/2:60))+'px';
+      _touchGhost.style.top=(t.clientY-36)+'px';
+    }
+    document.querySelectorAll('.k-col').forEach(c=>c.classList.remove('drag-over'));
+    const over=document.elementFromPoint(t.clientX,t.clientY);
+    const col=over&&over.closest('.k-col[data-col]');
+    if(col) col.classList.add('drag-over');
+  }, {passive:false});
+
+  document.addEventListener('touchend', e => {
+    clearTimeout(_touchLongTimer);
+    if(!_touchDragId){ return; }
+    const t=e.changedTouches[0];
+    if(_touchGhost){_touchGhost.remove();_touchGhost=null;}
+    if(_touchDragEl){_touchDragEl.classList.remove('touch-dragging');_touchDragEl=null;}
+    document.querySelectorAll('.k-col').forEach(c=>c.classList.remove('drag-over'));
+    const over=document.elementFromPoint(t.clientX,t.clientY);
+    const col=over&&over.closest('.k-col[data-col]');
+    if(col&&col.dataset.col){
+      const contentEl=col.querySelector('[id^="col-"]');
+      const dropIdx=contentEl?getDropIndex(contentEl,t.clientY):0;
+      moveTaskTo(_touchDragId,col.dataset.col,dropIdx);
+      if(navigator.vibrate) navigator.vibrate(20);
+    }
+    _touchDragId=null;
+  }, {passive:false});
 }
 
 function renderKanban() {
@@ -3776,6 +4018,35 @@ const PREDI_PLACEHOLDERS = {
   horizontes: 'Ex: Fazer meu negócio gerar renda suficiente até 2030',
   pilares:    'Ex: Meus Negócios, Minha Saúde, Meus Estudos'
 };
+
+/* ── Sidebar collapse ───────────────────────────────────────── */
+function initSidebar() {
+  if (window.innerWidth < 1024) return;
+  const nav = document.getElementById('sidebar');
+  if (!nav) return;
+  const saved = localStorage.getItem('canteiro_sidebar');
+  if (saved === '1') nav.classList.add('collapsed');
+}
+
+/* ── Floor preview (live list) ───────────────────────────── */
+function renderFloorPreviews() {
+  const tipos = ['frentes','ciclos','horizontes','pilares'];
+  tipos.forEach(tipo => {
+    const el = document.getElementById('preview-' + tipo);
+    if (!el) return;
+    const items = (S[tipo] || []).filter(x => !x.status || x.status === 'ativo');
+    if (items.length === 0) { el.innerHTML = ''; return; }
+    el.innerHTML = items.slice(0, 5).map(it =>
+      `<span class="floor-preview-item">${esc(it.nome || it.texto || '')}</span>`
+    ).join('') + (items.length > 5 ? `<span style="color:var(--t3)"> +${items.length - 5} mais</span>` : '');
+  });
+}
+
+/* ── Hábito dias ativos helper ───────────────────────────── */
+function getHabDiasAtivos(h, days) {
+  if (!h.diasAtivos) return days;
+  return days.filter(d => h.diasAtivos.includes(new Date(d + 'T12:00:00').getDay()));
+}
 
 function renderPredio() {
   const m = document.getElementById('inp-missao');
@@ -4236,7 +4507,7 @@ function renderVicios() {
     return;
   }
 
-  list.innerHTML = S.vicios.map(v => {
+  const _vicCards = S.vicios.map(v => {
     const regs = v.registros || {};
     const streak = calcVicioStreak(regs);
     const diasAtivosSet = v.diasAtivos ? new Set(v.diasAtivos) : null;
@@ -4272,7 +4543,8 @@ function renderVicios() {
       </div>
       <div style="font-size:10px;color:var(--t3);font-family:Georgia,serif;margin-top:4px">${diasLabel} · clique no dia para registrar</div>
     </div>`;
-  }).join('');
+  });
+  list.innerHTML = S.vicios.length === 0 ? '<div class="empty">Nenhum vício rastreado.<br>Adicione comportamentos a eliminar.</div>' : rsecWrap(_vicCards, 'vicios');
 }
 
 function markVicioResistiu(id) {
@@ -4408,6 +4680,18 @@ function switchHistTab(tab) {
     if (el) el.classList.toggle('active', t === tab);
   });
   renderHistory();
+}
+
+function buildHeatmap(habitos) {
+  const hoje = new Date();
+  return Array.from({length:365},(_,i)=>{
+    const d=new Date(hoje); d.setDate(hoje.getDate()-364+i);
+    const ds=d.toLocaleDateString('sv');
+    const tot=Math.max(1,habitos.filter(h=>!h.arquivado).length);
+    const f=habitos.filter(h=>(h.registros||{})[ds]==='feito').length;
+    const lvl=f===0?0:f/tot<.25?1:f/tot<.5?2:f/tot<.75?3:4;
+    return `<div class="heatmap-cell l${lvl}" title="${ds}: ${f}/${tot}"></div>`;
+  }).join('');
 }
 
 function renderHistory() {
@@ -5257,669 +5541,7 @@ function initKeyboardShortcuts() {
   });
 }
 
-/* ══════════════════════════════════════════════════════════════
-   DASHBOARD — sidebar quick stats (called from renderDash)
-══════════════════════════════════════════════════════════════ */
-function renderDashSidebarStats() {
-  const el = document.getElementById('dash-sidebar-stats');
-  if (!el || window.innerWidth < 1024) return;
-
-  const t = today();
-  const habAtivos = (S.habitos || []);
-  const habFeitos = habAtivos.filter(h => (h.registros||{})[t] === 'feito').length;
-  const viciosOk  = (S.vicios  || []).filter(v => (v.registros||{})[t] === 'resistiu').length;
-  const tasksDoing = (S.tarefas||[]).filter(x => x.coluna === 'fazendo').length;
-  const tasksAfazer = (S.tarefas||[]).filter(x => x.coluna === 'afazer').length;
-  const acAtrasadas = (S.frentes||[]).filter(f => f.prazo && f.prazo < t).length;
-
-  const score = habAtivos.length > 0 ? Math.round(habFeitos / habAtivos.length * 100) : 0;
-  const scoreColor = score >= 80 ? 'var(--green)' : score >= 50 ? 'var(--acc)' : 'var(--red)';
-
-  const sessHoje = _ftSessions.filter(s => s.ts === t);
-  const minsHoje = sessHoje.reduce((a, s) => a + s.mins, 0);
-
-  el.innerHTML = `
-    <div style="padding:0 0 12px">
-      <div class="dash-sec-hdr" style="margin-bottom:10px">Hoje · ${fmtDate(t)}</div>
-
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:14px">
-        <div class="kpi-card" style="--kpi-color:${scoreColor};padding:10px 8px">
-          <div class="kpi-val" style="font-size:20px">${habFeitos}/${habAtivos.length}</div>
-          <div class="kpi-lbl">Hábitos hoje</div>
-        </div>
-        <div class="kpi-card ${viciosOk === (S.vicios||[]).length && (S.vicios||[]).length>0 ? 'green':'gold'}" style="padding:10px 8px">
-          <div class="kpi-val" style="font-size:20px">${viciosOk}/${(S.vicios||[]).length}</div>
-          <div class="kpi-lbl">Vícios ok</div>
-        </div>
-        <div class="kpi-card blue" style="padding:10px 8px">
-          <div class="kpi-val" style="font-size:20px">${tasksDoing}</div>
-          <div class="kpi-lbl">Em andamento</div>
-        </div>
-        <div class="kpi-card ${acAtrasadas>0?'red':'green'}" style="padding:10px 8px">
-          <div class="kpi-val" style="font-size:20px">${acAtrasadas}</div>
-          <div class="kpi-lbl">Em atraso</div>
-        </div>
-      </div>
-
-      ${minsHoje > 0 ? `
-      <div style="padding:8px 0;border-top:1px solid var(--b1)">
-        <div style="font-size:10px;color:var(--t3);letter-spacing:.8px;text-transform:uppercase;font-family:Georgia,serif;margin-bottom:4px">Foco hoje</div>
-        <div style="font-size:18px;font-weight:bold;color:var(--green)">${minsHoje}min</div>
-        <div style="font-size:10px;color:var(--t3);font-family:Georgia,serif">${sessHoje.length} sessão${sessHoje.length>1?'ões':''}</div>
-      </div>` : `
-      <div style="padding:8px 0;border-top:1px solid var(--b1);font-size:11px;color:var(--t3);font-family:Georgia,serif">
-        Nenhuma sessão de foco hoje.<br>
-        <span style="color:var(--t3);font-size:10px">Pressione <kbd style="background:var(--s2);border:1px solid var(--b2);border-radius:3px;padding:1px 4px;font-size:9px">F</kbd> para iniciar</span>
-      </div>`}
-
-      ${tasksAfazer > 0 ? `
-      <div style="margin-top:12px;padding-top:10px;border-top:1px solid var(--b1)">
-        <div style="font-size:10px;color:var(--t3);letter-spacing:.8px;text-transform:uppercase;font-family:Georgia,serif;margin-bottom:6px">Fila de tarefas</div>
-        ${(S.tarefas||[]).filter(x=>x.coluna==='afazer').slice(0,4).map(t=>
-          `<div style="font-size:12px;color:var(--t2);padding:3px 0;border-bottom:1px solid var(--b1);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">· ${esc(t.texto||'')}</div>`
-        ).join('')}
-        ${tasksAfazer > 4 ? `<div style="font-size:10px;color:var(--t3);margin-top:4px;font-family:Georgia,serif">+${tasksAfazer-4} mais</div>` : ''}
-      </div>` : ''}
-    </div>
-  `;
-}
-
-function toggleSidebar() {
-  const nav = document.getElementById('sidebar');
-  if (!nav) return;
-  const collapsed = nav.classList.toggle('collapsed');
-  localStorage.setItem('canteiro_sidebar', collapsed ? '1' : '0');
-  // Re-apply layout to show/hide timer
-  const isDesktop = window.innerWidth >= 1024;
-  const timer = document.getElementById('focus-timer-widget');
-  const kbdBtn = document.getElementById('kbd-hint-widget');
-  if (timer) timer.style.display = (isDesktop && !collapsed) ? 'block' : 'none';
-  if (kbdBtn) kbdBtn.style.display = (isDesktop && !collapsed) ? 'flex' : 'none';
-  // close panel if collapsing
-  if (collapsed) { const p = document.getElementById('kbd-hint-panel'); if (p) p.classList.remove('open'); }
-}
-
-function initSidebar() {
-  if (window.innerWidth < 1024) return;
-  const nav = document.getElementById('sidebar');
-  if (!nav) return;
-  const saved = localStorage.getItem('canteiro_sidebar');
-  if (saved === '1') nav.classList.add('collapsed');
-}
-
-/* ── Vincular accordion picker ──────────────────────────────── */
-const _vpCallbacks = {};
-let _addHabVinculos = [];
-
-function buildVincularPicker(containerId, onSelectFn) {
-  _vpCallbacks[containerId] = onSelectFn;
-  const container = document.getElementById(containerId);
-  if (!container) return;
-  const tipos = [
-    {key:'frentes',    label:'Ação'},
-    {key:'ciclos',     label:'Trimestre'},
-    {key:'horizontes', label:'Longo Prazo'},
-    {key:'pilares',    label:'Área de foco'},
-  ];
-  let html = '';
-  tipos.forEach(t => {
-    const items = (S[t.key]||[]).filter(x => !x.status||x.status==='ativo');
-    if (!items.length) return;
-    const catId = `${containerId}__${t.key}`;
-    html += `<div class="vp-cat" onclick="toggleVpCat('${catId}')">
-      <span class="vp-arrow" id="vpa-${catId}">▸</span>
-      <span class="vp-cat-label">${t.label}</span>
-      <span class="badge">${items.length}</span>
-    </div>
-    <div class="vp-items" id="${catId}" style="display:none">
-      ${items.map(it => `<div class="vp-item" onclick="selectVpItem('${containerId}','${it.id}','${t.key}')">${esc(it.nome||it.texto||'').slice(0,48)}</div>`).join('')}
-    </div>`;
-  });
-  container.innerHTML = html || '<div style="padding:8px 11px;font-size:11px;color:var(--t3);font-family:Georgia,serif">Nenhum item disponível.</div>';
-}
-
-function toggleVpCat(catId) {
-  const body = document.getElementById(catId);
-  const arrow = document.getElementById('vpa-' + catId);
-  if (!body) return;
-  const open = body.style.display !== 'none';
-  body.style.display = open ? 'none' : 'block';
-  if (arrow) arrow.textContent = open ? '▸' : '▾';
-}
-
-function selectVpItem(containerId, itemId, tipo) {
-  if (_vpCallbacks[containerId]) _vpCallbacks[containerId](itemId, tipo);
-}
-
-function renderVinculosChips(ids, chipsContainerId, removeFn) {
-  const container = document.getElementById(chipsContainerId);
-  if (!container) return;
-  if (!ids || ids.length === 0) {
-    container.innerHTML = '<span style="font-size:11px;color:var(--t3);font-family:Georgia,serif">Nenhum vínculo ainda</span>';
-    return;
-  }
-  const labels = {frentes:'Ação',ciclos:'Trimestre',horizontes:'L.Prazo',pilares:'Área'};
-  container.innerHTML = ids.map(id => {
-    const lbl = getPrediLabel(id);
-    if (!lbl) return '';
-    return `<span class="chip">${labels[lbl.tipo]||lbl.tipo}: ${esc((lbl.nome||'').slice(0,22))}<span class="chip-x" onclick="${removeFn}('${id}')">×</span></span>`;
-  }).join('');
-}
-
-function populatePilarSelect(selId) {
-  const sel = document.getElementById(selId);
-  if (!sel) return;
-  const ativos = (S.pilares||[]).filter(x => !x.status||x.status==='ativo');
-  sel.innerHTML = '<option value="">Sem vínculo</option>' +
-    ativos.map(p => `<option value="${p.id}">${esc(p.texto||p.nome||'')}</option>`).join('');
-}
-
-/* ── Contratos overlay ──────────────────────────────────────── */
-let _prevPredioTab = 'frentes';
-
-function toggleContratos(btn) {
-  const fl = document.getElementById('fl-contratos');
-  if (!fl) return;
-  const isOpen = fl.style.display !== 'none';
-  if (isOpen) {
-    closeContratos();
-  } else {
-    _prevPredioTab = localStorage.getItem('canteiro_predio_tab') || 'frentes';
-    ['frentes','ciclos','horizontes','pilares','fundacao'].forEach(f => {
-      const el = document.getElementById('fl-' + f);
-      if (el) el.classList.remove('predio-active');
-    });
-    fl.classList.add('predio-active');
-    btn.classList.add('active');
-    const backBtn = document.getElementById('contratos-back-btn');
-    if (backBtn) backBtn.style.display = 'inline-block';
-    document.querySelector('.predio-nav').style.opacity = '.35';
-  }
-}
-
-function closeContratos() {
-  const fl = document.getElementById('fl-contratos');
-  if (fl) fl.classList.remove('predio-active');
-  const btn = document.getElementById('contratos-float-btn');
-  if (btn) btn.classList.remove('active');
-  const backBtn = document.getElementById('contratos-back-btn');
-  if (backBtn) backBtn.style.display = 'none';
-  document.querySelector('.predio-nav').style.opacity = '';
-  const prevBtn = document.querySelector(`.predio-nav-tab[onclick*="'${_prevPredioTab}'"]`);
-  setPredioTab(_prevPredioTab, prevBtn);
-}
-
-/* ── Notes per item ─────────────────────────────────────────── */
-function toggleNota(id, e) {
-  e.stopPropagation();
-  const body = document.getElementById('pi-nota-' + id);
-  if (!body) return;
-  const isOpen = body.style.display !== 'none';
-  body.style.display = isOpen ? 'none' : 'block';
-  if (!isOpen) body.querySelector('textarea').focus();
-}
-
-function saveNota(tipo, id, texto) {
-  const item = S[tipo] && S[tipo].find(x => x.id === id);
-  if (!item) return;
-  item.notas = texto.trim();
-  debSave();
-  // Update toggle button style
-  const btn = document.querySelector(`[onclick*="toggleNota('${id}'"]`);
-  if (btn) btn.classList.toggle('has-nota', !!item.notas);
-}
-
-/* ── Propósito Diary ────────────────────────────────────────── */
-function toggleDiario() {
-  const body = document.getElementById('diario-body');
-  if (!body) return;
-  const isOpen = body.style.display !== 'none';
-  body.style.display = isOpen ? 'none' : 'block';
-  if (!isOpen) {
-    // Set default filter to current month
-    const mf = document.getElementById('diario-filter-month');
-    if (mf && !mf.value) {
-      const now = new Date();
-      mf.value = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}`;
-    }
-    renderDiario();
-  }
-}
-
-function addDiario() {
-  const el = document.getElementById('inp-diario');
-  const txt = el.value.trim(); if (!txt) return el.focus();
-  if (!S.fundacao.diario) S.fundacao.diario = [];
-  S.fundacao.diario.unshift({ id: uid(), data: today(), texto: txt });
-  el.value = '';
-  persist(); renderDiario();
-}
-
-function renderDiario() {
-  if (!S.fundacao.diario) S.fundacao.diario = [];
-  const cnt = document.getElementById('diario-cnt');
-  const n = S.fundacao.diario.length;
-  if (cnt) cnt.textContent = n > 0 ? `(${n})` : '';
-  const list = document.getElementById('list-diario');
-  if (!list) return;
-
-  const mf = document.getElementById('diario-filter-month');
-  const filtroMes = mf ? mf.value : '';
-  const entries = filtroMes
-    ? S.fundacao.diario.filter(e => e.data && e.data.startsWith(filtroMes))
-    : S.fundacao.diario;
-
-  if (n === 0) {
-    list.innerHTML = '<div style="font-size:11px;color:var(--t3);font-family:Georgia,serif;padding:4px 0;margin-bottom:8px">Nenhum registro ainda.</div>';
-    return;
-  }
-  if (entries.length === 0) {
-    list.innerHTML = '<div style="font-size:11px;color:var(--t3);font-family:Georgia,serif;padding:4px 0;margin-bottom:8px">Nenhum registro neste período.</div>';
-    return;
-  }
-  list.innerHTML = entries.map(e =>
-    `<div class="diario-entry">
-      <div class="diario-entry-date">
-        <button class="diario-del" onclick="removeDiario('${e.id}')">×</button>
-        ${fmtDate(e.data)}
-      </div>
-      <div>${esc(e.texto)}</div>
-    </div>`
-  ).join('');
-}
-
-function removeDiario(id) {
-  showConfirm('Remover esta entrada do diário?', () => {
-    S.fundacao.diario = (S.fundacao.diario || []).filter(e => e.id !== id);
-    persist(); renderDiario();
-  });
-}
-
-/* ── Horizonte linking from ciclos ──────────────────────────── */
-let _pendingLinkHistId = null;
-
-function offerLinkHorizonte(histId, nomeCiclo) {
-  _pendingLinkHistId = histId;
-  const horizs = (S.horizontes || []).filter(x => !x.status || x.status === 'ativo');
-  if (horizs.length === 0) return;
-  const sel = document.getElementById('link-horizonte-sel');
-  if (!sel) return;
-  sel.innerHTML = '<option value="">— Nenhum —</option>' +
-    horizs.map(h => `<option value="${h.id}">${esc(h.nome||'')}</option>`).join('');
-  document.getElementById('link-horizonte-nome').textContent = nomeCiclo.slice(0, 40);
-  openM('mbg-link-horizonte');
-}
-
-function confirmLinkHorizonte() {
-  const sel = document.getElementById('link-horizonte-sel');
-  if (!sel || !_pendingLinkHistId) return closeM('mbg-link-horizonte');
-  const horizonteId = sel.value;
-  if (horizonteId) {
-    const entry = (S.historico || []).find(h => h.id === _pendingLinkHistId);
-    if (entry) { entry.horizonteVinculo = horizonteId; persist(); renderPredio(); }
-  }
-  _pendingLinkHistId = null;
-  closeM('mbg-link-horizonte');
-}
-
-/* ── Tab-specific insights ──────────────────────────────────── */
-
-function renderFloorPreviews() {
-  const tipos = ['frentes','ciclos','horizontes','pilares'];
-  tipos.forEach(tipo => {
-    const el = document.getElementById('preview-' + tipo);
-    if (!el) return;
-    const items = (S[tipo] || []).filter(x => !x.status || x.status === 'ativo');
-    if (items.length === 0) { el.innerHTML = ''; return; }
-    el.innerHTML = items.slice(0, 5).map(it =>
-      `<span class="floor-preview-item">${esc(it.nome || it.texto || '')}</span>`
-    ).join('') + (items.length > 5 ? `<span style="color:var(--t3)"> +${items.length - 5} mais</span>` : '');
-  });
-}
-
-function renderAll() {
-  renderHabitos();
-  renderPorao();
-  renderCaderno();
-  renderPredio();
-}
-
-/* ═══════════════════════════════════════════════════════════
-   DASHBOARD
-═══════════════════════════════════════════════════════════ */
 let dashPeriod = 'month';
-
-function setDashPeriod(p, el) {
-  dashPeriod = p;
-  document.querySelectorAll('.df-p').forEach(b => b.classList.remove('active'));
-  el.classList.add('active');
-  document.getElementById('dash-custom-range').style.display = p === 'custom' ? 'flex' : 'none';
-  renderDash();
-}
-
-function getDashDates() {
-  const t = today();
-  const now = new Date();
-  if (dashPeriod === 'week') {
-    const days = getWeekDays();
-    return { from: days[0], to: days[6], label: 'Esta semana' };
-  }
-  if (dashPeriod === 'month') {
-    const f = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-01`;
-    return { from: f, to: t, label: monthName(now.getMonth()) + ' ' + now.getFullYear() };
-  }
-  if (dashPeriod === 'quarter') {
-    const d = new Date(now); d.setMonth(d.getMonth() - 2); d.setDate(1);
-    return { from: d.toISOString().slice(0,10), to: t, label: 'Últimos 3 meses' };
-  }
-  if (dashPeriod === 'year') {
-    return { from: `${now.getFullYear()}-01-01`, to: t, label: 'Ano ' + now.getFullYear() };
-  }
-  if (dashPeriod === 'custom') {
-    const f = document.getElementById('dash-date-from').value;
-    const to = document.getElementById('dash-date-to').value;
-    if (f && to) return { from: f, to: to, label: fmtDate(f) + ' → ' + fmtDate(to) };
-    return { from: t, to: t, label: 'Selecione as datas' };
-  }
-  return { from: t, to: t, label: '' };
-}
-
-function getDayRange(from, to) {
-  const days = [], d = new Date(from + 'T00:00:00');
-  const end = new Date(to + 'T00:00:00');
-  while (d <= end) { days.push(d.toISOString().slice(0,10)); d.setDate(d.getDate()+1); }
-  return days;
-}
-
-function monthName(m) {
-  return ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'][m];
-}
-
-function renderDash() {
-  const { from, to, label } = getDashDates();
-  const days = getDayRange(from, to);
-  document.getElementById('dash-period-label').textContent = label + ' · ' + days.length + ' dias';
-
-  const habAtivos = S.habitos || [];
-  const habArq    = S.habitosArquivados || [];
-  const habTodos  = [...habAtivos, ...habArq].filter(h => days.some(d => (h.registros||{})[d]));
-  const vicios    = S.vicios || [];
-  const hist      = S.historico || [];
-
-  let html = '';
-
-  // ── KPIs HÁBITOS ──────────────────────────────────────────────
-  if (habTodos.length > 0) {
-    // Usa freqAlvo: conta slots reais (dias ativos × freqAlvo proporcional ao período)
-    let totFeito=0, totAlvo=0, totP=0;
-    habTodos.forEach(h => {
-      const regs = h.registros||{};
-      // Filtra dias do período que são dias válidos para este hábito
-      const diasValidos = getHabDiasAtivos(h, days);
-      const freqAlvo = Math.min(h.freqAlvo||7, diasValidos.length||1);
-      // Proporcional: freqAlvo é por semana, calcula quantas semanas há no período
-      const semanas = diasValidos.length / 7;
-      const alvoNoPeriodo = Math.round(freqAlvo * semanas) || diasValidos.length;
-      totFeito += diasValidos.filter(d => regs[d]==='feito').length;
-      totAlvo  += alvoNoPeriodo;
-      totP     += days.filter(d => regs[d]==='parcial').length;
-    });
-    const pctG = totAlvo ? Math.min(100, Math.round(totFeito/totAlvo*100)) : 0;
-    const kClass = pctG>=80?'green':pctG>=50?'gold':'red';
-
-    // Melhor e pior hábito usando calcPctHabito
-    let best={nome:'—',sc:-1}, worst={nome:'—',sc:101};
-    habTodos.forEach(h=>{
-      const { pct } = calcPctHabito(h, days);
-      if(pct>best.sc){best={nome:h.nome,sc:pct};}
-      if(pct<worst.sc){worst={nome:h.nome,sc:pct};}
-    });
-
-    html += `<div class="dash-kpis">
-      <div class="kpi-card ${kClass}">
-        <div class="kpi-val">${pctG}%</div>
-        <div class="kpi-lbl">Cumprimento geral</div>
-        <div class="kpi-sub">${totFeito} de ${totAlvo} slots</div>
-      </div>
-      <div class="kpi-card green">
-        <div class="kpi-val">${habTodos.length}</div>
-        <div class="kpi-lbl">Hábitos ativos</div>
-        <div class="kpi-sub">${totP} dias parciais</div>
-      </div>
-      <div class="kpi-card gold">
-        <div class="kpi-val" style="font-size:14px;padding-top:3px">🏆 ${esc(best.nome.slice(0,16))}</div>
-        <div class="kpi-lbl">Melhor hábito</div>
-        <div class="kpi-sub">${best.sc}% de cumprimento</div>
-      </div>
-      <div class="kpi-card red">
-        <div class="kpi-val" style="font-size:14px;padding-top:3px">⚠ ${esc(worst.nome.slice(0,14))}</div>
-        <div class="kpi-lbl">Mais atenção</div>
-        <div class="kpi-sub">${worst.sc}% de cumprimento</div>
-      </div>
-    </div>`;
-
-    // ── BARRAS DE PROGRESSO POR HÁBITO ──────────────────────────
-    html += `<div class="dash-sec">
-      <div class="dash-sec-hdr">Hábitos <span>${days.length} dias</span></div>`;
-
-    habTodos.forEach(h => {
-      const regs = h.registros||{};
-      const diasValidos = getHabDiasAtivos(h, days);
-      const semanas = diasValidos.length / 7;
-      const alvo = Math.round(Math.min(h.freqAlvo||7, diasValidos.length) * semanas) || diasValidos.length;
-      const f  = diasValidos.filter(d=>regs[d]==='feito').length;
-      const p  = days.filter(d=>regs[d]==='parcial').length;
-      const fa = days.filter(d=>regs[d]==='faltou').length;
-      const pctF = alvo ? Math.min(1, f/alvo) : 0;
-      const pctP = days.length ? p/days.length : 0;
-      const pctFa = days.length ? fa/days.length : 0;
-      const cls = pctF>=0.8?'green':pctF>=0.5?'amber':'red';
-      const ids = h.vinculoIds || (h.vinculoId ? [h.vinculoId] : []);
-      const vLinks = ids.map(id => {
-        for (const t of ['frentes','ciclos','horizontes','pilares']) {
-          const it = (S[t]||[]).find(x=>x.id===id);
-          if (it) return (it.nome||it.texto||'').slice(0,18);
-        }
-        return null;
-      }).filter(Boolean);
-      const freqInfo = h.freqAlvo && h.freqAlvo < 7 ? ` · meta ${h.freqAlvo}x/sem` : '';
-      const vinculoLine = vLinks.length ? `<div style="font-size:10px;color:var(--t3);margin-top:3px;font-family:Georgia,serif">↳ ${vLinks.join(' · ')}</div>` : '';
-
-      html += `<div class="prog-row">
-        <div class="prog-name">
-          <span>${esc(h.nome)}<span style="font-size:9px;color:var(--t3)">${freqInfo}</span></span>
-          <span class="prog-name-pct">${f}/${alvo} (${Math.round(pctF*100)}%)</span>
-        </div>
-        ${vinculoLine}
-        <div class="prog-track">
-          <div class="prog-fill ${cls}" style="width:${Math.round(pctF*100)}%"></div>
-          <div class="prog-fill amber" style="width:${Math.round(pctP*100)}%"></div>
-          <div class="prog-fill red" style="width:${Math.round(pctFa*100)}%"></div>
-        </div>
-      </div>`;
-    });
-    html += `</div>`;
-
-    // ── PADRÃO POR DIA DA SEMANA ──────────────────────────────────
-    const DN = ['Seg','Ter','Qua','Qui','Sex','Sáb','Dom'];
-    const dayBkts = Array.from({length:7},()=>[]);
-    days.forEach(d => {
-      const dow = new Date(d+'T12:00:00').getDay();
-      dayBkts[dow===0?6:dow-1].push(d);
-    });
-
-    html += `<div class="dash-sec">
-      <div class="dash-sec-hdr">Padrão por dia da semana</div>
-      <div class="bar-chart">`;
-
-    dayBkts.forEach((bk, di) => {
-      let f=0,p=0,fa=0;
-      habTodos.forEach(h=>{
-        const regs=h.registros||{};
-        f+=bk.filter(d=>regs[d]==='feito').length;
-        p+=bk.filter(d=>regs[d]==='parcial').length;
-        fa+=bk.filter(d=>regs[d]==='faltou').length;
-      });
-      const tot=bk.length*habTodos.length||1;
-      const pF=Math.round(f/tot*100), pP=Math.round(p/tot*100), pFa=Math.round(fa/tot*100);
-      const hasData = f+p+fa > 0;
-      html += `<div class="bar-row">
-        <span class="bar-day">${DN[di]}</span>
-        <div class="bar-track" style="${!hasData?'background:transparent;border:1px dashed var(--b1)':''}">
-          ${hasData ? `
-          <div class="bar-seg g" style="width:${pF}%"></div>
-          <div class="bar-seg a" style="width:${pP}%"></div>
-          <div class="bar-seg r" style="width:${pFa}%"></div>` : ''}
-        </div>
-        <span class="bar-pct" style="${!hasData?'color:var(--b2)':''}">${hasData?pF+'%':'—'}</span>
-      </div>`;
-    });
-    html += `</div></div>`;
-
-    // ── HEATMAP (só se período <= 90 dias) ───────────────────────
-    if (days.length <= 92 && habTodos.length === 1) {
-      const h = habTodos[0];
-      const regs = h.registros||{};
-      // Mostra calendário do período
-      const firstDay = new Date(from+'T12:00:00').getDay();
-      const offset = firstDay===0?6:firstDay-1;
-      html += `<div class="dash-sec">
-        <div class="dash-sec-hdr">Calendário — ${esc(h.nome)}</div>
-        <div class="cal-grid">
-          ${['S','T','Q','Q','S','S','D'].map(d=>`<div class="cal-day-hdr">${d}</div>`).join('')}
-          ${Array(offset).fill('<div class="cal-day empty"></div>').join('')}
-          ${days.map(d=>{
-            const est=regs[d]||'';
-            const n=parseInt(d.slice(8));
-            const isT=d===today();
-            return `<div class="cal-day ${est||''}${isT?' today':''}" title="${d}">${n}</div>`;
-          }).join('')}
-        </div>
-      </div>`;
-    } else if (habTodos.length > 1) {
-      // Tabela comparativa
-      html += `<div class="dash-sec">
-        <div class="dash-sec-hdr">Comparação detalhada</div>
-        <table class="dash-table">
-          <tr>
-            <th>Hábito</th><th>Feito</th><th>Parc.</th><th>Faltou</th><th>Score</th>
-          </tr>`;
-      habTodos.forEach(h=>{
-        const regs=h.registros||{},n=days.length||1;
-        const f=days.filter(d=>regs[d]==='feito').length;
-        const p=days.filter(d=>regs[d]==='parcial').length;
-        const fa=days.filter(d=>regs[d]==='faltou').length;
-        const sc=Math.round((f+p*0.5)/n*100);
-        const cls=sc>=80?'good':sc>=50?'mid':'bad';
-        html+=`<tr>
-          <td>${esc(h.nome.slice(0,22))}</td>
-          <td>${f}</td><td>${p}</td><td>${fa}</td>
-          <td class="${cls}">${sc}%</td>
-        </tr>`;
-      });
-      html += `</table></div>`;
-    }
-  } else {
-    html += `<div class="dash-sec">
-      <div style="text-align:center;padding:24px;color:var(--t3);font-family:Georgia,serif;line-height:1.7">
-        Nenhum hábito com dados no período selecionado.<br>
-        <span style="font-size:11px">Tente outro período ou adicione hábitos na aba Hábitos.</span>
-      </div>
-    </div>`;
-  }
-
-  // ── KPIs PORÃO ────────────────────────────────────────────────
-  if (vicios.length > 0) {
-    let totR=0, totC=0, bSt=0;
-    vicios.forEach(v=>{
-      const regs=v.registros||{};
-      totR+=days.filter(d=>regs[d]==='resistiu').length;
-      totC+=days.filter(d=>regs[d]==='cedi').length;
-      bSt=Math.max(bSt, calcVicioStreak(regs));
-    });
-    const pctR=days.length*vicios.length?Math.round(totR/(days.length*vicios.length)*100):0;
-    const kR=pctR>=80?'green':pctR>=50?'gold':'red';
-
-    html += `<div class="dash-sec">
-      <div class="dash-sec-hdr">Porão — Vícios</div>
-      <div class="dash-kpis" style="margin-bottom:12px">
-        <div class="kpi-card ${kR}">
-          <div class="kpi-val">${pctR}%</div>
-          <div class="kpi-lbl">Dias resistiu</div>
-          <div class="kpi-sub">${totR} de ${days.length*vicios.length}</div>
-        </div>
-        <div class="kpi-card ${totC>0?'red':'green'}">
-          <div class="kpi-val">${totC}</div>
-          <div class="kpi-lbl">Dias cedeu</div>
-          <div class="kpi-sub">no período</div>
-        </div>
-        <div class="kpi-card gold">
-          <div class="kpi-val">🔥${bSt}d</div>
-          <div class="kpi-lbl">Melhor streak</div>
-          <div class="kpi-sub">consecutivos</div>
-        </div>
-        <div class="kpi-card blue">
-          <div class="kpi-val">${vicios.length}</div>
-          <div class="kpi-lbl">Vícios rastreados</div>
-          <div class="kpi-sub">ativos</div>
-        </div>
-      </div>`;
-
-    // Streaks individuais
-    html += `<div style="margin-bottom:4px">`;
-    vicios.forEach(v=>{
-      const regs=v.registros||{};
-      const res=days.filter(d=>regs[d]==='resistiu').length;
-      const ce=days.filter(d=>regs[d]==='cedi').length;
-      const str=calcVicioStreak(regs);
-      const pR=days.length?Math.round(res/days.length*100):0;
-      const cls=pR>=80?'green':pR>=50?'amber':'red';
-      html+=`<div class="prog-row">
-        <div class="prog-name">
-          <span>${esc(v.nome)}</span>
-          <span class="prog-name-pct">🔥${str}d streak · ${pR}%</span>
-        </div>
-        <div class="prog-track">
-          <div class="prog-fill ${cls}" style="width:${pR}%"></div>
-          ${ce>0?`<div class="prog-fill red" style="width:${Math.round(ce/days.length*100)}%"></div>`:''}
-        </div>
-      </div>`;
-    });
-    html += `</div></div>`;
-  }
-
-  // ── ANALISADOR DE METAS ──────────────────────────────────────
-  {
-    const fr = (S.frentes||[]).filter(x=>!x.status||x.status==='ativo');
-    const ci = (S.ciclos||[]).filter(x=>!x.status||x.status==='ativo');
-    const ho = (S.horizontes||[]).filter(x=>!x.status||x.status==='ativo');
-    const pi = (S.pilares||[]).filter(x=>!x.status||x.status==='ativo');
-    const totalAt = fr.length+ci.length+ho.length+pi.length;
-    const concl = (S.historico||[]).filter(h=>h.statusFinal==='concluido').length;
-    const aband = (S.historico||[]).filter(h=>h.statusFinal==='abandonada').length;
-    const atras = fr.filter(f=>f.prazo&&f.prazo<today()).length;
-    const alerts = [];
-    if (ci.length===0) alerts.push('⚠️ Sem meta trimestral');
-    if (atras>0) alerts.push(`🔴 ${atras} ação${atras>1?'ões':''} em atraso`);
-    if (fr.length>5) alerts.push(`⚠️ ${fr.length} ações abertas`);
-    if (!(S.fundacao&&S.fundacao.missao&&S.fundacao.missao.trim())) alerts.push('💡 Propósito não definido');
-    if (!alerts.length) alerts.push('✅ Metas em ordem');
-    html += `<div class="dash-sec">
-      <div class="dash-sec-hdr">Analisador de metas</div>
-      <div class="dash-analyzer">
-        <div class="dash-ana-pill"><div class="dash-ana-n">${totalAt}</div><div class="dash-ana-l">Ativas</div></div>
-        <div class="dash-ana-pill"><div class="dash-ana-n" style="color:var(--green)">${concl}</div><div class="dash-ana-l">Concluídas</div></div>
-        <div class="dash-ana-pill"><div class="dash-ana-n" style="color:${aband>0?'var(--acc)':'var(--t2)'}">${aband}</div><div class="dash-ana-l">Abandonadas</div></div>
-      </div>
-      <div class="dash-alert">${alerts.map(a=>`${a}<br>`).join('')}</div>
-    </div>`;
-  }
-
-  // ── Metas ativas ─────────────────────────────────────────────
-
-  document.getElementById('dash-content').innerHTML = html;
-  renderDashSidebarStats();
-}
 
 function buildDeleteZone() {
   const habAtivos  = S.habitos || [];
@@ -6189,6 +5811,111 @@ function checkOnboarding() {
 /* ═══════════════════════════════════════════════════════════
    INIT
 ═══════════════════════════════════════════════════════════ */
+/* ── Sidebar collapse (restored) ────────────────────────────── */
+function toggleSidebar() {
+  const nav = document.getElementById('sidebar');
+  if (!nav) return;
+  const collapsed = nav.classList.toggle('collapsed');
+  localStorage.setItem('canteiro_sidebar', collapsed ? '1' : '0');
+  const isDesktop = window.innerWidth >= 1024;
+  const timer = document.getElementById('focus-timer-widget');
+  const kbdBtn = document.getElementById('kbd-hint-widget');
+  if (timer) timer.style.display = (isDesktop && !collapsed) ? 'block' : 'none';
+  if (kbdBtn) kbdBtn.style.display = (isDesktop && !collapsed) ? 'flex' : 'none';
+  if (collapsed) { const p = document.getElementById('kbd-hint-panel'); if (p) p.classList.remove('open'); }
+}
+
+/* ── Horizonte linking (restored) ───────────────────────────── */
+let _pendingLinkHistId = null;
+function offerLinkHorizonte(histId, nomeCiclo) {
+  _pendingLinkHistId = histId;
+  const horizs = (S.horizontes || []).filter(x => !x.status || x.status === 'ativo');
+  if (horizs.length === 0) return;
+  const sel = document.getElementById('link-horizonte-sel');
+  if (!sel) return;
+  sel.innerHTML = '<option value="">— Nenhum —</option>' +
+    horizs.map(h => `<option value="${h.id}">${esc(h.nome||'')}</option>`).join('');
+  document.getElementById('link-horizonte-nome').textContent = nomeCiclo.slice(0, 40);
+  openM('mbg-link-horizonte');
+}
+function confirmLinkHorizonte() {
+  const sel = document.getElementById('link-horizonte-sel');
+  if (!sel || !_pendingLinkHistId) return closeM('mbg-link-horizonte');
+  const horizonteId = sel.value;
+  if (horizonteId) {
+    const entry = (S.historico || []).find(h => h.id === _pendingLinkHistId);
+    if (entry) { entry.horizonteVinculo = horizonteId; persist(); renderPredio(); }
+  }
+  _pendingLinkHistId = null;
+  closeM('mbg-link-horizonte');
+}
+
+/* ── Propósito diary (restored) ─────────────────────────────── */
+function toggleDiario() {
+  const body = document.getElementById('diario-body');
+  if (!body) return;
+  const isOpen = body.style.display !== 'none';
+  body.style.display = isOpen ? 'none' : 'block';
+  if (!isOpen) {
+    const mf = document.getElementById('diario-filter-month');
+    if (mf && !mf.value) {
+      const now = new Date();
+      mf.value = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}`;
+    }
+    renderDiario();
+  }
+}
+function addDiario() {
+  const el = document.getElementById('inp-diario');
+  const txt = el.value.trim(); if (!txt) return el.focus();
+  if (!S.fundacao.diario) S.fundacao.diario = [];
+  S.fundacao.diario.unshift({ id: uid(), data: today(), texto: txt });
+  el.value = '';
+  persist(); renderDiario();
+}
+function renderDiario() {
+  if (!S.fundacao.diario) S.fundacao.diario = [];
+  const cnt = document.getElementById('diario-cnt');
+  const n = S.fundacao.diario.length;
+  if (cnt) cnt.textContent = n > 0 ? `(${n})` : '';
+  const list = document.getElementById('list-diario');
+  if (!list) return;
+  const mf = document.getElementById('diario-filter-month');
+  const filtroMes = mf ? mf.value : '';
+  const entries = filtroMes
+    ? S.fundacao.diario.filter(e => e.data && e.data.startsWith(filtroMes))
+    : S.fundacao.diario;
+  if (n === 0) { list.innerHTML = '<div style="font-size:11px;color:var(--t3);font-family:Georgia,serif;padding:4px 0">Nenhum registro ainda.</div>'; return; }
+  if (entries.length === 0) { list.innerHTML = '<div style="font-size:11px;color:var(--t3);font-family:Georgia,serif;padding:4px 0">Nenhum registro neste período.</div>'; return; }
+  list.innerHTML = entries.map(e =>
+    `<div class="diario-entry">
+      <div class="diario-entry-date">
+        <button class="diario-del" onclick="removeDiario('${e.id}')">×</button>
+        ${fmtDate(e.data)}
+      </div>
+      <div>${esc(e.texto)}</div>
+    </div>`
+  ).join('');
+}
+function removeDiario(id) {
+  showConfirm('Remover esta entrada do diário?', () => {
+    S.fundacao.diario = (S.fundacao.diario || []).filter(e => e.id !== id);
+    persist(); renderDiario();
+  });
+}
+
+function renderAll() {
+  const activeTab = document.querySelector('.tab.active');
+  const name = activeTab ? activeTab.id.replace('tab-', '') : 'rotina';
+  const renders = {
+    rotina:  () => { renderHabitos(); renderPorao(); renderDesafios(); _updateRotinaTabCounts(); renderRotinaStrip(); },
+    caderno: renderCaderno,
+    predio:  renderPredio,
+  };
+  (renders[name] || renders.rotina)();
+}
+
+
 function init() {
   // Garante campos novos em dados antigos carregados do localStorage
   if (!S.fundacao.historico) S.fundacao.historico = [];
@@ -6266,8 +5993,12 @@ function init() {
 
   if (!navigator.onLine) document.getElementById('offline-banner').classList.add('show');
 
-  // Initial render
+  // Initial render — call full render for active tab
   renderHabitos();
+  renderPorao();
+  renderDesafios();
+  _updateRotinaTabCounts();
+  renderRotinaStrip();
 
   // Onboarding
   checkOnboarding();
