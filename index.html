@@ -794,15 +794,15 @@ select option{background:var(--s2)}
 .floor-preview span{margin-right:8px}
 .floor-preview-item::before{content:"• ";color:var(--acc)}
 
-/* ── Metas Desktop Bento Grid ────────────────────────────── */
+/* ── Metas: single active floor, nav always visible ─────── */
+.floor{ display:none }
+.floor.predio-active{ display:block }
 @media(min-width:1024px){
-  #sec-predio.active{display:grid !important;grid-template-columns:1fr 1fr;gap:12px;align-items:start;padding:16px}
-  #fl-frentes{grid-column:1 / -1}
-  #fl-ciclos{grid-column:1}
-  #fl-horizontes{grid-column:2}
-  #fl-pilares{grid-column:1}
-  #fl-fundacao{grid-column:2}
-  #fl-contratos{grid-column:1 / -1}
+  #sec-predio.active{ display:flex !important; flex-direction:column; overflow:hidden; padding:0 }
+  #sec-predio .predio-nav{ position:sticky;top:0;z-index:20;margin:0;padding:12px 16px 0 }
+  #sec-predio .metas-insights{ flex-shrink:0 }
+  #sec-predio .contratos-bar{ flex-shrink:0 }
+  .floor.predio-active{ flex:1;overflow-y:auto }
   .k-col{min-height:340px}
 }
 
@@ -829,7 +829,7 @@ select option{background:var(--s2)}
 }
 .predio-nav-tab.active{color:var(--acc);border-bottom-color:var(--acc)}
 .predio-nav-tab:hover:not(.active){color:var(--t2)}
-@media(min-width:1024px){.predio-nav{display:none}}
+/* predio-nav shows on all screen sizes */
 
 /* ── Metas insights bar ─────────────────────────────────────── */
 .metas-insights{padding:12px 16px;border-bottom:1px solid var(--b1);background:var(--s1);flex-shrink:0}
@@ -842,8 +842,7 @@ select option{background:var(--s2)}
 .metas-kpi.bad .metas-kpi-n{color:var(--red)}
 .metas-alerta{font-size:11px;color:var(--t2);font-family:Georgia,serif;line-height:1.7;padding:0}
 .metas-alerta li{list-style:none;padding:0}
-@media(min-width:1024px){.metas-insights{padding:12px 16px 8px;border-bottom:1px solid var(--b1);grid-column:1 / -1}}
-@media(min-width:1024px){.contratos-bar{grid-column:1 / -1}}
+@media(min-width:1024px){.metas-insights{padding:12px 16px 8px;border-bottom:1px solid var(--b1)}}
 
 /* ── Dashboard analyzer compact ────────────────────────────── */
 .dash-analyzer{display:flex;gap:8px;margin-bottom:12px}
@@ -1014,44 +1013,62 @@ select option{background:var(--s2)}
 
 /* ── Focus Timer (sidebar) ──────────────────────────────── */
 .focus-timer{
-  padding:10px 12px;border-top:1px solid var(--b1);
+  padding:12px 14px 10px;border-top:1px solid var(--b1);
   background:var(--s1);flex-shrink:0;
 }
+.ft-ring-wrap{
+  position:relative;width:72px;height:72px;margin:0 auto 8px;
+}
+.ft-ring{ width:72px;height:72px;transform:rotate(-90deg) }
+.ft-ring-bg{ fill:none;stroke:var(--b2);stroke-width:4 }
+.ft-ring-fill{
+  fill:none;stroke:var(--acc);stroke-width:4;
+  stroke-linecap:round;transition:stroke-dashoffset .9s linear, stroke .3s;
+}
+.ft-ring-fill.running{ stroke:var(--green) }
+.ft-ring-fill.warning{ stroke:var(--acc) }
+.ft-ring-fill.done{ stroke:var(--red) }
+.ft-center{
+  position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+}
 .focus-timer-display{
-  font-size:22px;font-weight:bold;color:var(--text);
-  font-family:Georgia,serif;text-align:center;
-  letter-spacing:2px;line-height:1;margin-bottom:6px;
+  font-size:14px;font-weight:bold;color:var(--text);
+  font-family:Georgia,serif;letter-spacing:1px;line-height:1;
   transition:color .3s;
 }
 .focus-timer-display.running{ color:var(--green) }
 .focus-timer-display.warning{ color:var(--acc) }
 .focus-timer-display.done{ color:var(--red) }
-.focus-timer-label{
-  font-size:9px;letter-spacing:1px;text-transform:uppercase;
-  color:var(--t3);text-align:center;font-family:Georgia,serif;margin-bottom:8px;
-}
-.focus-timer-btns{ display:flex;gap:5px }
+.focus-timer-btns{ display:flex;gap:4px }
 .focus-timer-btns button{
-  flex:1;padding:5px 0;font-size:10px;border:1px solid var(--b1);
+  flex:1;padding:5px 0;font-size:11px;border:1px solid var(--b1);
   background:none;color:var(--t2);border-radius:var(--rs);
   cursor:pointer;font-family:Georgia,serif;transition:var(--tr);
-  letter-spacing:.3px;
 }
 .focus-timer-btns button:hover{ border-color:var(--acc);color:var(--acc) }
 .focus-timer-btns button.active-btn{ background:var(--acc);color:#0E0E0E;border-color:var(--acc);font-weight:bold }
-nav.collapsed .focus-timer{ display:none }
 
 /* ── Keyboard shortcut hint ─────────────────────────────── */
-.kbd-hint{
-  padding:8px 12px;border-top:1px solid var(--b1);
-  font-size:9px;color:var(--t3);font-family:Georgia,serif;
-  letter-spacing:.3px;line-height:1.9;
+.kbd-hint-btn{
+  width:100%;padding:7px 14px;border:none;border-top:1px solid var(--b1);
+  background:none;color:var(--t3);cursor:pointer;font-size:10px;
+  font-family:Georgia,serif;text-align:left;letter-spacing:.3px;
+  transition:var(--tr);display:flex;align-items:center;gap:6px;
 }
-.kbd-hint kbd{
-  background:var(--s2);border:1px solid var(--b2);border-radius:3px;
-  padding:1px 5px;font-size:9px;color:var(--t2);font-family:monospace;
+.kbd-hint-btn:hover{color:var(--acc);background:var(--s1)}
+nav.collapsed .kbd-hint-btn{display:none}
+.kbd-hint-panel{
+  position:fixed;left:220px;bottom:120px;z-index:200;
+  background:var(--s2);border:1px solid var(--b1);border-radius:var(--r);
+  padding:12px 14px;font-size:11px;color:var(--t2);
+  font-family:Georgia,serif;line-height:2;min-width:220px;
+  box-shadow:0 4px 20px rgba(0,0,0,.4);display:none;
 }
-nav.collapsed .kbd-hint{ display:none }
+.kbd-hint-panel.open{display:block}
+.kbd-hint-panel kbd{
+  background:var(--s3);border:1px solid var(--b2);border-radius:3px;
+  padding:1px 6px;font-size:10px;color:var(--text);font-family:monospace;
+}
 
 /* ── Session log (focus history) ────────────────────────── */
 .session-log-entry{
@@ -1092,20 +1109,31 @@ nav.collapsed .kbd-hint{ display:none }
   <button class="tab"        id="tab-dash"     data-tip="Painel"   onclick="setTab('dash',this)"><span class="tab-icon">📊</span><span class="tab-lbl">Painel</span></button>
   <!-- Focus Timer -->
   <div class="focus-timer" id="focus-timer-widget" style="display:none">
-    <div class="focus-timer-label" id="focus-timer-label">FOCO</div>
-    <div class="focus-timer-display" id="focus-timer-display">25:00</div>
+    <div class="ft-ring-wrap">
+      <svg class="ft-ring" viewBox="0 0 60 60">
+        <circle class="ft-ring-bg" cx="30" cy="30" r="26"/>
+        <circle class="ft-ring-fill" id="ft-ring-fill" cx="30" cy="30" r="26"
+          stroke-dasharray="163.4" stroke-dashoffset="0"/>
+      </svg>
+      <div class="ft-center">
+        <div class="focus-timer-display" id="focus-timer-display">25:00</div>
+      </div>
+    </div>
     <div class="focus-timer-btns">
-      <button onclick="focusTimerPreset(25)" id="ft-btn-25">25min</button>
-      <button onclick="focusTimerPreset(50)" id="ft-btn-50">50min</button>
-      <button onclick="focusTimerToggle()" id="ft-btn-play" class="active-btn">▶</button>
-      <button onclick="focusTimerReset()" id="ft-btn-reset">↺</button>
+      <button onclick="focusTimerPreset(25)" id="ft-btn-25" class="active-btn" title="25 min">25</button>
+      <button onclick="focusTimerPreset(50)" id="ft-btn-50" title="50 min">50</button>
+      <button onclick="focusTimerToggle()" id="ft-btn-play" title="Iniciar / Pausar">▶</button>
+      <button onclick="focusTimerReset()" id="ft-btn-reset" title="Reiniciar">↺</button>
     </div>
   </div>
 
-  <!-- Keyboard hints -->
-  <div class="kbd-hint" id="kbd-hint-widget" style="display:none">
-    <kbd>Alt 1–4</kbd> Abas &nbsp; <kbd>N</kbd> Nova entrada<br>
-    <kbd>Esc</kbd> Fechar modal &nbsp; <kbd>F</kbd> Focar timer
+  <button class="kbd-hint-btn" id="kbd-hint-widget" style="display:none" onclick="toggleKbdPanel()">⌨ Atalhos</button>
+  <div class="kbd-hint-panel" id="kbd-hint-panel">
+    <kbd>Alt 1–4</kbd> Trocar aba<br>
+    <kbd>N</kbd> Nova captura<br>
+    <kbd>F</kbd> Iniciar/pausar foco<br>
+    <kbd>R</kbd> Reiniciar timer<br>
+    <kbd>Esc</kbd> Fechar modal
   </div>
 
   <div class="nav-bottom-actions" id="nav-bottom-actions" style="display:none">
@@ -1304,7 +1332,7 @@ nav.collapsed .kbd-hint{ display:none }
     </div>
   </div>
 
-  <div class="floor" id="fl-contratos" style="display:none">
+  <div class="floor" id="fl-contratos">
     <div class="floor-hdr">
       <span class="floor-tag">CONTRATOS</span>
       <span class="floor-count-badge" id="fl-contratos-count"></span>
@@ -4043,20 +4071,22 @@ function renovarContrato(id) {
 function setPredioTab(id, btn) {
   // Close contratos overlay if open
   const flC = document.getElementById('fl-contratos');
-  if (flC && flC.style.display !== 'none' && id !== 'contratos') {
+  if (id !== 'contratos') {
     const floatBtn = document.getElementById('contratos-float-btn');
     const backBtn = document.getElementById('contratos-back-btn');
     const nav = document.querySelector('.predio-nav');
-    if (flC) flC.style.display = 'none';
+    if (flC) { flC.classList.remove('predio-active'); flC.style.display = ''; }
     if (floatBtn) floatBtn.classList.remove('active');
     if (backBtn) backBtn.style.display = 'none';
     if (nav) nav.style.opacity = '';
   }
-  if (window.innerWidth >= 1024) return; // desktop: bento always visible
+  // Show active floor via class, hide others
   const floors = ['frentes','ciclos','horizontes','pilares','fundacao','contratos'];
   floors.forEach(f => {
     const el = document.getElementById('fl-' + f);
-    if (el) el.style.display = (f === id) ? '' : 'none';
+    if (!el) return;
+    el.style.display = '';
+    el.classList.toggle('predio-active', f === id);
   });
   document.querySelectorAll('.predio-nav-tab').forEach(t => t.classList.remove('active'));
   if (btn) btn.classList.add('active');
@@ -4065,14 +4095,6 @@ function setPredioTab(id, btn) {
 }
 
 function initPredioNav() {
-  if (window.innerWidth >= 1024) {
-    // Desktop: show all including contratos
-    ['frentes','ciclos','horizontes','pilares','fundacao','contratos'].forEach(f => {
-      const el = document.getElementById('fl-' + f);
-      if (el) el.style.display = '';
-    });
-    return;
-  }
   const saved = localStorage.getItem('canteiro_predio_tab') || 'frentes';
   const btn = document.querySelector(`.predio-nav-tab[onclick*="'${saved}'"]`);
   setPredioTab(saved, btn);
@@ -4206,6 +4228,11 @@ let _ftInterval = null;
 let _ftRunning = false;
 let _ftSessions = [];
 
+function toggleKbdPanel() {
+  const p = document.getElementById('kbd-hint-panel');
+  if (p) p.classList.toggle('open');
+}
+
 function focusTimerPreset(mins) {
   focusTimerReset();
   _ftSecs = mins * 60;
@@ -4262,16 +4289,20 @@ function _ftRenderDisplay() {
   const m = String(Math.floor(_ftSecs / 60)).padStart(2, '0');
   const s = String(_ftSecs % 60).padStart(2, '0');
   el.textContent = m + ':' + s;
-  const pct = 1 - (_ftSecs / _ftTotal);
-  const lbl = document.getElementById('focus-timer-label');
-  if (lbl) lbl.textContent = _ftRunning
-    ? 'FOCANDO — ' + Math.round(pct * 100) + '%'
-    : (_ftSecs === _ftTotal ? 'FOCO' : 'PAUSADO');
+  // SVG ring: circumference = 2πr = 163.4 for r=26
+  const C = 163.4;
+  const pct = _ftSecs / _ftTotal; // 1 = full, 0 = empty
+  const ring = document.getElementById('ft-ring-fill');
+  if (ring) {
+    ring.style.strokeDashoffset = String(C * (1 - pct));
+  }
 }
 
 function _ftSetState(state) {
   const el = document.getElementById('focus-timer-display');
+  const ring = document.getElementById('ft-ring-fill');
   if (el) { el.className = 'focus-timer-display'; if (state) el.classList.add(state); }
+  if (ring) { ring.className = 'ft-ring-fill'; if (state) ring.classList.add(state); }
 }
 
 function _ftRenderSessions() {
@@ -4433,6 +4464,14 @@ function toggleSidebar() {
   if (!nav) return;
   const collapsed = nav.classList.toggle('collapsed');
   localStorage.setItem('canteiro_sidebar', collapsed ? '1' : '0');
+  // Re-apply layout to show/hide timer
+  const isDesktop = window.innerWidth >= 1024;
+  const timer = document.getElementById('focus-timer-widget');
+  const kbdBtn = document.getElementById('kbd-hint-widget');
+  if (timer) timer.style.display = (isDesktop && !collapsed) ? 'block' : 'none';
+  if (kbdBtn) kbdBtn.style.display = (isDesktop && !collapsed) ? 'flex' : 'none';
+  // close panel if collapsing
+  if (collapsed) { const p = document.getElementById('kbd-hint-panel'); if (p) p.classList.remove('open'); }
 }
 
 function initSidebar() {
@@ -4523,9 +4562,9 @@ function toggleContratos(btn) {
     _prevPredioTab = localStorage.getItem('canteiro_predio_tab') || 'frentes';
     ['frentes','ciclos','horizontes','pilares','fundacao'].forEach(f => {
       const el = document.getElementById('fl-' + f);
-      if (el) el.style.display = 'none';
+      if (el) el.classList.remove('predio-active');
     });
-    fl.style.display = '';
+    fl.classList.add('predio-active');
     btn.classList.add('active');
     const backBtn = document.getElementById('contratos-back-btn');
     if (backBtn) backBtn.style.display = 'inline-block';
@@ -4535,7 +4574,7 @@ function toggleContratos(btn) {
 
 function closeContratos() {
   const fl = document.getElementById('fl-contratos');
-  if (fl) fl.style.display = 'none';
+  if (fl) fl.classList.remove('predio-active');
   const btn = document.getElementById('contratos-float-btn');
   if (btn) btn.classList.remove('active');
   const backBtn = document.getElementById('contratos-back-btn');
@@ -5315,8 +5354,15 @@ function init() {
     if (logo) logo.style.display = isDesktop ? 'flex' : 'none';
     if (actions) actions.style.display = isDesktop ? 'flex' : 'none';
     if (toggleBtn) toggleBtn.style.display = isDesktop ? 'flex' : 'none';
-    if (timer) timer.style.display = isDesktop ? 'block' : 'none';
-    if (kbdHint) kbdHint.style.display = isDesktop ? 'block' : 'none';
+    // Timer and kbd-hint: controlled by CSS (nav.collapsed hides them)
+    // Only toggle the desktop-only class, not inline display
+    const sidebar = document.getElementById('sidebar');
+    const isCollapsed = sidebar && sidebar.classList.contains('collapsed');
+    if (timer) timer.style.display = (isDesktop && !isCollapsed) ? 'block' : 'none';
+    if (kbdHint) {
+      const isCollapsed2 = sidebar && sidebar.classList.contains('collapsed');
+      kbdHint.style.display = (isDesktop && !isCollapsed2) ? 'flex' : 'none';
+    }
   }
   applyNavLayout();
   initSidebar();
