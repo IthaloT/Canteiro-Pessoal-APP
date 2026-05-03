@@ -835,7 +835,6 @@ select option{background:var(--s2)}
 .metas-alerta{font-size:11px;color:var(--t2);font-family:Georgia,serif;line-height:1.7;padding:0}
 .metas-alerta li{list-style:none;padding:0}
 @media(min-width:1024px){.metas-insights{padding:12px 16px 8px;border-bottom:1px solid var(--b1)}}
-@media(min-width:1024px){.contratos-bar{display:none}}
 
 /* ── Dashboard analyzer compact ────────────────────────────── */
 .dash-analyzer{display:flex;gap:8px;margin-bottom:12px}
@@ -1071,45 +1070,6 @@ nav.collapsed .kbd-hint-btn{display:none}
 }
 
 
-/* ── Rotina desktop split ───────────────────────────────────── */
-.rotina-col-hdr{
-  display:none; /* hidden on mobile */
-  align-items:center;justify-content:space-between;
-  padding:18px 20px 12px;border-bottom:1px solid var(--b1);
-  flex-shrink:0;
-}
-.rotina-col-title{
-  font-size:13px;font-weight:bold;color:var(--text);
-  font-family:Georgia,serif;letter-spacing:.3px;
-}
-.rotina-col-body{ padding:0 }
-
-@media(min-width:1024px){
-  #sec-rotina{
-    flex-direction:row !important;
-    overflow:hidden;
-    padding:0 !important;
-  }
-  .rotina-toggle-bar{ display:none }          /* hide toggle on desktop */
-  #rotina-add-hab-mobile{ display:none }       /* hide bottom btn; top header has it */
-  #rotina-vic-hdr-mobile{ display:none }       /* hide mobile header in vicio panel */
-  .rotina-col{
-    flex:1;display:flex;flex-direction:column;
-    overflow:hidden;min-width:0;
-  }
-  .rotina-col-hab{ border-right:1px solid var(--b1) }
-  .rotina-col-hdr{ display:flex }              /* show on desktop */
-  .rotina-col-body{
-    flex:1;overflow-y:auto;padding:16px 20px;
-    -webkit-overflow-scrolling:touch;
-    display:block !important;                  /* always visible on desktop */
-  }
-  .rotina-col .week-label{
-    font-size:11px;color:var(--t3);
-    font-family:Georgia,serif;margin-bottom:12px;
-    display:flex;justify-content:space-between;
-  }
-}
 
 
 /* ── Mini timer (collapsed sidebar) ────────────────────────── */
@@ -1366,6 +1326,180 @@ input:focus, textarea:focus, select:focus {
   color: var(--t3);
 }
 
+
+/* ── Rotina 3-tab system ────────────────────────────────────── */
+.rotina-tab-bar{
+  display:flex;align-items:center;
+  border-bottom:1px solid var(--b1);
+  background:var(--bg);position:sticky;top:0;z-index:10;
+  padding:0 16px;flex-shrink:0;gap:2px;
+}
+.rotina-tab{
+  padding:14px 16px;border:none;background:none;
+  font-size:12px;font-weight:600;color:var(--t2);
+  cursor:pointer;border-bottom:2px solid transparent;
+  font-family:var(--ui-font);letter-spacing:.2px;
+  display:flex;align-items:center;gap:6px;
+  transition:color var(--tr),border-color var(--tr);
+  white-space:nowrap;
+}
+.rotina-tab:hover:not(.active){ color:var(--text) }
+.rotina-tab.active{
+  color:var(--text);border-bottom-color:var(--acc);
+}
+.rotina-tab.active .badge{ background:var(--acc-d);color:var(--acc) }
+.rotina-tab-actions{ margin-left:auto;padding:8px 0 }
+
+.rotina-panel{
+  flex:1;overflow-y:auto;padding:16px;
+  -webkit-overflow-scrolling:touch;
+}
+@media(min-width:1024px){
+  .rotina-panel{ padding:20px 28px;max-width:900px }
+  .rotina-tab{ padding:16px 20px;font-size:13px }
+  #sec-rotina{ overflow:hidden }
+}
+
+/* ── Desafio card ────────────────────────────────────────────── */
+.desafio-card{
+  background:var(--s1);border:1px solid var(--b1);
+  border-radius:var(--r);padding:14px 16px;margin-bottom:10px;
+  transition:border-color var(--tr);
+}
+.desafio-card:hover{ border-color:var(--b2) }
+.desafio-hdr{
+  display:flex;align-items:center;gap:8px;margin-bottom:10px;
+}
+.desafio-nome{
+  flex:1;font-size:14px;font-weight:500;
+  color:var(--text);font-family:Georgia,serif;
+}
+.desafio-mode-badge{
+  font-size:9px;font-weight:700;letter-spacing:.8px;
+  text-transform:uppercase;font-family:var(--ui-font);
+  padding:2px 8px;border-radius:10px;
+}
+.desafio-mode-badge.construir{
+  background:rgba(61,158,106,.15);color:var(--green);
+  border:1px solid rgba(61,158,106,.3);
+}
+.desafio-mode-badge.resistir{
+  background:var(--rd);color:var(--red);
+  border:1px solid rgba(200,75,75,.3);
+}
+.desafio-progress-wrap{
+  margin-bottom:8px;
+}
+.desafio-progress-bar{
+  height:6px;background:var(--s3);border-radius:3px;overflow:hidden;
+  margin:6px 0 4px;
+}
+.desafio-progress-fill{
+  height:100%;border-radius:3px;
+  transition:width .4s ease;
+}
+.desafio-progress-fill.construir{ background:var(--green) }
+.desafio-progress-fill.resistir{ background:var(--acc) }
+.desafio-progress-fill.done{ background:var(--acc) }
+.desafio-days-label{
+  font-size:11px;color:var(--t2);font-family:var(--ui-font);
+  display:flex;justify-content:space-between;
+}
+.desafio-day-grid{ display:flex;gap:3px;flex-wrap:wrap;margin-top:8px }
+
+
+/* ── Timer: presets + cycle + fullscreen ────────────────────── */
+.ft-presets{
+  display:flex;gap:3px;margin-bottom:6px;
+  padding:0 2px;
+}
+.ft-preset-btn{
+  flex:1;padding:4px 0;background:none;
+  border:1px solid var(--b1);border-radius:var(--rs);
+  color:var(--t3);font-size:10px;cursor:pointer;
+  font-family:var(--ui-font);position:relative;
+  transition:var(--tr);display:flex;align-items:center;justify-content:center;gap:3px;
+}
+.ft-preset-btn:hover{ border-color:var(--b2);color:var(--t2) }
+.ft-preset-btn.active-btn{ background:var(--acc-d);border-color:var(--acc);color:var(--acc) }
+.ft-preset-edit{
+  position:absolute;top:1px;right:2px;
+  font-size:8px;color:var(--t3);opacity:0;transition:opacity var(--tr);
+  cursor:pointer;background:none;border:none;padding:0;line-height:1;
+}
+.ft-preset-btn:hover .ft-preset-edit{ opacity:.7 }
+.ft-preset-edit:hover{ opacity:1 !important;color:var(--acc) }
+
+.ft-cycle-row{
+  display:flex;justify-content:center;gap:4px;
+  margin-bottom:5px;min-height:8px;
+}
+.ft-cycle-dot{
+  width:6px;height:6px;border-radius:50%;
+  background:var(--b2);transition:background .3s;
+}
+.ft-cycle-dot.done{ background:var(--green) }
+.ft-cycle-dot.active{ background:var(--acc) }
+
+/* ── Fullscreen timer ───────────────────────────────────────── */
+.ft-fullscreen{
+  position:fixed;inset:0;z-index:500;
+  background:var(--bg);display:flex;flex-direction:column;
+  align-items:center;justify-content:center;gap:16px;
+}
+.ft-fs-close{
+  position:absolute;top:20px;right:24px;
+  background:none;border:1px solid var(--b1);color:var(--t2);
+  width:36px;height:36px;border-radius:50%;font-size:16px;
+  cursor:pointer;transition:var(--tr);
+}
+.ft-fs-close:hover{ border-color:var(--acc);color:var(--acc) }
+.ft-fs-label{
+  font-size:11px;font-weight:700;letter-spacing:2px;
+  color:var(--t2);font-family:var(--ui-font);text-transform:uppercase;
+}
+.ft-fs-ring-wrap{
+  position:relative;width:200px;height:200px;
+}
+.ft-fs-ring{ width:200px;height:200px;transform:rotate(-90deg) }
+.ft-ring-bg{ fill:none;stroke:var(--s3) }
+.ft-ring-fill{ fill:none;stroke:var(--acc);stroke-linecap:round;transition:stroke-dashoffset .9s linear,stroke .3s }
+.ft-fs-center{
+  position:absolute;inset:0;display:flex;
+  flex-direction:column;align-items:center;justify-content:center;
+}
+.ft-fs-display{
+  font-size:48px;font-weight:700;font-family:var(--ui-font);
+  color:var(--text);letter-spacing:2px;line-height:1;
+}
+.ft-fs-cycle{
+  font-size:11px;color:var(--t3);font-family:var(--ui-font);margin-top:4px;
+}
+.ft-fs-presets{
+  display:flex;gap:8px;
+}
+.ft-fs-preset-btn{
+  padding:8px 18px;background:none;border:1px solid var(--b2);
+  color:var(--t2);border-radius:20px;font-size:12px;
+  cursor:pointer;font-family:var(--ui-font);transition:var(--tr);
+  display:flex;align-items:center;gap:5px;
+}
+.ft-fs-preset-btn.active-btn{ background:var(--acc-d);border-color:var(--acc);color:var(--acc) }
+.ft-fs-btns{ display:flex;gap:12px }
+.ft-fs-btn{
+  width:56px;height:56px;border-radius:50%;
+  border:1px solid var(--b2);background:none;
+  color:var(--t2);font-size:18px;cursor:pointer;
+  transition:var(--tr);
+}
+.ft-fs-btn:hover,.ft-fs-btn.active-btn{
+  background:var(--acc);color:#0E0E0E;border-color:var(--acc);
+}
+.ft-fs-sessions{
+  font-size:11px;color:var(--t3);font-family:var(--ui-font);
+  text-align:center;line-height:1.8;
+}
+
 </style>
 </head>
 <body>
@@ -1416,12 +1550,38 @@ input:focus, textarea:focus, select:focus {
         <div class="focus-timer-display" id="focus-timer-display">25:00</div>
       </div>
     </div>
+    <!-- Cycle indicator -->
+    <div class="ft-cycle-row" id="ft-cycle-row"></div>
+    <!-- Presets row -->
+    <div class="ft-presets" id="ft-presets"></div>
     <div class="focus-timer-btns">
-      <button onclick="focusTimerPreset(25)" id="ft-btn-25" class="active-btn" title="25 min">25</button>
-      <button onclick="focusTimerPreset(50)" id="ft-btn-50" title="50 min">50</button>
-      <button onclick="focusTimerToggle()" id="ft-btn-play" title="Iniciar / Pausar">▶</button>
+      <button onclick="focusTimerToggle()" id="ft-btn-play" title="Iniciar / Pausar" class="active-btn">▶</button>
       <button onclick="focusTimerReset()" id="ft-btn-reset" title="Reiniciar">↺</button>
+      <button onclick="openFtFullscreen()" title="Expandir" id="ft-btn-expand">⛶</button>
     </div>
+  </div>
+
+  <!-- Fullscreen timer overlay -->
+  <div class="ft-fullscreen" id="ft-fullscreen" style="display:none">
+    <button class="ft-fs-close" onclick="closeFtFullscreen()">×</button>
+    <div class="ft-fs-label" id="ft-fs-label">FOCO</div>
+    <div class="ft-fs-ring-wrap">
+      <svg class="ft-fs-ring" viewBox="0 0 200 200">
+        <circle class="ft-ring-bg" cx="100" cy="100" r="88"/>
+        <circle class="ft-ring-fill" id="ft-fs-ring-fill" cx="100" cy="100" r="88"
+          stroke-dasharray="552.9" stroke-dashoffset="0" stroke-width="6"/>
+      </svg>
+      <div class="ft-fs-center">
+        <div class="ft-fs-display" id="ft-fs-display">25:00</div>
+        <div class="ft-fs-cycle" id="ft-fs-cycle"></div>
+      </div>
+    </div>
+    <div class="ft-fs-presets" id="ft-fs-presets"></div>
+    <div class="ft-fs-btns">
+      <button onclick="focusTimerToggle()" id="ft-fs-play" class="ft-fs-btn active-btn">▶</button>
+      <button onclick="focusTimerReset()" class="ft-fs-btn">↺</button>
+    </div>
+    <div class="ft-fs-sessions" id="ft-fs-sessions"></div>
   </div>
 
   <button class="kbd-hint-btn" id="kbd-hint-widget" style="display:none" onclick="toggleKbdPanel()">⌨ Atalhos</button>
@@ -1444,57 +1604,47 @@ input:focus, textarea:focus, select:focus {
 <!-- ══ HÁBITOS ══════════════════════════════════════════════ -->
 <div id="sec-rotina" class="sec active">
 
-  <!-- ── Mobile: toggle bar ── -->
-  <div class="rotina-toggle-bar" id="rotina-toggle-bar">
-    <button class="rotina-tog active" id="rtog-construir" onclick="setRotinaView('construir')">
-      🧱 Construir Hábitos
+  <!-- ── Rotina tab bar (3 abas) ── -->
+  <div class="rotina-tab-bar" id="rotina-tab-bar">
+    <button class="rotina-tab active" id="rtog-construir" onclick="setRotinaView('construir',this)">
+      🧱 Hábitos <span class="badge" id="rtab-hab-cnt">0</span>
     </button>
-    <button class="rotina-tog" id="rtog-destruir" onclick="setRotinaView('destruir')">
-      💣 Destruir Vícios
+    <button class="rotina-tab" id="rtog-destruir" onclick="setRotinaView('destruir',this)">
+      💣 Vícios <span class="badge" id="rtab-vic-cnt">0</span>
     </button>
-  </div>
-
-  <!-- ── Desktop: left column (Hábitos) ── -->
-  <div class="rotina-col rotina-col-hab">
-    <!-- Desktop heading (hidden on mobile) -->
-    <div class="rotina-col-hdr">
-      <span class="rotina-col-title">🧱 Construir Hábitos</span>
-      <button class="btn btn-g btn-sm" onclick="openM('mbg-add-habito')">+ Novo</button>
-    </div>
-
-    <!-- Painel Construir (Hábitos) — shown on mobile via toggle -->
-    <div id="rotina-construir" class="rotina-col-body">
-      <div class="week-label">
-        <span id="week-range"></span>
-        <span id="week-stat" style="color:var(--acc)"></span>
-      </div>
-      <div id="list-habitos"></div>
-      <button class="btn btn-g btn-sm" style="width:100%;margin-top:4px" id="rotina-add-hab-mobile" onclick="openM('mbg-add-habito')">+ Novo hábito</button>
+    <button class="rotina-tab" id="rtog-desafios" onclick="setRotinaView('desafios',this)">
+      🎯 Desafios <span class="badge" id="rtab-des-cnt">0</span>
+    </button>
+    <div class="rotina-tab-actions" id="rotina-tab-actions">
+      <button class="btn btn-g btn-sm" id="rotina-add-btn" onclick="rotinaAddAction()">+ Novo</button>
     </div>
   </div>
 
-  <!-- ── Desktop: right column (Vícios) ── -->
-  <div class="rotina-col rotina-col-vic">
-    <!-- Desktop heading (hidden on mobile) -->
-    <div class="rotina-col-hdr">
-      <span class="rotina-col-title">💣 Destruir Vícios</span>
-      <button class="btn btn-g btn-sm" onclick="openM('mbg-add-vicio')">+ Novo</button>
+  <!-- ── Painel Hábitos ── -->
+  <div id="rotina-construir" class="rotina-panel">
+    <div class="week-label">
+      <span id="week-range"></span>
+      <span id="week-stat" style="color:var(--acc)"></span>
     </div>
+    <div id="list-habitos"></div>
+  </div>
 
-    <!-- Painel Destruir (Vícios) — shown on mobile via toggle -->
-    <div id="rotina-destruir" class="rotina-col-body" style="display:none">
-      <div class="sec-h" style="margin-bottom:8px" id="rotina-vic-hdr-mobile">
-        Rastreador de vícios
-        <button class="btn btn-g btn-sm" onclick="openM('mbg-add-vicio')">+ Novo</button>
-      </div>
-      <div style="font-size:11px;color:var(--t3);margin-bottom:12px;line-height:1.6;font-family:Georgia,serif">
-        Produtividade é saber dizer NÃO. 🔥
-      </div>
-      <div id="list-vicios"></div>
-      <!-- Descarte moved to Caderno/Dashboard only -->
-      <div id="disc-cnt" style="display:none">0</div>
-      <div id="list-descarte" style="display:none"></div>
+  <!-- ── Painel Vícios ── -->
+  <div id="rotina-destruir" class="rotina-panel" style="display:none">
+    <div style="font-size:11px;color:var(--t3);margin-bottom:14px;line-height:1.6;font-family:Georgia,serif">
+      Produtividade é saber dizer NÃO. Clique no dia para registrar. 🔥
     </div>
+    <div id="list-vicios"></div>
+    <div id="disc-cnt" style="display:none">0</div>
+    <div id="list-descarte" style="display:none"></div>
+  </div>
+
+  <!-- ── Painel Desafios ── -->
+  <div id="rotina-desafios" class="rotina-panel" style="display:none">
+    <div style="font-size:11px;color:var(--t3);margin-bottom:14px;line-height:1.6;font-family:Georgia,serif">
+      Desafios têm prazo definido — construir um hábito ou resistir a um vício por X dias.
+    </div>
+    <div id="list-desafios"></div>
   </div>
 
 </div>
@@ -1541,23 +1691,18 @@ input:focus, textarea:focus, select:focus {
 </div>
 <div id="sec-predio" class="sec">
 
-  <!-- Contratos floating button -->
-  <div class="contratos-bar" id="contratos-bar">
-    <button class="contratos-float-btn" id="contratos-float-btn" onclick="toggleContratos(this)">
-      📜 Contratos <span id="contratos-btn-count" class="badge" style="margin-left:4px"></span>
-    </button>
-    <button class="contratos-back-btn" id="contratos-back-btn" onclick="closeContratos()" style="display:none">← Voltar às Metas</button>
-  </div>
-
+  <span id="contratos-btn-count" style="display:none"></span>
+  <span id="contratos-float-btn" style="display:none"></span>
+  <span id="contratos-back-btn" style="display:none"></span>
   <!-- Mobile tab nav -->
   <div class="predio-nav" id="predio-nav">
-    <button class="predio-nav-tab" onclick="setPredioTab('contratos',this)">CONTRATOS</button>
     <button class="predio-nav-tab active" onclick="setPredioTab('frentes',this)">AÇÕES</button>
     <button class="predio-nav-tab" onclick="setPredioTab('ciclos',this)">TRIMESTRE</button>
     <button class="predio-nav-tab" onclick="setPredioTab('horizontes',this)">LONGO PRAZO</button>
     <button class="predio-nav-tab" onclick="setPredioTab('pilares',this)">ÁREAS</button>
     <button class="predio-nav-tab" onclick="setPredioTab('fundacao',this)">PROPÓSITO</button>
-
+    <div style="flex:1"></div>
+    <button class="predio-nav-tab" onclick="setPredioTab('contratos',this)" style="border-left:1px solid var(--b1);padding-left:14px">CONTRATOS</button>
   </div>
 
   <!-- Insights / analisador -->
@@ -1834,6 +1979,35 @@ input:focus, textarea:focus, select:focus {
   <div class="m-actions" style="margin-top:14px">
     <button class="btn btn-g" onclick="closeM('mbg-link-horizonte')">Pular</button>
     <button class="btn btn-a" onclick="confirmLinkHorizonte()">📎 Vincular</button>
+  </div>
+</div>
+</div>
+
+
+<!-- ══ MODAL: Adicionar Desafio ══════════════════════════ -->
+<div class="mbg" id="mbg-add-desafio">
+<div class="modal">
+  <button class="m-close" onclick="closeM('mbg-add-desafio')">×</button>
+  <div class="m-tag">Novo Desafio</div>
+  <div class="lbl gap">Nome do desafio</div>
+  <input type="text" id="inp-des-nome" placeholder="Ex: Ler 30 min, Sem redes sociais...">
+  <div class="lbl gap">Modo</div>
+  <div style="display:flex;gap:8px;margin-bottom:12px">
+    <button class="btn btn-g" id="des-mode-construir" onclick="setDesafioMode('construir')" style="flex:1;border-color:var(--green);color:var(--green)">🧱 Construir</button>
+    <button class="btn btn-g" id="des-mode-resistir" onclick="setDesafioMode('resistir')" style="flex:1">💣 Resistir</button>
+  </div>
+  <input type="hidden" id="inp-des-modo" value="construir">
+  <div class="lbl gap">Duração (dias)</div>
+  <div style="display:flex;gap:8px;margin-bottom:12px">
+    <button class="btn btn-g btn-sm des-dur-preset" onclick="setDesafioDur(7)">7d</button>
+    <button class="btn btn-g btn-sm des-dur-preset" onclick="setDesafioDur(14)">14d</button>
+    <button class="btn btn-g btn-sm des-dur-preset active" onclick="setDesafioDur(21)">21d</button>
+    <button class="btn btn-g btn-sm des-dur-preset" onclick="setDesafioDur(30)">30d</button>
+    <input type="number" id="inp-des-dur" value="21" min="1" max="365" style="width:60px;text-align:center">
+  </div>
+  <div class="m-actions">
+    <button class="btn btn-g" onclick="closeM('mbg-add-desafio')">Cancelar</button>
+    <button class="btn btn-a" onclick="saveDesafio()">🎯 Iniciar Desafio</button>
   </div>
 </div>
 </div>
@@ -2356,7 +2530,7 @@ function blank() {
     inbox: [], tarefas: [],
     ideias: [], tagIdeias: [],
     vicios: [], descarte: [], historico: [],
-    contratos: []
+    contratos: [], desafios: []
   };
 }
 
@@ -2620,7 +2794,7 @@ function setTab(name, el) {
   document.getElementById('sec-' + name).classList.add('active');
   el.classList.add('active');
   const renders = {
-    rotina: () => { const isD = window.innerWidth >= 1024; const v = S.meta.rotinaView || 'construir'; document.getElementById('rotina-construir').style.display = (isD || v==='construir') ? 'block' : 'none'; document.getElementById('rotina-destruir').style.display = (isD || v==='destruir') ? 'block' : 'none'; renderHabitos(); renderPorao(); },
+    rotina: () => { const v = rotinaView || 'construir'; setRotinaView(v); },
     caderno: renderCaderno,
     predio: renderPredio,
     dash: renderDash
@@ -2628,21 +2802,162 @@ function setTab(name, el) {
   renders[name]?.();
 }
 
-function setRotinaView(view) {
+function setRotinaView(view, btn) {
   rotinaView = view;
-  const isDesktop = window.innerWidth >= 1024;
-  if (isDesktop) {
-    // Desktop: both columns always visible
-    document.getElementById('rotina-construir').style.display = 'block';
-    document.getElementById('rotina-destruir').style.display  = 'block';
-  } else {
-    document.getElementById('rotina-construir').style.display = view === 'construir' ? 'block' : 'none';
-    document.getElementById('rotina-destruir').style.display  = view === 'destruir'  ? 'block' : 'none';
+  ['rotina-construir','rotina-destruir','rotina-desafios'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.style.display = 'none';
+  });
+  const panel = document.getElementById(
+    view === 'construir' ? 'rotina-construir' :
+    view === 'destruir'  ? 'rotina-destruir'  : 'rotina-desafios'
+  );
+  if (panel) panel.style.display = 'block';
+  document.querySelectorAll('.rotina-tab').forEach(t => t.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+  else {
+    const id = {construir:'rtog-construir',destruir:'rtog-destruir',desafios:'rtog-desafios'}[view];
+    const el = document.getElementById(id);
+    if (el) el.classList.add('active');
   }
-  document.getElementById('rtog-construir').classList.toggle('active', view === 'construir');
-  document.getElementById('rtog-destruir').classList.toggle('active', view === 'destruir');
-  if (view === 'construir' || isDesktop) renderHabitos();
-  if (view === 'destruir'  || isDesktop) renderPorao();
+  if (view === 'construir') renderHabitos();
+  if (view === 'destruir')  renderPorao();
+  if (view === 'desafios')  renderDesafios();
+  _updateRotinaTabCounts();
+}
+
+function rotinaAddAction() {
+  if (rotinaView === 'construir') openM('mbg-add-habito');
+  else if (rotinaView === 'destruir') openM('mbg-add-vicio');
+  else openM('mbg-add-desafio');
+}
+
+function _updateRotinaTabCounts() {
+  const hc = document.getElementById('rtab-hab-cnt');
+  const vc = document.getElementById('rtab-vic-cnt');
+  const dc = document.getElementById('rtab-des-cnt');
+  if (hc) hc.textContent = (S.habitos||[]).filter(h=>!h.arquivado).length;
+  if (vc) vc.textContent = (S.vicios||[]).length;
+  if (dc) dc.textContent = (S.desafios||[]).filter(d=>d.ativo!==false).length;
+}
+
+
+/* ══════════════════════════════════════════════════════════════
+   DESAFIOS
+══════════════════════════════════════════════════════════════ */
+function setDesafioMode(modo) {
+  document.getElementById('inp-des-modo').value = modo;
+  const bc = document.getElementById('des-mode-construir');
+  const br = document.getElementById('des-mode-resistir');
+  bc.style.cssText = modo==='construir'
+    ? 'flex:1;border-color:var(--green);color:var(--green);background:rgba(61,158,106,.1)'
+    : 'flex:1';
+  br.style.cssText = modo==='resistir'
+    ? 'flex:1;border-color:var(--red);color:var(--red);background:var(--rd)'
+    : 'flex:1';
+}
+
+function setDesafioDur(dias) {
+  document.getElementById('inp-des-dur').value = dias;
+  document.querySelectorAll('.des-dur-preset').forEach(b => {
+    b.classList.toggle('active', parseInt(b.textContent) === dias);
+    b.style.background = parseInt(b.textContent) === dias ? 'var(--acc-d)' : '';
+    b.style.borderColor = parseInt(b.textContent) === dias ? 'var(--acc)' : '';
+    b.style.color = parseInt(b.textContent) === dias ? 'var(--acc)' : '';
+  });
+}
+
+function saveDesafio() {
+  const nome = document.getElementById('inp-des-nome').value.trim();
+  if (!nome) return document.getElementById('inp-des-nome').focus();
+  const modo = document.getElementById('inp-des-modo').value;
+  const dur  = parseInt(document.getElementById('inp-des-dur').value) || 21;
+  if (!S.desafios) S.desafios = [];
+  S.desafios.push({ id: uid(), nome, modo, duracaoDias: dur, inicioEm: today(), registros: {}, ativo: true });
+  persist(); closeM('mbg-add-desafio');
+  document.getElementById('inp-des-nome').value = '';
+  renderDesafios(); _updateRotinaTabCounts();
+}
+
+function renderDesafios() {
+  const list = document.getElementById('list-desafios');
+  if (!list) return;
+  if (!S.desafios) S.desafios = [];
+  const ativos = S.desafios.filter(d => d.ativo !== false);
+
+  if (ativos.length === 0) {
+    list.innerHTML = '<div class="empty" style="padding:40px 16px">🎯<br>Nenhum desafio ativo.<br><span style="font-size:11px;color:var(--t3)">Crie um desafio para se comprometer com algo por um período definido.</span></div>';
+    return;
+  }
+
+  list.innerHTML = ativos.map(d => {
+    const inicio = new Date(d.inicioEm + 'T00:00:00');
+    const hoje = new Date(today() + 'T00:00:00');
+    const diaAtual = Math.floor((hoje - inicio) / 86400000) + 1;
+    const diasRestantes = Math.max(0, d.duracaoDias - diaAtual + 1);
+    const concluido = diaAtual > d.duracaoDias;
+    const pct = Math.min(100, Math.round((diaAtual - 1) / d.duracaoDias * 100));
+
+    // Build day grid (last 14 or full if short)
+    const gridDias = Math.min(d.duracaoDias, 21);
+    const startOffset = Math.max(0, diaAtual - gridDias);
+    let dayGrid = '';
+    for (let i = startOffset; i < d.duracaoDias; i++) {
+      const d2 = new Date(inicio); d2.setDate(inicio.getDate() + i);
+      const ds = d2.toLocaleDateString('sv');
+      const reg = (d.registros||{})[ds] || '';
+      const isFuture = d2 > hoje;
+      const isToday = ds === today();
+      let cls = 'day-cell';
+      if (isFuture) cls += ' future';
+      else if (d.modo === 'construir') cls += reg === 'feito' ? ' feito' : ' faltou';
+      else cls += reg === 'resistiu' ? ' feito' : reg === 'cedi' ? ' faltou' : ' faltou';
+      const onclick = isFuture ? '' : `cycleDesafioDay('${d.id}','${ds}')`;
+      const label = ['S','T','Q','Q','S','S','D'][d2.getDay()];
+      dayGrid += `<div class="${cls}${isToday?' today':''}" ${onclick ? `onclick="${onclick}"` : ''} style="${isFuture?'opacity:.25;cursor:default':''}">${reg === 'feito' || reg === 'resistiu' ? '✓' : reg === 'cedi' || (reg && d.modo==='construir' && reg!=='feito') ? '✕' : label}</div>`;
+    }
+
+    const statusLabel = concluido
+      ? '🎉 Concluído!'
+      : `Dia ${diaAtual}/${d.duracaoDias} · ${diasRestantes}d restantes`;
+
+    return `<div class="desafio-card">
+      <div class="desafio-hdr">
+        <span class="desafio-nome">${esc(d.nome)}</span>
+        <span class="desafio-mode-badge ${d.modo}">${d.modo === 'construir' ? '🧱 Construir' : '💣 Resistir'}</span>
+        <button class="habito-del" onclick="removeDesafio('${d.id}')">×</button>
+      </div>
+      <div class="desafio-progress-wrap">
+        <div class="desafio-progress-bar">
+          <div class="desafio-progress-fill ${concluido?'done':d.modo}" style="width:${pct}%"></div>
+        </div>
+        <div class="desafio-days-label">
+          <span>${statusLabel}</span>
+          <span style="color:var(--t3)">${pct}%</span>
+        </div>
+      </div>
+      <div class="desafio-day-grid">${dayGrid}</div>
+    </div>`;
+  }).join('');
+}
+
+function cycleDesafioDay(id, ds) {
+  const d = (S.desafios||[]).find(x => x.id === id); if (!d) return;
+  if (!d.registros) d.registros = {};
+  const cur = d.registros[ds] || '';
+  if (d.modo === 'construir') {
+    d.registros[ds] = cur === 'feito' ? '' : 'feito';
+  } else {
+    d.registros[ds] = cur === 'resistiu' ? 'cedi' : cur === 'cedi' ? '' : 'resistiu';
+  }
+  persist(); renderDesafios();
+}
+
+function removeDesafio(id) {
+  showConfirm('Remover este desafio?', () => {
+    S.desafios = (S.desafios||[]).filter(x => x.id !== id);
+    persist(); renderDesafios(); _updateRotinaTabCounts();
+  });
 }
 
 function flipFloor(id) { document.getElementById('fl-' + id).classList.toggle('open'); }
@@ -4561,30 +4876,70 @@ function renderMetasInsights(tab) {
 /* ══════════════════════════════════════════════════════════════
    FOCUS TIMER
 ══════════════════════════════════════════════════════════════ */
+// ── Focus Timer state ───────────────────────────────────────
 let _ftSecs = 25 * 60;
 let _ftTotal = 25 * 60;
 let _ftInterval = null;
 let _ftRunning = false;
 let _ftSessions = [];
+let _ftActivePreset = 0;   // index into _ftPresets
+let _ftCycle = 0;          // current cycle (0-indexed)
+
+// Default presets — [label, workMins, breakMins, cycles]
+const FT_PRESET_DEFAULTS = [
+  ['Foco', 25, 5, 4],
+  ['Deep', 50, 10, 2],
+  ['Ultra', 90, 15, 2],
+];
+let _ftPresets = (() => {
+  try { return JSON.parse(localStorage.getItem('canteiro_ft_presets')) || FT_PRESET_DEFAULTS; }
+  catch { return FT_PRESET_DEFAULTS; }
+})();
+let _ftInBreak = false;
 
 
 function _ftPlayBell() {
   try {
     const ctx = new (window.AudioContext || window.webkitAudioContext)();
+    if (ctx.state === 'suspended') ctx.resume();
     const now = ctx.currentTime;
-    // Two-tone bell: fundamental + overtone
-    [[523.25, 0, 0.6, 0.8], [659.25, 0.05, 0.4, 0.6], [523.25, 0.5, 0.3, 0.5]].forEach(([freq, start, gain, dur]) => {
-      const osc = ctx.createOscillator();
-      const env = ctx.createGain();
-      osc.type = 'sine';
-      osc.frequency.value = freq;
-      env.gain.setValueAtTime(0, now + start);
-      env.gain.linearRampToValueAtTime(gain, now + start + 0.02);
-      env.gain.exponentialRampToValueAtTime(0.001, now + start + dur);
-      osc.connect(env); env.connect(ctx.destination);
-      osc.start(now + start); osc.stop(now + start + dur + 0.1);
+    // Rich bell sequence: 3 strikes with harmonics, ~4s total
+    const strikes = [
+      { t:0,    freq:523.25, harm:1046.5, gain:0.55, dur:2.2 },
+      { t:0.9,  freq:659.25, harm:1318.5, gain:0.45, dur:1.8 },
+      { t:1.7,  freq:783.99, harm:1567.98, gain:0.4, dur:2.0 },
+      { t:2.6,  freq:523.25, harm:1046.5, gain:0.35, dur:1.6 },
+    ];
+    // Reverb via convolver
+    const reverb = ctx.createConvolver();
+    const rLen = ctx.sampleRate * 1.5;
+    const rBuf = ctx.createBuffer(2, rLen, ctx.sampleRate);
+    for (let c = 0; c < 2; c++) {
+      const d = rBuf.getChannelData(c);
+      for (let i = 0; i < rLen; i++) d[i] = (Math.random()*2-1) * Math.pow(1-i/rLen, 2);
+    }
+    reverb.buffer = rBuf;
+    const reverbGain = ctx.createGain(); reverbGain.gain.value = 0.25;
+    reverb.connect(reverbGain); reverbGain.connect(ctx.destination);
+
+    strikes.forEach(s => {
+      [s.freq, s.harm].forEach((freq, hi) => {
+        const osc = ctx.createOscillator();
+        const env = ctx.createGain();
+        osc.type = hi === 0 ? 'sine' : 'triangle';
+        osc.frequency.value = freq;
+        const g = hi === 0 ? s.gain : s.gain * 0.3;
+        env.gain.setValueAtTime(0, now + s.t);
+        env.gain.linearRampToValueAtTime(g, now + s.t + 0.015);
+        env.gain.exponentialRampToValueAtTime(0.001, now + s.t + s.dur);
+        osc.connect(env);
+        env.connect(ctx.destination);
+        env.connect(reverb);
+        osc.start(now + s.t);
+        osc.stop(now + s.t + s.dur + 0.05);
+      });
     });
-  } catch(e) {}
+  } catch(e) { console.warn('Bell error:', e); }
 }
 
 function _ftNotify(mins) {
@@ -4607,31 +4962,114 @@ function _ftRequestNotifPermission() {
   }
 }
 
+function openFtFullscreen() {
+  const el = document.getElementById('ft-fullscreen');
+  if (!el) return;
+  el.style.display = 'flex';
+  _ftRenderFsPresets();
+  _ftRenderDisplay();
+  _ftRenderCycles();
+  const fsPlay = document.getElementById('ft-fs-play');
+  if (fsPlay) fsPlay.textContent = _ftRunning ? '⏸' : '▶';
+}
+
+function closeFtFullscreen() {
+  const el = document.getElementById('ft-fullscreen');
+  if (el) el.style.display = 'none';
+}
+
 function toggleKbdPanel() {
   const p = document.getElementById('kbd-hint-panel');
   if (p) p.classList.toggle('open');
 }
 
-function focusTimerPreset(mins) {
+function focusTimerSelectPreset(idx) {
+  _ftActivePreset = idx;
+  _ftCycle = 0;
+  _ftInBreak = false;
   focusTimerReset();
-  _ftSecs = mins * 60;
-  _ftTotal = mins * 60;
-  document.getElementById('ft-btn-25').classList.toggle('active-btn', mins === 25);
-  document.getElementById('ft-btn-50').classList.toggle('active-btn', mins === 50);
+  const p = _ftPresets[idx];
+  _ftTotal = p[1] * 60;
+  _ftSecs = _ftTotal;
   _ftRenderDisplay();
+  _ftRenderPresets();
+  _ftRenderCycles();
+  // Sync fullscreen too
+  _ftRenderFsPresets();
+}
+
+function focusTimerEditPreset(idx, e) {
+  e.stopPropagation();
+  const p = _ftPresets[idx];
+  const newWork = parseInt(prompt('Tempo de foco (min):', p[1]));
+  if (!newWork || newWork < 1) return;
+  const newBreak = parseInt(prompt('Pausa (min):', p[2]));
+  if (!newBreak || newBreak < 1) return;
+  const newCycles = parseInt(prompt('Ciclos:', p[3]));
+  if (!newCycles || newCycles < 1) return;
+  const newLabel = prompt('Nome:', p[0]) || p[0];
+  _ftPresets[idx] = [newLabel, newWork, newBreak, newCycles];
+  localStorage.setItem('canteiro_ft_presets', JSON.stringify(_ftPresets));
+  if (_ftActivePreset === idx) focusTimerSelectPreset(idx);
+  else _ftRenderPresets();
+}
+
+function _ftRenderPresets() {
+  ['ft-presets','ft-fs-presets'].forEach(containerId => {
+    const el = document.getElementById(containerId);
+    if (!el) return;
+    const isFs = containerId === 'ft-fs-presets';
+    el.innerHTML = _ftPresets.map((p, i) =>
+      `<button class="${isFs?'ft-fs-preset-btn':'ft-preset-btn'}${i===_ftActivePreset?' active-btn':''}"
+        onclick="focusTimerSelectPreset(${i})"
+        title="${p[1]}min foco · ${p[2]}min pausa · ${p[3]} ciclos">
+        ${p[0]}
+        ${!isFs ? `<button class="ft-preset-edit" onclick="focusTimerEditPreset(${i},event)" title="Editar">✎</button>` : ''}
+      </button>`
+    ).join('');
+  });
+}
+
+function _ftRenderCycles() {
+  const p = _ftPresets[_ftActivePreset];
+  const total = p[3];
+  const dots = Array.from({length:total}, (_,i) =>
+    `<div class="ft-cycle-dot${i<_ftCycle?' done':i===_ftCycle&&!_ftInBreak?' active':''}"></div>`
+  ).join('');
+  const cr = document.getElementById('ft-cycle-row');
+  if (cr) cr.innerHTML = dots;
+  const fsC = document.getElementById('ft-fs-cycle');
+  if (fsC) {
+    const label = _ftInBreak
+      ? `⏸ Pausa · ${_ftCycle+1}/${total}`
+      : `Ciclo ${_ftCycle+1}/${total}`;
+    fsC.textContent = label;
+  }
+}
+
+function _ftRenderFsPresets() {
+  const el = document.getElementById('ft-fs-presets');
+  if (el) {
+    el.innerHTML = _ftPresets.map((p, i) =>
+      `<button class="ft-fs-preset-btn${i===_ftActivePreset?' active-btn':''}"
+        onclick="focusTimerSelectPreset(${i})">
+        ${p[0]}: ${p[1]}min
+      </button>`
+    ).join('');
+  }
 }
 
 function focusTimerToggle() {
-  const btn = document.getElementById('ft-btn-play');
+  const btns = ['ft-btn-play','ft-fs-play'];
   if (_ftRunning) {
     clearInterval(_ftInterval);
     _ftRunning = false;
-    btn.textContent = '▶';
+    btns.forEach(id => { const b = document.getElementById(id); if(b) b.textContent = '▶'; });
     _ftSetState('');
   } else {
     _ftRunning = true;
-    btn.textContent = '⏸';
-    _ftSetState('running');
+    btns.forEach(id => { const b = document.getElementById(id); if(b) b.textContent = '⏸'; });
+    _ftSetState(_ftInBreak ? 'break' : 'running');
     _ftRequestNotifPermission();
     _ftInterval = setInterval(() => {
       _ftSecs--;
@@ -4639,16 +5077,42 @@ function focusTimerToggle() {
       if (_ftSecs <= 0) {
         clearInterval(_ftInterval);
         _ftRunning = false;
-        btn.textContent = '▶';
-        _ftSetState('done');
-        _ftSessions.push({ mins: Math.round(_ftTotal/60), ts: today() });
-        _ftRenderSessions();
-        _ftPlayBell();
-        _ftNotify(Math.round(_ftTotal/60));
-        showToast('⏱ Sessão concluída! ' + Math.round(_ftTotal/60) + 'min focado.');
-        _ftSecs = _ftTotal;
+        btns.forEach(id => { const b = document.getElementById(id); if(b) b.textContent = '▶'; });
+        const p = _ftPresets[_ftActivePreset];
+        if (!_ftInBreak) {
+          // Work session done
+          _ftSessions.push({ mins: p[1], ts: today(), preset: p[0] });
+          _ftRenderSessions();
+          _ftPlayBell();
+          _ftNotify(p[1]);
+          _ftCycle++;
+          if (_ftCycle >= p[3]) {
+            // All cycles done
+            _ftCycle = 0;
+            _ftSetState('done');
+            showToast('🎉 ' + p[3] + ' ciclos concluídos! Descanse bem.');
+          } else {
+            // Start break
+            _ftInBreak = true;
+            const breakSecs = (_ftCycle % p[3] === 0 && p[3] > 1 ? p[2] * 2 : p[2]) * 60;
+            _ftTotal = breakSecs;
+            _ftSecs = breakSecs;
+            _ftSetState('');
+            showToast('⏸ Ciclo ' + _ftCycle + '/' + p[3] + ' — pausa de ' + Math.round(breakSecs/60) + 'min');
+            _ftRenderCycles();
+          }
+        } else {
+          // Break done
+          _ftInBreak = false;
+          _ftTotal = p[1] * 60;
+          _ftSecs = _ftTotal;
+          _ftSetState('');
+          _ftPlayBell();
+          showToast('▶ Pausa concluída — ciclo ' + (_ftCycle+1) + ' iniciando!');
+          _ftRenderCycles();
+        }
         _ftRenderDisplay();
-      } else if (_ftSecs <= 60) {
+      } else if (_ftSecs <= 60 && !_ftInBreak) {
         _ftSetState('warning');
       }
     }, 1000);
@@ -4658,38 +5122,52 @@ function focusTimerToggle() {
 function focusTimerReset() {
   clearInterval(_ftInterval);
   _ftRunning = false;
+  _ftInBreak = false;
+  const p = _ftPresets[_ftActivePreset];
+  _ftTotal = p[1] * 60;
   _ftSecs = _ftTotal;
-  const btn = document.getElementById('ft-btn-play');
-  if (btn) btn.textContent = '▶';
+  _ftCycle = 0;
+  ['ft-btn-play','ft-fs-play'].forEach(id => { const b=document.getElementById(id); if(b) b.textContent='▶'; });
   _ftSetState('');
   _ftRenderDisplay();
+  _ftRenderCycles();
 }
 
 function _ftRenderDisplay() {
-  const el = document.getElementById('focus-timer-display');
   const m = String(Math.floor(_ftSecs / 60)).padStart(2, '0');
   const s = String(_ftSecs % 60).padStart(2, '0');
   const timeStr = m + ':' + s;
+  const el = document.getElementById('focus-timer-display');
+  const elFs = document.getElementById('ft-fs-display');
   if (el) el.textContent = timeStr;
-  // Mini display
+  if (elFs) elFs.textContent = timeStr;
   const miniTime = document.getElementById('ft-mini-time');
   if (miniTime) miniTime.textContent = _ftSecs < 3600 ? timeStr : m + 'm';
-  // Main ring (C = 163.4 for r=26)
   const pct = _ftSecs / _ftTotal;
+  const C_main = 163.4, C_fs = 552.9, C_mini = 94.2;
+  const offset = v => String(v * (1 - pct));
   const ring = document.getElementById('ft-ring-fill');
-  if (ring) ring.style.strokeDashoffset = String(163.4 * (1 - pct));
-  // Mini ring (C = 94.2 for r=15)
+  if (ring) ring.style.strokeDashoffset = offset(C_main);
+  const ringFs = document.getElementById('ft-fs-ring-fill');
+  if (ringFs) ringFs.style.strokeDashoffset = offset(C_fs);
   const mini = document.getElementById('ft-mini-fill');
-  if (mini) mini.style.strokeDashoffset = String(94.2 * (1 - pct));
+  if (mini) mini.style.strokeDashoffset = offset(C_mini);
 }
 
 function _ftSetState(state) {
-  const el = document.getElementById('focus-timer-display');
-  const ring = document.getElementById('ft-ring-fill');
+  const s = state === 'break' ? 'running' : state;
+  ['focus-timer-display','ft-fs-display'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) { el.className = el.id === 'focus-timer-display' ? 'focus-timer-display' : 'ft-fs-display'; if (s) el.classList.add(s); }
+  });
+  ['ft-ring-fill','ft-fs-ring-fill'].forEach(id => {
+    const ring = document.getElementById(id);
+    if (ring) { ring.className = 'ft-ring-fill'; if (s) ring.classList.add(s); }
+  });
   const mini = document.getElementById('ft-mini-fill');
-  if (el) { el.className = 'focus-timer-display'; if (state) el.classList.add(state); }
-  if (ring) { ring.className = 'ft-ring-fill'; if (state) ring.classList.add(state); }
-  if (mini) { mini.className = 'ft-mini-fill'; if (state) mini.classList.add(state); }
+  if (mini) { mini.className = 'ft-mini-fill'; if (s) mini.classList.add(s); }
+  const lbl = document.getElementById('ft-fs-label');
+  if (lbl) lbl.textContent = state === 'break' ? 'PAUSA' : state === 'done' ? 'CONCLUÍDO' : _ftInBreak ? 'PAUSA' : 'FOCO';
 }
 
 function _ftRenderSessions() {
@@ -5720,8 +6198,9 @@ function init() {
   if (!S.tagIdeias) S.tagIdeias = [];
   if (!S.contratos) S.contratos = [];
 
-  // Fix add habito button
-  document.querySelector('[onclick="openM(\'mbg-add-habito\')"]').onclick = openM_addHabito;
+  // Fix add habito button — safe selector (element may have changed)
+  const addHabBtn = document.querySelector('[onclick*="mbg-add-habito"]');
+  if (addHabBtn) addHabBtn.onclick = openM_addHabito;
 
   // Inicializa toggles de dias nos modais fixos
   initDiasToggle('inp-hab-dias');
@@ -5756,6 +6235,8 @@ function init() {
   window.addEventListener('resize', () => { applyNavLayout(); initPredioNav(); });
 
   initKeyboardShortcuts();
+  _ftRenderPresets();
+  _ftRenderCycles();
 
   // PWA service worker
   if ('serviceWorker' in navigator) {
