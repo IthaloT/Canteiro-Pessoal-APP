@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -207,14 +207,14 @@ select option{background:var(--s2)}
 ═══════════════════════════════════════════════════════════ */
 .floor{border:1px solid var(--b1);border-radius:var(--r);margin-bottom:9px;overflow:hidden;transition:border-color var(--tr)}
 .floor.open{border-color:var(--b2)}
-.floor-hdr{padding:12px 14px;display:flex;align-items:center;gap:10px;cursor:pointer;background:var(--s1);transition:background var(--tr);user-select:none}
-.floor-hdr:hover{background:var(--s2)}
+.floor-hdr{padding:12px 14px;display:flex;align-items:center;gap:10px;background:var(--s1);user-select:none}
+
 .floor-tag{font-size:9px;letter-spacing:1px;text-transform:uppercase;color:var(--acc);background:var(--acc-d);border:1px solid var(--acc-g);border-radius:3px;padding:2px 7px;font-family:Georgia,serif;flex-shrink:0}
-.floor-name{font-size:14px;flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
-.floor-caret{color:var(--t3);font-size:10px;font-style:normal;transition:transform .2s}
-.floor.open .floor-caret{transform:rotate(180deg)}
-.floor-body{display:none;padding:14px;border-top:1px solid var(--b1);background:var(--bg);animation:fadeIn .18s ease}
-.floor.open .floor-body{display:block}
+.floor-name{font-size:14px;flex:1;min-width:0;white-space:normal}
+.floor-caret{display:none}
+
+.floor-body{display:block;padding:14px;border-top:1px solid var(--b1);background:var(--bg)}
+
 .floor-example{font-size:11px;color:var(--t3);font-family:Georgia,serif;font-style:italic;margin:4px 0 10px;line-height:1.5;padding-left:2px}
 
 .predio-item{background:var(--s1);border:1px solid var(--b1);border-radius:var(--rs);padding:11px 12px;margin-bottom:7px;overflow:visible;position:relative}
@@ -259,7 +259,7 @@ select option{background:var(--s2)}
 .v-dot{width:19px;height:19px;border-radius:3px;cursor:pointer;transition:transform .1s;flex-shrink:0}
 .v-dot:hover{transform:scale(1.2)}
 .v-dot.resistiu{background:var(--green)}
-.v-dot.quase{background:var(--yellow)}
+/* .v-dot.quase removed: vicios are binary */
 .v-dot.cedi{background:var(--red)}
 .v-dot.empty{background:var(--s3);border:1px solid var(--b1)}
 .v-dot.today{outline:2px solid var(--acc);outline-offset:2px}
@@ -565,6 +565,12 @@ select option{background:var(--s2)}
   .k-col{flex:1;max-width:none}
 }
 
+
+/* ── Kanban drag handle ─────────────────────────────────────── */
+.k-drag-handle{cursor:grab;color:var(--t3);font-size:14px;line-height:1;padding:0 4px 0 0;flex-shrink:0;user-select:none;touch-action:none}
+.k-drag-handle:active{cursor:grabbing}
+.k-card{touch-action:auto}
+
 /* ── Kanban card text clamp ─────────────────────────────────── */
 .k-card-txt{
   flex:1;word-break:break-word;
@@ -733,6 +739,148 @@ select option{background:var(--s2)}
 .tipo-opt.sel{border-color:var(--acc);background:var(--acc-d)}
 .tipo-opt-icon{font-size:18px;margin-bottom:4px}
 .tipo-opt-lbl{font-size:11px;color:var(--text)}
+
+/* ── Floor preview (live list) ───────────────────────────── */
+.floor-preview{font-size:12px;color:var(--t2);font-family:Georgia,serif;margin-bottom:8px;line-height:1.8}
+.floor-preview span{margin-right:8px}
+.floor-preview-item::before{content:"• ";color:var(--acc)}
+
+/* ── Metas Desktop Bento Grid ────────────────────────────── */
+@media(min-width:1024px){
+  #sec-predio{display:grid;grid-template-columns:1fr 1fr;gap:12px;align-items:start;padding:16px}
+  #fl-frentes{grid-column:1 / -1}
+  #fl-ciclos{grid-column:1}
+  #fl-horizontes{grid-column:2}
+  #fl-pilares{grid-column:1}
+  #fl-fundacao{grid-column:2}
+  #fl-contratos{grid-column:1 / -1}
+  .k-col{min-height:340px}
+}
+
+
+/* ── Tab icon glow (active) ─────────────────────────────────── */
+.tab.active .tab-icon{filter:drop-shadow(0 0 5px rgba(212,160,23,.55))}
+.tab-icon{font-size:18px;transition:filter .2s}
+
+/* ── Rotina toggle active glow ──────────────────────────────── */
+.rotina-tog.active{background:var(--bg);color:var(--text);box-shadow:0 1px 6px rgba(212,160,23,.2);border:1px solid var(--acc-g)}
+
+/* ── Predio mobile nav tabs ─────────────────────────────────── */
+.predio-nav{
+  display:flex;gap:4px;overflow-x:auto;scrollbar-width:none;
+  padding:12px 16px 0;margin:0 -16px;border-bottom:1px solid var(--b1);
+  position:sticky;top:0;background:var(--bg);z-index:20;flex-shrink:0;
+}
+.predio-nav::-webkit-scrollbar{display:none}
+.predio-nav-tab{
+  flex-shrink:0;padding:6px 12px;border:none;background:none;
+  font-size:9px;letter-spacing:1.2px;text-transform:uppercase;
+  color:var(--t3);font-family:Georgia,serif;cursor:pointer;
+  border-bottom:2px solid transparent;transition:var(--tr);white-space:nowrap;
+}
+.predio-nav-tab.active{color:var(--acc);border-bottom-color:var(--acc)}
+.predio-nav-tab:hover:not(.active){color:var(--t2)}
+@media(min-width:1024px){.predio-nav{display:none}}
+
+/* ── Metas insights bar ─────────────────────────────────────── */
+.metas-insights{padding:12px 16px;border-bottom:1px solid var(--b1);background:var(--s1);flex-shrink:0}
+.metas-kpis{display:flex;gap:8px;margin-bottom:8px}
+.metas-kpi{flex:1;text-align:center;background:var(--bg);border:1px solid var(--b1);border-radius:var(--rs);padding:7px 4px}
+.metas-kpi-n{font-size:18px;font-weight:bold;color:var(--text);line-height:1.1}
+.metas-kpi-l{font-size:9px;color:var(--t3);letter-spacing:.8px;text-transform:uppercase;font-family:Georgia,serif;margin-top:2px}
+.metas-kpi.ok .metas-kpi-n{color:var(--green)}
+.metas-kpi.warn .metas-kpi-n{color:var(--acc)}
+.metas-kpi.bad .metas-kpi-n{color:var(--red)}
+.metas-alerta{font-size:11px;color:var(--t2);font-family:Georgia,serif;line-height:1.7;padding:0}
+.metas-alerta li{list-style:none;padding:0}
+@media(min-width:1024px){.metas-insights{padding:16px;border-bottom:none;border-right:none}}
+
+/* ── Dashboard analyzer compact ────────────────────────────── */
+.dash-analyzer{display:flex;gap:8px;margin-bottom:12px}
+.dash-ana-pill{flex:1;background:var(--s1);border:1px solid var(--b1);border-radius:var(--rs);padding:8px 6px;text-align:center}
+.dash-ana-n{font-size:17px;font-weight:bold;color:var(--text)}
+.dash-ana-l{font-size:9px;color:var(--t3);text-transform:uppercase;letter-spacing:.8px;font-family:Georgia,serif}
+.dash-alert{font-size:11px;color:var(--t2);font-family:Georgia,serif;line-height:1.8}
+
+
+/* ── Contratos bar ─────────────────────────────────────────── */
+.contratos-bar{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:8px 16px;border-bottom:1px solid var(--b1);
+  background:var(--bg);flex-shrink:0;
+}
+.contratos-float-btn{
+  background:none;border:1px solid var(--acc-g);color:var(--acc);
+  border-radius:20px;padding:5px 14px;font-size:11px;cursor:pointer;
+  font-family:Georgia,serif;letter-spacing:.3px;transition:var(--tr);
+}
+.contratos-float-btn:hover,.contratos-float-btn.active{background:var(--acc-d);border-color:var(--acc)}
+.contratos-back-btn{
+  background:none;border:none;color:var(--t2);font-size:11px;
+  cursor:pointer;font-family:Georgia,serif;padding:4px 8px;
+}
+.contratos-back-btn:hover{color:var(--text)}
+
+/* ── Notes per item ────────────────────────────────────────── */
+.pi-nota-toggle{
+  background:none;border:none;color:var(--t3);font-size:10px;
+  cursor:pointer;font-family:Georgia,serif;padding:4px 0 0;
+  letter-spacing:.3px;transition:color var(--tr);
+}
+.pi-nota-toggle:hover,.pi-nota-toggle.has-nota{color:var(--acc)}
+.pi-nota-area{
+  width:100%;background:var(--s2);border:1px solid var(--b1);
+  border-radius:var(--rs);color:var(--text);padding:7px 9px;
+  font-size:12px;font-family:Georgia,serif;resize:none;
+  min-height:52px;margin-top:5px;outline:none;
+  transition:border-color var(--tr);
+}
+.pi-nota-area:focus{border-color:var(--acc)}
+
+/* ── Horizonte link badge ──────────────────────────────────── */
+.horizonte-link-badge{
+  font-size:10px;color:var(--acc);font-family:Georgia,serif;
+  background:var(--acc-d);border:1px solid var(--acc-g);
+  border-radius:3px;padding:1px 6px;margin-top:4px;display:inline-block;
+}
+
+/* ── Área habitos badge ────────────────────────────────────── */
+.area-hab-badge{
+  font-size:9px;color:var(--t2);font-family:Georgia,serif;margin-top:3px;
+}
+
+/* ── Diário entries ────────────────────────────────────────── */
+.diario-entry{
+  background:var(--s2);border:1px solid var(--b1);border-radius:var(--rs);
+  padding:10px 12px;margin-bottom:7px;font-size:13px;line-height:1.5;
+}
+.diario-entry-date{font-size:10px;color:var(--t3);font-family:Georgia,serif;margin-bottom:4px}
+.diario-del{float:right;background:none;border:none;color:var(--t3);font-size:13px;cursor:pointer;margin-left:6px}
+.diario-del:hover{color:var(--red)}
+
+
+/* ── Vincular accordion picker ──────────────────────────────── */
+.vp-container{border:1px solid var(--b1);border-radius:var(--rs);overflow:hidden;margin-top:4px}
+.vp-cat{
+  display:flex;align-items:center;gap:7px;padding:8px 11px;
+  cursor:pointer;font-size:12px;color:var(--t2);
+  font-family:Georgia,serif;user-select:none;
+  border-bottom:1px solid var(--b1);background:var(--s1);
+  transition:background var(--tr);
+}
+.vp-cat:last-of-type{border-bottom:none}
+.vp-cat:hover{background:var(--s2);color:var(--text)}
+.vp-cat-label{flex:1}
+.vp-arrow{font-size:10px;color:var(--t3);width:10px;text-align:center;flex-shrink:0}
+.vp-items{background:var(--bg);border-bottom:1px solid var(--b1)}
+.vp-item{
+  padding:7px 11px 7px 24px;font-size:12px;color:var(--t2);
+  cursor:pointer;font-family:Georgia,serif;border-bottom:1px solid var(--b1);
+  transition:background var(--tr);line-height:1.3;
+}
+.vp-item:last-child{border-bottom:none}
+.vp-item:hover{background:var(--s1);color:var(--acc)}
+
 </style>
 </head>
 <body>
@@ -773,10 +921,10 @@ select option{background:var(--s2)}
   <!-- Toggle Construir / Destruir -->
   <div class="rotina-toggle-bar">
     <button class="rotina-tog active" id="rtog-construir" onclick="setRotinaView('construir')">
-      🧱 Construir
+      🧱 Construir Hábitos
     </button>
     <button class="rotina-tog" id="rtog-destruir" onclick="setRotinaView('destruir')">
-      🛡️ Destruir
+      💣 Destruir Vícios
     </button>
   </div>
 
@@ -832,30 +980,40 @@ select option{background:var(--s2)}
       <div id="col-feito"></div>
     </div>
   </div>
-  <div class="mt2" style="border-top:1px solid var(--b1);padding-top:10px">
-    <div class="ideias-accordion-hdr" id="ideias-accordion-hdr" onclick="toggleIdeiasAccordion()">
-      <span class="ideias-accordion-title">💡 Caixa de Ideias <span class="badge" id="ideias-cnt" style="margin-left:4px">0</span></span>
-      <button class="btn btn-g btn-sm" onclick="event.stopPropagation();openGerenciarTags()" style="font-size:10px;padding:3px 8px">🏷 Tags</button>
-      <span class="ideias-accordion-caret" style="margin-left:8px">▾</span>
-    </div>
-    <div class="ideias-accordion-body" id="ideias-accordion-body">
-      <div id="list-ideias"></div>
-    </div>
-  </div>
+
 </div>
 <div id="sec-predio" class="sec">
 
+  <!-- Contratos floating button -->
+  <div class="contratos-bar" id="contratos-bar">
+    <button class="contratos-float-btn" id="contratos-float-btn" onclick="toggleContratos(this)">
+      📜 Contratos <span id="contratos-btn-count" class="badge" style="margin-left:4px"></span>
+    </button>
+    <button class="contratos-back-btn" id="contratos-back-btn" onclick="closeContratos()" style="display:none">← Voltar às Metas</button>
+  </div>
+
+  <!-- Mobile tab nav -->
+  <div class="predio-nav" id="predio-nav">
+    <button class="predio-nav-tab active" onclick="setPredioTab('frentes',this)">AÇÕES</button>
+    <button class="predio-nav-tab" onclick="setPredioTab('ciclos',this)">TRIMESTRE</button>
+    <button class="predio-nav-tab" onclick="setPredioTab('horizontes',this)">LONGO PRAZO</button>
+    <button class="predio-nav-tab" onclick="setPredioTab('pilares',this)">ÁREAS</button>
+    <button class="predio-nav-tab" onclick="setPredioTab('fundacao',this)">PROPÓSITO</button>
+
+  </div>
+
+  <!-- Insights / analisador -->
+  <div class="metas-insights" id="metas-insights-bar"></div>
+
   <div class="floor" id="fl-frentes">
-    <div class="floor-hdr" onclick="flipFloor('frentes')">
-      <span class="floor-tag">Ações</span>
-      <span class="floor-name" id="fl-frentes-name">Projetos práticos de curto prazo</span>
+    <div class="floor-hdr">
+      <span class="floor-tag">AÇÕES</span>
       <span class="floor-count-badge" id="fl-frentes-count"></span>
       <em class="floor-caret">▾</em>
     </div>
     <div class="floor-body">
-      <div id="fl-frentes-tutorial">
-        <div class="lbl">Projetos práticos de curto prazo — até 2 meses</div>
-      </div>
+      <div id="preview-frentes" class="floor-preview"></div>
+      <div id="fl-frentes-tutorial" style="display:none"></div>
       <div id="warn-ciclos-frentes" style="display:none"></div>
       <button class="btn btn-g btn-sm gap" onclick="openAddPredi('frentes')">+ Nova ação</button>
       <div id="list-frentes" class="gap"></div>
@@ -863,16 +1021,14 @@ select option{background:var(--s2)}
   </div>
 
   <div class="floor" id="fl-ciclos">
-    <div class="floor-hdr" onclick="flipFloor('ciclos')">
-      <span class="floor-tag">Trimestre</span>
-      <span class="floor-name" id="fl-ciclos-name">O foco para os próximos 90 dias</span>
+    <div class="floor-hdr">
+      <span class="floor-tag">TRIMESTRE</span>
       <span class="floor-count-badge" id="fl-ciclos-count"></span>
       <em class="floor-caret">▾</em>
     </div>
     <div class="floor-body">
-      <div id="fl-ciclos-tutorial">
-        <div class="lbl">O foco para os próximos 90 dias — máximo 3 metas</div>
-      </div>
+      <div id="fl-ciclos-tutorial" style="display:none"></div>
+      <div id="preview-ciclos" class="floor-preview"></div>
       <div id="warn-ciclos" class="warn" style="display:none;font-size:11px;color:var(--red);margin-top:4px">Limite de 3 metas trimestrais atingido.</div>
       <button class="btn btn-g btn-sm gap" id="btn-add-ciclo" onclick="openAddPredi('ciclos')">+ Nova meta trimestral</button>
       <div id="list-ciclos" class="gap"></div>
@@ -880,41 +1036,36 @@ select option{background:var(--s2)}
   </div>
 
   <div class="floor" id="fl-horizontes">
-    <div class="floor-hdr" onclick="flipFloor('horizontes')">
-      <span class="floor-tag">Grandes Saltos</span>
-      <span class="floor-name" id="fl-horizontes-name">Os seus objetivos de 1 a 10 anos</span>
+    <div class="floor-hdr">
+      <span class="floor-tag">LONGO PRAZO</span>
       <span class="floor-count-badge" id="fl-horizontes-count"></span>
       <em class="floor-caret">▾</em>
     </div>
     <div class="floor-body">
-      <div id="fl-horizontes-tutorial">
-        <div class="lbl">Os seus objetivos de 1 a 10 anos</div>
-      </div>
+      <div id="fl-horizontes-tutorial" style="display:none"></div>
+      <div id="preview-horizontes" class="floor-preview"></div>
       <button class="btn btn-g btn-sm gap" onclick="openAddPredi('horizontes')">+ Nova meta de longo prazo</button>
       <div id="list-horizontes" class="gap"></div>
     </div>
   </div>
 
   <div class="floor" id="fl-pilares">
-    <div class="floor-hdr" onclick="flipFloor('pilares')">
-      <span class="floor-tag">Áreas de foco</span>
-      <span class="floor-name" id="fl-pilares-name">As grandes áreas de sua vida</span>
+    <div class="floor-hdr">
+      <span class="floor-tag">ÁREAS DE FOCO</span>
       <span class="floor-count-badge" id="fl-pilares-count"></span>
       <em class="floor-caret">▾</em>
     </div>
     <div class="floor-body">
-      <div id="fl-pilares-tutorial">
-        <div class="lbl">As grandes áreas de sua vida</div>
-      </div>
+      <div id="fl-pilares-tutorial" style="display:none"></div>
+      <div id="preview-pilares" class="floor-preview"></div>
       <button class="btn btn-g btn-sm gap" onclick="openAddPredi('pilares')">+ Nova área de foco</button>
       <div id="list-pilares" class="gap"></div>
     </div>
   </div>
 
   <div class="floor" id="fl-fundacao">
-    <div class="floor-hdr" onclick="flipFloor('fundacao')">
-      <span class="floor-tag">Propósito maior</span>
-      <span class="floor-name">A sua missão absoluta de vida</span>
+    <div class="floor-hdr">
+      <span class="floor-tag">PROPÓSITO MAIOR</span>
       <em class="floor-caret">▾</em>
     </div>
     <div class="floor-body">
@@ -925,20 +1076,32 @@ select option{background:var(--s2)}
         <button class="btn btn-a btn-sm" onclick="saveMissao()">Salvar propósito</button>
       </div>
       <div id="list-proposito-historico" style="margin-top:12px"></div>
+      <div class="diario-section" style="margin-top:14px;border-top:1px solid var(--b1);padding-top:12px">
+        <button class="btn btn-g btn-sm" style="width:100%" onclick="toggleDiario()">
+          📓 Diário do Propósito <span id="diario-cnt" style="color:var(--t2);font-size:10px"></span>
+        </button>
+        <div id="diario-body" style="display:none;margin-top:10px">
+          <div style="display:flex;gap:6px;align-items:center;margin-bottom:8px;flex-wrap:wrap">
+          <input type="month" id="diario-filter-month" onchange="renderDiario()" style="flex:1;min-width:130px;font-size:12px;padding:4px 8px;background:var(--s2);border:1px solid var(--b1);border-radius:var(--rs);color:var(--text);font-family:Georgia,serif">
+          <button onclick="document.getElementById('diario-filter-month').value='';renderDiario()" style="background:none;border:1px solid var(--b1);color:var(--t2);border-radius:var(--rs);padding:4px 8px;font-size:11px;cursor:pointer;font-family:Georgia,serif;white-space:nowrap">Ver tudo</button>
+        </div>
+        <div id="list-diario"></div>
+          <textarea id="inp-diario" rows="3" placeholder="Como está sendo este período para você? Avalie, reflita, registre..." style="margin-top:6px"></textarea>
+          <button class="btn btn-a btn-sm" style="margin-top:6px;width:100%" onclick="addDiario()">+ Registrar</button>
+        </div>
+      </div>
     </div>
   </div>
 
-  <div class="floor" id="fl-contratos">
-    <div class="floor-hdr" onclick="flipFloor('contratos')">
-      <span class="floor-tag">Contratos</span>
-      <span class="floor-name">Os seus acordos inegociáveis</span>
+  <div class="floor" id="fl-contratos" style="display:none">
+    <div class="floor-hdr">
+      <span class="floor-tag">CONTRATOS</span>
       <span class="floor-count-badge" id="fl-contratos-count"></span>
       <em class="floor-caret">▾</em>
     </div>
     <div class="floor-body">
-      <div id="fl-contratos-tutorial">
-        <div class="lbl">Cadeados de recompensa — desbloqueiam ao cumprir uma meta, hábito ou vício</div>
-      </div>
+      <div id="fl-contratos-tutorial" style="display:none"></div>
+      <p style="font-size:11px;color:var(--t3);font-family:Georgia,serif;margin-bottom:10px">Cadeados de recompensa que desbloqueiam ao cumprir uma meta, hábito ou vício.</p>
       <button class="btn btn-g btn-sm gap" onclick="openAddContrato()">+ Novo contrato</button>
       <div id="list-contratos" class="gap"></div>
     </div>
@@ -990,25 +1153,34 @@ select option{background:var(--s2)}
   <div id="t-s1">
     <div class="m-actions">
       <button class="btn btn-g" onclick="tAct('discard')">🗑 Apagar item</button>
-      <button class="btn btn-g" onclick="tAct('idea')">💡 Ideia</button>
       <button class="btn btn-g" onclick="tAct('project')">📁 Criar Ação</button>
       <button class="btn btn-a" onclick="tAct('task')">✓ Criar Tarefa</button>
     </div>
   </div>
 
   <div id="t-s2" style="display:none">
-    <div id="t-s2-q1">
-      <div class="lbl" style="margin-top:4px;font-size:13px;line-height:1.5">Isso precisa ser resolvido <strong>nos próximos dias</strong>?</div>
+    <div id="t-s2-q0">
+      <div class="lbl" style="margin-top:4px;font-size:13px;line-height:1.5">Isso é mesmo <strong>necessário</strong> fazer?</div>
       <div class="m-actions" style="margin-top:12px">
-        <button class="btn btn-g" style="flex:1" onclick="tWizard('agendar')">Não, pode esperar</button>
-        <button class="btn btn-a" style="flex:1" onclick="tWizardQ2()">Sim, é urgente</button>
+        <button class="btn btn-red" style="flex:1" onclick="tWizardQ0No()">Não, descartar</button>
+        <button class="btn btn-a" style="flex:1" onclick="tWizardQ0Yes()">Sim, é necessário</button>
       </div>
       <div style="text-align:center;margin-top:8px">
         <button class="btn btn-g btn-sm" id="t-back-btn" onclick="tBack()">← Voltar</button>
       </div>
     </div>
+    <div id="t-s2-q1" style="display:none">
+      <div class="lbl" style="margin-top:4px;font-size:13px;line-height:1.5">Precisa ser feito <strong>logo</strong>?</div>
+      <div class="m-actions" style="margin-top:12px">
+        <button class="btn btn-g" style="flex:1" onclick="tWizard('agendar')">Não, pode esperar</button>
+        <button class="btn btn-a" style="flex:1" onclick="tWizardQ2()">Sim, é urgente</button>
+      </div>
+      <div style="text-align:center;margin-top:8px">
+        <button class="btn btn-g btn-sm" onclick="tWizardBackQ1()">← Voltar</button>
+      </div>
+    </div>
     <div id="t-s2-q2" style="display:none">
-      <div class="lbl" style="margin-top:4px;font-size:13px;line-height:1.5">Tem que ser <strong>você</strong>, ou outra pessoa pode resolver?</div>
+      <div class="lbl" style="margin-top:4px;font-size:13px;line-height:1.5">Só <strong>você</strong> pode resolver isso?</div>
       <div class="m-actions" style="margin-top:12px">
         <button class="btn btn-g" style="flex:1" onclick="tWizard('pedir-ajuda')">Outra pessoa pode</button>
         <button class="btn btn-a" style="flex:1" onclick="tWizard('afazer')">Tem que ser eu</button>
@@ -1083,6 +1255,22 @@ select option{background:var(--s2)}
 </div>
 
 <!-- ══ MODAL: Confirmação genérica ══════════════════════════ -->
+
+<!-- ══ MODAL: Vincular ciclo a horizonte ══════════════════════ -->
+<div class="mbg" id="mbg-link-horizonte">
+<div class="modal">
+  <button class="m-close" onclick="closeM('mbg-link-horizonte')">×</button>
+  <div class="m-tag">Vincular ao objetivo de longo prazo</div>
+  <div class="m-text" id="link-horizonte-nome" style="font-size:13px"></div>
+  <div class="lbl gap">Qual objetivo de longo prazo este trimestre contribuiu?</div>
+  <select id="link-horizonte-sel" style="margin-top:6px"></select>
+  <div class="m-actions" style="margin-top:14px">
+    <button class="btn btn-g" onclick="closeM('mbg-link-horizonte')">Pular</button>
+    <button class="btn btn-a" onclick="confirmLinkHorizonte()">📎 Vincular</button>
+  </div>
+</div>
+</div>
+
 <div class="mbg" id="mbg-confirm">
 <div class="modal">
   <button class="m-close" onclick="closeM('mbg-confirm')">×</button>
@@ -1112,10 +1300,9 @@ select option{background:var(--s2)}
     <span class="dia-tog on" data-dia="0">Dom</span>
   </div>
   <div style="font-size:10px;color:var(--t3);font-family:Georgia,serif;margin-top:6px" id="hab-freq-preview">Meta: 7x/semana</div>
-  <div class="lbl gap">Vincular a objetivo do Prédio (opcional)</div>
-  <select id="inp-hab-vinculo">
-    <option value="">Sem vínculo</option>
-  </select>
+  <div class="lbl gap">Vincular a objetivo (opcional)</div>
+  <div id="add-hab-vinculos-chips" class="chips" style="min-height:24px;margin-bottom:6px"></div>
+  <div class="vp-container" id="add-hab-vp"></div>
   <div class="m-actions">
     <button class="btn btn-g" onclick="closeM('mbg-add-habito')">Cancelar</button>
     <button class="btn btn-a" onclick="saveHabito()">Adicionar</button>
@@ -1144,6 +1331,10 @@ select option{background:var(--s2)}
   <div id="horizonte-extras" style="display:none">
     <div class="lbl gap">Ano-alvo (ex: 2030)</div>
     <input type="number" id="inp-predi-ano" placeholder="Ex: 2030" min="2024" max="2060" style="width:140px">
+  </div>
+  <div id="predi-pilar-field" style="display:none">
+    <div class="lbl gap">Área de foco (opcional)</div>
+    <select id="inp-predi-pilar"><option value="">Sem vínculo</option></select>
   </div>
   <div class="m-actions">
     <button class="btn btn-g" onclick="closeM('mbg-add-predi')">Cancelar</button>
@@ -1190,11 +1381,9 @@ select option{background:var(--s2)}
     <span class="dia-tog" data-dia="0">Dom</span>
   </div>
   <div style="font-size:10px;color:var(--t3);font-family:Georgia,serif;margin-top:6px" id="edit-hab-freq-preview">Meta: 7x/semana</div>
-  <div class="lbl gap">Vínculos com o Prédio (múltiplos)</div>
-  <div id="edit-hab-vinculos-list" style="margin-bottom:8px"></div>
-  <select id="edit-hab-vinculo-sel" style="margin-bottom:8px">
-    <option value="">+ Adicionar vínculo...</option>
-  </select>
+  <div class="lbl gap">Vínculos (múltiplos)</div>
+  <div id="edit-hab-vinculos-chips" class="chips" style="min-height:24px;margin-bottom:6px"></div>
+  <div class="vp-container" id="edit-hab-vp"></div>
   <div class="m-actions">
     <button class="btn btn-g" onclick="closeM('mbg-edit-habito')">Cancelar</button>
     <button class="btn btn-a" onclick="saveEditHabito()">Salvar</button>
@@ -1224,6 +1413,10 @@ select option{background:var(--s2)}
     <input type="number" id="edit-predi-ano" min="2024" max="2060" style="width:140px">
   </div>
   <div class="m-actions">
+    <div id="edit-predi-pilar-wrap" style="display:none">
+      <div class="lbl gap">Área de foco (opcional)</div>
+      <select id="edit-predi-pilar"><option value="">Sem vínculo</option></select>
+    </div>
     <button class="btn btn-g" onclick="closeM('mbg-edit-predi')">Cancelar</button>
     <button class="btn btn-a" onclick="saveEditPredi()">Salvar</button>
   </div>
@@ -1716,8 +1909,8 @@ function schedulePull() {
 // ↑ Enviar para a nuvem (manual, com feedback visual no botão)
 async function syncSendToCloud() {
   const url = S.settings.scriptUrl;
-  if (!url) return alert('Configure a URL da nuvem primeiro.');
-  if (!navigator.onLine) return alert('Sem conexão. Conecte-se à internet e tente novamente.');
+  if (!url) return showToast('Configure a URL da nuvem primeiro.');
+  if (!navigator.onLine) return showToast('Sem conexão. Conecte-se à internet e tente novamente.');
   const btn = document.getElementById('btn-send-cloud');
   setSyncBtnState(btn, 'loading', '↑ Enviando...');
   try {
@@ -1743,8 +1936,8 @@ async function syncSendToCloud() {
 // ↓ Baixar da nuvem (manual, com confirmação e feedback visual)
 async function syncGetFromCloud() {
   const url = S.settings.scriptUrl;
-  if (!url) return alert('Configure a URL da nuvem primeiro.');
-  if (!navigator.onLine) return alert('Sem conexão. Conecte-se à internet e tente novamente.');
+  if (!url) return showToast('Configure a URL da nuvem primeiro.');
+  if (!navigator.onLine) return showToast('Sem conexão. Conecte-se à internet e tente novamente.');
   showConfirm('Baixar dados da nuvem? Os dados atuais deste dispositivo serão substituídos.', async () => {
     const btn = document.getElementById('btn-get-cloud');
     setSyncBtnState(btn, 'loading', '↓ Baixando...');
@@ -1795,6 +1988,9 @@ function setSyncStatus(state, label) {
       ? 'Última sync: ' + (S.meta.ultimaSync ? fmt(S.meta.ultimaSync) : 'Nunca')
       : 'Nuvem não configurada.';
   }
+  // Show/hide retry button on error
+  const retryBtn = document.getElementById('sync-retry-btn');
+  if (retryBtn) retryBtn.style.display = (state === 'err' && hasUrl) ? 'inline-block' : 'none';
   // Atualiza indicador no header da seção nuvem
   const cfgStatus = document.getElementById('cfg-nuvem-status');
   if (cfgStatus) {
@@ -1806,8 +2002,8 @@ function setSyncStatus(state, label) {
 /* ═══════════════════════════════════════════════════════════
    UTILITÁRIOS
 ═══════════════════════════════════════════════════════════ */
-function uid() { return Date.now().toString(36) + Math.random().toString(36).slice(2, 5); }
-function today() { return new Date().toISOString().slice(0, 10); }
+function uid() { return Date.now().toString(36) + Math.random().toString(36).slice(2, 8); }
+function today() { return new Date().toLocaleDateString('sv'); }
 function fmt(d) { if (!d) return ''; const dt = new Date(d); return dt.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', year: '2-digit', hour: '2-digit', minute: '2-digit' }); }
 function fmtDate(d) { if (!d) return ''; return new Date(d + 'T00:00:00').toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit' }); }
 function esc(s) { return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
@@ -1818,20 +2014,20 @@ function getWeekDays() {
   const diff = dia === 0 ? -6 : 1 - dia;
   const seg  = new Date(hoje); seg.setDate(hoje.getDate() + diff);
   const days = [];
-  for (let i = 0; i < 7; i++) { const d = new Date(seg); d.setDate(seg.getDate() + i); days.push(d.toISOString().slice(0, 10)); }
+  for (let i = 0; i < 7; i++) { const d = new Date(seg); d.setDate(seg.getDate() + i); days.push(d.toLocaleDateString('sv')); }
   return days;
 }
 
 function getLast30() {
   const days = [];
-  for (let i = 29; i >= 0; i--) { const d = new Date(); d.setDate(d.getDate() - i); days.push(d.toISOString().slice(0, 10)); }
+  for (let i = 29; i >= 0; i--) { const d = new Date(); d.setDate(d.getDate() - i); days.push(d.toLocaleDateString('sv')); }
   return days;
 }
 
 function calcVicioStreak(regs) {
   let s = 0; const d = new Date();
   for (let i = 0; i < 365; i++) {
-    const ds = d.toISOString().slice(0, 10);
+    const ds = d.toLocaleDateString('sv');
     if (regs[ds] === 'resistiu') { s++; d.setDate(d.getDate() - 1); } else break;
   }
   return s;
@@ -2032,26 +2228,16 @@ function openEditHabito(id) {
     el.onclick = () => { el.classList.toggle('on'); updatePreview(); };
   });
   updatePreview();
-  // Vínculos
-  const sel = document.getElementById('edit-hab-vinculo-sel');
-  sel.innerHTML = '<option value="">+ Adicionar vínculo...</option>';
-  ['frentes','ciclos','horizontes','pilares'].forEach(tipo => {
-    S[tipo].filter(x => !x.status || x.status === 'ativo').forEach(item => {
-      const opt = document.createElement('option');
-      opt.value = item.id;
-      const tipoLabel = {frentes:'Ação',ciclos:'Trimestre',horizontes:'Grandes Saltos',pilares:'Área de foco'}[tipo] || tipo;
-      opt.textContent = `[${tipoLabel}] ${(item.nome||item.texto||'').slice(0,40)}`;
-      sel.appendChild(opt);
-    });
-  });
+  // Vínculos — accordion picker
   if (!h.vinculoIds) h.vinculoIds = h.vinculoId ? [h.vinculoId] : [];
-  renderEditVinculos(h.vinculoIds);
-  sel.onchange = () => {
-    const v = sel.value; if (!v) return;
+  renderVinculosChips(h.vinculoIds, 'edit-hab-vinculos-chips', 'removeVinculo');
+  buildVincularPicker('edit-hab-vp', (itemId) => {
     const h2 = S.habitos.find(x => x.id === document.getElementById('edit-hab-id').value);
-    if (h2 && !h2.vinculoIds.includes(v)) { h2.vinculoIds.push(v); renderEditVinculos(h2.vinculoIds); }
-    sel.value = '';
-  };
+    if (h2 && !h2.vinculoIds.includes(itemId)) {
+      h2.vinculoIds.push(itemId);
+      renderVinculosChips(h2.vinculoIds, 'edit-hab-vinculos-chips', 'removeVinculo');
+    }
+  });
   openM('mbg-edit-habito');
 }
 
@@ -2076,7 +2262,7 @@ function removeVinculo(vinculoId) {
   const id = document.getElementById('edit-hab-id').value;
   const h = S.habitos.find(x => x.id === id); if (!h) return;
   h.vinculoIds = (h.vinculoIds||[]).filter(v => v !== vinculoId);
-  renderEditVinculos(h.vinculoIds);
+  renderVinculosChips(h.vinculoIds, 'edit-hab-vinculos-chips', 'removeVinculo');
 }
 
 function saveEditHabito() {
@@ -2094,16 +2280,13 @@ function saveEditHabito() {
 }
 
 function openM_addHabito() {
-  const sel = document.getElementById('inp-hab-vinculo');
-  sel.innerHTML = '<option value="">Sem vínculo</option>';
-  ['frentes','ciclos','horizontes','pilares'].forEach(tipo => {
-    S[tipo].filter(x => x.status === 'ativo').forEach(item => {
-      const opt = document.createElement('option');
-      opt.value = item.id;
-      const tipoLabel = {frentes:'Ação',ciclos:'Trimestre',horizontes:'Grandes Saltos',pilares:'Área de foco'}[tipo] || tipo;
-      opt.textContent = `[${tipoLabel}] ${(item.nome || item.texto || '').slice(0,40)}`;
-      sel.appendChild(opt);
-    });
+  _addHabVinculos = [];
+  renderVinculosChips([], 'add-hab-vinculos-chips', 'removeAddHabVinculo');
+  buildVincularPicker('add-hab-vp', (itemId, tipo) => {
+    if (!_addHabVinculos.includes(itemId)) {
+      _addHabVinculos.push(itemId);
+      renderVinculosChips(_addHabVinculos, 'add-hab-vinculos-chips', 'removeAddHabVinculo');
+    }
   });
   document.getElementById('inp-hab-nome').value = '';
   setDiasToggle('inp-hab-dias', null);
@@ -2145,14 +2328,18 @@ function setDiasToggle(containerId, diasAtivos) {
   });
 }
 
+function removeAddHabVinculo(id) {
+  _addHabVinculos = _addHabVinculos.filter(x => x !== id);
+  renderVinculosChips(_addHabVinculos, 'add-hab-vinculos-chips', 'removeAddHabVinculo');
+}
+
 function saveHabito() {
   const nome = document.getElementById('inp-hab-nome').value.trim();
   if (!nome) return document.getElementById('inp-hab-nome').focus();
-  const vinculoId = document.getElementById('inp-hab-vinculo').value;
   const diasAtivos = getDiasAtivos('inp-hab-dias');
-  // freqAlvo = número de dias ativos (null = 7 = todos)
   const freqAlvo = diasAtivos ? diasAtivos.length : 7;
-  S.habitos.push({ id: uid(), nome, vinculoId: vinculoId || null, vinculoIds: vinculoId ? [vinculoId] : [], registros: {}, freqAlvo, diasAtivos });
+  const vinculoId = _addHabVinculos[0] || null;
+  S.habitos.push({ id: uid(), nome, vinculoId, vinculoIds: [..._addHabVinculos], registros: {}, freqAlvo, diasAtivos });
   persist(); closeM('mbg-add-habito'); renderHabitos();
 }
 
@@ -2169,7 +2356,6 @@ function addInbox() {
 function renderCaderno() {
   renderInbox();
   renderKanban();
-  renderIdeias();
 }
 
 let inboxExpanded = false;
@@ -2227,9 +2413,11 @@ function openTriage(id) {
   document.getElementById('triage-txt').textContent = item.texto;
   document.getElementById('triage-txt').style.display = 'block';
   ['t-s1','t-s2','t-s3','t-s4'].forEach((s, i) => document.getElementById(s).style.display = i === 0 ? 'block' : 'none');
+  const q0 = document.getElementById('t-s2-q0');
   const q1 = document.getElementById('t-s2-q1');
   const q2 = document.getElementById('t-s2-q2');
-  if (q1) q1.style.display = 'block';
+  if (q0) q0.style.display = 'block';
+  if (q1) q1.style.display = 'none';
   if (q2) q2.style.display = 'none';
   openM('mbg-triage');
 }
@@ -2244,9 +2432,11 @@ function openDirectTask() {
   // Vai direto para o wizard — pula t-s1
   ['t-s1','t-s2','t-s3','t-s4'].forEach(s => document.getElementById(s).style.display = 'none');
   document.getElementById('t-s2').style.display = 'block';
-  document.getElementById('t-s2-q1').style.display = 'block';
+  const q0d = document.getElementById('t-s2-q0');
+  if (q0d) q0d.style.display = 'block';
+  document.getElementById('t-s2-q1').style.display = 'none';
   document.getElementById('t-s2-q2').style.display = 'none';
-  // Oculta o "← Voltar" da Q1 no modo direto (não há t-s1 para voltar)
+  // Oculta o "← Voltar" da Q0 no modo direto (não há t-s1 para voltar)
   const backBtn = document.getElementById('t-back-btn');
   if (backBtn) backBtn.style.display = 'none';
   openM('mbg-triage');
@@ -2266,7 +2456,7 @@ function tAct(action) {
     document.getElementById('t-s4').style.display = 'block';
     return;
   }
-  if (action === 'task') document.getElementById('t-s2').style.display = 'block';
+  if (action === 'task') { document.getElementById('t-s2').style.display = 'block'; const q0e = document.getElementById('t-s2-q0'); if(q0e) q0e.style.display='block'; document.getElementById('t-s2-q1').style.display='none'; document.getElementById('t-s2-q2').style.display='none'; }
   else {
     // Pré-preenche nome com texto da inbox
     const item = S.inbox.find(x => x.id === tID);
@@ -2285,10 +2475,29 @@ function tBack() {
   document.getElementById('t-s2').style.display = 'none';
   document.getElementById('t-s3').style.display = 'none';
   document.getElementById('t-s4').style.display = 'none';
-  const q1 = document.getElementById('t-s2-q1');
-  const q2 = document.getElementById('t-s2-q2');
-  if (q1) q1.style.display = 'block';
-  if (q2) q2.style.display = 'none';
+  const q0b = document.getElementById('t-s2-q0');
+  const q1b = document.getElementById('t-s2-q1');
+  const q2b = document.getElementById('t-s2-q2');
+  if (q0b) q0b.style.display = 'block';
+  if (q1b) q1b.style.display = 'none';
+  if (q2b) q2b.style.display = 'none';
+}
+
+
+function tWizardQ0Yes() {
+  document.getElementById('t-s2-q0').style.display = 'none';
+  document.getElementById('t-s2-q1').style.display = 'block';
+}
+function tWizardQ0No() {
+  if (tDirectMode) { closeM('mbg-triage'); return; }
+  const item = S.inbox.find(x => x.id === tID);
+  if (item) { item.status = 'descartado'; S.descarte.push({ id: uid(), texto: item.texto, data: today() }); }
+  persist(); closeM('mbg-triage'); renderCaderno();
+  showToast('Item descartado');
+}
+function tWizardBackQ1() {
+  document.getElementById('t-s2-q1').style.display = 'none';
+  document.getElementById('t-s2-q0').style.display = 'block';
 }
 
 function tWizardQ2() {
@@ -2594,6 +2803,7 @@ function renderKanban() {
             ondragstart="onCardDragStart(event,'${t.id}')"
             ondragend="onCardDragEnd()">
             <div class="k-card-top">
+              <span class="k-drag-handle" title="Arrastar">⠿</span>
               <span class="k-card-txt">${esc(t.texto)}</span>
               <button class="k-card-del" onclick="event.stopPropagation();removeTask('${t.id}')">×</button>
             </div>
@@ -2682,6 +2892,9 @@ function renderPredio() {
   const m = document.getElementById('inp-missao');
   if (m) m.value = S.fundacao.missao || '';
   ['frentes','ciclos','horizontes','pilares'].forEach(tipo => renderPrediSection(tipo));
+  renderFloorPreviews();
+  renderMetasInsights();
+  initPredioNav();
   const limit = S.ciclos.filter(x => !x.status || x.status === 'ativo').length >= 3;
   document.getElementById('warn-ciclos').style.display = limit ? 'block' : 'none';
   document.getElementById('btn-add-ciclo').style.display = limit ? 'none' : 'inline-flex';
@@ -2695,9 +2908,14 @@ function renderPredio() {
   };
   Object.entries(contadores).forEach(([tipo, n]) => {
     const el = document.getElementById('fl-' + tipo + '-count');
-    if (!el) return;
-    if (tipo === 'ciclos') el.textContent = n > 0 ? `${n}/3` : '';
-    else el.textContent = n > 0 ? String(n) : '';
+    if (el) {
+      if (tipo === 'ciclos') el.textContent = n > 0 ? `${n}/3` : '';
+      else el.textContent = n > 0 ? String(n) : '';
+    }
+    if (tipo === 'contratos') {
+      const btn = document.getElementById('contratos-btn-count');
+      if (btn) btn.textContent = n > 0 ? String(n) : '';
+    }
   });
   renderContratos();
 }
@@ -2765,9 +2983,30 @@ function renderPrediSection(tipo) {
         // Calcula 90 dias a partir da criação
         const d = new Date(item.criadoEm + 'T12:00:00');
         d.setDate(d.getDate() + 90);
-        prazo = d.toISOString().slice(0,10);
+        prazo = d.toLocaleDateString('sv');
       }
       if (prazo) metaRow = `<div style="margin-top:4px">${buildPrazoBadge(prazo)}</div>`;
+    }
+    // Show pilarId tag on frentes/ciclos/horizontes
+    if (['frentes','ciclos','horizontes'].includes(tipo) && item.pilarId) {
+      const pilar = (S.pilares||[]).find(p => p.id === item.pilarId);
+      if (pilar) {
+        const pNome = esc((pilar.texto||pilar.nome||'').slice(0,25));
+        metaRow = (metaRow || '') + `<div style="margin-top:3px"><span style="font-size:9px;color:var(--acc);background:var(--acc-d);border:1px solid var(--acc-g);border-radius:3px;padding:1px 6px;font-family:Georgia,serif">📍 ${pNome}</span></div>`;
+      }
+    }
+    // ÁREAS: show linked habits count
+    if (tipo === 'pilares') {
+      const habVinc = (S.habitos||[]).filter(h => {
+        const ids = h.vinculoIds || (h.vinculoId ? [h.vinculoId] : []);
+        return ids.includes(item.id);
+      }).length;
+      if (habVinc > 0) metaRow = `<div class="area-hab-badge">🧱 ${habVinc} hábito${habVinc>1?'s':''} vinculado${habVinc>1?'s':''}</div>`;
+    }
+    // LONGO PRAZO: show completed ciclos linked
+    if (tipo === 'horizontes') {
+      const ciclosR = (S.historico||[]).filter(h=>h.tipo==='ciclos'&&h.statusFinal==='concluido'&&h.horizonteVinculo===item.id).length;
+      if (ciclosR > 0) metaRow = `<div class="horizonte-link-badge">📎 ${ciclosR} trimestre${ciclosR>1?'s':''} realizados</div>`;
     }
     if (tipo === 'horizontes' && item.anoAlvo) {
       const anos = item.anoAlvo - new Date().getFullYear();
@@ -2808,6 +3047,15 @@ function renderPrediSection(tipo) {
         </div>
       </div>
       ${habSection}
+      <div onclick="event.stopPropagation()">
+        <button class="pi-nota-toggle${item.notas?(' has-nota'):''}" onclick="toggleNota('${item.id}',event)">📝 ${item.notas?'Ver notas':'Notas'}</button>
+        <div id="pi-nota-${item.id}" style="display:none">
+          <textarea class="pi-nota-area" rows="2"
+            placeholder="Anotações internas, contexto, lembretes..."
+            onblur="saveNota('${tipo}','${item.id}',this.value)"
+          >${esc(item.notas||'')}</textarea>
+        </div>
+      </div>
     </div>`;
   }).join('');
 }
@@ -2849,17 +3097,25 @@ document.addEventListener('click', () => {
 function quickConcluir(tipo, id) {
   const item = S[tipo].find(x => x.id === id); if (!item) return;
   const nome = item.nome || item.texto || '';
-  let atrasoDias = 0;
-  if (item.prazo) {
-    const diff = Math.round((new Date(today()+'T00:00:00') - new Date(item.prazo+'T00:00:00')) / 86400000);
-    if (diff > 0) atrasoDias = diff;
-  }
-  S.historico.push({ id: uid(), tipo, nome, statusFinal: 'concluido', rodada: item.rodada||1, criadoEm: item.criadoEm||'', encerradoEm: today(), atrasoDias });
-  S[tipo] = S[tipo].filter(x => x.id !== id);
-  (S.contratos||[]).forEach(c => { if (c.alvoId === id && !c.desbloqueado) c.desbloqueado = true; });
-  persist(); renderPredio(); renderContratos();
-  const msg = atrasoDias > 0 ? `✓ Concluída com ${atrasoDias}d de atraso` : '✓ Meta concluída!';
-  showToast(msg);
+  const tipoLabel = {frentes:'ação',ciclos:'meta trimestral',horizontes:'objetivo',pilares:'área'}[tipo] || 'meta';
+  showConfirm(`Concluir a ${tipoLabel} "${nome.slice(0,40)}"?`, () => {
+    let atrasoDias = 0;
+    if (item.prazo) {
+      const diff = Math.round((new Date(today()+'T00:00:00') - new Date(item.prazo+'T00:00:00')) / 86400000);
+      if (diff > 0) atrasoDias = diff;
+    }
+    const histId = uid();
+    S.historico.push({ id: histId, tipo, nome, statusFinal: 'concluido', rodada: item.rodada||1, criadoEm: item.criadoEm||'', encerradoEm: today(), atrasoDias });
+    S[tipo] = S[tipo].filter(x => x.id !== id);
+    (S.contratos||[]).forEach(c => { if (c.alvoId === id && !c.desbloqueado) c.desbloqueado = true; });
+    persist(); renderPredio(); renderContratos();
+    const msg = atrasoDias > 0 ? `✓ Concluída com ${atrasoDias}d de atraso` : '✓ Meta concluída!';
+    showToast(msg);
+    if (tipo === 'ciclos') {
+      const horizs = (S.horizontes||[]).filter(x=>!x.status||x.status==='ativo');
+      if (horizs.length > 0) setTimeout(() => offerLinkHorizonte(histId, nome), 400);
+    }
+  });
 }
 function quickAbandonar(tipo, id) {
   const item = S[tipo].find(x => x.id === id); if (!item) return;
@@ -2901,6 +3157,12 @@ function openAddPredi(tipo, initialNome) {
     document.getElementById('inp-predi-prazo').value = '';
   }
   if (cfg.anoAlvo) document.getElementById('inp-predi-ano').value = '';
+  const pilarField = document.getElementById('predi-pilar-field');
+  if (pilarField) {
+    const showPilar = ['frentes','ciclos','horizontes'].includes(tipo);
+    pilarField.style.display = showPilar ? 'block' : 'none';
+    if (showPilar) populatePilarSelect('inp-predi-pilar');
+  }
   openM('mbg-add-predi');
 }
 
@@ -2911,6 +3173,8 @@ function savePredi() {
   if (tipo === 'ciclos' && S.ciclos.filter(x => x.status === 'ativo').length >= 3) return;
   const cfg = PREDI_CONFIGS[tipo];
   const item = { id: uid(), status: 'ativo', rodada: 1, criadoEm: today() };
+  const pilarSel = document.getElementById('inp-predi-pilar');
+  if (pilarSel && ['frentes','ciclos','horizontes'].includes(tipo)) item.pilarId = pilarSel.value || null;
   if (tipo === 'frentes') {
     item.nome = nome;
     item.descricao = document.getElementById('inp-predi-desc').value.trim();
@@ -2995,6 +3259,16 @@ function openEditPredi(tipo, id) {
   const anoWrap = document.getElementById('edit-predi-ano-wrap');
   anoWrap.style.display = tipo === 'horizontes' ? 'block' : 'none';
   if (tipo === 'horizontes') document.getElementById('edit-predi-ano').value = item.anoAlvo || '';
+  const ePilarWrap = document.getElementById('edit-predi-pilar-wrap');
+  if (ePilarWrap) {
+    const showPilar = ['frentes','ciclos','horizontes'].includes(tipo);
+    ePilarWrap.style.display = showPilar ? 'block' : 'none';
+    if (showPilar) {
+      populatePilarSelect('edit-predi-pilar');
+      const ePilarSel = document.getElementById('edit-predi-pilar');
+      if (ePilarSel) ePilarSel.value = item.pilarId || '';
+    }
+  }
   openM('mbg-edit-predi');
 }
 
@@ -3076,47 +3350,38 @@ function renderVicios() {
   list.innerHTML = S.vicios.map(v => {
     const regs = v.registros || {};
     const streak = calcVicioStreak(regs);
-    const isResistiu = regs[t] === 'resistiu';
-    const isCedi = regs[t] === 'cedi';
     const diasAtivosSet = v.diasAtivos ? new Set(v.diasAtivos) : null;
-    const todayDow = new Date(t+'T12:00:00').getDay();
-    const todayAtivo = !diasAtivosSet || diasAtivosSet.has(todayDow);
+    const diasLabel = v.diasAtivos ? `${v.diasAtivos.length}x/sem` : 'todo dia';
 
-    // Grade semanal (7 dias)
-    const dots = week.map((d, i) => {
+    // Grade semanal — mesma estrutura que hábitos, cores binárias
+    const days = week.map((d, i) => {
       const est = regs[d] || '';
       const isT = d === t;
       const dow = new Date(d+'T12:00:00').getDay();
       const inativo = diasAtivosSet && !diasAtivosSet.has(dow);
-      const cls = inativo ? 'empty' : est === 'resistiu' ? 'resistiu' : est === 'cedi' ? 'cedi' : 'empty';
+      // Mapeamento: resistiu→feito (verde), cedi→faltou (vermelho)
+      const cls = inativo ? '' : est === 'resistiu' ? 'feito' : est === 'cedi' ? 'faltou' : '';
       const onclick = inativo ? '' : `cycleVicioDay('${v.id}','${d}')`;
-      const style = inativo ? 'opacity:.25;cursor:default;' : '';
+      const style = inativo ? 'opacity:.3;cursor:default' : '';
       const icon = est === 'resistiu' ? '✓' : est === 'cedi' ? '✕' : DAY_LABELS[i].slice(0,1);
       return `<div class="day-cell ${cls}${isT?' today':''}" onclick="${onclick}" style="${style}" title="${DAY_LABELS[i]}${inativo?' (inativo)':''}">${icon}</div>`;
     }).join('');
 
     const { pct: semPct, resistiu: semResistiu, alvo: semAlvo } = calcPctVicio(v, week);
-    const diasLabel = v.diasAtivos ? `${v.diasAtivos.length}x/sem` : 'todos os dias';
 
-    return `<div class="vicio-card">
-      <div class="vicio-hdr">
-        <span class="vicio-nome">${esc(v.nome)}</span>
-        <span style="font-size:10px;color:var(--t3);font-family:Georgia,serif">${diasLabel}</span>
-        <span class="streak${streak===0?' zero':''}">🔥 ${streak}d</span>
-        <button class="xbtn" onclick="removeVicio('${v.id}')">×</button>
+    return `<div class="habito-row">
+      <div class="habito-top">
+        <span class="habito-nome">${esc(v.nome)}</span>
+        <div class="habito-actions">
+          <span class="streak${streak===0?' zero':''}" style="font-size:10px;background:${streak>0?'var(--gd)':'var(--rd)'};border:1px solid ${streak>0?'rgba(61,158,106,.3)':'rgba(200,75,75,.3)'};color:${streak>0?'var(--green)':'var(--red)'};border-radius:20px;padding:2px 8px;font-family:Georgia,serif">🔥 ${streak}d</span>
+          <button class="habito-del" onclick="removeVicio('${v.id}')">×</button>
+        </div>
       </div>
-      <div class="habito-bottom" style="margin-top:8px">
-        <div class="days-grid">${dots}</div>
+      <div class="habito-bottom">
+        <div class="days-grid">${days}</div>
         <div class="habito-stat">${semResistiu}/${semAlvo} <span style="font-size:9px;color:${semPct>=100?'var(--green)':semPct>=50?'var(--acc)':'var(--red)'}">${semPct}%</span></div>
       </div>
-      <div style="display:flex;gap:7px;margin-top:8px">
-        <button class="btn ${isResistiu?'btn-g':'btn-a'} btn-sm" style="flex:1" onclick="markVicioResistiu('${v.id}')" ${!todayAtivo?'disabled title="Dia inativo"':''}>
-          ${isResistiu ? '✓ Resistiu hoje' : '+ Resistiu hoje'}
-        </button>
-        <button class="btn btn-sm" style="border:1px solid var(--red);color:var(--red);background:none;${isCedi?'background:var(--rd);font-weight:bold':''}" onclick="markVicioCedi('${v.id}')" ${!todayAtivo?'disabled':''}>
-          ${isCedi ? '✗ Cedeu (marcado)' : '✗ Cedeu hoje'}
-        </button>
-      </div>
+      <div style="font-size:10px;color:var(--t3);font-family:Georgia,serif;margin-top:4px">${diasLabel} · clique no dia para registrar</div>
     </div>`;
   }).join('');
 }
@@ -3423,7 +3688,7 @@ function saveContrato() {
   const recompensa = document.getElementById('inp-contrato-recompensa').value.trim();
   if (!recompensa) return document.getElementById('inp-contrato-recompensa').focus();
   const alvoId = document.getElementById('inp-contrato-alvo').value;
-  if (!alvoId) return alert('Selecione um alvo para o contrato.');
+  if (!alvoId) return showToast('Selecione um alvo para o contrato.');
   // Nome do alvo para exibir no card
   let alvoNome = '';
   if (contratoTipoSel === 'meta') {
@@ -3550,6 +3815,393 @@ function renovarContrato(id) {
   });
   persist(); renderContratos(); renderHistory();
   showToast('🔄 Contrato renovado!');
+}
+
+
+
+/* ── Metas mobile nav ─────────────────────────────────────── */
+function setPredioTab(id, btn) {
+  // Close contratos overlay if open
+  const flC = document.getElementById('fl-contratos');
+  if (flC && flC.style.display !== 'none' && id !== 'contratos') {
+    const floatBtn = document.getElementById('contratos-float-btn');
+    const backBtn = document.getElementById('contratos-back-btn');
+    const nav = document.querySelector('.predio-nav');
+    if (flC) flC.style.display = 'none';
+    if (floatBtn) floatBtn.classList.remove('active');
+    if (backBtn) backBtn.style.display = 'none';
+    if (nav) nav.style.opacity = '';
+  }
+  if (window.innerWidth >= 1024) return; // desktop: bento always visible
+  const floors = ['frentes','ciclos','horizontes','pilares','fundacao','contratos'];
+  floors.forEach(f => {
+    const el = document.getElementById('fl-' + f);
+    if (el) el.style.display = (f === id) ? '' : 'none';
+  });
+  document.querySelectorAll('.predio-nav-tab').forEach(t => t.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+  localStorage.setItem('canteiro_predio_tab', id);
+  renderMetasInsights(id);
+}
+
+function initPredioNav() {
+  if (window.innerWidth >= 1024) {
+    // Desktop: show all including contratos
+    ['frentes','ciclos','horizontes','pilares','fundacao','contratos'].forEach(f => {
+      const el = document.getElementById('fl-' + f);
+      if (el) el.style.display = '';
+    });
+    return;
+  }
+  const saved = localStorage.getItem('canteiro_predio_tab') || 'frentes';
+  const btn = document.querySelector(`.predio-nav-tab[onclick*="'${saved}'"]`);
+  setPredioTab(saved, btn);
+}
+
+/* ── Metas insights / analisador ─────────────────────────── */
+function renderMetasInsights(tab) {
+  const bar = document.getElementById('metas-insights-bar');
+  if (!bar) return;
+  const t = today();
+  const hist = S.historico || [];
+
+  // Month boundaries
+  const now = new Date();
+  const mesInicio = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-01`;
+
+  let kpis = [], alertas = [];
+
+  // Period toggle state (stored on bar element)
+  const barEl = document.getElementById('metas-insights-bar');
+  const periodo = barEl ? (barEl.dataset.periodo || 'total') : 'total';
+  const tre_meses = (() => { const d = new Date(); d.setMonth(d.getMonth()-3); return d.toLocaleDateString('sv'); })();
+
+  if (!tab || tab === 'frentes') {
+    const ativos = (S.frentes||[]).filter(x => !x.status||x.status==='ativo');
+    const cutoff = periodo === '3m' ? tre_meses : '0000-00-00';
+    const concl = hist.filter(h => h.tipo==='frentes'&&h.statusFinal==='concluido'&&(h.encerradoEm||'')>=cutoff).length;
+    const atrasadas = ativos.filter(f => f.prazo && f.prazo < t);
+    const btnLabel = periodo === '3m' ? 'Últ. 3 meses' : 'Total';
+    kpis = [
+      {n: ativos.length, l:'Ativas'},
+      {n: atrasadas.length, l:'Em atraso', ok: atrasadas.length === 0 ? true : false},
+      {n: concl, l: btnLabel + ' concluídas'},
+    ];
+    // append period toggle to alertas area via extra HTML
+    if (atrasadas.length > 0) alertas.push(`🔴 ${atrasadas.length} com prazo vencido`);
+    else if (ativos.length > 5) alertas.push(`⚠️ Muitas ações abertas — considere revisar`);
+    else if (ativos.length === 0) alertas.push('💡 Nenhuma ação ativa. Adicione uma.');
+    else alertas.push('✅ Ações em ordem');
+
+  } else if (tab === 'ciclos') {
+    const ativos = (S.ciclos||[]).filter(x => !x.status||x.status==='ativo');
+    const concl = hist.filter(h=>h.tipo==='ciclos'&&h.statusFinal==='concluido').length;
+    const prox = ativos.filter(x=>x.prazo).sort((a,b)=>a.prazo<b.prazo?-1:1)[0];
+    kpis = [
+      {n:`${ativos.length}/3`, l:'Ativas'},
+      {n: concl, l:'Concluídas'},
+    ];
+    if (ativos.length === 0) alertas.push('💡 Defina até 3 metas para este trimestre');
+    const atrasadas = ativos.filter(c => {
+      let pr = c.prazo;
+      if (!pr && c.criadoEm) { const d=new Date(c.criadoEm+'T12:00:00'); d.setDate(d.getDate()+90); pr=d.toLocaleDateString('sv'); }
+      return pr && pr < t;
+    });
+    if (atrasadas.length > 0) alertas.push(`🔴 ${atrasadas.length} meta${atrasadas.length>1?'s':''} trimestral vencida`);
+    if (prox && !alertas.length) alertas.push(`📅 Próx. prazo: ${fmtDate(prox.prazo)}`);
+    if (!atrasadas.length && ativos.length > 0 && !prox) alertas.push('✅ Metas trimestrais em andamento');
+
+  } else if (tab === 'horizontes') {
+    const ativos = (S.horizontes||[]).filter(x => !x.status||x.status==='ativo');
+    const concl = hist.filter(h=>h.tipo==='horizontes'&&h.statusFinal==='concluido').length;
+    kpis = [
+      {n: ativos.length, l:'Objetivos ativos'},
+      {n: concl, l:'Concluídos (total)'},
+    ];
+    if (ativos.length === 0) alertas.push('💡 Defina seus objetivos de 1 a 10 anos');
+    else alertas.push('✅ Objetivos de longo prazo em andamento');
+
+  } else if (tab === 'pilares') {
+    const ativos = (S.pilares||[]).filter(x => !x.status||x.status==='ativo');
+    const ids = ativos.map(p => p.id);
+    const habsV = (S.habitos||[]).filter(h => (h.vinculoIds||[h.vinculoId].filter(Boolean)).some(v => ids.includes(v))).length;
+    const frentesV = (S.frentes||[]).filter(x => ids.includes(x.pilarId)).length;
+    const ciclosV  = (S.ciclos||[]).filter(x => ids.includes(x.pilarId)).length;
+    const horizV   = (S.horizontes||[]).filter(x => ids.includes(x.pilarId)).length;
+    const totalV = habsV + frentesV + ciclosV + horizV;
+    kpis = [
+      {n: ativos.length, l:'Áreas ativas'},
+      {n: habsV, l:'Hábitos'},
+      {n: frentesV + ciclosV + horizV, l:'Metas vinculadas'},
+    ];
+    if (ativos.length === 0) alertas.push('💡 Defina as grandes áreas da sua vida');
+    else if (totalV === 0) alertas.push('💡 Vincule hábitos e metas às suas áreas');
+    else alertas.push(`✅ ${totalV} item${totalV>1?'s':''} vinculados às áreas`);
+
+  } else if (tab === 'fundacao') {
+    const temMissao = !!(S.fundacao && S.fundacao.missao && S.fundacao.missao.trim());
+    const nDiario = ((S.fundacao && S.fundacao.diario) || []).length;
+    const ultimaEntrada = nDiario > 0 ? S.fundacao.diario[0].data : null;
+    kpis = [
+      {n: temMissao ? '✓' : '—', l:'Propósito', ok: temMissao},
+      {n: nDiario, l:'Entradas diário'},
+    ];
+    if (!temMissao) alertas.push('💡 Defina seu propósito maior — a bússola de tudo');
+    else if (ultimaEntrada) alertas.push(`📓 Última entrada: ${fmtDate(ultimaEntrada)}`);
+    else alertas.push('📓 Nenhuma entrada no diário ainda');
+  }
+
+  // Period toggle button for AÇÕES
+  let extraHtml = '';
+  if (!tab || tab === 'frentes') {
+    const nxt = periodo === '3m' ? 'total' : '3m';
+    const nxtLabel = periodo === '3m' ? 'Ver total' : 'Ver últ. 3 meses';
+    extraHtml = `<button onclick="const b=document.getElementById('metas-insights-bar');b.dataset.periodo='${nxt}';renderMetasInsights('frentes')" style="background:none;border:1px solid var(--b1);color:var(--t3);border-radius:20px;padding:2px 10px;font-size:10px;cursor:pointer;font-family:Georgia,serif;margin-top:4px">${nxtLabel}</button>`;
+  }
+
+  const kpiHtml = kpis.map(k =>
+    `<div class="metas-kpi${k.ok===false?'':k.ok?' ok':''}">
+      <div class="metas-kpi-n">${k.n}</div>
+      <div class="metas-kpi-l">${k.l}</div>
+    </div>`
+  ).join('');
+
+  bar.innerHTML = `
+    <div class="metas-kpis">${kpiHtml}</div>
+    <ul class="metas-alerta">${alertas.map(a=>`<li>${a}</li>`).join('')}</ul>
+    ${extraHtml}
+  `;
+}
+
+
+/* ── Vincular accordion picker ──────────────────────────────── */
+const _vpCallbacks = {};
+let _addHabVinculos = [];
+
+function buildVincularPicker(containerId, onSelectFn) {
+  _vpCallbacks[containerId] = onSelectFn;
+  const container = document.getElementById(containerId);
+  if (!container) return;
+  const tipos = [
+    {key:'frentes',    label:'Ação'},
+    {key:'ciclos',     label:'Trimestre'},
+    {key:'horizontes', label:'Longo Prazo'},
+    {key:'pilares',    label:'Área de foco'},
+  ];
+  let html = '';
+  tipos.forEach(t => {
+    const items = (S[t.key]||[]).filter(x => !x.status||x.status==='ativo');
+    if (!items.length) return;
+    const catId = `${containerId}__${t.key}`;
+    html += `<div class="vp-cat" onclick="toggleVpCat('${catId}')">
+      <span class="vp-arrow" id="vpa-${catId}">▸</span>
+      <span class="vp-cat-label">${t.label}</span>
+      <span class="badge">${items.length}</span>
+    </div>
+    <div class="vp-items" id="${catId}" style="display:none">
+      ${items.map(it => `<div class="vp-item" onclick="selectVpItem('${containerId}','${it.id}','${t.key}')">${esc(it.nome||it.texto||'').slice(0,48)}</div>`).join('')}
+    </div>`;
+  });
+  container.innerHTML = html || '<div style="padding:8px 11px;font-size:11px;color:var(--t3);font-family:Georgia,serif">Nenhum item disponível.</div>';
+}
+
+function toggleVpCat(catId) {
+  const body = document.getElementById(catId);
+  const arrow = document.getElementById('vpa-' + catId);
+  if (!body) return;
+  const open = body.style.display !== 'none';
+  body.style.display = open ? 'none' : 'block';
+  if (arrow) arrow.textContent = open ? '▸' : '▾';
+}
+
+function selectVpItem(containerId, itemId, tipo) {
+  if (_vpCallbacks[containerId]) _vpCallbacks[containerId](itemId, tipo);
+}
+
+function renderVinculosChips(ids, chipsContainerId, removeFn) {
+  const container = document.getElementById(chipsContainerId);
+  if (!container) return;
+  if (!ids || ids.length === 0) {
+    container.innerHTML = '<span style="font-size:11px;color:var(--t3);font-family:Georgia,serif">Nenhum vínculo ainda</span>';
+    return;
+  }
+  const labels = {frentes:'Ação',ciclos:'Trimestre',horizontes:'L.Prazo',pilares:'Área'};
+  container.innerHTML = ids.map(id => {
+    const lbl = getPrediLabel(id);
+    if (!lbl) return '';
+    return `<span class="chip">${labels[lbl.tipo]||lbl.tipo}: ${esc((lbl.nome||'').slice(0,22))}<span class="chip-x" onclick="${removeFn}('${id}')">×</span></span>`;
+  }).join('');
+}
+
+function populatePilarSelect(selId) {
+  const sel = document.getElementById(selId);
+  if (!sel) return;
+  const ativos = (S.pilares||[]).filter(x => !x.status||x.status==='ativo');
+  sel.innerHTML = '<option value="">Sem vínculo</option>' +
+    ativos.map(p => `<option value="${p.id}">${esc(p.texto||p.nome||'')}</option>`).join('');
+}
+
+/* ── Contratos overlay ──────────────────────────────────────── */
+let _prevPredioTab = 'frentes';
+
+function toggleContratos(btn) {
+  const fl = document.getElementById('fl-contratos');
+  if (!fl) return;
+  const isOpen = fl.style.display !== 'none';
+  if (isOpen) {
+    closeContratos();
+  } else {
+    _prevPredioTab = localStorage.getItem('canteiro_predio_tab') || 'frentes';
+    ['frentes','ciclos','horizontes','pilares','fundacao'].forEach(f => {
+      const el = document.getElementById('fl-' + f);
+      if (el) el.style.display = 'none';
+    });
+    fl.style.display = '';
+    btn.classList.add('active');
+    const backBtn = document.getElementById('contratos-back-btn');
+    if (backBtn) backBtn.style.display = 'inline-block';
+    document.querySelector('.predio-nav').style.opacity = '.35';
+  }
+}
+
+function closeContratos() {
+  const fl = document.getElementById('fl-contratos');
+  if (fl) fl.style.display = 'none';
+  const btn = document.getElementById('contratos-float-btn');
+  if (btn) btn.classList.remove('active');
+  const backBtn = document.getElementById('contratos-back-btn');
+  if (backBtn) backBtn.style.display = 'none';
+  document.querySelector('.predio-nav').style.opacity = '';
+  const prevBtn = document.querySelector(`.predio-nav-tab[onclick*="'${_prevPredioTab}'"]`);
+  setPredioTab(_prevPredioTab, prevBtn);
+}
+
+/* ── Notes per item ─────────────────────────────────────────── */
+function toggleNota(id, e) {
+  e.stopPropagation();
+  const body = document.getElementById('pi-nota-' + id);
+  if (!body) return;
+  const isOpen = body.style.display !== 'none';
+  body.style.display = isOpen ? 'none' : 'block';
+  if (!isOpen) body.querySelector('textarea').focus();
+}
+
+function saveNota(tipo, id, texto) {
+  const item = S[tipo] && S[tipo].find(x => x.id === id);
+  if (!item) return;
+  item.notas = texto.trim();
+  debSave();
+  // Update toggle button style
+  const btn = document.querySelector(`[onclick*="toggleNota('${id}'"]`);
+  if (btn) btn.classList.toggle('has-nota', !!item.notas);
+}
+
+/* ── Propósito Diary ────────────────────────────────────────── */
+function toggleDiario() {
+  const body = document.getElementById('diario-body');
+  if (!body) return;
+  const isOpen = body.style.display !== 'none';
+  body.style.display = isOpen ? 'none' : 'block';
+  if (!isOpen) {
+    // Set default filter to current month
+    const mf = document.getElementById('diario-filter-month');
+    if (mf && !mf.value) {
+      const now = new Date();
+      mf.value = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}`;
+    }
+    renderDiario();
+  }
+}
+
+function addDiario() {
+  const el = document.getElementById('inp-diario');
+  const txt = el.value.trim(); if (!txt) return el.focus();
+  if (!S.fundacao.diario) S.fundacao.diario = [];
+  S.fundacao.diario.unshift({ id: uid(), data: today(), texto: txt });
+  el.value = '';
+  persist(); renderDiario();
+}
+
+function renderDiario() {
+  if (!S.fundacao.diario) S.fundacao.diario = [];
+  const cnt = document.getElementById('diario-cnt');
+  const n = S.fundacao.diario.length;
+  if (cnt) cnt.textContent = n > 0 ? `(${n})` : '';
+  const list = document.getElementById('list-diario');
+  if (!list) return;
+
+  const mf = document.getElementById('diario-filter-month');
+  const filtroMes = mf ? mf.value : '';
+  const entries = filtroMes
+    ? S.fundacao.diario.filter(e => e.data && e.data.startsWith(filtroMes))
+    : S.fundacao.diario;
+
+  if (n === 0) {
+    list.innerHTML = '<div style="font-size:11px;color:var(--t3);font-family:Georgia,serif;padding:4px 0;margin-bottom:8px">Nenhum registro ainda.</div>';
+    return;
+  }
+  if (entries.length === 0) {
+    list.innerHTML = '<div style="font-size:11px;color:var(--t3);font-family:Georgia,serif;padding:4px 0;margin-bottom:8px">Nenhum registro neste período.</div>';
+    return;
+  }
+  list.innerHTML = entries.map(e =>
+    `<div class="diario-entry">
+      <div class="diario-entry-date">
+        <button class="diario-del" onclick="removeDiario('${e.id}')">×</button>
+        ${fmtDate(e.data)}
+      </div>
+      <div>${esc(e.texto)}</div>
+    </div>`
+  ).join('');
+}
+
+function removeDiario(id) {
+  showConfirm('Remover esta entrada do diário?', () => {
+    S.fundacao.diario = (S.fundacao.diario || []).filter(e => e.id !== id);
+    persist(); renderDiario();
+  });
+}
+
+/* ── Horizonte linking from ciclos ──────────────────────────── */
+let _pendingLinkHistId = null;
+
+function offerLinkHorizonte(histId, nomeCiclo) {
+  _pendingLinkHistId = histId;
+  const horizs = (S.horizontes || []).filter(x => !x.status || x.status === 'ativo');
+  if (horizs.length === 0) return;
+  const sel = document.getElementById('link-horizonte-sel');
+  if (!sel) return;
+  sel.innerHTML = '<option value="">— Nenhum —</option>' +
+    horizs.map(h => `<option value="${h.id}">${esc(h.nome||'')}</option>`).join('');
+  document.getElementById('link-horizonte-nome').textContent = nomeCiclo.slice(0, 40);
+  openM('mbg-link-horizonte');
+}
+
+function confirmLinkHorizonte() {
+  const sel = document.getElementById('link-horizonte-sel');
+  if (!sel || !_pendingLinkHistId) return closeM('mbg-link-horizonte');
+  const horizonteId = sel.value;
+  if (horizonteId) {
+    const entry = (S.historico || []).find(h => h.id === _pendingLinkHistId);
+    if (entry) { entry.horizonteVinculo = horizonteId; persist(); renderPredio(); }
+  }
+  _pendingLinkHistId = null;
+  closeM('mbg-link-horizonte');
+}
+
+/* ── Tab-specific insights ──────────────────────────────────── */
+
+function renderFloorPreviews() {
+  const tipos = ['frentes','ciclos','horizontes','pilares'];
+  tipos.forEach(tipo => {
+    const el = document.getElementById('preview-' + tipo);
+    if (!el) return;
+    const items = (S[tipo] || []).filter(x => !x.status || x.status === 'ativo');
+    if (items.length === 0) { el.innerHTML = ''; return; }
+    el.innerHTML = items.slice(0, 5).map(it =>
+      `<span class="floor-preview-item">${esc(it.nome || it.texto || '')}</span>`
+    ).join('') + (items.length > 5 ? `<span style="color:var(--t3)"> +${items.length - 5} mais</span>` : '');
+  });
 }
 
 function renderAll() {
@@ -3863,32 +4515,31 @@ function renderDash() {
     html += `</div></div>`;
   }
 
-  // ── METAS ─────────────────────────────────────────────────────
-  const metasAtivas = [
-    ...(S.frentes||[]), ...(S.ciclos||[]),
-    ...(S.horizontes||[]), ...(S.pilares||[])
-  ].filter(x => !x.status || x.status==='ativo');
-
-  if (metasAtivas.length > 0 || hist.length > 0) {
+  // ── ANALISADOR DE METAS ──────────────────────────────────────
+  {
+    const fr = (S.frentes||[]).filter(x=>!x.status||x.status==='ativo');
+    const ci = (S.ciclos||[]).filter(x=>!x.status||x.status==='ativo');
+    const ho = (S.horizontes||[]).filter(x=>!x.status||x.status==='ativo');
+    const pi = (S.pilares||[]).filter(x=>!x.status||x.status==='ativo');
+    const totalAt = fr.length+ci.length+ho.length+pi.length;
+    const concl = (S.historico||[]).filter(h=>h.statusFinal==='concluido').length;
+    const aband = (S.historico||[]).filter(h=>h.statusFinal==='abandonada').length;
+    const atras = fr.filter(f=>f.prazo&&f.prazo<today()).length;
+    const alerts = [];
+    if (ci.length===0) alerts.push('⚠️ Sem meta trimestral');
+    if (atras>0) alerts.push(`🔴 ${atras} ação${atras>1?'ões':''} em atraso`);
+    if (fr.length>5) alerts.push(`⚠️ ${fr.length} ações abertas`);
+    if (!(S.fundacao&&S.fundacao.missao&&S.fundacao.missao.trim())) alerts.push('💡 Propósito não definido');
+    if (!alerts.length) alerts.push('✅ Metas em ordem');
     html += `<div class="dash-sec">
-      <div class="dash-sec-hdr">Metas ativas <span>${metasAtivas.length}</span></div>`;
-
-    ['frentes','ciclos','horizontes','pilares'].forEach(tipo => {
-      const items = (S[tipo]||[]).filter(x=>!x.status||x.status==='ativo');
-      if (!items.length) return;
-      const nomes = {frentes:'Ações',ciclos:'Trimestre',horizontes:'Grandes Saltos',pilares:'Áreas de foco'};
-      html += `<div style="margin-bottom:10px">
-        <div style="font-size:9px;color:var(--t3);letter-spacing:1px;text-transform:uppercase;margin-bottom:5px;font-family:Georgia,serif">${nomes[tipo]}</div>`;
-      items.forEach(it=>{
-        const nome=it.nome||it.texto||'';
-        const rod=it.rodada>1?`<span style="font-size:9px;color:var(--acc);background:var(--acc-d);border-radius:3px;padding:1px 5px;margin-left:5px">${it.rodada}ª</span>`:'';
-        html+=`<div style="display:flex;align-items:center;gap:6px;padding:6px 0;border-bottom:1px solid var(--b1)">
-          <span style="font-size:13px;flex:1">${esc(nome)}${rod}</span>
-        </div>`;
-      });
-      html += `</div>`;
-    });
-    html += `</div>`;
+      <div class="dash-sec-hdr">Analisador de metas</div>
+      <div class="dash-analyzer">
+        <div class="dash-ana-pill"><div class="dash-ana-n">${totalAt}</div><div class="dash-ana-l">Ativas</div></div>
+        <div class="dash-ana-pill"><div class="dash-ana-n" style="color:var(--green)">${concl}</div><div class="dash-ana-l">Concluídas</div></div>
+        <div class="dash-ana-pill"><div class="dash-ana-n" style="color:${aband>0?'var(--acc)':'var(--t2)'}">${aband}</div><div class="dash-ana-l">Abandonadas</div></div>
+      </div>
+      <div class="dash-alert">${alerts.map(a=>`${a}<br>`).join('')}</div>
+    </div>`;
   }
 
   // ── Metas ativas ─────────────────────────────────────────────
@@ -4192,12 +4843,15 @@ function init() {
     if (actions) actions.style.display = isDesktop ? 'flex' : 'none';
   }
   applyNavLayout();
-  window.addEventListener('resize', applyNavLayout);
+  window.addEventListener('resize', () => { applyNavLayout(); initPredioNav(); });
 
   // PWA service worker
   if ('serviceWorker' in navigator) {
     navigator.serviceWorker.register('/Canteiro-Pessoal-APP/sw.js', { scope: '/Canteiro-Pessoal-APP/' }).catch(() => {});
   }
+
+  // Sync on app close/unload
+  window.addEventListener('beforeunload', () => { if (S.settings.scriptUrl && navigator.onLine) triggerSync(); });
 
   // Online/offline indicator
   window.addEventListener('online', () => {
