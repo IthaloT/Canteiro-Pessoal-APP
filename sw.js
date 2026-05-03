@@ -1,5 +1,5 @@
-// Service Worker — Canteiro Pessoal
-const CACHE = 'canteiro-v10';
+// Service Worker — Canteiro Pessoal v2.8
+const CACHE = 'canteiro-v11';
 
 self.addEventListener('install', e => { self.skipWaiting(); });
 
@@ -20,8 +20,8 @@ self.addEventListener('fetch', e => {
       if (cached) return cached;
       return fetch(e.request).then(res => {
         if (!res || res.status !== 200 || res.type !== 'basic') return res;
-        const resClone = res.clone();
-        caches.open(CACHE).then(c => c.put(e.request, resClone));
+        const clone = res.clone();
+        caches.open(CACHE).then(c => c.put(e.request, clone));
         return res;
       }).catch(() => cached || new Response('Offline', { status: 503 }));
     })
