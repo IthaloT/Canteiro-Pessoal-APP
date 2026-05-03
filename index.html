@@ -135,10 +135,8 @@ select option{background:var(--s2)}
 .xbtn:hover{color:var(--red)}
 
 /* ═══════════════════════════════════════════════════════════
-   KANBAN
+   KANBAN — base styles (layout/sizing handled by swipe rules)
 ═══════════════════════════════════════════════════════════ */
-.kanban{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:8px}
-.k-col{background:var(--s1);border:1px solid var(--b1);border-radius:var(--r);padding:10px;min-height:120px}
 .k-col-hdr{font-size:9px;font-weight:bold;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:8px;display:flex;align-items:center;justify-content:space-between;font-family:Georgia,serif}
 .k-afazer .k-col-hdr{color:var(--t2)}
 .k-fazendo .k-col-hdr{color:var(--acc)}
@@ -459,6 +457,94 @@ select option{background:var(--s2)}
 }
 .info-btn:hover{border-color:var(--acc);color:var(--acc)}
 
+/* ── Kebab menu ────────────────────────────────────────────── */
+.kebab-wrap{position:relative;flex-shrink:0}
+.kebab-btn{
+  background:none;border:none;color:var(--t3);font-size:18px;cursor:pointer;
+  padding:2px 6px;line-height:1;border-radius:var(--rs);transition:var(--tr);
+  font-family:Georgia,serif;
+}
+.kebab-btn:hover{color:var(--text);background:var(--s2)}
+.kebab-menu{
+  position:absolute;top:100%;right:0;z-index:200;
+  background:var(--s2);border:1px solid var(--b2);border-radius:var(--r);
+  min-width:150px;padding:4px 0;box-shadow:0 4px 16px rgba(0,0,0,.4);
+  display:none;animation:fadeIn .12s ease;
+}
+.kebab-menu.open{display:block}
+.kebab-item{
+  display:block;width:100%;padding:9px 14px;text-align:left;background:none;
+  border:none;color:var(--text);font-size:13px;cursor:pointer;
+  font-family:Georgia,serif;transition:var(--tr);white-space:nowrap;
+}
+.kebab-item:hover{background:var(--s3);color:var(--acc)}
+.kebab-item.danger{color:var(--red)}
+.kebab-item.danger:hover{background:var(--rd)}
+
+/* ── Botão de conclusão do card ─────────────────────────────── */
+.pi-check-btn{
+  background:none;border:1px solid rgba(61,158,106,.4);color:var(--green);
+  border-radius:var(--rs);padding:4px 10px;font-size:13px;cursor:pointer;
+  font-family:Georgia,serif;transition:var(--tr);flex-shrink:0;
+}
+.pi-check-btn:hover{background:var(--gd);border-color:var(--green)}
+
+/* ── Prazo badge (Ações) ────────────────────────────────────── */
+.prazo-tag{
+  font-size:10px;color:var(--acc);background:var(--acc-d);
+  border:1px solid var(--acc-g);border-radius:3px;padding:2px 7px;
+  font-family:Georgia,serif;display:inline-block;margin-top:4px;
+}
+.prazo-tag.vencido{color:var(--red);background:var(--rd);border-color:rgba(200,75,75,.3)}
+.prazo-tag.urgente{color:var(--yellow);background:var(--yd);border-color:rgba(201,146,26,.3)}
+
+/* ── Kanban swipe mobile ────────────────────────────────────── */
+.kanban{
+  display:flex;gap:10px;
+  overflow-x:auto;scroll-snap-type:x mandatory;
+  -webkit-overflow-scrolling:touch;
+  padding-bottom:8px;margin:0 -16px;padding-left:16px;padding-right:16px;
+  scrollbar-width:none;
+}
+.kanban::-webkit-scrollbar{display:none}
+.k-col{
+  background:var(--s1);border:1px solid var(--b1);border-radius:var(--r);
+  padding:10px;min-height:120px;
+  flex:0 0 85vw;max-width:340px;
+  scroll-snap-align:center;
+}
+@media(min-width:600px){
+  .kanban{flex-wrap:wrap;overflow-x:visible;scroll-snap-type:none;margin:0;padding-left:0;padding-right:0}
+  .k-col{flex:1;max-width:none}
+}
+
+/* ── Kanban card text clamp ─────────────────────────────────── */
+.k-card-txt{
+  flex:1;word-break:break-word;
+  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;
+}
+
+/* ── Ideias accordion ───────────────────────────────────────── */
+.ideias-accordion-hdr{
+  display:flex;align-items:center;gap:8px;cursor:pointer;
+  padding:9px 0;user-select:none;
+}
+.ideias-accordion-hdr:hover .ideias-accordion-title{color:var(--text)}
+.ideias-accordion-title{font-size:9px;letter-spacing:1.8px;text-transform:uppercase;color:var(--t3);font-family:Georgia,serif;flex:1;transition:var(--tr)}
+.ideias-accordion-caret{color:var(--t3);font-size:10px;transition:transform .2s;flex-shrink:0}
+.ideias-accordion-hdr.open .ideias-accordion-caret{transform:rotate(180deg)}
+.ideias-accordion-body{display:none}
+.ideias-accordion-body.open{display:block}
+.ideias-group-hdr{
+  font-size:10px;color:var(--acc);letter-spacing:.8px;
+  padding:8px 0 5px;font-family:Georgia,serif;
+  border-bottom:1px solid var(--b1);margin-bottom:6px;
+}
+
+/* ── Sec-h com contador inline ──────────────────────────────── */
+.sec-h-info{display:flex;align-items:center;gap:5px;flex:1}
+.floor-counter{font-size:10px;color:var(--t3);font-family:Georgia,serif}
+
 
 /* ── Device sync modal ─────────────────────────────────────── */
 .device-choice{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:16px 0}
@@ -528,6 +614,61 @@ select option{background:var(--s2)}
 .tag-del-btn{background:none;border:none;color:var(--t3);font-size:16px;cursor:pointer;padding:0 4px;line-height:1}
 .tag-del-btn:hover{color:var(--red)}
 .countdown-tag{font-size:10px;color:var(--blue);background:var(--bd);border:1px solid rgba(74,127,193,.3);border-radius:3px;padding:2px 7px;font-family:Georgia,serif;display:inline-block;margin-top:4px}
+
+/* ── Contador no header do andar ────────────────────────────── */
+.floor-count-badge{
+  font-size:10px;color:var(--t3);font-family:Georgia,serif;
+  margin-left:auto;padding-right:8px;flex-shrink:0;
+}
+
+/* ── Freq/dias toggles ──────────────────────────────────────── */
+.dias-grid{display:flex;gap:4px;flex-wrap:wrap;margin-top:6px}
+.dia-tog{
+  padding:5px 8px;border:1px solid var(--b1);border-radius:var(--rs);
+  font-size:11px;color:var(--t2);cursor:pointer;font-family:Georgia,serif;
+  transition:var(--tr);user-select:none;
+}
+.dia-tog.on{background:var(--acc-d);border-color:var(--acc-g);color:var(--acc)}
+.freq-row{display:flex;align-items:center;gap:10px;margin-top:6px}
+.freq-input{width:60px!important}
+
+/* ── Contratos ─────────────────────────────────────────────── */
+.contrato-card{
+  background:var(--s1);border:1px solid var(--b1);border-radius:var(--r);
+  padding:13px 14px;margin-bottom:8px;animation:fadeIn .18s ease;
+}
+.contrato-card.desbloqueado{border-color:rgba(61,158,106,.4);background:rgba(61,158,106,.04)}
+.contrato-top{display:flex;align-items:flex-start;gap:8px;margin-bottom:8px}
+.contrato-recompensa{flex:1;font-size:14px;color:var(--text);line-height:1.4}
+.contrato-alvo{font-size:11px;color:var(--t3);font-family:Georgia,serif;margin-top:3px}
+.contrato-status{
+  font-size:10px;padding:3px 8px;border-radius:10px;font-family:Georgia,serif;
+  font-weight:bold;flex-shrink:0;
+}
+.contrato-status.bloqueado{background:var(--s3);color:var(--t3);border:1px solid var(--b1)}
+.contrato-status.livre{background:var(--gd);color:var(--green);border:1px solid rgba(61,158,106,.3)}
+.contrato-prog{margin-top:6px}
+.contrato-prog-track{height:4px;background:var(--s3);border-radius:2px;overflow:hidden;margin-top:3px}
+.contrato-prog-fill{height:100%;background:var(--acc);border-radius:2px;transition:width .4s}
+.contrato-prog-fill.green{background:var(--green)}
+.btn-resgatar{
+  width:100%;padding:10px;border-radius:var(--rs);font-size:13px;cursor:pointer;
+  font-family:Georgia,serif;transition:var(--tr);margin-top:10px;
+  background:var(--green);color:#0E0E0E;border:none;font-weight:bold;
+}
+.btn-resgatar:disabled{background:var(--s3);color:var(--t3);cursor:not-allowed}
+.btn-resgatar:not(:disabled):hover{background:#4DB87A}
+
+/* ── Tipo selector contratos ────────────────────────────────── */
+.tipo-opts{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin:10px 0}
+.tipo-opt{
+  padding:10px 6px;border:1px solid var(--b1);border-radius:var(--rs);
+  cursor:pointer;text-align:center;font-family:Georgia,serif;transition:var(--tr);
+}
+.tipo-opt:hover{border-color:var(--b2)}
+.tipo-opt.sel{border-color:var(--acc);background:var(--acc-d)}
+.tipo-opt-icon{font-size:18px;margin-bottom:4px}
+.tipo-opt-lbl{font-size:11px;color:var(--text)}
 </style>
 </head>
 <body>
@@ -543,7 +684,7 @@ select option{background:var(--s2)}
   <span class="logo">Can<em>teiro</em> <span style="font-size:11px;color:var(--t2);font-weight:normal;letter-spacing:0">Pessoal</span></span>
   <div id="sync-dot" class="sync-dot" title="Status da sync" style="flex-shrink:0"></div>
   <span id="sync-lbl" style="font-size:10px;color:var(--t3);font-family:Georgia,serif;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap"></span>
-  <span class="version-badge" style="flex-shrink:0" title="Versão do app">v2.1</span>
+  <span class="version-badge" style="flex-shrink:0" title="Versão do app">v2.3</span>
   <button class="icon-btn" style="flex-shrink:0" onclick="openM('mbg-history')">Hist.</button>
   <button class="icon-btn" style="flex-shrink:0" onclick="openSettingsModal()">⚙</button>
 </div>
@@ -596,23 +737,31 @@ select option{background:var(--s2)}
       <div id="col-feito"></div>
     </div>
   </div>
-  <div class="sec-h mt2">
-    Caixa de Ideias <span class="badge" id="ideias-cnt">0</span>
-    <button class="btn btn-g btn-sm" onclick="openGerenciarTags()">🏷 Tags</button>
+  <div class="mt2" style="border-top:1px solid var(--b1);padding-top:10px">
+    <div class="ideias-accordion-hdr" id="ideias-accordion-hdr" onclick="toggleIdeiasAccordion()">
+      <span class="ideias-accordion-title">💡 Caixa de Ideias <span class="badge" id="ideias-cnt" style="margin-left:4px">0</span></span>
+      <button class="btn btn-g btn-sm" onclick="event.stopPropagation();openGerenciarTags()" style="font-size:10px;padding:3px 8px">🏷 Tags</button>
+      <span class="ideias-accordion-caret" style="margin-left:8px">▾</span>
+    </div>
+    <div class="ideias-accordion-body" id="ideias-accordion-body">
+      <div id="list-ideias"></div>
+    </div>
   </div>
-  <div id="list-ideias"></div>
 </div>
 <div id="sec-predio" class="sec">
 
   <div class="floor" id="fl-frentes">
     <div class="floor-hdr" onclick="flipFloor('frentes')">
       <span class="floor-tag">Ações</span>
-      <span class="floor-name">Projetos ativos</span>
+      <span class="floor-name" id="fl-frentes-name">Projetos ativos</span>
+      <span class="floor-count-badge" id="fl-frentes-count"></span>
       <em class="floor-caret">▾</em>
     </div>
     <div class="floor-body">
-      <div class="lbl">Projetos práticos com começo, meio e fim — até 2 meses</div>
-      <div class="floor-example">Ex: "Fazer o design das embalagens, definir preço e cadastrar o produto para venda."</div>
+      <div id="fl-frentes-tutorial">
+        <div class="lbl">Projetos práticos com começo, meio e fim — até 2 meses</div>
+      </div>
+      <div id="warn-ciclos-frentes" style="display:none"></div>
       <button class="btn btn-g btn-sm gap" onclick="openAddPredi('frentes')">+ Nova ação</button>
       <div id="list-frentes" class="gap"></div>
     </div>
@@ -621,12 +770,14 @@ select option{background:var(--s2)}
   <div class="floor" id="fl-ciclos">
     <div class="floor-hdr" onclick="flipFloor('ciclos')">
       <span class="floor-tag">Trimestre</span>
-      <span class="floor-name">Metas dos próximos 90 dias</span>
+      <span class="floor-name" id="fl-ciclos-name">Metas dos próximos 90 dias</span>
+      <span class="floor-count-badge" id="fl-ciclos-count"></span>
       <em class="floor-caret">▾</em>
     </div>
     <div class="floor-body">
-      <div class="lbl">Máximo 3 focos para os próximos 90 dias</div>
-      <div class="floor-example">Ex: "Terminar o módulo de SQL do curso e criar o escopo do banco de dados do meu projeto até 31 de julho."</div>
+      <div id="fl-ciclos-tutorial">
+        <div class="lbl">Máximo 3 focos para os próximos 90 dias</div>
+      </div>
       <div id="warn-ciclos" class="warn" style="display:none;font-size:11px;color:var(--red);margin-top:4px">Limite de 3 metas trimestrais atingido.</div>
       <button class="btn btn-g btn-sm gap" id="btn-add-ciclo" onclick="openAddPredi('ciclos')">+ Nova meta trimestral</button>
       <div id="list-ciclos" class="gap"></div>
@@ -635,13 +786,15 @@ select option{background:var(--s2)}
 
   <div class="floor" id="fl-horizontes">
     <div class="floor-hdr" onclick="flipFloor('horizontes')">
-      <span class="floor-tag">Longo prazo</span>
-      <span class="floor-name">Metas épicas de 5 a 10 anos</span>
+      <span class="floor-tag">Grandes Saltos</span>
+      <span class="floor-name" id="fl-horizontes-name">Grandes Saltos: 1 a 10 anos</span>
+      <span class="floor-count-badge" id="fl-horizontes-count"></span>
       <em class="floor-caret">▾</em>
     </div>
     <div class="floor-body">
-      <div class="lbl">A fotografia do seu futuro — grandes vitórias que mudam o jogo</div>
-      <div class="floor-example">Ex: "Fazer o meu negócio gerar renda suficiente para ser minha principal fonte de sustento até 2030."</div>
+      <div id="fl-horizontes-tutorial">
+        <div class="lbl">A fotografia do seu futuro — grandes vitórias que mudam o jogo</div>
+      </div>
       <button class="btn btn-g btn-sm gap" onclick="openAddPredi('horizontes')">+ Nova meta de longo prazo</button>
       <div id="list-horizontes" class="gap"></div>
     </div>
@@ -650,12 +803,14 @@ select option{background:var(--s2)}
   <div class="floor" id="fl-pilares">
     <div class="floor-hdr" onclick="flipFloor('pilares')">
       <span class="floor-tag">Áreas de foco</span>
-      <span class="floor-name">As grandes áreas da sua vida</span>
+      <span class="floor-name" id="fl-pilares-name">As grandes áreas da sua vida</span>
+      <span class="floor-count-badge" id="fl-pilares-count"></span>
       <em class="floor-caret">▾</em>
     </div>
     <div class="floor-body">
-      <div class="lbl">Caminhos que você decidiu honrar — sempre ativos</div>
-      <div class="floor-example">Ex: Meus Negócios · Minha Saúde · Meus Estudos · Minha Família</div>
+      <div id="fl-pilares-tutorial">
+        <div class="lbl">As grandes áreas da sua vida</div>
+      </div>
       <button class="btn btn-g btn-sm gap" onclick="openAddPredi('pilares')">+ Nova área de foco</button>
       <div id="list-pilares" class="gap"></div>
     </div>
@@ -669,15 +824,28 @@ select option{background:var(--s2)}
     </div>
     <div class="floor-body">
       <div class="lbl">A bússola inegociável que sustenta tudo</div>
-      <div style="font-size:11px;color:var(--t3);margin:6px 0 8px;font-family:Georgia,serif;line-height:1.5">
-        Ex: "Ter liberdade de tempo e dinheiro trabalhando com projetos que eu mesmo criei, sem precisar bater ponto, e ter paz para cuidar da minha saúde e da minha família."
-      </div>
-      <textarea id="inp-missao" rows="4" placeholder="Escreva aqui o seu propósito maior..."></textarea>
+      <textarea id="inp-missao" rows="4" placeholder='Ex: "Ter liberdade de tempo e dinheiro trabalhando com projetos que eu mesmo criei, sem precisar bater ponto, e ter paz para cuidar da minha saúde e da minha família."'></textarea>
       <div class="missao-footer">
         <span class="missao-saved" id="missao-saved-lbl">✓ Salvo</span>
         <button class="btn btn-a btn-sm" onclick="saveMissao()">Salvar propósito</button>
       </div>
       <div id="list-proposito-historico" style="margin-top:12px"></div>
+    </div>
+  </div>
+
+  <div class="floor" id="fl-contratos">
+    <div class="floor-hdr" onclick="flipFloor('contratos')">
+      <span class="floor-tag">Contratos</span>
+      <span class="floor-name">Acordos Inegociáveis</span>
+      <span class="floor-count-badge" id="fl-contratos-count"></span>
+      <em class="floor-caret">▾</em>
+    </div>
+    <div class="floor-body">
+      <div id="fl-contratos-tutorial">
+        <div class="lbl">Cadeados de recompensa — desbloqueiam ao cumprir uma meta, hábito ou vício</div>
+      </div>
+      <button class="btn btn-g btn-sm gap" onclick="openAddContrato()">+ Novo contrato</button>
+      <div id="list-contratos" class="gap"></div>
     </div>
   </div>
 
@@ -733,7 +901,7 @@ select option{background:var(--s2)}
 
   <div id="t-s1">
     <div class="m-actions">
-      <button class="btn btn-g" onclick="tAct('discard')">🗑 Descartar</button>
+      <button class="btn btn-g" onclick="tAct('discard')">🗑 Apagar item</button>
       <button class="btn btn-g" onclick="tAct('idea')">💡 Ideia</button>
       <button class="btn btn-g" onclick="tAct('project')">📁 Criar Ação</button>
       <button class="btn btn-a" onclick="tAct('task')">✓ Criar Tarefa</button>
@@ -831,6 +999,21 @@ select option{background:var(--s2)}
   <div class="m-title">Novo hábito</div>
   <div class="lbl">Nome do hábito</div>
   <input type="text" id="inp-hab-nome" placeholder="Ex: 1h de estudo, Exercício, Meditação...">
+  <div class="lbl gap">Meta de frequência (vezes por semana)</div>
+  <div class="freq-row">
+    <input type="number" id="inp-hab-freq" class="freq-input" value="7" min="1" max="7" placeholder="7">
+    <span style="font-size:12px;color:var(--t2);font-family:Georgia,serif">x por semana (padrão: todos os dias)</span>
+  </div>
+  <div class="lbl gap">Dias ativos (opcional — deixe em branco para todos)</div>
+  <div class="dias-grid" id="inp-hab-dias">
+    <span class="dia-tog on" data-dia="1">Seg</span>
+    <span class="dia-tog on" data-dia="2">Ter</span>
+    <span class="dia-tog on" data-dia="3">Qua</span>
+    <span class="dia-tog on" data-dia="4">Qui</span>
+    <span class="dia-tog on" data-dia="5">Sex</span>
+    <span class="dia-tog on" data-dia="6">Sáb</span>
+    <span class="dia-tog on" data-dia="0">Dom</span>
+  </div>
   <div class="lbl gap">Vincular a objetivo do Prédio (opcional)</div>
   <select id="inp-hab-vinculo">
     <option value="">Sem vínculo</option>
@@ -850,6 +1033,10 @@ select option{background:var(--s2)}
   <input type="hidden" id="add-predi-tipo">
   <div class="lbl" id="add-predi-lbl">Nome</div>
   <input type="text" id="inp-predi-nome" placeholder="">
+  <div id="predi-desc-field" style="display:none">
+    <div class="lbl gap">Descrição (opcional)</div>
+    <textarea id="inp-predi-desc-generic" rows="2" placeholder="Contexto, detalhes, motivação..."></textarea>
+  </div>
   <div id="frente-extras" style="display:none">
     <div class="lbl gap">Descrição (opcional)</div>
     <textarea id="inp-predi-desc" rows="2" placeholder="Contexto, objetivo..."></textarea>
@@ -934,6 +1121,16 @@ select option{background:var(--s2)}
   <div class="m-title">Rastrear vício / hábito ruim</div>
   <div class="lbl">Comportamento a eliminar</div>
   <input type="text" id="inp-vicio-nome" placeholder="Ex: Redes sociais de manhã, cigarro...">
+  <div class="lbl gap">Dias em que se aplica (deixe todos para rastrear sempre)</div>
+  <div class="dias-grid" id="inp-vicio-dias">
+    <span class="dia-tog on" data-dia="1">Seg</span>
+    <span class="dia-tog on" data-dia="2">Ter</span>
+    <span class="dia-tog on" data-dia="3">Qua</span>
+    <span class="dia-tog on" data-dia="4">Qui</span>
+    <span class="dia-tog on" data-dia="5">Sex</span>
+    <span class="dia-tog on" data-dia="6">Sáb</span>
+    <span class="dia-tog on" data-dia="0">Dom</span>
+  </div>
   <div class="m-actions">
     <button class="btn btn-g" onclick="closeM('mbg-add-vicio')">Cancelar</button>
     <button class="btn btn-a" onclick="saveVicio()">Rastrear</button>
@@ -949,8 +1146,41 @@ select option{background:var(--s2)}
   <div class="hist-tabs">
     <button class="hist-tab active" id="hist-tab-metas" onclick="switchHistTab('metas')">Metas</button>
     <button class="hist-tab" id="hist-tab-arquivados" onclick="switchHistTab('arquivados')">Arquivados</button>
+    <button class="hist-tab" id="hist-tab-contratos" onclick="switchHistTab('contratos')">Contratos</button>
   </div>
   <div id="hist-list"></div>
+</div>
+</div>
+
+<!-- ══ MODAL: Novo Contrato ══════════════════════════════════ -->
+<div class="mbg" id="mbg-add-contrato">
+<div class="modal">
+  <button class="m-close" onclick="closeM('mbg-add-contrato')">×</button>
+  <div class="m-title">Novo Contrato</div>
+  <div class="lbl">A Recompensa</div>
+  <input type="text" id="inp-contrato-recompensa" placeholder="Ex: Sessão de fumo liberada, CS2 o fim de semana todo...">
+  <div class="lbl gap">Tipo de acordo</div>
+  <div class="tipo-opts">
+    <div class="tipo-opt sel" id="tipo-opt-meta" onclick="selectTipoContrato('meta')">
+      <div class="tipo-opt-icon">🎯</div>
+      <div class="tipo-opt-lbl">Uma Meta</div>
+    </div>
+    <div class="tipo-opt" id="tipo-opt-habito" onclick="selectTipoContrato('habito')">
+      <div class="tipo-opt-icon">🧱</div>
+      <div class="tipo-opt-lbl">Um Hábito</div>
+    </div>
+    <div class="tipo-opt" id="tipo-opt-vicio" onclick="selectTipoContrato('vicio')">
+      <div class="tipo-opt-icon">🛡️</div>
+      <div class="tipo-opt-lbl">Um Vício</div>
+    </div>
+  </div>
+  <div class="lbl">Alvo</div>
+  <select id="inp-contrato-alvo"></select>
+  <div id="contrato-alvo-desc" style="font-size:11px;color:var(--t3);font-family:Georgia,serif;margin-top:6px;line-height:1.5"></div>
+  <div class="m-actions">
+    <button class="btn btn-g" onclick="closeM('mbg-add-contrato')">Cancelar</button>
+    <button class="btn btn-a" onclick="saveContrato()">Criar contrato</button>
+  </div>
 </div>
 </div>
 
@@ -1233,7 +1463,8 @@ function blank() {
     habitos: [], habitosArquivados: [],
     inbox: [], tarefas: [],
     ideias: [], tagIdeias: [],
-    vicios: [], descarte: [], historico: []
+    vicios: [], descarte: [], historico: [],
+    contratos: []
   };
 }
 
@@ -1512,28 +1743,52 @@ function showConfirm(msg, onOk) {
   openM('mbg-confirm');
 }
 
+// Dupla confirmação — para ações irreversíveis
+function showConfirm2(msg1, msg2, onOk) {
+  showConfirm(msg1, () => showConfirm(msg2, onOk));
+}
+
 /* ═══════════════════════════════════════════════════════════
    HÁBITOS
 ═══════════════════════════════════════════════════════════ */
 const DAY_LABELS = ['Seg','Ter','Qua','Qui','Sex','Sáb','Dom'];
 const HAB_CYCLE = ['feito', 'parcial', 'faltou', null];
 
+// ── Helpers de cálculo de % com freqAlvo e diasAtivos ──────────
+function getHabDiasAtivos(h, days) {
+  if (!h.diasAtivos) return days; // null = todos os dias
+  return days.filter(d => {
+    const dow = new Date(d + 'T12:00:00').getDay();
+    return h.diasAtivos.includes(dow);
+  });
+}
+function calcPctHabito(h, days) {
+  const diasValidos = getHabDiasAtivos(h, days);
+  const freqAlvo = Math.min(h.freqAlvo || 7, diasValidos.length || 1);
+  const regs = h.registros || {};
+  const feito = diasValidos.filter(d => regs[d] === 'feito').length;
+  return { feito, alvo: freqAlvo, pct: Math.min(100, Math.round(feito / freqAlvo * 100)), diasValidos };
+}
+function calcPctVicio(v, days) {
+  const diasValidos = v.diasAtivos ? days.filter(d => v.diasAtivos.includes(new Date(d+'T12:00:00').getDay())) : days;
+  const regs = v.registros || {};
+  const resistiu = diasValidos.filter(d => regs[d] === 'resistiu').length;
+  const alvo = diasValidos.length || 1;
+  return { resistiu, alvo, pct: Math.round(resistiu / alvo * 100), diasValidos };
+}
+
 function renderHabitos() {
   const week = getWeekDays();
   const t = today();
-  const inicio = fmtDate(week[0]);
-  const fim    = fmtDate(week[6]);
-  document.getElementById('week-range').textContent = `Semana: ${inicio} — ${fim}`;
+  document.getElementById('week-range').textContent = `Semana: ${fmtDate(week[0])} — ${fmtDate(week[6])}`;
 
-  // Global week stat
-  let totalSlots = 0, totalFeito = 0;
+  // Global week stat usando freqAlvo
+  let totalAlvo = 0, totalFeito = 0;
   S.habitos.forEach(h => {
-    week.forEach(d => {
-      totalSlots++;
-      if ((h.registros || {})[d] === 'feito') totalFeito++;
-    });
+    const { feito, alvo } = calcPctHabito(h, week);
+    totalAlvo += alvo; totalFeito += feito;
   });
-  const pct = totalSlots ? Math.round(totalFeito / totalSlots * 100) : 0;
+  const pct = totalAlvo ? Math.round(totalFeito / totalAlvo * 100) : 0;
   document.getElementById('week-stat').textContent = S.habitos.length ? `${pct}% da semana` : '';
 
   const list = document.getElementById('list-habitos');
@@ -1544,15 +1799,14 @@ function renderHabitos() {
 
   list.innerHTML = S.habitos.map(h => {
     const regs = h.registros || {};
-    const weekFeito = week.filter(d => regs[d] === 'feito').length;
+    const { feito, alvo, pct: habPct } = calcPctHabito(h, week);
+    const diasAtivosSet = h.diasAtivos ? new Set(h.diasAtivos) : null;
 
-    // Suporte a vínculo único (vinculoId) e múltiplos (vinculoIds)
     const ids = h.vinculoIds || (h.vinculoId ? [h.vinculoId] : []);
     const vinculos = ids.map(id => getPrediLabel(id)).filter(Boolean);
-
     const vinculoHtml = vinculos.length
       ? `<div class="habito-vinculos">${vinculos.map(v => {
-          const tipoLabel = {frentes:'Ação',ciclos:'Trimestre',horizontes:'Longo prazo',pilares:'Área de foco'}[v.tipo] || v.tipo;
+          const tipoLabel = {frentes:'Ação',ciclos:'Trimestre',horizontes:'Grandes Saltos',pilares:'Área de foco'}[v.tipo] || v.tipo;
           return `<span class="habito-vtag">↳ ${esc(tipoLabel)}: ${esc(v.nome.slice(0,20))}</span>`;
         }).join('')}</div>`
       : '';
@@ -1560,13 +1814,19 @@ function renderHabitos() {
     const days = week.map((d, i) => {
       const est = regs[d] || '';
       const isToday = d === t;
+      // dia inativo para este hábito fica esmaecido
+      const dow = new Date(d+'T12:00:00').getDay();
+      const inativo = diasAtivosSet && !diasAtivosSet.has(dow);
       const icon = est === 'feito' ? '✓' : est === 'parcial' ? '½' : est === 'faltou' ? '✕' : DAY_LABELS[i].slice(0,1);
-      return `<div class="day-cell${est ? ' ' + est : ''}${isToday ? ' today' : ''}" onclick="cycleHabitoDay('${h.id}','${d}')" title="${DAY_LABELS[i]}">${icon}</div>`;
+      const dayOnclick = inativo ? '' : `cycleHabitoDay('${h.id}','${d}')`;
+      const dayStyle   = inativo ? 'opacity:.3;cursor:default' : '';
+      return `<div class="day-cell${est ? ' '+est : ''}${isToday ? ' today' : ''}${inativo ? ' inactive' : ''}" onclick="${dayOnclick}" title="${DAY_LABELS[i]}${inativo?' (inativo)':''}" style="${dayStyle}">${icon}</div>`;
     }).join('');
 
+    const freqLabel = h.freqAlvo && h.freqAlvo < 7 ? ` · meta: ${h.freqAlvo}x/sem` : '';
     return `<div class="habito-row">
       <div class="habito-top">
-        <div class="habito-nome">${esc(h.nome)}</div>
+        <div class="habito-nome">${esc(h.nome)}<span style="font-size:9px;color:var(--t3);margin-left:6px;font-family:Georgia,serif">${freqLabel}</span></div>
         <div class="habito-actions">
           <button class="habito-edit" onclick="openEditHabito('${h.id}')">✎</button>
           <button class="habito-del" onclick="removeHabito('${h.id}')">×</button>
@@ -1575,7 +1835,7 @@ function renderHabitos() {
       ${vinculoHtml}
       <div class="habito-bottom">
         <div class="days-grid">${days}</div>
-        <div class="habito-stat">${weekFeito}/7</div>
+        <div class="habito-stat">${feito}/${alvo} <span style="font-size:9px;color:${habPct>=100?'var(--green)':habPct>=50?'var(--acc)':'var(--red)'}">${habPct}%</span></div>
       </div>
     </div>`;
   }).join('');
@@ -1594,14 +1854,13 @@ function cycleHabitoDay(id, date) {
 }
 
 function removeHabito(id) {
-  showConfirm('Remover este hábito? O histórico de dados será preservado nos filtros do dashboard.', () => {
+  showConfirm2('Remover este hábito?', 'Confirma? O histórico de dados será preservado no dashboard.', () => {
     const h = S.habitos.find(x => x.id === id);
     if (h) {
       if (!S.habitosArquivados) S.habitosArquivados = [];
       S.habitosArquivados.push({ ...h, removidoEm: today() });
     }
     S.habitos = S.habitos.filter(x => x.id !== id);
-    // Remove vínculo de hábitos arquivados de objetos do prédio
     persist(); renderHabitos();
   });
 }
@@ -1677,27 +1936,53 @@ function saveEditHabito() {
 }
 
 function openM_addHabito() {
-  // populate vinculo select
   const sel = document.getElementById('inp-hab-vinculo');
   sel.innerHTML = '<option value="">Sem vínculo</option>';
   ['frentes','ciclos','horizontes','pilares'].forEach(tipo => {
     S[tipo].filter(x => x.status === 'ativo').forEach(item => {
       const opt = document.createElement('option');
       opt.value = item.id;
-      const tipoLabel = {frentes:'Ação',ciclos:'Trimestre',horizontes:'Longo prazo',pilares:'Área de foco'}[tipo] || tipo;
+      const tipoLabel = {frentes:'Ação',ciclos:'Trimestre',horizontes:'Grandes Saltos',pilares:'Área de foco'}[tipo] || tipo;
       opt.textContent = `[${tipoLabel}] ${(item.nome || item.texto || '').slice(0,40)}`;
       sel.appendChild(opt);
     });
   });
   document.getElementById('inp-hab-nome').value = '';
+  document.getElementById('inp-hab-freq').value = '7';
+  setDiasToggle('inp-hab-dias', null); // todos ativos
+  initDiasToggle('inp-hab-dias');
+  initDiasToggle('inp-vicio-dias');
   openM('mbg-add-habito');
+}
+
+/* ── Helpers para toggles de dias ─────────────────────────── */
+function initDiasToggle(containerId) {
+  document.querySelectorAll(`#${containerId} .dia-tog`).forEach(el => {
+    el.onclick = () => el.classList.toggle('on');
+  });
+}
+function getDiasAtivos(containerId) {
+  const ativos = [];
+  document.querySelectorAll(`#${containerId} .dia-tog.on`).forEach(el => {
+    ativos.push(parseInt(el.dataset.dia));
+  });
+  // Se todos os 7 dias estão marcados, retorna null (= todos)
+  return ativos.length === 7 ? null : ativos;
+}
+function setDiasToggle(containerId, diasAtivos) {
+  document.querySelectorAll(`#${containerId} .dia-tog`).forEach(el => {
+    const dia = parseInt(el.dataset.dia);
+    el.classList.toggle('on', !diasAtivos || diasAtivos.includes(dia));
+  });
 }
 
 function saveHabito() {
   const nome = document.getElementById('inp-hab-nome').value.trim();
   if (!nome) return document.getElementById('inp-hab-nome').focus();
   const vinculoId = document.getElementById('inp-hab-vinculo').value;
-  S.habitos.push({ id: uid(), nome, vinculoId: vinculoId || null, registros: {} });
+  const freqAlvo = parseInt(document.getElementById('inp-hab-freq').value) || 7;
+  const diasAtivos = getDiasAtivos('inp-hab-dias');
+  S.habitos.push({ id: uid(), nome, vinculoId: vinculoId || null, vinculoIds: vinculoId ? [vinculoId] : [], registros: {}, freqAlvo, diasAtivos });
   persist(); closeM('mbg-add-habito'); renderHabitos();
 }
 
@@ -1795,12 +2080,12 @@ function tConfirmTask() {
 }
 
 function tConfirmProj() {
-  const nome = document.getElementById('inp-triage-proj').value.trim();
-  if (!nome) return document.getElementById('inp-triage-proj').focus();
   const item = S.inbox.find(x => x.id === tID);
   if (item) item.status = 'triado';
-  S.frentes.push({ id: uid(), nome, descricao: item ? item.texto : '', prazo: '', status: 'ativo', rodada: 1, criadoEm: today() });
-  persist(); closeM('mbg-triage'); renderCaderno(); renderPredio();
+  closeM('mbg-triage');
+  // 2.4 — pré-preenche o nome da ação com o texto capturado
+  openAddPredi('frentes', item ? item.texto : '');
+  renderCaderno();
 }
 
 /* ═══════════════════════════════════════════════════════════
@@ -1845,32 +2130,66 @@ function tConfirmIdea() {
   persist(); closeM('mbg-triage'); renderCaderno();
 }
 
+// 2.3 — Accordion da Caixa de Ideias
+function toggleIdeiasAccordion() {
+  const hdr  = document.getElementById('ideias-accordion-hdr');
+  const body = document.getElementById('ideias-accordion-body');
+  if (!hdr || !body) return;
+  const isOpen = body.classList.contains('open');
+  hdr.classList.toggle('open', !isOpen);
+  body.classList.toggle('open', !isOpen);
+  if (!isOpen) renderIdeias(); // renderiza só ao abrir
+}
+
 function renderIdeias() {
   if (!S.ideias) S.ideias = [];
   const cnt = document.getElementById('ideias-cnt');
   if (cnt) cnt.textContent = S.ideias.length;
   const list = document.getElementById('list-ideias');
   if (!list) return;
+
   if (S.ideias.length === 0) {
     list.innerHTML = '<div class="empty" style="padding:12px 0">Nenhuma ideia ainda.<br>Trie um item da Caixa de Entrada como 💡 Ideia.</div>';
     return;
   }
-  list.innerHTML = S.ideias.slice().reverse().map(ideia => {
-    const tagsHtml = (ideia.tags || []).length
-      ? `<div class="ideia-tags">${(ideia.tags).map(t => `<span class="ideia-tag ativa">${esc(t.nome)}</span>`).join('')}</div>`
-      : '';
+
+  // Agrupar por tag
+  const grupos = {}; // tagId → {nome, ideias[]}
+  S.ideias.forEach(ideia => {
+    if (!ideia.tags || ideia.tags.length === 0) {
+      if (!grupos['__avulsas']) grupos['__avulsas'] = { nome: '# Avulsas', ideias: [] };
+      grupos['__avulsas'].ideias.push(ideia);
+    } else {
+      ideia.tags.forEach(tag => {
+        if (!grupos[tag.id]) grupos[tag.id] = { nome: '# ' + tag.nome, ideias: [] };
+        if (!grupos[tag.id].ideias.find(x => x.id === ideia.id)) grupos[tag.id].ideias.push(ideia);
+      });
+    }
+  });
+
+  function cardHtml(ideia) {
     return `<div class="ideia-card">
       <div class="ideia-card-top">
         <div class="ideia-txt">${esc(ideia.texto)}</div>
         <button class="xbtn" onclick="removeIdeia('${ideia.id}')" title="Remover">×</button>
       </div>
-      ${tagsHtml}
       <div class="ideia-actions">
         <button class="btn btn-g btn-sm" onclick="ideiaParaKanban('${ideia.id}')">→ Kanban</button>
       </div>
       <div class="ideia-meta">${fmtDate(ideia.criadoEm)}</div>
     </div>`;
-  }).join('');
+  }
+
+  let html = '';
+  // Tags nomeadas primeiro, avulsas por último
+  const ordemGrupos = Object.keys(grupos).filter(k => k !== '__avulsas');
+  if (grupos['__avulsas']) ordemGrupos.push('__avulsas');
+  ordemGrupos.forEach(gKey => {
+    const g = grupos[gKey];
+    html += `<div class="ideias-group-hdr">${esc(g.nome)} <span style="color:var(--t3);font-size:9px">(${g.ideias.length})</span></div>`;
+    html += g.ideias.map(cardHtml).join('');
+  });
+  list.innerHTML = html;
 }
 
 function removeIdeia(id) {
@@ -1947,7 +2266,6 @@ function renderKanban() {
   COLUNAS.forEach(col => {
     const tasks = S.tarefas.filter(t => t.coluna === col);
     document.getElementById('cnt-' + col).textContent = tasks.length;
-    // Sort by priority: 11 first
     const sorted = tasks.slice().sort((a, b) => {
       const pa = (a.importante?'1':'0')+(a.urgente?'1':'0');
       const pb = (b.importante?'1':'0')+(b.urgente?'1':'0');
@@ -1957,15 +2275,13 @@ function renderKanban() {
       ? '<div style="font-size:11px;color:var(--t3);padding:4px 0;font-family:Georgia,serif">Vazio</div>'
       : sorted.map(t => {
           const pk = (t.importante?'1':'0')+(t.urgente?'1':'0');
-          const mvs = COLUNAS.filter(c => c !== col).map(c =>
-            `<button class="k-mv-btn" onclick="moveTask('${t.id}','${c}')">${COL_LABELS[c]}</button>`).join('');
+          // 2.1 — botões de mover removidos (navegação por swipe)
           return `<div class="k-card">
             <div class="k-card-top">
               <span class="k-card-txt">${esc(t.texto)}</span>
               <button class="k-card-del" onclick="removeTask('${t.id}')">×</button>
             </div>
             <div><span class="k-tag p${pk}">${PRI_LABELS[pk]}</span></div>
-            <div class="k-move">${mvs}</div>
           </div>`;
         }).join('');
   });
@@ -2009,28 +2325,65 @@ function saveTaskDirect() {
    PRÉDIO
 ═══════════════════════════════════════════════════════════ */
 const PREDI_CONFIGS = {
-  frentes:    { label: 'Nova ação',                 lbl: 'Nome da ação',              extras: true,      anoAlvo: false },
-  ciclos:     { label: 'Nova meta trimestral',      lbl: 'Meta dos 90 dias',          extras: false,     anoAlvo: false },
-  horizontes: { label: 'Nova meta de longo prazo',  lbl: 'Meta épica (5-10 anos)',    extras: false,     anoAlvo: true  },
-  pilares:    { label: 'Nova área de foco',         lbl: 'Área de foco',              extras: false,     anoAlvo: false }
+  frentes:    { label: 'Nova ação',                lbl: 'Nome da ação',           extras: true,  anoAlvo: false, hasDesc: false },
+  ciclos:     { label: 'Nova meta trimestral',     lbl: 'Meta dos 90 dias',       extras: false, anoAlvo: false, hasDesc: true  },
+  horizontes: { label: 'Nova meta de longo prazo', lbl: 'Meta épica (5-10 anos)', extras: false, anoAlvo: true,  hasDesc: true  },
+  pilares:    { label: 'Nova área de foco',        lbl: 'Área de foco',           extras: false, anoAlvo: false, hasDesc: false }
+};
+
+// Placeholders para os campos de nome
+const PREDI_PLACEHOLDERS = {
+  frentes:    'Ex: Fazer o design das embalagens e cadastrar o produto para venda',
+  ciclos:     'Ex: Terminar o módulo de SQL e criar o escopo do banco de dados até 31 de julho',
+  horizontes: 'Ex: Fazer meu negócio gerar renda suficiente até 2030',
+  pilares:    'Ex: Meus Negócios, Minha Saúde, Meus Estudos'
 };
 
 function renderPredio() {
-  // Missão
   const m = document.getElementById('inp-missao');
   if (m) m.value = S.fundacao.missao || '';
-
   ['frentes','ciclos','horizontes','pilares'].forEach(tipo => renderPrediSection(tipo));
-
-  // Ciclos limit
   const limit = S.ciclos.filter(x => !x.status || x.status === 'ativo').length >= 3;
   document.getElementById('warn-ciclos').style.display = limit ? 'block' : 'none';
   document.getElementById('btn-add-ciclo').style.display = limit ? 'none' : 'inline-flex';
+  // Atualiza contadores nos headers
+  const contadores = {
+    frentes:    S.frentes.filter(x => !x.status || x.status==='ativo').length,
+    ciclos:     S.ciclos.filter(x => !x.status || x.status==='ativo').length,
+    horizontes: S.horizontes.filter(x => !x.status || x.status==='ativo').length,
+    pilares:    S.pilares.filter(x => !x.status || x.status==='ativo').length,
+    contratos:  (S.contratos||[]).filter(c => !c.resgatado).length
+  };
+  Object.entries(contadores).forEach(([tipo, n]) => {
+    const el = document.getElementById('fl-' + tipo + '-count');
+    if (!el) return;
+    if (tipo === 'ciclos') el.textContent = n > 0 ? `${n}/3` : '';
+    else el.textContent = n > 0 ? String(n) : '';
+  });
+  renderContratos();
+}
+
+// Helper: calcula badge de prazo
+function buildPrazoBadge(prazoStr) {
+  if (!prazoStr) return '';
+  const hoje = today();
+  const diff = Math.round((new Date(prazoStr+'T00:00:00') - new Date(hoje+'T00:00:00')) / 86400000);
+  const data = fmtDate(prazoStr);
+  let cls = 'prazo-tag';
+  let label = '';
+  if (diff < 0) { cls += ' vencido'; label = `Prazo: ${data} · Vencido há ${Math.abs(diff)}d`; }
+  else if (diff <= 7) { cls += ' urgente'; label = `Prazo: ${data} · Faltam ${diff}d`; }
+  else { label = `Prazo: ${data} · Faltam ${diff}d`; }
+  return `<span class="${cls}">${label}</span>`;
 }
 
 function renderPrediSection(tipo) {
   const list = document.getElementById('list-' + tipo);
+  const tutorial = document.getElementById('fl-' + tipo + '-tutorial');
   const items = S[tipo].filter(x => !x.status || x.status === 'ativo');
+
+  // 1.3 — tutorial condicional
+  if (tutorial) tutorial.style.display = items.length === 0 ? 'block' : 'none';
 
   if (items.length === 0) {
     list.innerHTML = '<div class="empty" style="padding:10px 0">Nenhum item ativo.</div>';
@@ -2041,7 +2394,7 @@ function renderPrediSection(tipo) {
     const nome = item.nome || item.texto || '';
     const rodadaTag = item.rodada > 1 ? `<span class="pi-rodada">${item.rodada}ª rodada</span>` : '';
 
-    // Linked habits progress
+    // Hábitos vinculados
     const habsVinculados = S.habitos.filter(h => h.vinculoId === item.id);
     const week = getWeekDays();
     let habSection = '';
@@ -2062,12 +2415,10 @@ function renderPrediSection(tipo) {
       </div>`;
     }
 
-    // Frentes e horizontes com info extra
+    // 1.2 — badge de prazo para frentes e ciclos; atraso no card
     let metaRow = '';
-    if (tipo === 'frentes') {
-      const parts = [];
-      if (item.prazo) parts.push(`até ${fmtDate(item.prazo)}`);
-      if (parts.length) metaRow = `<div class="pi-meta">${parts.map(p => `<span>${esc(p)}</span>`).join('')}</div>`;
+    if ((tipo === 'frentes' || tipo === 'ciclos') && item.prazo) {
+      metaRow = `<div style="margin-top:4px">${buildPrazoBadge(item.prazo)}</div>`;
     }
     if (tipo === 'horizontes' && item.anoAlvo) {
       const anos = item.anoAlvo - new Date().getFullYear();
@@ -2075,23 +2426,39 @@ function renderPrediSection(tipo) {
       metaRow = `<div><span class="countdown-tag">${label}</span></div>`;
     }
 
+    // 1.5 — kebab menu + botão check (concluir/arquivar)
+    const kebabId = 'kb-' + item.id;
+    let checkBtn = '';
+    let kebabItems = '';
+    if (tipo === 'pilares') {
+      checkBtn = `<button class="pi-check-btn" title="Arquivar área de foco" onclick="arquivarPilar('${item.id}')">✓</button>`;
+      kebabItems = `
+        <button class="kebab-item" onclick="closeKebab('${kebabId}');openEditPredi('${tipo}','${item.id}')">✎ Editar</button>
+        <button class="kebab-item danger" onclick="closeKebab('${kebabId}');removePredi('${tipo}','${item.id}')">✕ Remover</button>`;
+    } else {
+      checkBtn = `<button class="pi-check-btn" title="Concluir" onclick="quickConcluir('${tipo}','${item.id}')">✓</button>`;
+      kebabItems = `
+        <button class="kebab-item" onclick="closeKebab('${kebabId}');openEditPredi('${tipo}','${item.id}')">✎ Editar</button>
+        <button class="kebab-item" onclick="closeKebab('${kebabId}');quickReiniciar('${tipo}','${item.id}')">↻ Reiniciar ciclo</button>
+        <button class="kebab-item danger" onclick="closeKebab('${kebabId}');quickAbandonar('${tipo}','${item.id}')">✕ Abandonar</button>
+        <button class="kebab-item danger" onclick="closeKebab('${kebabId}');removePredi('${tipo}','${item.id}')">🗑 Remover</button>`;
+    }
+
     return `<div class="predio-item">
       <div class="pi-top">
         <div style="flex:1">
           <span class="pi-txt">${esc(nome)}${rodadaTag}</span>
-          ${item.descricao ? `<div class="pi-meta">${esc(item.descricao.slice(0,80))}${item.descricao.length>80?'…':''}</div>` : ''}
           ${metaRow}
+        </div>
+        <div style="display:flex;align-items:center;gap:6px;flex-shrink:0;margin-left:8px">
+          ${checkBtn}
+          <div class="kebab-wrap">
+            <button class="kebab-btn" onclick="toggleKebab('${kebabId}',event)">⋮</button>
+            <div class="kebab-menu" id="${kebabId}">${kebabItems}</div>
+          </div>
         </div>
       </div>
       ${habSection}
-      <div class="pi-actions">
-        <button class="pi-btn" onclick="openEditPredi('${tipo}','${item.id}')">✎ Editar</button>
-        ${tipo === 'pilares'
-          ? `<button class="pi-btn" onclick="arquivarPilar('${item.id}')">Arquivar</button>`
-          : `<button class="pi-btn close-btn" onclick="openCloseGoal('${tipo}','${item.id}')">Encerrar →</button>
-             <button class="pi-btn" onclick="removePredi('${tipo}','${item.id}')">Remover</button>`
-        }
-      </div>
     </div>`;
   }).join('');
 }
@@ -2106,12 +2473,78 @@ function toggleHabSection(id) {
     : btn.textContent.replace('▾','▸');
 }
 
-function openAddPredi(tipo) {
+// ── Kebab helpers ─────────────────────────────────────────────
+function toggleKebab(id, e) {
+  e.stopPropagation();
+  const menu = document.getElementById(id);
+  const isOpen = menu.classList.contains('open');
+  // Fecha todos os menus abertos primeiro
+  document.querySelectorAll('.kebab-menu.open').forEach(m => m.classList.remove('open'));
+  if (!isOpen) menu.classList.add('open');
+}
+function closeKebab(id) {
+  const menu = document.getElementById(id);
+  if (menu) menu.classList.remove('open');
+}
+// Fecha kebab ao clicar fora
+document.addEventListener('click', () => {
+  document.querySelectorAll('.kebab-menu.open').forEach(m => m.classList.remove('open'));
+});
+
+// ── Ações rápidas do card ──────────────────────────────────────
+function quickConcluir(tipo, id) {
+  const item = S[tipo].find(x => x.id === id); if (!item) return;
+  const nome = item.nome || item.texto || '';
+  // Calcula atraso se houver prazo
+  let atrasoDias = 0;
+  if (item.prazo) {
+    const diff = Math.round((new Date(today()+'T00:00:00') - new Date(item.prazo+'T00:00:00')) / 86400000);
+    if (diff > 0) atrasoDias = diff;
+  }
+  const msg2 = atrasoDias > 0
+    ? `Concluída com ${atrasoDias} dia(s) de atraso. Confirma?`
+    : 'Confirma a conclusão?';
+  showConfirm2(`Concluir "${nome.slice(0,40)}"?`, msg2, () => {
+    S.historico.push({ id: uid(), tipo, nome, statusFinal: 'concluido', rodada: item.rodada||1, criadoEm: item.criadoEm||'', encerradoEm: today(), atrasoDias });
+    S[tipo] = S[tipo].filter(x => x.id !== id);
+    // Desbloqueia contratos vinculados
+    (S.contratos||[]).forEach(c => { if (c.alvoId === id && !c.desbloqueado) c.desbloqueado = true; });
+    persist(); renderPredio(); renderContratos(); showToast('✓ Meta concluída!');
+  });
+}
+function quickAbandonar(tipo, id) {
+  const item = S[tipo].find(x => x.id === id); if (!item) return;
+  const nome = item.nome || item.texto || '';
+  showConfirm2(`Abandonar "${nome.slice(0,40)}"?`, 'Confirma? A meta irá para o histórico como abandonada.', () => {
+    S.historico.push({ id: uid(), tipo, nome, statusFinal: 'abandonado', rodada: item.rodada||1, criadoEm: item.criadoEm||'', encerradoEm: today() });
+    S[tipo] = S[tipo].filter(x => x.id !== id);
+    persist(); renderPredio();
+  });
+}
+function quickReiniciar(tipo, id) {
+  const item = S[tipo].find(x => x.id === id); if (!item) return;
+  const nome = item.nome || item.texto || '';
+  showConfirm2(`Nova rodada para "${nome.slice(0,40)}"?`, 'Confirma? A versão atual vai para o histórico e uma nova rodada começa.', () => {
+    S.historico.push({ id: uid(), tipo, nome, statusFinal: 'continua', rodada: item.rodada||1, criadoEm: item.criadoEm||'', encerradoEm: today() });
+    const newItem = { ...item, id: uid(), rodada: (item.rodada||1)+1, criadoEm: today(), prazo: '' };
+    S[tipo] = S[tipo].filter(x => x.id !== id);
+    S[tipo].push(newItem);
+    persist(); renderPredio();
+  });
+}
+
+function openAddPredi(tipo, initialNome) {
   const cfg = PREDI_CONFIGS[tipo];
   document.getElementById('add-predi-title').textContent = cfg.label;
   document.getElementById('add-predi-tipo').value = tipo;
   document.getElementById('add-predi-lbl').textContent = cfg.lbl;
-  document.getElementById('inp-predi-nome').value = '';
+  const nomeEl = document.getElementById('inp-predi-nome');
+  nomeEl.value = initialNome || '';
+  nomeEl.placeholder = PREDI_PLACEHOLDERS[tipo] || '';
+  // desc field for ciclos/horizontes
+  const descField = document.getElementById('predi-desc-field');
+  descField.style.display = cfg.hasDesc ? 'block' : 'none';
+  if (cfg.hasDesc) document.getElementById('inp-predi-desc-generic').value = '';
   document.getElementById('frente-extras').style.display = cfg.extras ? 'block' : 'none';
   document.getElementById('horizonte-extras').style.display = cfg.anoAlvo ? 'block' : 'none';
   if (cfg.extras) {
@@ -2127,15 +2560,22 @@ function savePredi() {
   const nome = document.getElementById('inp-predi-nome').value.trim();
   if (!nome) return document.getElementById('inp-predi-nome').focus();
   if (tipo === 'ciclos' && S.ciclos.filter(x => x.status === 'ativo').length >= 3) return;
+  const cfg = PREDI_CONFIGS[tipo];
   const item = { id: uid(), status: 'ativo', rodada: 1, criadoEm: today() };
   if (tipo === 'frentes') {
     item.nome = nome;
     item.descricao = document.getElementById('inp-predi-desc').value.trim();
     item.prazo = document.getElementById('inp-predi-prazo').value;
   } else if (tipo === 'horizontes') {
-    item.texto = nome;
+    item.nome = nome;
+    item.texto = nome; // retrocompatibilidade
+    item.descricao = cfg.hasDesc ? document.getElementById('inp-predi-desc-generic').value.trim() : '';
     const ano = parseInt(document.getElementById('inp-predi-ano').value);
     if (ano > 2020) item.anoAlvo = ano;
+  } else if (tipo === 'ciclos') {
+    item.nome = nome;
+    item.texto = nome;
+    item.descricao = cfg.hasDesc ? document.getElementById('inp-predi-desc-generic').value.trim() : '';
   } else {
     item.texto = nome;
   }
@@ -2144,14 +2584,16 @@ function savePredi() {
 }
 
 function removePredi(tipo, id) {
-  showConfirm('Remover este item permanentemente?', () => {
+  const item = S[tipo].find(x => x.id === id);
+  const nome = item ? (item.nome || item.texto || '') : '';
+  showConfirm2(`Remover "${nome.slice(0,40)}"?`, 'Confirma? Esta ação é permanente e não pode ser desfeita.', () => {
     S[tipo] = S[tipo].filter(x => x.id !== id);
     persist(); renderPredio();
   });
 }
 
 function arquivarPilar(id) {
-  showConfirm('Arquivar esta área de foco? Ela ficará salva no Histórico.', () => {
+  showConfirm2('Arquivar esta área de foco?', 'Confirma? Ela ficará salva no Histórico.', () => {
     const item = S.pilares.find(x => x.id === id); if (!item) return;
     if (!S.pilares_arquivados) S.pilares_arquivados = [];
     S.pilares_arquivados.push({ ...item, arquivadoEm: today() });
@@ -2228,6 +2670,7 @@ function renderVicios() {
   const list = document.getElementById('list-vicios');
   const t = today();
   const last30 = getLast30();
+  const week = getWeekDays();
 
   if (S.vicios.length === 0) {
     list.innerHTML = '<div class="empty">Nenhum vício rastreado.<br>Adicione comportamentos a eliminar.</div>';
@@ -2239,27 +2682,43 @@ function renderVicios() {
     const streak = calcVicioStreak(regs);
     const isResistiu = regs[t] === 'resistiu';
     const isCedi = regs[t] === 'cedi';
+    // Dias ativos do vício
+    const diasAtivosSet = v.diasAtivos ? new Set(v.diasAtivos) : null;
+    const todayDow = new Date(t+'T12:00:00').getDay();
+    const todayAtivo = !diasAtivosSet || diasAtivosSet.has(todayDow);
+
     const dots = last30.map(d => {
       const est = regs[d];
       const isT = d === t;
-      const cls = est === 'resistiu' ? 'resistiu' : est === 'cedi' ? 'cedi' : 'empty';
-      return `<div class="v-dot ${cls}${isT?' today':''}" onclick="cycleVicioDay('${v.id}','${d}')" title="${d}"></div>`;
+      const dow = new Date(d+'T12:00:00').getDay();
+      const inativo = diasAtivosSet && !diasAtivosSet.has(dow);
+      const cls = inativo ? 'empty' : est === 'resistiu' ? 'resistiu' : est === 'cedi' ? 'cedi' : 'empty';
+      const onclick = inativo ? '' : `cycleVicioDay('${v.id}','${d}')`;
+      const style   = inativo ? 'opacity:.25;cursor:default' : '';
+      return `<div class="v-dot ${cls}${isT?' today':''}" onclick="${onclick}" title="${d}${inativo?' (inativo)':''}" style="${style}"></div>`;
     }).join('');
-    const btnClass = isResistiu ? 'btn-g' : 'btn-a';
-    const btnTxt   = isResistiu ? '✓ Resistiu hoje' : isCedi ? '✗ Cedeu hoje — corrigir?' : '+ Marcar hoje como Resistiu';
+
+    // Badge de progresso semanal
+    const { pct: semPct } = calcPctVicio(v, week);
+    const diasLabel = v.diasAtivos ? `${v.diasAtivos.length}x/sem` : '7x/sem';
+
     return `<div class="vicio-card">
       <div class="vicio-hdr">
         <span class="vicio-nome">${esc(v.nome)}</span>
-        <span class="streak${streak===0?' zero':''}">🔥 ${streak} dias</span>
+        <span style="font-size:10px;color:var(--t3);font-family:Georgia,serif">${diasLabel}</span>
+        <span class="streak${streak===0?' zero':''}">🔥 ${streak}d</span>
         <button class="xbtn" onclick="removeVicio('${v.id}')">×</button>
       </div>
-      <div style="font-size:10px;color:var(--t3);margin-bottom:6px;font-family:Georgia,serif">Últimos 30 dias · 🟢 Resistiu · 🔴 Cedeu</div>
+      <div style="font-size:10px;color:var(--t3);margin-bottom:6px;font-family:Georgia,serif;display:flex;justify-content:space-between">
+        <span>Últimos 30 dias · 🟢 Resistiu · 🔴 Cedeu</span>
+        <span style="color:${semPct>=100?'var(--green)':semPct>=50?'var(--acc)':'var(--red)'}">${semPct}% semana</span>
+      </div>
       <div class="v-grid">${dots}</div>
       <div style="display:flex;gap:7px;margin-top:8px">
-        <button class="btn ${btnClass} btn-sm" style="flex:1" onclick="markVicioResistiu('${v.id}')">
+        <button class="btn ${isResistiu?'btn-g':'btn-a'} btn-sm" style="flex:1" onclick="markVicioResistiu('${v.id}')" ${!todayAtivo?'disabled title="Dia inativo"':''}>
           ${isResistiu ? '✓ Resistiu hoje' : '+ Resistiu hoje'}
         </button>
-        <button class="btn btn-sm" style="border:1px solid var(--red);color:var(--red);background:none;${isCedi?'background:var(--rd);font-weight:bold':''}" onclick="markVicioCedi('${v.id}')">
+        <button class="btn btn-sm" style="border:1px solid var(--red);color:var(--red);background:none;${isCedi?'background:var(--rd);font-weight:bold':''}" onclick="markVicioCedi('${v.id}')" ${!todayAtivo?'disabled':''}>
           ${isCedi ? '✗ Cedeu (marcado)' : '✗ Cedeu hoje'}
         </button>
       </div>
@@ -2297,7 +2756,7 @@ function cycleVicioDay(id, date) {
 }
 
 function removeVicio(id) {
-  showConfirm('Remover este rastreador e todo seu histórico?', () => {
+  showConfirm2('Remover este rastreador?', 'Confirma? Todo o histórico de dados será apagado permanentemente.', () => {
     S.vicios = S.vicios.filter(x => x.id !== id);
     persist(); renderVicios();
   });
@@ -2306,7 +2765,8 @@ function removeVicio(id) {
 function saveVicio() {
   const nome = document.getElementById('inp-vicio-nome').value.trim();
   if (!nome) return document.getElementById('inp-vicio-nome').focus();
-  S.vicios.push({ id: uid(), nome, registros: {} });
+  const diasAtivos = getDiasAtivos('inp-vicio-dias');
+  S.vicios.push({ id: uid(), nome, registros: {}, diasAtivos });
   persist(); closeM('mbg-add-vicio'); renderPorao();
 }
 
@@ -2388,35 +2848,41 @@ function saveSettings() {
 }
 
 /* ═══════════════════════════════════════════════════════════
-   HISTÓRICO — abas Metas / Arquivados
+   HISTÓRICO — abas Metas / Arquivados / Contratos
 ═══════════════════════════════════════════════════════════ */
 let histTabAtiva = 'metas';
 
 function switchHistTab(tab) {
   histTabAtiva = tab;
-  document.getElementById('hist-tab-metas').classList.toggle('active', tab === 'metas');
-  document.getElementById('hist-tab-arquivados').classList.toggle('active', tab === 'arquivados');
+  ['metas','arquivados','contratos'].forEach(t => {
+    const el = document.getElementById('hist-tab-' + t);
+    if (el) el.classList.toggle('active', t === tab);
+  });
   renderHistory();
 }
 
 function renderHistory() {
   const list = document.getElementById('hist-list');
+
   if (histTabAtiva === 'metas') {
     if (!S.historico || S.historico.length === 0) {
       list.innerHTML = '<div class="empty">Nenhuma meta encerrada ainda.</div>';
       return;
     }
+    const tipoNomes = {frentes:'Ação',ciclos:'Trimestre',horizontes:'Grandes Saltos',pilares:'Área de foco'};
     list.innerHTML = S.historico.slice().reverse().map(h => {
-      const tipoLabel = {frentes:'Ação',ciclos:'Trimestre',horizontes:'Longo prazo',pilares:'Área de foco'}[h.tipo] || h.tipo;
+      const tipoLabel = tipoNomes[h.tipo] || h.tipo;
+      const atrasoBadge = h.atrasoDias > 0
+        ? `<span style="font-size:9px;color:var(--red);background:var(--rd);border:1px solid rgba(200,75,75,.3);border-radius:3px;padding:1px 6px;font-family:Georgia,serif;margin-left:4px">+${h.atrasoDias}d atraso</span>`
+        : '';
       return `<div class="hist-item">
-        <div class="hist-nome">${esc(h.nome)}<div style="font-size:10px;color:var(--t3)">${tipoLabel} · ${fmtDate(h.encerradoEm)}</div></div>
+        <div class="hist-nome">${esc(h.nome)}${atrasoBadge}<div style="font-size:10px;color:var(--t3)">${tipoLabel} · ${fmtDate(h.encerradoEm)}</div></div>
         ${h.rodada > 1 ? `<span class="hist-rodada">${h.rodada}ª rodada</span>` : ''}
         <span class="hist-badge ${h.statusFinal}">${h.statusFinal}</span>
-        <button style="background:none;border:none;color:var(--red);font-size:16px;cursor:pointer;padding:0 4px;flex-shrink:0" onclick="deleteFromHistory('${h.id}',event)" title="Remover">×</button>
       </div>`;
     }).join('');
-  } else {
-    // Arquivados: pilares arquivados + histórico do propósito maior
+
+  } else if (histTabAtiva === 'arquivados') {
     const pilArq = S.pilares_arquivados || [];
     const propHist = (S.fundacao || {}).historico || [];
     if (pilArq.length === 0 && propHist.length === 0) {
@@ -2440,14 +2906,19 @@ function renderHistory() {
         <div style="font-size:13px;color:var(--t2);line-height:1.5">${esc(it.nome)}</div>
       </div>`;
     }).join('');
-  }
-}
 
-function deleteFromHistory(id, event) {
-  if (event) event.stopPropagation();
-  S.historico = S.historico.filter(x => x.id !== id);
-  persist();
-  renderHistory();
+  } else if (histTabAtiva === 'contratos') {
+    const honrados = (S.contratos || []).filter(c => c.resgatado);
+    if (honrados.length === 0) {
+      list.innerHTML = '<div class="empty">Nenhum contrato honrado ainda.<br>Resgate suas recompensas para vê-las aqui. 🏆</div>';
+      return;
+    }
+    list.innerHTML = honrados.slice().reverse().map(c => `
+      <div class="hist-item">
+        <div class="hist-nome">🏆 ${esc(c.recompensa)}<div style="font-size:10px;color:var(--t3)">${c.tipoAlvo === 'meta' ? 'Meta' : c.tipoAlvo === 'habito' ? 'Hábito' : 'Vício'} · ${fmtDate(c.resgatadoEm)}</div></div>
+        <button class="btn btn-g btn-sm" onclick="renovarContrato('${c.id}')" title="Criar nova rodada">🔄</button>
+      </div>`).join('');
+  }
 }
 
 document.getElementById('mbg-history').addEventListener('click', e => {
@@ -2455,8 +2926,10 @@ document.getElementById('mbg-history').addEventListener('click', e => {
 });
 document.querySelector('[onclick="openM(\'mbg-history\')"]').addEventListener('click', () => {
   histTabAtiva = 'metas';
-  document.getElementById('hist-tab-metas').classList.add('active');
-  document.getElementById('hist-tab-arquivados').classList.remove('active');
+  ['metas','arquivados','contratos'].forEach(t => {
+    const el = document.getElementById('hist-tab-' + t);
+    if (el) el.classList.toggle('active', t === 'metas');
+  });
   renderHistory();
 });
 function exportJSON() {
@@ -2488,6 +2961,202 @@ function importJSON(e) {
 /* ═══════════════════════════════════════════════════════════
    RENDER ALL
 ═══════════════════════════════════════════════════════════ */
+/* ═══════════════════════════════════════════════════════════
+   CONTRATOS
+═══════════════════════════════════════════════════════════ */
+let contratoTipoSel = 'meta';
+
+function selectTipoContrato(tipo) {
+  contratoTipoSel = tipo;
+  ['meta','habito','vicio'].forEach(t => {
+    document.getElementById('tipo-opt-' + t).classList.toggle('sel', t === tipo);
+  });
+  popularAlvosContrato(tipo);
+  atualizarDescContrato();
+}
+
+function popularAlvosContrato(tipo) {
+  const sel = document.getElementById('inp-contrato-alvo');
+  sel.innerHTML = '';
+  let itens = [];
+  if (tipo === 'meta') {
+    ['frentes','ciclos','horizontes'].forEach(t => {
+      const nomes = {frentes:'Ação',ciclos:'Trimestre',horizontes:'Grandes Saltos'};
+      S[t].filter(x => !x.status || x.status === 'ativo').forEach(item => {
+        itens.push({ id: item.id, label: `[${nomes[t]}] ${(item.nome||item.texto||'').slice(0,40)}` });
+      });
+    });
+  } else if (tipo === 'habito') {
+    itens = S.habitos.map(h => ({ id: h.id, label: h.nome }));
+  } else {
+    itens = S.vicios.map(v => ({ id: v.id, label: v.nome }));
+  }
+  if (itens.length === 0) {
+    sel.innerHTML = '<option value="">Nenhum item disponível</option>';
+  } else {
+    sel.innerHTML = itens.map(i => `<option value="${i.id}">${esc(i.label)}</option>`).join('');
+  }
+  sel.onchange = atualizarDescContrato;
+  atualizarDescContrato();
+}
+
+function atualizarDescContrato() {
+  const desc = document.getElementById('contrato-alvo-desc');
+  if (contratoTipoSel === 'meta') {
+    desc.textContent = 'O contrato desbloqueia quando esta meta for concluída.';
+  } else if (contratoTipoSel === 'habito') {
+    const sel = document.getElementById('inp-contrato-alvo');
+    const h = S.habitos.find(x => x.id === sel.value);
+    const alvo = h?.freqAlvo || 7;
+    desc.textContent = `O contrato desbloqueia quando o hábito atingir 100% da meta (${alvo}x/semana) na semana atual.`;
+  } else {
+    desc.textContent = 'O contrato desbloqueia quando o vício atingir 100% de resistência nos dias configurados.';
+  }
+}
+
+function openAddContrato() {
+  contratoTipoSel = 'meta';
+  document.getElementById('inp-contrato-recompensa').value = '';
+  ['meta','habito','vicio'].forEach(t => {
+    document.getElementById('tipo-opt-' + t).classList.toggle('sel', t === 'meta');
+  });
+  popularAlvosContrato('meta');
+  openM('mbg-add-contrato');
+}
+
+function saveContrato() {
+  const recompensa = document.getElementById('inp-contrato-recompensa').value.trim();
+  if (!recompensa) return document.getElementById('inp-contrato-recompensa').focus();
+  const alvoId = document.getElementById('inp-contrato-alvo').value;
+  if (!alvoId) return alert('Selecione um alvo para o contrato.');
+  // Nome do alvo para exibir no card
+  let alvoNome = '';
+  if (contratoTipoSel === 'meta') {
+    for (const t of ['frentes','ciclos','horizontes']) {
+      const it = S[t].find(x => x.id === alvoId);
+      if (it) { alvoNome = it.nome || it.texto || ''; break; }
+    }
+  } else if (contratoTipoSel === 'habito') {
+    alvoNome = (S.habitos.find(x => x.id === alvoId) || {}).nome || '';
+  } else {
+    alvoNome = (S.vicios.find(x => x.id === alvoId) || {}).nome || '';
+  }
+  if (!S.contratos) S.contratos = [];
+  S.contratos.push({
+    id: uid(), recompensa, tipoAlvo: contratoTipoSel,
+    alvoId, alvoNome, desbloqueado: false, resgatado: false, criadoEm: today()
+  });
+  persist(); closeM('mbg-add-contrato'); renderContratos();
+}
+
+// Verifica se um contrato está desbloqueado (chamado a cada render)
+function checkContratoDesbloqueado(c) {
+  if (c.desbloqueado || c.resgatado) return c.desbloqueado;
+  const week = getWeekDays();
+
+  if (c.tipoAlvo === 'meta') {
+    // Desbloqueado quando a meta está no histórico como concluída
+    return (S.historico || []).some(h => h.id === c.alvoId || h.nome === c.alvoNome && h.statusFinal === 'concluido');
+  }
+  if (c.tipoAlvo === 'habito') {
+    const h = S.habitos.find(x => x.id === c.alvoId);
+    if (!h) return false;
+    const { pct } = calcPctHabito(h, week);
+    return pct >= 100;
+  }
+  if (c.tipoAlvo === 'vicio') {
+    const v = S.vicios.find(x => x.id === c.alvoId);
+    if (!v) return false;
+    const { pct } = calcPctVicio(v, week);
+    return pct >= 100;
+  }
+  return false;
+}
+
+function renderContratos() {
+  if (!S.contratos) S.contratos = [];
+  const tutorial = document.getElementById('fl-contratos-tutorial');
+  const ativos = S.contratos.filter(c => !c.resgatado);
+  if (tutorial) tutorial.style.display = ativos.length === 0 ? 'block' : 'none';
+
+  const list = document.getElementById('list-contratos');
+  if (!list) return;
+  if (ativos.length === 0) {
+    list.innerHTML = '<div class="empty" style="padding:10px 0">Nenhum contrato ativo.<br>Crie um acordo para ganhar uma recompensa.</div>';
+    return;
+  }
+
+  const week = getWeekDays();
+  list.innerHTML = ativos.map(c => {
+    const desbloqueado = checkContratoDesbloqueado(c);
+    // Persiste o desbloqueio no objeto
+    if (desbloqueado && !c.desbloqueado) c.desbloqueado = true;
+
+    // Calcula progresso
+    let pct = 0, progLabel = '';
+    if (c.tipoAlvo === 'meta') {
+      const concluido = (S.historico||[]).some(h => (h.id === c.alvoId || h.alvoNome === c.alvoNome) && h.statusFinal === 'concluido');
+      pct = concluido ? 100 : 0;
+      progLabel = concluido ? 'Meta concluída ✓' : 'Aguardando conclusão da meta';
+    } else if (c.tipoAlvo === 'habito') {
+      const h = S.habitos.find(x => x.id === c.alvoId);
+      if (h) { const r = calcPctHabito(h, week); pct = r.pct; progLabel = `${r.feito}/${r.alvo} · ${pct}%`; }
+      else { progLabel = 'Hábito removido'; }
+    } else {
+      const v = S.vicios.find(x => x.id === c.alvoId);
+      if (v) { const r = calcPctVicio(v, week); pct = r.pct; progLabel = `${r.resistiu}/${r.alvo} dias · ${pct}%`; }
+      else { progLabel = 'Vício removido'; }
+    }
+
+    const tipoLabel = {meta:'🎯 Meta',habito:'🧱 Hábito',vicio:'🛡️ Vício'}[c.tipoAlvo] || c.tipoAlvo;
+    const statusCls = desbloqueado ? 'livre' : 'bloqueado';
+    const statusTxt = desbloqueado ? '🔓 Desbloqueado' : '🔒 Bloqueado';
+
+    return `<div class="contrato-card${desbloqueado ? ' desbloqueado' : ''}">
+      <div class="contrato-top">
+        <div style="flex:1">
+          <div class="contrato-recompensa">🎁 ${esc(c.recompensa)}</div>
+          <div class="contrato-alvo">${tipoLabel}: ${esc(c.alvoNome)}</div>
+        </div>
+        <span class="contrato-status ${statusCls}">${statusTxt}</span>
+      </div>
+      <div class="contrato-prog">
+        <div style="display:flex;justify-content:space-between;font-size:10px;color:var(--t3);font-family:Georgia,serif">
+          <span>Progresso</span><span>${progLabel}</span>
+        </div>
+        <div class="contrato-prog-track">
+          <div class="contrato-prog-fill${pct>=100?' green':''}" style="width:${pct}%"></div>
+        </div>
+      </div>
+      <button class="btn-resgatar" ${desbloqueado ? '' : 'disabled'} onclick="resgatarContrato('${c.id}')">
+        ${desbloqueado ? '🏆 Resgatar Recompensa' : '🔒 Cumpra o acordo para desbloquear'}
+      </button>
+    </div>`;
+  }).join('');
+}
+
+function resgatarContrato(id) {
+  const c = (S.contratos||[]).find(x => x.id === id); if (!c) return;
+  showConfirm2(`Resgatar "${c.recompensa}"?`, 'Confirma? O contrato irá para o histórico de Contratos Honrados.', () => {
+    c.resgatado = true;
+    c.resgatadoEm = today();
+    persist(); renderContratos();
+    showToast('🏆 Recompensa resgatada!');
+  });
+}
+
+function renovarContrato(id) {
+  const c = (S.contratos||[]).find(x => x.id === id); if (!c) return;
+  if (!S.contratos) S.contratos = [];
+  S.contratos.push({
+    id: uid(), recompensa: c.recompensa, tipoAlvo: c.tipoAlvo,
+    alvoId: c.alvoId, alvoNome: c.alvoNome,
+    desbloqueado: false, resgatado: false, criadoEm: today()
+  });
+  persist(); renderContratos(); renderHistory();
+  showToast('🔄 Contrato renovado!');
+}
+
 function renderAll() {
   renderHabitos();
   renderCaderno();
@@ -3097,9 +3766,14 @@ function init() {
   if (!S.habitosArquivados) S.habitosArquivados = [];
   if (!S.ideias) S.ideias = [];
   if (!S.tagIdeias) S.tagIdeias = [];
+  if (!S.contratos) S.contratos = [];
 
   // Fix add habito button
   document.querySelector('[onclick="openM(\'mbg-add-habito\')"]').onclick = openM_addHabito;
+
+  // Inicializa toggles de dias nos modais fixos
+  initDiasToggle('inp-hab-dias');
+  initDiasToggle('inp-vicio-dias');
 
   // PWA service worker
   if ('serviceWorker' in navigator) {
