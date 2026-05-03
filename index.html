@@ -81,23 +81,25 @@ nav{
   }
   nav.collapsed{width:54px;min-width:54px}
   .nav-logo{
-    display:flex;align-items:center;justify-content:space-between;
+    display:flex;align-items:center;gap:8px;
     padding:17px 14px 13px;font-size:15px;letter-spacing:-.3px;
-    color:var(--text);border-bottom:1px solid var(--b1);margin-bottom:6px;
+    color:var(--text);border-bottom:1px solid var(--b1);
     font-family:Georgia,serif;white-space:nowrap;overflow:hidden;
-    transition:padding .22s;
+    transition:padding .22s, opacity .18s;
   }
   .nav-logo em{color:var(--acc);font-style:normal}
-  .nav-logo-text{transition:opacity .18s, width .22s;overflow:hidden;white-space:nowrap}
-  nav.collapsed .nav-logo{padding:17px 0 13px;justify-content:center}
-  nav.collapsed .nav-logo-text{opacity:0;width:0;overflow:hidden}
+  .nav-logo-text{transition:opacity .18s;white-space:nowrap}
+  nav.collapsed .nav-logo{opacity:0;height:0;padding:0;border-bottom:none;overflow:hidden}
   .nav-toggle-btn{
-    background:none;border:none;color:var(--t3);cursor:pointer;
-    font-size:14px;padding:0 2px;flex-shrink:0;line-height:1;
-    transition:color var(--tr),transform .22s;
+    width:100%;display:none;align-items:center;justify-content:center;
+    padding:12px 0;border:none;border-bottom:1px solid var(--b1);
+    background:none;color:var(--t3);cursor:pointer;font-size:16px;
+    transition:color var(--tr), background var(--tr);flex-shrink:0;
   }
-  .nav-toggle-btn:hover{color:var(--text)}
-  nav.collapsed .nav-toggle-btn{transform:rotate(180deg)}
+  .nav-toggle-btn:hover{color:var(--acc);background:var(--s1)}
+  nav.collapsed .nav-toggle-btn{border-bottom-color:var(--b1)}
+  .nav-toggle-btn .toggle-arrow{display:inline-block;transition:transform .22s}
+  nav.collapsed .nav-toggle-btn .toggle-arrow{transform:rotate(180deg)}
   .tab{
     flex-direction:row;gap:10px;padding:11px 16px;
     text-align:left;border-bottom:none;border-left:3px solid transparent;
@@ -109,9 +111,16 @@ nav{
   .tab:hover:not(.active){background:var(--s1)}
   .tab-icon{font-size:16px;flex-shrink:0}
   .tab-lbl{transition:opacity .18s, width .22s;overflow:hidden;white-space:nowrap}
-  nav.collapsed .tab{padding:11px 0;justify-content:center}
+  nav.collapsed .tab{padding:11px 0;justify-content:center;border-left:3px solid transparent;position:relative}
   nav.collapsed .tab-lbl{opacity:0;width:0;overflow:hidden}
-  nav.collapsed .tab{border-left:none;border-left:3px solid transparent}
+  nav.collapsed .tab::after{
+    content:attr(data-tip);position:absolute;left:58px;top:50%;transform:translateY(-50%);
+    background:var(--s2);border:1px solid var(--b1);border-radius:var(--rs);
+    padding:4px 10px;font-size:11px;color:var(--text);white-space:nowrap;
+    pointer-events:none;opacity:0;transition:opacity .15s;z-index:100;
+    font-family:Georgia,serif;
+  }
+  nav.collapsed .tab:hover::after{opacity:1}
   main{flex:1;min-width:0;overflow:hidden}
   .nav-bottom-actions{
     display:flex;flex-direction:column;gap:6px;
@@ -119,15 +128,22 @@ nav{
     overflow:hidden;
   }
   .nav-bottom-actions .icon-btn .btn-lbl{transition:opacity .18s;white-space:nowrap}
-  nav.collapsed .nav-bottom-actions .icon-btn .btn-lbl{opacity:0;width:0;overflow:hidden}
-  nav.collapsed .nav-bottom-actions{padding:10px 4px}
-  nav.collapsed .nav-bottom-actions .icon-btn{font-size:14px;padding:7px 0;justify-content:center}
+  nav.collapsed .nav-bottom-actions{padding:6px 4px}
+  nav.collapsed .nav-bottom-actions .icon-btn{justify-content:center;padding:8px 0;position:relative}
+  nav.collapsed .nav-bottom-actions .btn-lbl{opacity:0;width:0;overflow:hidden;display:inline-block}
+  nav.collapsed .nav-bottom-actions .icon-btn::after{
+    content:attr(data-tip);position:absolute;left:60px;top:50%;transform:translateY(-50%);
+    background:var(--s2);border:1px solid var(--b1);border-radius:var(--rs);
+    padding:4px 10px;font-size:11px;color:var(--text);white-space:nowrap;
+    pointer-events:none;opacity:0;transition:opacity .15s;z-index:100;
+    font-family:Georgia,serif;
+  }
+  nav.collapsed .nav-bottom-actions .icon-btn:hover::after{opacity:1}
 }
 /* ── Main ──────────────────────────────────────────────────── */
 main{flex:1;overflow:hidden;display:flex;flex-direction:column;min-height:0}
 .sec{display:none;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:16px}
 .sec.active{display:block}
-@media(min-width:1024px){#sec-predio.active{display:grid !important}}
 #sec-dash{padding:0 !important}
 #sec-dash.active{display:flex !important;flex-direction:column}
 
@@ -780,7 +796,7 @@ select option{background:var(--s2)}
 
 /* ── Metas Desktop Bento Grid ────────────────────────────── */
 @media(min-width:1024px){
-  #sec-predio{display:grid !important;grid-template-columns:1fr 1fr;gap:12px;align-items:start;padding:16px}
+  #sec-predio.active{display:grid !important;grid-template-columns:1fr 1fr;gap:12px;align-items:start;padding:16px}
   #fl-frentes{grid-column:1 / -1}
   #fl-ciclos{grid-column:1}
   #fl-horizontes{grid-column:2}
@@ -917,6 +933,133 @@ select option{background:var(--s2)}
 .vp-item:last-child{border-bottom:none}
 .vp-item:hover{background:var(--s1);color:var(--acc)}
 
+
+/* ═══════════════════════════════════════════════════════════
+   DESKTOP ENHANCEMENTS  (min-width: 1024px)
+═══════════════════════════════════════════════════════════ */
+@media(min-width:1024px){
+
+  /* ── All sections fill height ─────────────────────────── */
+  main{ overflow:hidden }
+  .sec{ height:100%; overflow:hidden; padding:0 }
+  .sec.active{ display:flex; flex-direction:column }
+  #sec-predio.active{ display:grid !important }
+
+  /* ── ROTINA: comfortable max-width ───────────────────── */
+  #sec-rotina{ overflow-y:auto; padding:24px 32px }
+  .rotina-toggle-bar{ max-width:680px }
+
+  /* ── CADERNO: 2-column split ──────────────────────────── */
+  #sec-caderno{ flex-direction:row; gap:0; overflow:hidden }
+
+  .caderno-left{
+    width:320px; min-width:260px; max-width:380px;
+    flex-shrink:0; border-right:1px solid var(--b1);
+    display:flex; flex-direction:column; overflow:hidden;
+  }
+  .caderno-right{
+    flex:1; display:flex; flex-direction:column;
+    overflow:hidden; min-width:0;
+  }
+  .caderno-inbox-wrap{
+    flex:1; overflow-y:auto; padding:16px 16px 8px;
+  }
+  .caderno-kanban-wrap{
+    flex:1; display:flex; flex-direction:column;
+    padding:16px; overflow:hidden;
+  }
+  .caderno-kanban-wrap .kanban{
+    flex:1; overflow:hidden; flex-wrap:nowrap;
+    margin:0; padding:0;
+  }
+  .caderno-kanban-wrap .k-col{
+    display:flex; flex-direction:column;
+    height:100%; overflow:hidden;
+    flex:1; max-width:none;
+  }
+  .caderno-kanban-wrap .k-col > div:last-child{
+    flex:1; overflow-y:auto; padding-bottom:8px;
+  }
+
+  /* ── DASHBOARD: split layout ──────────────────────────── */
+  #sec-dash{ flex-direction:row !important; overflow:hidden }
+
+  #dash-sidebar-panel{
+    width:280px; min-width:240px; flex-shrink:0;
+    border-right:1px solid var(--b1);
+    display:flex; flex-direction:column;
+    overflow-y:auto; background:var(--s1);
+  }
+  #dash-main-panel{
+    flex:1; overflow-y:auto; padding:20px 24px; min-width:0;
+  }
+  #dash-filter-bar{
+    position:static;
+    padding:20px 16px 14px;
+    border-bottom:1px solid var(--b1);
+    background:transparent;
+  }
+  .df-title{ font-size:14px; margin-bottom:12px }
+  .dash-kpis{ grid-template-columns:1fr 1fr }
+  .dash-kpis.full{ grid-template-columns:1fr 1fr }
+
+  /* ── KPI bigger on desktop ──────────────────────────── */
+  .kpi-val{ font-size:32px }
+  .kpi-card{ padding:16px 14px }
+
+  /* ── Bar chart wider ────────────────────────────────── */
+  .bar-day{ width:36px }
+
+}
+
+/* ── Focus Timer (sidebar) ──────────────────────────────── */
+.focus-timer{
+  padding:10px 12px;border-top:1px solid var(--b1);
+  background:var(--s1);flex-shrink:0;
+}
+.focus-timer-display{
+  font-size:22px;font-weight:bold;color:var(--text);
+  font-family:Georgia,serif;text-align:center;
+  letter-spacing:2px;line-height:1;margin-bottom:6px;
+  transition:color .3s;
+}
+.focus-timer-display.running{ color:var(--green) }
+.focus-timer-display.warning{ color:var(--acc) }
+.focus-timer-display.done{ color:var(--red) }
+.focus-timer-label{
+  font-size:9px;letter-spacing:1px;text-transform:uppercase;
+  color:var(--t3);text-align:center;font-family:Georgia,serif;margin-bottom:8px;
+}
+.focus-timer-btns{ display:flex;gap:5px }
+.focus-timer-btns button{
+  flex:1;padding:5px 0;font-size:10px;border:1px solid var(--b1);
+  background:none;color:var(--t2);border-radius:var(--rs);
+  cursor:pointer;font-family:Georgia,serif;transition:var(--tr);
+  letter-spacing:.3px;
+}
+.focus-timer-btns button:hover{ border-color:var(--acc);color:var(--acc) }
+.focus-timer-btns button.active-btn{ background:var(--acc);color:#0E0E0E;border-color:var(--acc);font-weight:bold }
+nav.collapsed .focus-timer{ display:none }
+
+/* ── Keyboard shortcut hint ─────────────────────────────── */
+.kbd-hint{
+  padding:8px 12px;border-top:1px solid var(--b1);
+  font-size:9px;color:var(--t3);font-family:Georgia,serif;
+  letter-spacing:.3px;line-height:1.9;
+}
+.kbd-hint kbd{
+  background:var(--s2);border:1px solid var(--b2);border-radius:3px;
+  padding:1px 5px;font-size:9px;color:var(--t2);font-family:monospace;
+}
+nav.collapsed .kbd-hint{ display:none }
+
+/* ── Session log (focus history) ────────────────────────── */
+.session-log-entry{
+  font-size:10px;color:var(--t3);font-family:Georgia,serif;
+  padding:3px 0;border-bottom:1px solid var(--b1);
+  display:flex;justify-content:space-between;
+}
+
 </style>
 </head>
 <body>
@@ -941,15 +1084,33 @@ select option{background:var(--s2)}
 <nav id="sidebar">
   <div class="nav-logo" style="display:none" id="nav-logo-desktop">
     <span><em>⬡</em> <span class="nav-logo-text">Canteiro</span></span>
-    <button class="nav-toggle-btn" id="nav-toggle-btn" onclick="toggleSidebar()" title="Recolher menu">‹</button>
   </div>
-  <button class="tab active" id="tab-rotina"   onclick="setTab('rotina',this)"><span class="tab-icon">⚡</span><span class="tab-lbl">Rotina</span></button>
-  <button class="tab"        id="tab-caderno"  onclick="setTab('caderno',this)"><span class="tab-icon">📋</span><span class="tab-lbl">Caderno</span></button>
-  <button class="tab"        id="tab-predio"   onclick="setTab('predio',this)"><span class="tab-icon">🎯</span><span class="tab-lbl">Metas</span></button>
-  <button class="tab"        id="tab-dash"     onclick="setTab('dash',this)"><span class="tab-icon">📊</span><span class="tab-lbl">Painel</span></button>
+  <button class="nav-toggle-btn" id="nav-toggle-btn" onclick="toggleSidebar()" title="Recolher / expandir menu" style="display:none"><span class="toggle-arrow">‹</span></button>
+  <button class="tab active" id="tab-rotina"   data-tip="Rotina"   onclick="setTab('rotina',this)"><span class="tab-icon">⚡</span><span class="tab-lbl">Rotina</span></button>
+  <button class="tab"        id="tab-caderno"  data-tip="Caderno"  onclick="setTab('caderno',this)"><span class="tab-icon">📋</span><span class="tab-lbl">Caderno</span></button>
+  <button class="tab"        id="tab-predio"   data-tip="Metas"    onclick="setTab('predio',this)"><span class="tab-icon">🎯</span><span class="tab-lbl">Metas</span></button>
+  <button class="tab"        id="tab-dash"     data-tip="Painel"   onclick="setTab('dash',this)"><span class="tab-icon">📊</span><span class="tab-lbl">Painel</span></button>
+  <!-- Focus Timer -->
+  <div class="focus-timer" id="focus-timer-widget" style="display:none">
+    <div class="focus-timer-label" id="focus-timer-label">FOCO</div>
+    <div class="focus-timer-display" id="focus-timer-display">25:00</div>
+    <div class="focus-timer-btns">
+      <button onclick="focusTimerPreset(25)" id="ft-btn-25">25min</button>
+      <button onclick="focusTimerPreset(50)" id="ft-btn-50">50min</button>
+      <button onclick="focusTimerToggle()" id="ft-btn-play" class="active-btn">▶</button>
+      <button onclick="focusTimerReset()" id="ft-btn-reset">↺</button>
+    </div>
+  </div>
+
+  <!-- Keyboard hints -->
+  <div class="kbd-hint" id="kbd-hint-widget" style="display:none">
+    <kbd>Alt 1–4</kbd> Abas &nbsp; <kbd>N</kbd> Nova entrada<br>
+    <kbd>Esc</kbd> Fechar modal &nbsp; <kbd>F</kbd> Focar timer
+  </div>
+
   <div class="nav-bottom-actions" id="nav-bottom-actions" style="display:none">
-    <button class="icon-btn" onclick="openM('mbg-history')" style="width:100%;font-size:11px;display:flex;align-items:center;gap:6px;justify-content:flex-start"><span>📜</span><span class="btn-lbl">Histórico</span></button>
-    <button class="icon-btn" onclick="openSettingsModal()" style="width:100%;font-size:11px;display:flex;align-items:center;gap:6px;justify-content:flex-start"><span>⚙</span><span class="btn-lbl">Config</span></button>
+    <button class="icon-btn" onclick="openM('mbg-history')" data-tip="Histórico" style="width:100%;font-size:11px;display:flex;align-items:center;gap:6px;justify-content:flex-start"><span>📜</span><span class="btn-lbl">Histórico</span></button>
+    <button class="icon-btn" onclick="openSettingsModal()" data-tip="Configurações" style="width:100%;font-size:11px;display:flex;align-items:center;gap:6px;justify-content:flex-start"><span>⚙</span><span class="btn-lbl">Config</span></button>
   </div>
 </nav>
 
@@ -994,29 +1155,40 @@ select option{background:var(--s2)}
 
 <!-- ══ CADERNO ══════════════════════════════════════════════ -->
 <div id="sec-caderno" class="sec">
-  <div class="inbox-bar">
-    <input type="text" id="inp-inbox" placeholder="Capturar ideia, pendência, pensamento..." onkeydown="if(event.key==='Enter')addInbox()">
-    <button class="btn btn-a" onclick="addInbox()">+</button>
-  </div>
-  <div class="sec-h">Caixa de Entrada <span class="badge" id="inbox-cnt">0</span></div>
-  <div id="list-inbox"></div>
 
-  <div class="sec-h mt2">
-    Kanban
-    <button class="btn btn-g btn-sm" onclick="openDirectTask()">+ Tarefa</button>
+  <!-- ── Desktop: left panel (inbox) ── -->
+  <div class="caderno-left">
+    <div class="caderno-inbox-wrap">
+      <div class="inbox-bar">
+        <input type="text" id="inp-inbox" placeholder="Capturar..." onkeydown="if(event.key==='Enter')addInbox()">
+        <button class="btn btn-a" onclick="addInbox()">+</button>
+      </div>
+      <div class="sec-h" style="margin-top:12px">Caixa de Entrada <span class="badge" id="inbox-cnt">0</span></div>
+      <div id="list-inbox"></div>
+    </div>
   </div>
-  <div class="kanban">
-    <div class="k-col k-afazer" data-col="afazer">
-      <div class="k-col-hdr">A Fazer <span id="cnt-afazer" class="badge">0</span></div>
-      <div id="col-afazer"></div>
-    </div>
-    <div class="k-col k-fazendo" data-col="fazendo">
-      <div class="k-col-hdr">Fazendo <span id="cnt-fazendo" class="badge">0</span></div>
-      <div id="col-fazendo"></div>
-    </div>
-    <div class="k-col k-feito" data-col="feito">
-      <div class="k-col-hdr">Feito <span id="cnt-feito" class="badge">0</span></div>
-      <div id="col-feito"></div>
+
+  <!-- ── Desktop: right panel (kanban) ── -->
+  <div class="caderno-right">
+    <div class="caderno-kanban-wrap">
+      <div class="sec-h" style="padding:0 0 8px">
+        Kanban
+        <button class="btn btn-g btn-sm" onclick="openDirectTask()">+ Tarefa</button>
+      </div>
+      <div class="kanban">
+        <div class="k-col k-afazer" data-col="afazer">
+          <div class="k-col-hdr">A Fazer <span id="cnt-afazer" class="badge">0</span></div>
+          <div id="col-afazer"></div>
+        </div>
+        <div class="k-col k-fazendo" data-col="fazendo">
+          <div class="k-col-hdr">Fazendo <span id="cnt-fazendo" class="badge">0</span></div>
+          <div id="col-fazendo"></div>
+        </div>
+        <div class="k-col k-feito" data-col="feito">
+          <div class="k-col-hdr">Feito <span id="cnt-feito" class="badge">0</span></div>
+          <div id="col-feito"></div>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -1152,25 +1324,34 @@ select option{background:var(--s2)}
 <!-- ══ DASHBOARD ═════════════════════════════════════════════ -->
 <div id="sec-dash" class="sec">
 
-  <!-- Filtros fixos no topo -->
-  <div id="dash-filter-bar" style="flex-shrink:0">
-    <div class="df-title">⬡ Painel</div>
-    <div class="df-periods">
-      <button class="df-p active" onclick="setDashPeriod('week',this)">Semana</button>
-      <button class="df-p" onclick="setDashPeriod('month',this)">Mês</button>
-      <button class="df-p" onclick="setDashPeriod('quarter',this)">Trimestre</button>
-      <button class="df-p" onclick="setDashPeriod('year',this)">Ano</button>
-      <button class="df-p" onclick="setDashPeriod('custom',this)">Personalizado</button>
+  <!-- ── Desktop: left sidebar panel ── -->
+  <div id="dash-sidebar-panel">
+    <div id="dash-filter-bar">
+      <div class="df-title">⬡ Painel</div>
+      <div class="df-periods">
+        <button class="df-p active" onclick="setDashPeriod('week',this)">Semana</button>
+        <button class="df-p" onclick="setDashPeriod('month',this)">Mês</button>
+        <button class="df-p" onclick="setDashPeriod('quarter',this)">Trimestre</button>
+        <button class="df-p" onclick="setDashPeriod('year',this)">Ano</button>
+        <button class="df-p" onclick="setDashPeriod('custom',this)">Personalizado</button>
+      </div>
+      <div id="dash-custom-range" style="display:none">
+        <input type="date" id="dash-date-from" onchange="renderDash()">
+        <span style="color:var(--t2);font-size:12px">até</span>
+        <input type="date" id="dash-date-to" onchange="renderDash()">
+      </div>
+      <div id="dash-period-label" class="df-label"></div>
     </div>
-    <div id="dash-custom-range" style="display:none">
-      <input type="date" id="dash-date-from" onchange="renderDash()">
-      <span style="color:var(--t2);font-size:12px">até</span>
-      <input type="date" id="dash-date-to" onchange="renderDash()">
-    </div>
-    <div id="dash-period-label" class="df-label"></div>
+
+    <!-- Quick stats sidebar -->
+    <div id="dash-sidebar-stats" style="padding:16px;flex:1"></div>
   </div>
 
-  <div id="dash-content" style="padding:16px;overflow-y:auto;-webkit-overflow-scrolling:touch;flex:1"></div>
+  <!-- ── Desktop: main content panel ── -->
+  <div id="dash-main-panel">
+    <div id="dash-content" style="padding:0"></div>
+  </div>
+
 </div>
 
 </main>
@@ -4015,6 +4196,238 @@ function renderMetasInsights(tab) {
 
 
 /* ── Sidebar collapse ───────────────────────────────────────── */
+
+/* ══════════════════════════════════════════════════════════════
+   FOCUS TIMER
+══════════════════════════════════════════════════════════════ */
+let _ftSecs = 25 * 60;
+let _ftTotal = 25 * 60;
+let _ftInterval = null;
+let _ftRunning = false;
+let _ftSessions = [];
+
+function focusTimerPreset(mins) {
+  focusTimerReset();
+  _ftSecs = mins * 60;
+  _ftTotal = mins * 60;
+  document.getElementById('ft-btn-25').classList.toggle('active-btn', mins === 25);
+  document.getElementById('ft-btn-50').classList.toggle('active-btn', mins === 50);
+  _ftRenderDisplay();
+}
+
+function focusTimerToggle() {
+  const btn = document.getElementById('ft-btn-play');
+  if (_ftRunning) {
+    clearInterval(_ftInterval);
+    _ftRunning = false;
+    btn.textContent = '▶';
+    _ftSetState('');
+  } else {
+    _ftRunning = true;
+    btn.textContent = '⏸';
+    _ftSetState('running');
+    _ftInterval = setInterval(() => {
+      _ftSecs--;
+      _ftRenderDisplay();
+      if (_ftSecs <= 0) {
+        clearInterval(_ftInterval);
+        _ftRunning = false;
+        btn.textContent = '▶';
+        _ftSetState('done');
+        _ftSessions.push({ mins: Math.round(_ftTotal/60), ts: today() });
+        _ftRenderSessions();
+        showToast('⏱ Sessão concluída! ' + Math.round(_ftTotal/60) + 'min focado.');
+        _ftSecs = _ftTotal;
+        _ftRenderDisplay();
+      } else if (_ftSecs <= 60) {
+        _ftSetState('warning');
+      }
+    }, 1000);
+  }
+}
+
+function focusTimerReset() {
+  clearInterval(_ftInterval);
+  _ftRunning = false;
+  _ftSecs = _ftTotal;
+  const btn = document.getElementById('ft-btn-play');
+  if (btn) btn.textContent = '▶';
+  _ftSetState('');
+  _ftRenderDisplay();
+}
+
+function _ftRenderDisplay() {
+  const el = document.getElementById('focus-timer-display');
+  if (!el) return;
+  const m = String(Math.floor(_ftSecs / 60)).padStart(2, '0');
+  const s = String(_ftSecs % 60).padStart(2, '0');
+  el.textContent = m + ':' + s;
+  const pct = 1 - (_ftSecs / _ftTotal);
+  const lbl = document.getElementById('focus-timer-label');
+  if (lbl) lbl.textContent = _ftRunning
+    ? 'FOCANDO — ' + Math.round(pct * 100) + '%'
+    : (_ftSecs === _ftTotal ? 'FOCO' : 'PAUSADO');
+}
+
+function _ftSetState(state) {
+  const el = document.getElementById('focus-timer-display');
+  if (el) { el.className = 'focus-timer-display'; if (state) el.classList.add(state); }
+}
+
+function _ftRenderSessions() {
+  const el = document.getElementById('dash-sidebar-stats');
+  if (!el) return;
+  if (_ftSessions.length === 0) return;
+  const today_ = today();
+  const todaySess = _ftSessions.filter(s => s.ts === today_);
+  const totalMins = _ftSessions.reduce((a, s) => a + s.mins, 0);
+  const todayMins = todaySess.reduce((a, s) => a + s.mins, 0);
+  el.innerHTML = `
+    <div class="dash-sec">
+      <div class="dash-sec-hdr">Sessões de foco</div>
+      <div style="display:flex;gap:8px;margin-bottom:10px">
+        <div class="kpi-card green" style="flex:1;padding:10px 8px">
+          <div class="kpi-val" style="font-size:20px">${todaySess.length}</div>
+          <div class="kpi-lbl">Hoje</div>
+          <div class="kpi-sub">${todayMins}min</div>
+        </div>
+        <div class="kpi-card gold" style="flex:1;padding:10px 8px">
+          <div class="kpi-val" style="font-size:20px">${_ftSessions.length}</div>
+          <div class="kpi-lbl">Total</div>
+          <div class="kpi-sub">${totalMins}min</div>
+        </div>
+      </div>
+      <div style="font-size:10px;color:var(--t3);font-family:Georgia,serif">
+        ${_ftSessions.slice(-5).reverse().map(s =>
+          `<div class="session-log-entry"><span>${s.ts}</span><span>${s.mins}min ✓</span></div>`
+        ).join('')}
+      </div>
+    </div>`;
+}
+
+/* ══════════════════════════════════════════════════════════════
+   KEYBOARD SHORTCUTS
+══════════════════════════════════════════════════════════════ */
+function initKeyboardShortcuts() {
+  document.addEventListener('keydown', e => {
+    const modal = document.querySelector('.mbg[style*="flex"]');
+    const inInput = ['INPUT','TEXTAREA','SELECT'].includes(document.activeElement?.tagName);
+
+    // Esc — fechar modal
+    if (e.key === 'Escape' && modal) {
+      e.preventDefault();
+      const closeBtn = modal.querySelector('.m-close');
+      if (closeBtn) closeBtn.click();
+      return;
+    }
+    if (inInput) return;
+
+    // Alt + 1-4 — trocar abas
+    if (e.altKey) {
+      const tabMap = {'1':'rotina','2':'caderno','3':'predio','4':'dash'};
+      const tab = tabMap[e.key];
+      if (tab) {
+        e.preventDefault();
+        const btn = document.getElementById('tab-' + tab);
+        if (btn) btn.click();
+        return;
+      }
+    }
+
+    // N — nova entrada no inbox (qualquer aba, foca no campo)
+    if (e.key === 'n' || e.key === 'N') {
+      const inp = document.getElementById('inp-inbox');
+      if (inp) {
+        e.preventDefault();
+        const cadBtn = document.getElementById('tab-caderno');
+        if (cadBtn) cadBtn.click();
+        setTimeout(() => inp.focus(), 80);
+        return;
+      }
+    }
+
+    // F — toggle focus timer
+    if (e.key === 'f' || e.key === 'F') {
+      e.preventDefault();
+      focusTimerToggle();
+      return;
+    }
+
+    // R — reset focus timer
+    if (e.key === 'r' || e.key === 'R') {
+      e.preventDefault();
+      focusTimerReset();
+    }
+  });
+}
+
+/* ══════════════════════════════════════════════════════════════
+   DASHBOARD — sidebar quick stats (called from renderDash)
+══════════════════════════════════════════════════════════════ */
+function renderDashSidebarStats() {
+  const el = document.getElementById('dash-sidebar-stats');
+  if (!el || window.innerWidth < 1024) return;
+
+  const t = today();
+  const habAtivos = (S.habitos || []);
+  const habFeitos = habAtivos.filter(h => (h.registros||{})[t] === 'feito').length;
+  const viciosOk  = (S.vicios  || []).filter(v => (v.registros||{})[t] === 'resistiu').length;
+  const tasksDoing = (S.tarefas||[]).filter(x => x.coluna === 'fazendo').length;
+  const tasksAfazer = (S.tarefas||[]).filter(x => x.coluna === 'afazer').length;
+  const acAtrasadas = (S.frentes||[]).filter(f => f.prazo && f.prazo < t).length;
+
+  const score = habAtivos.length > 0 ? Math.round(habFeitos / habAtivos.length * 100) : 0;
+  const scoreColor = score >= 80 ? 'var(--green)' : score >= 50 ? 'var(--acc)' : 'var(--red)';
+
+  const sessHoje = _ftSessions.filter(s => s.ts === t);
+  const minsHoje = sessHoje.reduce((a, s) => a + s.mins, 0);
+
+  el.innerHTML = `
+    <div style="padding:0 0 12px">
+      <div class="dash-sec-hdr" style="margin-bottom:10px">Hoje · ${fmtDate(t)}</div>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:14px">
+        <div class="kpi-card" style="--kpi-color:${scoreColor};padding:10px 8px">
+          <div class="kpi-val" style="font-size:20px">${habFeitos}/${habAtivos.length}</div>
+          <div class="kpi-lbl">Hábitos hoje</div>
+        </div>
+        <div class="kpi-card ${viciosOk === (S.vicios||[]).length && (S.vicios||[]).length>0 ? 'green':'gold'}" style="padding:10px 8px">
+          <div class="kpi-val" style="font-size:20px">${viciosOk}/${(S.vicios||[]).length}</div>
+          <div class="kpi-lbl">Vícios ok</div>
+        </div>
+        <div class="kpi-card blue" style="padding:10px 8px">
+          <div class="kpi-val" style="font-size:20px">${tasksDoing}</div>
+          <div class="kpi-lbl">Em andamento</div>
+        </div>
+        <div class="kpi-card ${acAtrasadas>0?'red':'green'}" style="padding:10px 8px">
+          <div class="kpi-val" style="font-size:20px">${acAtrasadas}</div>
+          <div class="kpi-lbl">Em atraso</div>
+        </div>
+      </div>
+
+      ${minsHoje > 0 ? `
+      <div style="padding:8px 0;border-top:1px solid var(--b1)">
+        <div style="font-size:10px;color:var(--t3);letter-spacing:.8px;text-transform:uppercase;font-family:Georgia,serif;margin-bottom:4px">Foco hoje</div>
+        <div style="font-size:18px;font-weight:bold;color:var(--green)">${minsHoje}min</div>
+        <div style="font-size:10px;color:var(--t3);font-family:Georgia,serif">${sessHoje.length} sessão${sessHoje.length>1?'ões':''}</div>
+      </div>` : `
+      <div style="padding:8px 0;border-top:1px solid var(--b1);font-size:11px;color:var(--t3);font-family:Georgia,serif">
+        Nenhuma sessão de foco hoje.<br>
+        <span style="color:var(--t3);font-size:10px">Pressione <kbd style="background:var(--s2);border:1px solid var(--b2);border-radius:3px;padding:1px 4px;font-size:9px">F</kbd> para iniciar</span>
+      </div>`}
+
+      ${tasksAfazer > 0 ? `
+      <div style="margin-top:12px;padding-top:10px;border-top:1px solid var(--b1)">
+        <div style="font-size:10px;color:var(--t3);letter-spacing:.8px;text-transform:uppercase;font-family:Georgia,serif;margin-bottom:6px">Fila de tarefas</div>
+        ${(S.tarefas||[]).filter(x=>x.coluna==='afazer').slice(0,4).map(t=>
+          `<div style="font-size:12px;color:var(--t2);padding:3px 0;border-bottom:1px solid var(--b1);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">· ${esc(t.texto||'')}</div>`
+        ).join('')}
+        ${tasksAfazer > 4 ? `<div style="font-size:10px;color:var(--t3);margin-top:4px;font-family:Georgia,serif">+${tasksAfazer-4} mais</div>` : ''}
+      </div>` : ''}
+    </div>
+  `;
+}
+
 function toggleSidebar() {
   const nav = document.getElementById('sidebar');
   if (!nav) return;
@@ -4601,6 +5014,7 @@ function renderDash() {
   // ── Metas ativas ─────────────────────────────────────────────
 
   document.getElementById('dash-content').innerHTML = html;
+  renderDashSidebarStats();
 }
 
 function buildDeleteZone() {
@@ -4895,12 +5309,20 @@ function init() {
     const isDesktop = window.innerWidth >= 1024;
     const logo = document.getElementById('nav-logo-desktop');
     const actions = document.getElementById('nav-bottom-actions');
+    const toggleBtn = document.getElementById('nav-toggle-btn');
+    const timer = document.getElementById('focus-timer-widget');
+    const kbdHint = document.getElementById('kbd-hint-widget');
     if (logo) logo.style.display = isDesktop ? 'flex' : 'none';
     if (actions) actions.style.display = isDesktop ? 'flex' : 'none';
+    if (toggleBtn) toggleBtn.style.display = isDesktop ? 'flex' : 'none';
+    if (timer) timer.style.display = isDesktop ? 'block' : 'none';
+    if (kbdHint) kbdHint.style.display = isDesktop ? 'block' : 'none';
   }
   applyNavLayout();
   initSidebar();
   window.addEventListener('resize', () => { applyNavLayout(); initPredioNav(); });
+
+  initKeyboardShortcuts();
 
   // PWA service worker
   if ('serviceWorker' in navigator) {
