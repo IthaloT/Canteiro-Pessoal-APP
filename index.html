@@ -135,7 +135,7 @@ nav{
 /* ── Main ──────────────────────────────────────────────────── */
 main{flex:1;overflow:hidden;display:flex;flex-direction:column;min-height:0}
 .sec{display:none;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:16px}
-.sec.active{display:block;flex:1;min-height:0}
+.sec.active{display:block}
 
 /* ── Section title ──────────────────────────────────────────── */
 .sec-h{font-size:9px;letter-spacing:1.8px;text-transform:uppercase;color:var(--t3);margin-bottom:12px;padding-bottom:7px;border-bottom:1px solid var(--b1);display:flex;align-items:center;justify-content:space-between;font-family:Georgia,serif}
@@ -931,7 +931,7 @@ select option{background:var(--s2)}
   main{ overflow:hidden }
   .sec{ display:none; height:100%; overflow:hidden; padding:0 }
   .sec.active{ display:flex !important; flex-direction:column }
-  #sec-predio.active{ display:flex !important; flex-direction:column }
+  #sec-predio.active{ display:grid !important; flex-direction:unset }
 
   /* ── ROTINA: comfortable max-width ───────────────────── */
   #sec-rotina{ overflow-y:auto; padding:24px 32px }
@@ -1772,39 +1772,33 @@ input:focus, textarea:focus, select:focus {
 
   </div>
 
+</div><!-- /sec-rotina -->
 
 <!-- ══ CADERNO ══════════════════════════════════════════════ -->
 <div id="sec-caderno" class="sec">
-  <div class="caderno-left">
-    <div class="caderno-inbox-wrap">
-      <div class="inbox-bar">
-        <input type="text" id="inp-inbox" placeholder="Capturar ideia, pendência, pensamento..." onkeydown="if(event.key==='Enter')addInbox()">
-        <button class="btn btn-a" onclick="addInbox()">+</button>
-      </div>
-      <div class="sec-h">Caixa de Entrada <span class="badge" id="inbox-cnt">0</span></div>
-      <div id="list-inbox"></div>
-    </div>
+  <div class="inbox-bar">
+    <input type="text" id="inp-inbox" placeholder="Capturar ideia, pendência, pensamento..." onkeydown="if(event.key==='Enter')addInbox()">
+    <button class="btn btn-a" onclick="addInbox()">+</button>
   </div>
-  <div class="caderno-right">
-    <div class="caderno-kanban-wrap">
-      <div class="sec-h" style="flex-shrink:0">
-        Kanban
-        <button class="btn btn-g btn-sm" onclick="openDirectTask()">+ Tarefa</button>
-      </div>
-      <div class="kanban">
-        <div class="k-col k-afazer" data-col="afazer">
-          <div class="k-col-hdr">A Fazer <span id="cnt-afazer" class="badge">0</span></div>
-          <div id="col-afazer"></div>
-        </div>
-        <div class="k-col k-fazendo" data-col="fazendo">
-          <div class="k-col-hdr">Fazendo <span id="cnt-fazendo" class="badge">0</span></div>
-          <div id="col-fazendo"></div>
-        </div>
-        <div class="k-col k-feito" data-col="feito">
-          <div class="k-col-hdr">Feito <span id="cnt-feito" class="badge">0</span></div>
-          <div id="col-feito"></div>
-        </div>
-      </div>
+  <div class="sec-h">Caixa de Entrada <span class="badge" id="inbox-cnt">0</span></div>
+  <div id="list-inbox"></div>
+
+  <div class="sec-h mt2">
+    Kanban
+    <button class="btn btn-g btn-sm" onclick="openDirectTask()">+ Tarefa</button>
+  </div>
+  <div class="kanban">
+    <div class="k-col k-afazer" data-col="afazer">
+      <div class="k-col-hdr">A Fazer <span id="cnt-afazer" class="badge">0</span></div>
+      <div id="col-afazer"></div>
+    </div>
+    <div class="k-col k-fazendo" data-col="fazendo">
+      <div class="k-col-hdr">Fazendo <span id="cnt-fazendo" class="badge">0</span></div>
+      <div id="col-fazendo"></div>
+    </div>
+    <div class="k-col k-feito" data-col="feito">
+      <div class="k-col-hdr">Feito <span id="cnt-feito" class="badge">0</span></div>
+      <div id="col-feito"></div>
     </div>
   </div>
 </div>
@@ -2104,9 +2098,8 @@ input:focus, textarea:focus, select:focus {
     <button class="btn btn-g" onclick="closeM('mbg-confirm')">Cancelar</button>
     <button class="btn btn-red" id="confirm-ok">Confirmar</button>
   </div>
-</div><!-- /hist-fullscreen-body -->
-</div>
-</div>
+</div><!-- /modal -->
+</div><!-- /mbg-confirm -->
 
 <!-- ══ MODAL: Adicionar hábito ══════════════════════════════ -->
 <div class="mbg" id="mbg-add-habito">
@@ -5915,17 +5908,6 @@ function init() {
   if (!S.tagIdeias) S.tagIdeias = [];
   if (!S.contratos) S.contratos = [];
   if (!S.desafios) S.desafios = [];
-  // Guards adicionais — campos essenciais que podem faltar em dados antigos
-  if (!S.inbox) S.inbox = [];
-  if (!S.tarefas) S.tarefas = [];
-  if (!S.frentes) S.frentes = [];
-  if (!S.ciclos) S.ciclos = [];
-  if (!S.horizontes) S.horizontes = [];
-  if (!S.pilares) S.pilares = [];
-  if (!S.vicios) S.vicios = [];
-  if (!S.descarte) S.descarte = [];
-  if (!S.historico) S.historico = [];
-  if (!S.habitos) S.habitos = [];
 
   // Fix add habito button — safe selector (element may have changed)
   const addHabBtn = document.querySelector('[onclick*="mbg-add-habito"]');
