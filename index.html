@@ -433,7 +433,23 @@
     }
 
     .sec.active {
-      display: block
+      display: block;
+      flex: 1;
+      min-height: 0;
+    }
+
+    /* Rotina e Metas precisam de flex-column para scroll interno funcionar */
+    #sec-rotina.active, #sec-predio.active {
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      padding: 0;
+    }
+    /* Caderno scroll simples */
+    #sec-caderno.active {
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+      padding: 16px;
     }
 
     /* ── Section title ──────────────────────────────────────────── */
@@ -6010,184 +6026,9 @@
       </div>
     </div>
 
-    <!-- ══ ONBOARDING ════════════════════════════════════════════ -->
-    <div id="onboarding">
 
-      <!-- Progresso -->
-      <div id="ob-progress-bar"
-        style="position:fixed;top:0;left:0;right:0;z-index:1001;padding:16px 24px 0;background:var(--bg)">
-        <div class="ob-progress">
-          <div class="ob-dot done" id="ob-d0"></div>
-          <div class="ob-dot" id="ob-d1"></div>
-          <div class="ob-dot" id="ob-d2"></div>
-          <div class="ob-dot" id="ob-d3"></div>
-          <div class="ob-dot" id="ob-d4"></div>
-        </div>
-      </div>
-
-      <!-- Step 0: Boas-vindas -->
-      <div class="ob-step active" id="ob-0" style="padding-top:64px">
-        <div class="ob-icon">🌱</div>
-        <div class="ob-title">Bem-vindo ao <em>Canteiro Pessoal</em></div>
-        <div class="ob-body">
-          <p>O Canteiro não é mais uma daquelas listas infinitas de tarefas que só geram ansiedade.</p>
-          <br>
-          <p>Ele é o seu <strong>espaço privado</strong> para organizar o caos, proteger o seu tempo e focar apenas no
-            que realmente importa.</p>
-          <br>
-          <p
-            style="color:var(--acc);font-size:15px;text-align:center;padding:12px;background:var(--acc-d);border-radius:var(--r);border:1px solid var(--acc-g)">
-            <strong>Constância vale mais do que perfeição.</strong>
-          </p>
-          <br>
-          <p>Você pode usar o Canteiro instalado no <strong>celular</strong> ou diretamente pelo <strong>navegador no
-              computador</strong> — funciona dos dois jeitos.</p>
-          <br>
-          <p>Você tem <strong>4 abas</strong> principais. Vamos entender cada uma em 2 minutos?</p>
-        </div>
-        <div class="ob-footer">
-          <button class="ob-btn-skip" onclick="skipOnboarding()">Pular</button>
-          <button class="ob-btn-next" onclick="obNext(1)">Vamos lá →</button>
-        </div>
-      </div>
-
-      <!-- Step 1: Metas -->
-      <div class="ob-step" id="ob-1" style="padding-top:64px">
-        <div class="ob-icon">🎯</div>
-        <div class="ob-title"><em>Metas</em> — O seu mapa</div>
-        <div class="ob-body">
-          <p>Esta é a tela mais importante. Funciona como um funil, da sua maior missão até o que você faz amanhã:</p>
-          <br>
-          <div class="ob-item">
-            <div class="ob-item-tag">Propósito maior</div>
-            <div class="ob-item-title">Para a vida</div>
-            <div class="ob-item-desc">A sua bússola inegociável. Qual a sua grande missão?</div>
-            <div class="ob-item-example">"Ter liberdade de tempo e dinheiro trabalhando com projetos que eu mesmo criei,
-              e ter paz para cuidar da minha saúde e da minha família."</div>
-          </div>
-          <div class="ob-item">
-            <div class="ob-item-tag">Áreas de foco</div>
-            <div class="ob-item-title">Sempre ativas</div>
-            <div class="ob-item-desc">As "gavetas" da sua vida que precisam de atenção constante. Você não as conclui —
-              as mantém.</div>
-            <div class="ob-item-example">Exemplos: Meus Negócios · Minha Saúde · Meus Estudos · Minha Família</div>
-          </div>
-          <div class="ob-item">
-            <div class="ob-item-tag">Metas de Longo Prazo</div>
-            <div class="ob-item-title">1 a 10 anos</div>
-            <div class="ob-item-desc">Os seus objetivos de 1 a 10 anos. Defina um ano-alvo para cada grande conquista
-              (sempre um ano futuro).</div>
-            <div class="ob-item-example">"Fazer o meu negócio gerar renda suficiente para ser minha principal fonte de
-              sustento até 2030."</div>
-          </div>
-          <div class="ob-item">
-            <div class="ob-item-tag">Trimestre</div>
-            <div class="ob-item-title">Próximos 90 dias</div>
-            <div class="ob-item-desc">Máximo <strong>3 focos</strong> para este trimestre. Uma data de entrega próxima
-              força a execução imediata.</div>
-            <div class="ob-item-example">"Terminar o módulo de SQL do curso e criar o escopo do banco de dados do meu
-              projeto até 31 de julho."</div>
-          </div>
-          <div class="ob-item">
-            <div class="ob-item-tag">Ações</div>
-            <div class="ob-item-title">Até 2 meses</div>
-            <div class="ob-item-desc">Os projetos práticos que você precisa resolver agora. Sempre com verbo de ação
-              claro: Fazer, Revisar, Subir.</div>
-            <div class="ob-item-example">"Fazer os exercícios da aula 5, revisar as tabelas e subir o código no
-              repositório." (Prazo: 15 dias)</div>
-          </div>
-        </div>
-        <div class="ob-footer">
-          <button class="ob-btn-skip" onclick="obPrev(0)">← Voltar</button>
-          <button class="ob-btn-next" onclick="obNext(2)">Próximo →</button>
-        </div>
-      </div>
-
-      <!-- Step 2: Caderno -->
-      <div class="ob-step" id="ob-2" style="padding-top:64px">
-        <div class="ob-icon">📝</div>
-        <div class="ob-title"><em>Caderno</em> — Onde o trabalho acontece</div>
-        <div class="ob-body">
-          <p>Se as Metas são o mapa, o Caderno é a <strong>mão na massa</strong>.</p>
-          <br>
-          <div class="ob-item">
-            <div class="ob-item-tag">Caixa de entrada</div>
-            <div class="ob-item-title">Capture tudo, sem filtro</div>
-            <div class="ob-item-desc">Sua mente serve para ter ideias, não para guardá-las. Lembrou de pagar uma conta?
-              Teve uma ideia do nada? Despeje aqui.</div>
-          </div>
-          <div class="ob-item">
-            <div class="ob-item-tag">Kanban</div>
-            <div class="ob-item-title">A Fazer · Fazendo · Feito</div>
-            <div class="ob-item-desc">Para cá vão as tarefas da sua semana.</div>
-            <div class="ob-item-example" style="color:var(--acc);font-style:normal;font-weight:bold">Regra de ouro:
-              nunca mais de 3 coisas em "Fazendo". Termine uma antes de puxar outra.</div>
-          </div>
-        </div>
-        <div class="ob-footer">
-          <button class="ob-btn-skip" onclick="obPrev(1)">← Voltar</button>
-          <button class="ob-btn-next" onclick="obNext(3)">Próximo →</button>
-        </div>
-      </div>
-
-      <!-- Step 3: Hábitos -->
-      <div class="ob-step" id="ob-3" style="padding-top:64px">
-        <div class="ob-icon">🧱</div>
-        <div class="ob-title"><em>Rotina</em> — Tijolo por tijolo e muralha de defesa</div>
-        <div class="ob-body">
-          <p>A aba <strong>Rotina</strong> tem dois modos — alterne com o toggle no topo:</p>
-          <br>
-          <div class="ob-item">
-            <div class="ob-item-tag">🧱 Construir — Hábitos</div>
-            <div class="ob-item-title">Parcial conta ½ ponto</div>
-            <div class="ob-item-desc">Planejou estudar 1h mas só teve energia para 30min? Aperte <strong>Parcial
-                (½)</strong>. Você ganha pontos por ter aparecido e tentado. Defina quantas vezes por semana quer
-              praticar cada hábito.</div>
-            <div class="ob-item-example" style="color:var(--green);font-style:normal">Melhor feito do que perfeito.
-            </div>
-          </div>
-          <div class="ob-item">
-            <div class="ob-item-tag">🛡️ Destruir — Vícios</div>
-            <div class="ob-item-title">Cada dia conta</div>
-            <div class="ob-item-desc">Rastreie comportamentos que roubam seu foco. A cada dia que você clica "Resistiu",
-              sua sequência 🔥 cresce. Configure os dias da semana em que o vício se aplica.</div>
-            <div class="ob-item-example">"Rolar redes sociais antes de dormir" · "Jogar no horário de estudo"</div>
-          </div>
-        </div>
-        <div class="ob-footer">
-          <button class="ob-btn-skip" onclick="obPrev(2)">← Voltar</button>
-          <button class="ob-btn-next" onclick="obNext(4)">Próximo →</button>
-        </div>
-      </div>
-
-      <!-- Step 4: Vícios + Painel -->
-      <div class="ob-step" id="ob-4" style="padding-top:64px">
-        <div class="ob-icon">🛡️</div>
-        <div class="ob-title"><em>Vícios</em> (Aba Rotina) e <em>Painel</em></div>
-        <div class="ob-body">
-          <div class="ob-item">
-            <div class="ob-item-tag">Contratos — Recompensas merecidas</div>
-            <div class="ob-item-title">O cadeado de recompensa</div>
-            <div class="ob-item-desc">Crie um acordo: "Quando eu concluir X meta (ou cumprir X% de um hábito), ganho Y
-              recompensa." O botão só destrava quando você cumprir o combinado.</div>
-            <div class="ob-item-example">"Quando concluir a meta de lançar o produto → CS2 o fim de semana todo"</div>
-          </div>
-          <div class="ob-item">
-            <div class="ob-item-tag">Painel — O retrovisor</div>
-            <div class="ob-item-title">5 minutos todo domingo</div>
-            <div class="ob-item-desc">Veja os gráficos da semana. Que dia você estava mais cansado? Que hábito ficou
-              para trás? Use para planejar uma semana mais leve.</div>
-            <div class="ob-item-example" style="color:var(--acc);font-style:normal">Não se julgue — apenas ajuste a
-              rota.</div>
-          </div>
-        </div>
-        <div class="ob-footer">
-          <button class="ob-btn-skip" onclick="obPrev(3)">← Voltar</button>
-          <button class="ob-btn-next" onclick="finishOnboarding()">Começar agora ✓</button>
-        </div>
-      </div>
-
-    </div>
+    <!-- Onboarding removido — será refeito em versão futura -->
+    <div id="onboarding" class="hidden" style="display:none"></div>
 
     <script>
       /* ═══════════════════════════════════════════════════════════
@@ -9331,57 +9172,21 @@
       }
 
       /* ═══════════════════════════════════════════════════════════
-         ONBOARDING
+         ONBOARDING — removido (v3.0)
       ═══════════════════════════════════════════════════════════ */
-      let obCurrentStep = 0;
-      const OB_STEPS = 5;
-      let obFromSettings = false; // controla se foi aberto pelo Settings
-
-      function obShowStep(n) {
-        obCurrentStep = n;
-        document.querySelectorAll('.ob-step').forEach((s, i) => {
-          s.classList.toggle('active', i === n);
-        });
-        for (let i = 0; i < OB_STEPS; i++) {
-          const dot = document.getElementById('ob-d' + i);
-          if (dot) dot.classList.toggle('done', i <= n);
-        }
-        // Atualiza label do botão esquerdo do step 0 conforme contexto
-        const skipBtn = document.querySelector('#ob-0 .ob-btn-skip');
-        if (skipBtn) skipBtn.textContent = obFromSettings ? 'Fechar' : 'Pular';
-        // Atualiza label do botão direito do step final
-        const finishBtn = document.querySelector('#ob-4 .ob-btn-next');
-        if (finishBtn) finishBtn.textContent = obFromSettings ? 'Fechar ✓' : 'Começar agora ✓';
-        document.getElementById('onboarding').scrollTo(0, 0);
-      }
-
-      function obNext(n) { obShowStep(n); }
-      function obPrev(n) { obShowStep(n); }
-
-      // Aberto automaticamente na primeira vez
-      function skipOnboarding() {
-        localStorage.setItem('canteiro_onboarding_done', '1');
-        document.getElementById('onboarding').classList.add('hidden');
-        obFromSettings = false;
-      }
-
-      function finishOnboarding() {
-        localStorage.setItem('canteiro_onboarding_done', '1');
-        document.getElementById('onboarding').classList.add('hidden');
-        obFromSettings = false;
-      }
-
-      // Aberto pelo botão no Settings
+      function obShowStep(n) {}
+      function obNext(n) {}
+      function obPrev(n) {}
+      function skipOnboarding() { document.getElementById('onboarding').style.display = 'none'; }
+      function finishOnboarding() { document.getElementById('onboarding').style.display = 'none'; }
       function openGuide() {
         closeM('mbg-settings');
-        obFromSettings = true;
-        document.getElementById('onboarding').classList.remove('hidden');
-        obShowStep(0);
+        showToast('Guia interativo em breve — por enquanto explore o app!');
       }
-
       function checkOnboarding() {
-        // Onboarding removed
-        document.getElementById('onboarding').classList.add('hidden');
+        // Onboarding removido em v3.0 — será refeito e atualizado
+        const el = document.getElementById('onboarding');
+        if (el) el.style.display = 'none';
       }
 
       /* ═══════════════════════════════════════════════════════════
