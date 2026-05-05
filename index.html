@@ -511,34 +511,6 @@ select option{background:var(--s2)}
   border-radius:10px;cursor:default;
 }
 
-/* ── Onboarding overlay ────────────────────────────────────── */
-#onboarding{
-  position:fixed;inset:0;background:var(--bg);z-index:1000;
-  display:flex;flex-direction:column;overflow-y:auto;
-  -webkit-overflow-scrolling:touch;
-}
-#onboarding.hidden{display:none}
-.ob-step{display:none;flex-direction:column;min-height:100%;padding:32px 24px 24px;animation:fadeIn .25s ease}
-.ob-step.active{display:flex}
-.ob-progress{display:flex;gap:5px;justify-content:center;margin-bottom:32px;flex-shrink:0}
-.ob-dot{width:6px;height:6px;border-radius:50%;background:var(--b2);transition:background .3s}
-.ob-dot.done{background:var(--acc)}
-.ob-icon{font-size:48px;margin-bottom:16px;text-align:center}
-.ob-title{font-size:22px;font-weight:bold;color:var(--text);margin-bottom:12px;line-height:1.3;letter-spacing:-.3px}
-.ob-title em{color:var(--acc);font-style:normal}
-.ob-body{flex:1;font-size:14px;color:var(--t2);line-height:1.7;font-family:Georgia,serif}
-.ob-body strong{color:var(--text)}
-.ob-body .ob-item{background:var(--s1);border:1px solid var(--b1);border-radius:var(--r);padding:12px 14px;margin-bottom:8px}
-.ob-item-tag{font-size:9px;letter-spacing:1px;text-transform:uppercase;color:var(--acc);background:var(--acc-d);border:1px solid var(--acc-g);border-radius:3px;padding:2px 7px;font-family:Georgia,serif;display:inline-block;margin-bottom:5px}
-.ob-item-title{font-size:14px;color:var(--text);font-weight:bold;margin-bottom:3px}
-.ob-item-desc{font-size:12px;color:var(--t2);line-height:1.5}
-.ob-item-example{font-size:11px;color:var(--t3);margin-top:4px;font-style:italic}
-.ob-footer{margin-top:24px;display:flex;gap:10px;flex-shrink:0}
-.ob-btn-skip{flex:1;padding:12px;border:1px solid var(--b1);border-radius:var(--rs);background:none;color:var(--t2);font-family:Georgia,serif;font-size:13px;cursor:pointer;transition:var(--tr)}
-.ob-btn-skip:hover{border-color:var(--b2)}
-.ob-btn-next{flex:2;padding:12px;background:var(--acc);color:#0E0E0E;border:none;border-radius:var(--rs);font-family:Georgia,serif;font-size:14px;font-weight:bold;cursor:pointer;transition:var(--tr);letter-spacing:.2px}
-.ob-btn-next:hover{background:#E8B425}
-
 /* ── Info tooltip no Prédio ────────────────────────────────── */
 .info-btn{
   background:none;border:1px solid var(--b1);color:var(--t3);
@@ -998,43 +970,6 @@ select option{background:var(--s2)}
 
 }
 
-/* ── Focus Timer (sidebar) ──────────────────────────────── */
-.focus-timer{
-  padding:12px 14px 10px;border-top:1px solid var(--b1);
-  background:var(--s1);flex-shrink:0;
-}
-.ft-ring-wrap{
-  position:relative;width:72px;height:72px;margin:0 auto 8px;
-}
-.ft-ring{ width:72px;height:72px;transform:rotate(-90deg) }
-.ft-ring-bg{ fill:none;stroke:var(--b2);stroke-width:4 }
-.ft-ring-fill{
-  fill:none;stroke:var(--acc);stroke-width:4;
-  stroke-linecap:round;transition:stroke-dashoffset .9s linear, stroke .3s;
-}
-.ft-ring-fill.running{ stroke:var(--green) }
-.ft-ring-fill.warning{ stroke:var(--acc) }
-.ft-ring-fill.done{ stroke:var(--red) }
-.ft-center{
-  position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
-}
-.focus-timer-display{
-  font-size:14px;font-weight:bold;color:var(--text);
-  font-family:Georgia,serif;letter-spacing:1px;line-height:1;
-  transition:color .3s;
-}
-.focus-timer-display.running{ color:var(--green) }
-.focus-timer-display.warning{ color:var(--acc) }
-.focus-timer-display.done{ color:var(--red) }
-.focus-timer-btns{ display:flex;gap:4px }
-.focus-timer-btns button{
-  flex:1;padding:5px 0;font-size:11px;border:1px solid var(--b1);
-  background:none;color:var(--t2);border-radius:var(--rs);
-  cursor:pointer;font-family:Georgia,serif;transition:var(--tr);
-}
-.focus-timer-btns button:hover{ border-color:var(--acc);color:var(--acc) }
-.focus-timer-btns button.active-btn{ background:var(--acc);color:#0E0E0E;border-color:var(--acc);font-weight:bold }
-
 /* ── Keyboard shortcut hint ─────────────────────────────── */
 .kbd-hint-btn{
   width:100%;padding:7px 14px;border:none;border-top:1px solid var(--b1);
@@ -1065,28 +1000,6 @@ nav.collapsed .kbd-hint-btn{display:none}
 }
 
 
-
-
-/* ── Mini timer (collapsed sidebar) ────────────────────────── */
-.ft-mini{
-  display:none;width:46px;height:46px;margin:10px auto;
-  position:relative;cursor:pointer;flex-shrink:0;
-}
-.ft-mini-ring{ width:46px;height:46px;transform:rotate(-90deg) }
-.ft-mini-bg{ fill:none;stroke:var(--b2);stroke-width:3 }
-.ft-mini-fill{
-  fill:none;stroke:var(--acc);stroke-width:3;stroke-linecap:round;
-  transition:stroke-dashoffset .9s linear,stroke .3s;
-}
-.ft-mini-fill.running{ stroke:var(--green) }
-.ft-mini-fill.warning{ stroke:var(--acc) }
-.ft-mini-fill.done{ stroke:var(--red) }
-.ft-mini-time{
-  position:absolute;inset:0;display:flex;align-items:center;
-  justify-content:center;font-size:9px;font-weight:bold;
-  font-family:Georgia,serif;color:var(--text);letter-spacing:.3px;
-}
-nav.collapsed .ft-mini{ display:flex;align-items:center;justify-content:center }
 
 
 /* ═══════════════════════════════════════════════════════════
@@ -1658,61 +1571,6 @@ input:focus, textarea:focus, select:focus {
   <button class="tab active" id="tab-rotina"   data-tip="Rotina"   onclick="setTab('rotina',this)"><span class="tab-icon">⚡</span><span class="tab-lbl">Rotina</span></button>
   <button class="tab"        id="tab-caderno"  data-tip="Caderno"  onclick="setTab('caderno',this)"><span class="tab-icon">📋</span><span class="tab-lbl">Caderno</span></button>
   <button class="tab"        id="tab-predio"   data-tip="Metas"    onclick="setTab('predio',this)"><span class="tab-icon">🎯</span><span class="tab-lbl">Metas</span></button>
-  <!-- Focus Timer -->
-  <div class="focus-timer" id="focus-timer-widget" style="display:none">
-    <div class="ft-ring-wrap">
-      <svg class="ft-ring" viewBox="0 0 60 60">
-        <circle class="ft-ring-bg" cx="30" cy="30" r="26"/>
-        <circle class="ft-ring-fill" id="ft-ring-fill" cx="30" cy="30" r="26"
-          stroke-dasharray="163.4" stroke-dashoffset="0"/>
-      </svg>
-      <div class="ft-center">
-        <div class="focus-timer-display" id="focus-timer-display">25:00</div>
-      </div>
-    </div>
-    <!-- Cycle indicator -->
-    <div class="ft-cycle-row" id="ft-cycle-row"></div>
-    <!-- Presets row -->
-    <div class="ft-presets" id="ft-presets"></div>
-    <div class="focus-timer-btns">
-      <button onclick="focusTimerToggle()" id="ft-btn-play" title="Iniciar / Pausar" class="active-btn">▶</button>
-      <button onclick="focusTimerReset()" id="ft-btn-reset" title="Reiniciar">↺</button>
-      <button onclick="openFtFullscreen()" title="Expandir" id="ft-btn-expand">⛶</button>
-    </div>
-  </div>
-
-  <!-- Fullscreen timer overlay -->
-  <div class="ft-fullscreen" id="ft-fullscreen" style="display:none">
-    <button class="ft-fs-close" onclick="closeFtFullscreen()">×</button>
-    <div class="ft-fs-label" id="ft-fs-label">FOCO</div>
-    <div class="ft-fs-ring-wrap">
-      <svg class="ft-fs-ring" viewBox="0 0 200 200">
-        <circle class="ft-ring-bg" cx="100" cy="100" r="88"/>
-        <circle class="ft-ring-fill" id="ft-fs-ring-fill" cx="100" cy="100" r="88"
-          stroke-dasharray="552.9" stroke-dashoffset="0" stroke-width="6"/>
-      </svg>
-      <div class="ft-fs-center">
-        <div class="ft-fs-display" id="ft-fs-display">25:00</div>
-        <div class="ft-fs-cycle" id="ft-fs-cycle"></div>
-      </div>
-    </div>
-    <div class="ft-fs-presets" id="ft-fs-presets"></div>
-    <div class="ft-fs-btns">
-      <button onclick="focusTimerToggle()" id="ft-fs-play" class="ft-fs-btn active-btn">▶</button>
-      <button onclick="focusTimerReset()" class="ft-fs-btn">↺</button>
-    </div>
-    <div class="ft-fs-sessions" id="ft-fs-sessions"></div>
-  </div>
-
-  <button class="kbd-hint-btn" id="kbd-hint-widget" style="display:none" onclick="toggleKbdPanel()">⌨ Atalhos</button>
-  <div class="kbd-hint-panel" id="kbd-hint-panel">
-    <kbd>Alt 1–4</kbd> Trocar aba<br>
-    <kbd>N</kbd> Nova captura<br>
-    <kbd>F</kbd> Iniciar/pausar foco<br>
-    <kbd>R</kbd> Reiniciar timer<br>
-    <kbd>Esc</kbd> Fechar modal
-  </div>
-
   <div class="nav-bottom-actions" id="nav-bottom-actions" style="display:none">
     <button class="icon-btn" onclick="openM('mbg-history')" data-tip="Histórico" style="width:100%;font-size:11px;display:flex;align-items:center;gap:6px;justify-content:flex-start"><span>📜</span><span class="btn-lbl">Histórico</span></button>
     <button class="icon-btn" onclick="openSettingsModal()" data-tip="Configurações" style="width:100%;font-size:11px;display:flex;align-items:center;gap:6px;justify-content:flex-start"><span>⚙</span><span class="btn-lbl">Config</span></button>
@@ -1724,8 +1582,18 @@ input:focus, textarea:focus, select:focus {
 <!-- ══ HÁBITOS ══════════════════════════════════════════════ -->
 <div id="sec-rotina" class="sec active">
 
-  <!-- ── Micro-data strip ── -->
-  <div class="rotina-strip" id="rotina-strip"></div>
+  
+  <!-- ═══════════════════════════════════════════════════════════════
+       ROTINA HEADER — Resumo do Dia (v3.0)
+  ═══════════════════════════════════════════════════════════════ -->
+  <div id="rotina-header">
+    <div class="rdh-title">Resumo do Dia</div>
+    <div class="rdh-date" id="rdh-date-lbl">--</div>
+    <div class="rdh-badges" id="rdh-badges-container">
+      <!-- Injected via JS -->
+    </div>
+  </div>
+
 
   <!-- ── Single scroll page ── -->
   <div class="rotina-scroll">
@@ -1777,31 +1645,35 @@ input:focus, textarea:focus, select:focus {
 <!-- ══ CADERNO ══════════════════════════════════════════════ -->
 <div id="sec-caderno" class="sec">
   <div class="inbox-bar">
-    <input type="text" id="inp-inbox" placeholder="Capturar ideia, pendência, pensamento..." onkeydown="if(event.key==='Enter')addInbox()">
-    <button class="btn btn-a" onclick="addInbox()">+</button>
+    <input type="text" id="inp-inbox" placeholder="Capturar ideia, pendência, pensamento..." onkeydown="if(event.key==='Enter'){addIdea(this.value); this.value='';}">
+    <button class="btn btn-a" onclick="addIdea(document.getElementById('inp-inbox').value); document.getElementById('inp-inbox').value='';">+</button>
   </div>
-  <div class="sec-h">Caixa de Entrada <span class="badge" id="inbox-cnt">0</span></div>
-  <div id="list-inbox"></div>
+  <div class="sec-h">Caixa de Entrada <span class="badge" id="inbox-hdr-count">0</span></div>
+  <div id="inbox-list"></div>
 
-  <div class="sec-h mt2">
+  <div class="sec-h mt2" style="display:flex; justify-content:space-between; align-items:center;">
     Kanban
     <button class="btn btn-g btn-sm" onclick="openDirectTask()">+ Tarefa</button>
   </div>
-  <div class="kanban">
-    <div class="k-col k-afazer" data-col="afazer">
-      <div class="k-col-hdr">A Fazer <span id="cnt-afazer" class="badge">0</span></div>
-      <div id="col-afazer"></div>
-    </div>
-    <div class="k-col k-fazendo" data-col="fazendo">
-      <div class="k-col-hdr">Fazendo <span id="cnt-fazendo" class="badge">0</span></div>
-      <div id="col-fazendo"></div>
-    </div>
-    <div class="k-col k-feito" data-col="feito">
-      <div class="k-col-hdr">Feito <span id="cnt-feito" class="badge">0</span></div>
-      <div id="col-feito"></div>
-    </div>
+  <div class="kanban-vertical">
+    <details class="kv-section kv-afazer" open>
+      <summary class="kv-summary">A Fazer <span id="k-afazer-n" class="badge">0</span></summary>
+      <div id="k-afazer" class="kv-list"></div>
+    </details>
+    
+    <details class="kv-section kv-fazendo" open>
+      <summary class="kv-summary">Fazendo <span id="k-fazendo-n" class="badge">0</span></summary>
+      <div id="k-fazendo" class="kv-list"></div>
+    </details>
+    
+    <details class="kv-section kv-feito">
+      <summary class="kv-summary">Concluído <span id="k-feito-n" class="badge">0</span></summary>
+      <div id="k-feito" class="kv-list"></div>
+    </details>
   </div>
 </div>
+
+<!-- ══ METAS ════════════════════════════════════════════════ -->
 <div id="sec-predio" class="sec">
 
   <span id="contratos-btn-count" style="display:none"></span>
@@ -2303,7 +2175,7 @@ input:focus, textarea:focus, select:focus {
   <div class="lbl">A Recompensa</div>
   <input type="text" id="inp-contrato-recompensa" placeholder="Ex: Sessão de fumo liberada, CS2 o fim de semana todo...">
   <div class="lbl gap">Tipo de acordo</div>
-  <div class="tipo-opts">
+  <div class="tipo-opts" style="display:grid; grid-template-columns: 1fr 1fr; gap:8px;">
     <div class="tipo-opt sel" id="tipo-opt-meta" onclick="selectTipoContrato('meta')">
       <div class="tipo-opt-icon">🎯</div>
       <div class="tipo-opt-lbl">Uma Meta</div>
@@ -2490,7 +2362,7 @@ input:focus, textarea:focus, select:focus {
         <div class="ob-item-example">Exemplos: Meus Negócios · Minha Saúde · Meus Estudos · Minha Família</div>
       </div>
       <div class="ob-item">
-        <div class="ob-item-tag">Grandes Saltos</div>
+        <div class="ob-item-tag">Metas de Longo Prazo</div>
         <div class="ob-item-title">1 a 10 anos</div>
         <div class="ob-item-desc">Os seus objetivos de 1 a 10 anos. Defina um ano-alvo para cada grande conquista.</div>
         <div class="ob-item-example">"Fazer o meu negócio gerar renda suficiente para ser minha principal fonte de sustento até 2030."</div>
@@ -2988,69 +2860,6 @@ function saveDesafio() {
   renderDesafios(); _updateRotinaTabCounts();
 }
 
-function renderDesafios() {
-  const list = document.getElementById('list-desafios');
-  if (!list) return;
-  if (!S.desafios) S.desafios = [];
-  const ativos = S.desafios.filter(d => d.ativo !== false);
-
-  if (ativos.length === 0) {
-    list.innerHTML = '<div class="empty" style="padding:40px 16px">🎯<br>Nenhum desafio ativo.<br><span style="font-size:11px;color:var(--t3)">Crie um desafio para se comprometer com algo por um período definido.</span></div>';
-    return;
-  }
-
-  const _desCards = ativos.map(d => {
-    const inicio = new Date(d.inicioEm + 'T00:00:00');
-    const hoje = new Date(today() + 'T00:00:00');
-    const diaAtual = Math.floor((hoje - inicio) / 86400000) + 1;
-    const diasRestantes = Math.max(0, d.duracaoDias - diaAtual + 1);
-    const concluido = diaAtual > d.duracaoDias;
-    const pct = Math.min(100, Math.round((diaAtual - 1) / d.duracaoDias * 100));
-
-    // Build day grid (last 14 or full if short)
-    const gridDias = Math.min(d.duracaoDias, 21);
-    const startOffset = Math.max(0, diaAtual - gridDias);
-    let dayGrid = '';
-    for (let i = startOffset; i < d.duracaoDias; i++) {
-      const d2 = new Date(inicio); d2.setDate(inicio.getDate() + i);
-      const ds = d2.toLocaleDateString('sv');
-      const reg = (d.registros||{})[ds] || '';
-      const isFuture = d2 > hoje;
-      const isToday = ds === today();
-      let cls = 'day-cell';
-      if (isFuture) cls += ' future';
-      else if (d.modo === 'construir') cls += reg === 'feito' ? ' feito' : ' faltou';
-      else cls += reg === 'resistiu' ? ' feito' : reg === 'cedi' ? ' faltou' : ' faltou';
-      const onclick = isFuture ? '' : `cycleDesafioDay('${d.id}','${ds}')`;
-      const label = ['S','T','Q','Q','S','S','D'][d2.getDay()];
-      dayGrid += `<div class="${cls}${isToday?' today':''}" ${onclick ? `onclick="${onclick}"` : ''} style="${isFuture?'opacity:.25;cursor:default':''}">${reg === 'feito' || reg === 'resistiu' ? '✓' : reg === 'cedi' || (reg && d.modo==='construir' && reg!=='feito') ? '✕' : label}</div>`;
-    }
-
-    const statusLabel = concluido
-      ? '🎉 Concluído!'
-      : `Dia ${diaAtual}/${d.duracaoDias} · ${diasRestantes}d restantes`;
-
-    return `<div class="desafio-card">
-      <div class="desafio-hdr">
-        <span class="desafio-nome">${esc(d.nome)}</span>
-        <span class="desafio-mode-badge ${d.modo}">${d.modo === 'construir' ? '🧱 Construir' : '💣 Resistir'}</span>
-        <button class="habito-del" onclick="removeDesafio('${d.id}')">×</button>
-      </div>
-      <div class="desafio-progress-wrap">
-        <div class="desafio-progress-bar">
-          <div class="desafio-progress-fill ${concluido?'done':d.modo}" style="width:${pct}%"></div>
-        </div>
-        <div class="desafio-days-label">
-          <span>${statusLabel}</span>
-          <span style="color:var(--t3)">${pct}%</span>
-        </div>
-      </div>
-      <div class="desafio-day-grid">${dayGrid}</div>
-    </div>`;
-  });
-  list.innerHTML = ativos.length === 0 ? '<div class="empty" style="padding:40px 16px">🎯<br>Nenhum desafio ativo.<br><span style="font-size:11px;color:var(--t3)">Crie um desafio para se comprometer com algo por um período definido.</span></div>' : rsecWrap(_desCards, 'desafios');
-}
-
 function cycleDesafioDay(id, ds) {
   const d = (S.desafios||[]).find(x => x.id === id); if (!d) return;
   if (!d.registros) d.registros = {};
@@ -3113,71 +2922,6 @@ function calcPctVicio(v, days) {
   const resistiu = diasValidos.filter(d => regs[d] === 'resistiu').length;
   const alvo = diasValidos.length || 1;
   return { resistiu, alvo, pct: Math.round(resistiu / alvo * 100), diasValidos };
-}
-
-function renderHabitos() {
-  const week = getWeekDays();
-  const t = today();
-  document.getElementById('week-range').textContent = `Semana: ${fmtDate(week[0])} — ${fmtDate(week[6])}`;
-
-  // Global week stat usando freqAlvo
-  let totalAlvo = 0, totalFeito = 0;
-  S.habitos.forEach(h => {
-    const { feito, alvo } = calcPctHabito(h, week);
-    totalAlvo += alvo; totalFeito += feito;
-  });
-  const pct = totalAlvo ? Math.round(totalFeito / totalAlvo * 100) : 0;
-  document.getElementById('week-stat').textContent = S.habitos.length ? `${pct}% da semana` : '';
-
-  const list = document.getElementById('list-habitos');
-  if (S.habitos.length === 0) {
-    list.innerHTML = '<div class="empty">Nenhum hábito ainda.<br>Adicione rotinas que quer rastrear.</div>';
-    return;
-  }
-
-  const _habCards = S.habitos.map(h => {
-    const regs = h.registros || {};
-    const { feito, alvo, pct: habPct } = calcPctHabito(h, week);
-    const diasAtivosSet = h.diasAtivos ? new Set(h.diasAtivos) : null;
-
-    const ids = h.vinculoIds || (h.vinculoId ? [h.vinculoId] : []);
-    const vinculos = ids.map(id => getPrediLabel(id)).filter(Boolean);
-    const vinculoHtml = vinculos.length
-      ? `<div class="habito-vinculos">${vinculos.map(v => {
-          const tipoLabel = {frentes:'Ação',ciclos:'Trimestre',horizontes:'Grandes Saltos',pilares:'Área de foco'}[v.tipo] || v.tipo;
-          return `<span class="habito-vtag">↳ ${esc(tipoLabel)}: ${esc(v.nome.slice(0,20))}</span>`;
-        }).join('')}</div>`
-      : '';
-
-    const days = week.map((d, i) => {
-      const est = regs[d] || '';
-      const isToday = d === t;
-      // dia inativo para este hábito fica esmaecido
-      const dow = new Date(d+'T12:00:00').getDay();
-      const inativo = diasAtivosSet && !diasAtivosSet.has(dow);
-      const icon = est === 'feito' ? '✓' : est === 'parcial' ? '½' : est === 'faltou' ? '✕' : DAY_LABELS[i].slice(0,1);
-      const dayOnclick = inativo ? '' : `cycleHabitoDay('${h.id}','${d}')`;
-      const dayStyle   = inativo ? 'opacity:.3;cursor:default' : '';
-      return `<div class="day-cell${est ? ' '+est : ''}${isToday ? ' today' : ''}${inativo ? ' inactive' : ''}" onclick="${dayOnclick}" title="${DAY_LABELS[i]}${inativo?' (inativo)':''}" style="${dayStyle}">${icon}</div>`;
-    }).join('');
-
-    const freqLabel = h.freqAlvo && h.freqAlvo < 7 ? ` · meta: ${h.freqAlvo}x/sem` : '';
-    return `<div class="habito-row">
-      <div class="habito-top">
-        <div class="habito-nome">${esc(h.nome)}<span style="font-size:9px;color:var(--t3);margin-left:6px;font-family:Georgia,serif">${freqLabel}</span></div>
-        <div class="habito-actions">
-          <button class="habito-edit" onclick="openEditHabito('${h.id}')">✎</button>
-          <button class="habito-del" onclick="removeHabito('${h.id}')">×</button>
-        </div>
-      </div>
-      ${vinculoHtml}
-      <div class="habito-bottom">
-        <div class="days-grid">${days}</div>
-        <div class="habito-stat">${feito}/${alvo} <span style="font-size:9px;color:${habPct>=100?'var(--green)':habPct>=50?'var(--acc)':'var(--red)'}">${habPct}%</span></div>
-      </div>
-    </div>`;
-  });
-  list.innerHTML = S.habitos.length === 0 ? '' : rsecWrap(_habCards, 'habitos');
 }
 
 function cycleHabitoDay(id, date) {
@@ -3243,7 +2987,7 @@ function renderEditVinculos(ids) {
   container.innerHTML = ids.map(id => {
     const lbl = getPrediLabel(id);
     if (!lbl) return '';
-    const tipoLabel = {frentes:'Ação',ciclos:'Trimestre',horizontes:'Grandes Saltos',pilares:'Área de foco'}[lbl.tipo] || lbl.tipo;
+    const tipoLabel = {frentes:'Ação',ciclos:'Trimestre',horizontes:'Metas de Longo Prazo',pilares:'Área de foco'}[lbl.tipo] || lbl.tipo;
     return `<div style="display:flex;align-items:center;gap:6px;margin-bottom:5px">
       <span class="habito-vtag" style="font-size:11px;padding:3px 8px">${esc(tipoLabel)}: ${esc(lbl.nome.slice(0,30))}</span>
       <button onclick="removeVinculo('${id}')" style="background:none;border:none;color:var(--red);cursor:pointer;font-size:14px;padding:0">×</button>
@@ -3419,36 +3163,6 @@ function renderCaderno() {
 }
 
 let inboxExpanded = false;
-
-function renderInbox() {
-  const pend = S.inbox.filter(x => x.status === 'pendente');
-  document.getElementById('inbox-cnt').textContent = pend.length;
-  const list = document.getElementById('list-inbox');
-  if (pend.length === 0) {
-    list.innerHTML = '<div class="empty" style="padding:12px 0">Caixa limpa — tudo triado ✓</div>';
-    return;
-  }
-  const visiveis = inboxExpanded ? pend : pend.slice(0, 3);
-  const html = visiveis.map(item => `
-    <div class="inbox-item">
-      <div style="flex:1">
-        <div class="inbox-txt">${esc(item.texto)}</div>
-        <div class="inbox-meta">${fmtDate(item.data)}</div>
-      </div>
-      <button class="triage-btn" onclick="openTriage('${item.id}')">Triar →</button>
-      <button class="xbtn" onclick="quickDiscard('${item.id}')" title="Descartar">×</button>
-    </div>`).join('');
-  const maisBtn = !inboxExpanded && pend.length > 3
-    ? `<button class="btn btn-g btn-sm" style="width:100%;margin-top:6px;font-size:11px" onclick="inboxExpanded=true;renderInbox()">
-        Ver todas as anotações (${pend.length}) ▾
-       </button>`
-    : pend.length > 3
-      ? `<button class="btn btn-g btn-sm" style="width:100%;margin-top:6px;font-size:11px" onclick="inboxExpanded=false;renderInbox()">
-          Recolher ▴
-         </button>`
-      : '';
-  list.innerHTML = html + maisBtn;
-}
 
 function quickDiscard(id) {
   showConfirm2('Descartar este item?', 'Confirma? Ele irá para a Caixa de Descarte.', () => {
@@ -3904,31 +3618,6 @@ function initKanbanDrop() {
   }, {passive:false});
 }
 
-function renderKanban() {
-  COLUNAS.forEach(col => {
-    const tasks = S.tarefas.filter(t => t.coluna === col)
-      .sort((a, b) => (a.ordem ?? 999) - (b.ordem ?? 999));
-    document.getElementById('cnt-' + col).textContent = tasks.length;
-    document.getElementById('col-' + col).innerHTML = tasks.length === 0
-      ? '<div style="font-size:11px;color:var(--t3);padding:4px 0;font-family:Georgia,serif">Vazio</div>'
-      : tasks.map(t => {
-          const pk = (t.importante?'1':'0')+(t.urgente?'1':'0');
-          return `<div class="k-card" draggable="true" data-id="${t.id}"
-            ondragstart="onCardDragStart(event,'${t.id}')"
-            ondragend="onCardDragEnd()">
-            <div class="k-card-top">
-              <span class="k-drag-handle" title="Arrastar">⠿</span>
-              <span class="k-card-txt">${esc(t.texto)}</span>
-              <button class="k-card-del" onclick="event.stopPropagation();removeTask('${t.id}')">×</button>
-            </div>
-            <div>
-              ${t.tag ? `<span class="k-tag k-tag-${t.tag}">${TAG_LABELS[t.tag]||t.tag}</span>` : (PRI_LABELS[pk] ? `<span class="k-tag p${pk}">${PRI_LABELS[pk]}</span>` : '')}
-            </div>
-          </div>`;
-        }).join('');
-  });
-}
-
 function onCardDragStart(e, id) {
   dragTaskId = id;
   e.dataTransfer.effectAllowed = 'move';
@@ -3990,7 +3679,7 @@ function saveTaskDirect() {
 const PREDI_CONFIGS = {
   frentes:    { label: 'Nova ação',                lbl: 'Nome da ação',           extras: true,  anoAlvo: false, hasDesc: false },
   ciclos:     { label: 'Nova meta trimestral',     lbl: 'Meta dos 90 dias',       extras: false, anoAlvo: false, hasDesc: true  },
-  horizontes: { label: 'Novo grande salto', lbl: 'Grandes Saltos (1-10 anos)', extras: false, anoAlvo: true,  hasDesc: true  },
+  horizontes: { label: 'Novo grande salto', lbl: 'Metas de Longo Prazo (1-10 anos)', extras: false, anoAlvo: true,  hasDesc: true  },
   pilares:    { label: 'Nova área de foco',        lbl: 'Área de foco',           extras: false, anoAlvo: false, hasDesc: false }
 };
 
@@ -4309,36 +3998,6 @@ function openAddPredi(tipo, initialNome) {
   openM('mbg-add-predi');
 }
 
-function savePredi() {
-  const tipo = document.getElementById('add-predi-tipo').value;
-  const nome = document.getElementById('inp-predi-nome').value.trim();
-  if (!nome) return document.getElementById('inp-predi-nome').focus();
-  if (tipo === 'ciclos' && S.ciclos.filter(x => x.status === 'ativo').length >= 3) return;
-  const cfg = PREDI_CONFIGS[tipo];
-  const item = { id: uid(), status: 'ativo', rodada: 1, criadoEm: today() };
-  const pilarSel = document.getElementById('inp-predi-pilar');
-  if (pilarSel && ['frentes','ciclos','horizontes'].includes(tipo)) item.pilarId = pilarSel.value || null;
-  if (tipo === 'frentes') {
-    item.nome = nome;
-    item.descricao = document.getElementById('inp-predi-desc').value.trim();
-    item.prazo = document.getElementById('inp-predi-prazo').value;
-  } else if (tipo === 'horizontes') {
-    item.nome = nome;
-    item.texto = nome; // retrocompatibilidade
-    item.descricao = cfg.hasDesc ? document.getElementById('inp-predi-desc-generic').value.trim() : '';
-    const ano = parseInt(document.getElementById('inp-predi-ano').value);
-    if (ano > 2020) item.anoAlvo = ano;
-  } else if (tipo === 'ciclos') {
-    item.nome = nome;
-    item.texto = nome;
-    item.descricao = cfg.hasDesc ? document.getElementById('inp-predi-desc-generic').value.trim() : '';
-  } else {
-    item.texto = nome;
-  }
-  S[tipo].push(item);
-  persist(); closeM('mbg-add-predi'); renderPredio();
-}
-
 function removePredi(tipo, id) {
   const item = S[tipo].find(x => x.id === id);
   const nome = item ? (item.nome || item.texto || '') : '';
@@ -4361,7 +4020,7 @@ function arquivarPilar(id) {
 function openPrediDetail(tipo, id) {
   const item = S[tipo].find(x => x.id === id); if (!item) return;
   const nome = item.nome || item.texto || '';
-  const tipoNomes = {frentes:'Ação',ciclos:'Trimestre',horizontes:'Grandes Saltos',pilares:'Área de foco'};
+  const tipoNomes = {frentes:'Ação',ciclos:'Trimestre',horizontes:'Metas de Longo Prazo',pilares:'Área de foco'};
   document.getElementById('detail-nome').textContent = nome;
   document.getElementById('detail-tipo-badge').innerHTML =
     `<span style="font-size:10px;color:var(--acc);background:var(--acc-d);border:1px solid var(--acc-g);border-radius:3px;padding:2px 8px;font-family:Georgia,serif">${tipoNomes[tipo]||tipo}</span>`;
@@ -4415,25 +4074,6 @@ function openEditPredi(tipo, id) {
   openM('mbg-edit-predi');
 }
 
-function saveEditPredi() {
-  const tipo = document.getElementById('edit-predi-tipo').value;
-  const id   = document.getElementById('edit-predi-id').value;
-  const nome = document.getElementById('edit-predi-nome').value.trim();
-  if (!nome) return document.getElementById('edit-predi-nome').focus();
-  const item = S[tipo].find(x => x.id === id);
-  if (!item) return;
-  if ('nome' in item) item.nome = nome; else item.texto = nome;
-  if (['frentes','ciclos','horizontes'].includes(tipo))
-    item.descricao = document.getElementById('edit-predi-desc').value.trim();
-  if (['frentes','ciclos'].includes(tipo))
-    item.prazo = document.getElementById('edit-predi-prazo').value;
-  if (tipo === 'horizontes') {
-    const ano = parseInt(document.getElementById('edit-predi-ano').value);
-    if (ano > 2020) item.anoAlvo = ano;
-  }
-  persist(); closeM('mbg-edit-predi'); renderPredio();
-}
-
 /* ── Fechar meta ─────────────────────────────────────────── */
 let cgTipo = null, cgId = null;
 
@@ -4478,56 +4118,6 @@ const VICIO_CYCLE = ['resistiu', 'cedi', null];
 function renderPorao() {
   renderVicios();
   renderDescarte();
-}
-
-function renderVicios() {
-  const list = document.getElementById('list-vicios');
-  const t = today();
-  const week = getWeekDays();
-
-  if (S.vicios.length === 0) {
-    list.innerHTML = '<div class="empty">Nenhum vício rastreado.<br>Adicione comportamentos a eliminar.</div>';
-    return;
-  }
-
-  const _vicCards = S.vicios.map(v => {
-    const regs = v.registros || {};
-    const streak = calcVicioStreak(regs);
-    const diasAtivosSet = v.diasAtivos ? new Set(v.diasAtivos) : null;
-    const diasLabel = v.diasAtivos ? `${v.diasAtivos.length}x/sem` : 'todo dia';
-
-    // Grade semanal — mesma estrutura que hábitos, cores binárias
-    const days = week.map((d, i) => {
-      const est = regs[d] || '';
-      const isT = d === t;
-      const dow = new Date(d+'T12:00:00').getDay();
-      const inativo = diasAtivosSet && !diasAtivosSet.has(dow);
-      // Mapeamento: resistiu→feito (verde), cedi→faltou (vermelho)
-      const cls = inativo ? '' : est === 'resistiu' ? 'feito' : est === 'cedi' ? 'faltou' : '';
-      const onclick = inativo ? '' : `cycleVicioDay('${v.id}','${d}')`;
-      const style = inativo ? 'opacity:.3;cursor:default' : '';
-      const icon = est === 'resistiu' ? '✓' : est === 'cedi' ? '✕' : DAY_LABELS[i].slice(0,1);
-      return `<div class="day-cell ${cls}${isT?' today':''}" onclick="${onclick}" style="${style}" title="${DAY_LABELS[i]}${inativo?' (inativo)':''}">${icon}</div>`;
-    }).join('');
-
-    const { pct: semPct, resistiu: semResistiu, alvo: semAlvo } = calcPctVicio(v, week);
-
-    return `<div class="habito-row">
-      <div class="habito-top">
-        <span class="habito-nome">${esc(v.nome)}</span>
-        <div class="habito-actions">
-          <span class="streak${streak===0?' zero':''}" style="font-size:10px;background:${streak>0?'var(--gd)':'var(--rd)'};border:1px solid ${streak>0?'rgba(61,158,106,.3)':'rgba(200,75,75,.3)'};color:${streak>0?'var(--green)':'var(--red)'};border-radius:20px;padding:2px 8px;font-family:Georgia,serif">🔥 ${streak}d</span>
-          <button class="habito-del" onclick="removeVicio('${v.id}')">×</button>
-        </div>
-      </div>
-      <div class="habito-bottom">
-        <div class="days-grid">${days}</div>
-        <div class="habito-stat">${semResistiu}/${semAlvo} <span style="font-size:9px;color:${semPct>=100?'var(--green)':semPct>=50?'var(--acc)':'var(--red)'}">${semPct}%</span></div>
-      </div>
-      <div style="font-size:10px;color:var(--t3);font-family:Georgia,serif;margin-top:4px">${diasLabel} · clique no dia para registrar</div>
-    </div>`;
-  });
-  list.innerHTML = S.vicios.length === 0 ? '<div class="empty">Nenhum vício rastreado.<br>Adicione comportamentos a eliminar.</div>' : rsecWrap(_vicCards, 'vicios');
 }
 
 function markVicioResistiu(id) {
@@ -4685,7 +4275,7 @@ function renderHistory() {
       list.innerHTML = '<div class="empty">Nenhuma meta encerrada ainda.</div>';
       return;
     }
-    const tipoNomes = {frentes:'Ação',ciclos:'Trimestre',horizontes:'Grandes Saltos',pilares:'Área de foco'};
+    const tipoNomes = {frentes:'Ação',ciclos:'Trimestre',horizontes:'Metas de Longo Prazo',pilares:'Área de foco'};
     list.innerHTML = S.historico.slice().reverse().map(h => {
       const tipoLabel = tipoNomes[h.tipo] || h.tipo;
       const atrasoBadge = h.atrasoDias > 0
@@ -4797,7 +4387,7 @@ function popularAlvosContrato(tipo) {
   let itens = [];
   if (tipo === 'meta') {
     ['frentes','ciclos','horizontes'].forEach(t => {
-      const nomes = {frentes:'Ação',ciclos:'Trimestre',horizontes:'Grandes Saltos'};
+      const nomes = {frentes:'Ação',ciclos:'Trimestre',horizontes:'Metas de Longo Prazo'};
       S[t].filter(x => !x.status || x.status === 'ativo').forEach(item => {
         itens.push({ id: item.id, label: `[${nomes[t]}] ${(item.nome||item.texto||'').slice(0,40)}` });
       });
@@ -4960,20 +4550,6 @@ function resgatarContrato(id) {
     showToast('🏆 Recompensa resgatada!');
   });
 }
-
-function renovarContrato(id) {
-  const c = (S.contratos||[]).find(x => x.id === id); if (!c) return;
-  if (!S.contratos) S.contratos = [];
-  S.contratos.push({
-    id: uid(), recompensa: c.recompensa, tipoAlvo: c.tipoAlvo,
-    alvoId: c.alvoId, alvoNome: c.alvoNome,
-    desbloqueado: false, resgatado: false, criadoEm: today()
-  });
-  persist(); renderContratos(); renderHistory();
-  showToast('🔄 Contrato renovado!');
-}
-
-
 
 /* ── Metas mobile nav ─────────────────────────────────────── */
 function setPredioTab(id, btn) {
@@ -5569,7 +5145,7 @@ function buildDeleteZone() {
   hist.forEach(h => {
     items += `<div class="dash-delete-item">
       <span class="dash-delete-name">${esc(h.nome.slice(0,30))}</span>
-      <span class="dash-delete-meta">${{frentes:'Ação',ciclos:'Trimestre',horizontes:'Grandes Saltos',pilares:'Área de foco'}[h.tipo]||h.tipo} · ${h.statusFinal}</span>
+      <span class="dash-delete-meta">${{frentes:'Ação',ciclos:'Trimestre',horizontes:'Metas de Longo Prazo',pilares:'Área de foco'}[h.tipo]||h.tipo} · ${h.statusFinal}</span>
       <button class="dash-delete-btn" onclick="deleteHistHard('${h.id}')">Excluir</button>
     </div>`;
   });
@@ -6000,6 +5576,494 @@ function init() {
 }
 
 init();
+
+      function updateRotinaHeader() {
+        const hdrDate = document.getElementById('rdh-date-lbl');
+        const hdrBadges = document.getElementById('rdh-badges-container');
+        if (!hdrDate || !hdrBadges) return;
+
+        const dateStr = new Date().toLocaleDateString('pt-BR', { weekday: 'long', day: 'numeric', month: 'long' });
+        hdrDate.textContent = dateStr.charAt(0).toUpperCase() + dateStr.slice(1);
+
+        const dHoje = today();
+
+        let pendingDesafios = 0;
+        (S.desafios || []).filter(d => d.ativo !== false).forEach(d => {
+          const start = new Date(d.inicioEm + 'T00:00:00');
+          const maxDays = d.duracaoDias;
+          const diaAtual = Math.floor((new Date(dHoje + 'T00:00:00') - start) / 86400000) + 1;
+          if (diaAtual <= maxDays) {
+            const reg = (d.registros || {})[dHoje];
+            if (d.modo === 'construir' && reg !== 'feito') pendingDesafios++;
+            if (d.modo === 'resistir' && reg !== 'resistiu' && reg !== 'cedi') pendingDesafios++;
+          }
+        });
+
+        let pendingHabitos = 0;
+        const dObj = new Date(dHoje + 'T00:00:00');
+        const wDay = dObj.getDay(); 
+        (S.habitos || []).forEach(h => {
+          const mapDays = [6, 0, 1, 2, 3, 4, 5];
+          const bit = mapDays[wDay];
+          if (h.dias[bit] === '1') {
+            const reg = (h.registros || {})[dHoje];
+            if (reg !== 'feito') pendingHabitos++;
+          }
+        });
+
+        let pendingVicios = 0;
+        (S.vicios || []).filter(v => v.ativo !== false).forEach(v => {
+          const reg = (v.registros || {})[dHoje];
+          if (reg !== 'resistiu' && reg !== 'cedi') pendingVicios++;
+        });
+
+        let html = '';
+        if (pendingDesafios > 0) html += `<div class="rdh-badge rdh-badge--desafios">🔥 ${pendingDesafios} Desafios</div>`;
+        else html += `<div class="rdh-badge rdh-badge--done">🔥 Concluídos</div>`;
+
+        if (pendingHabitos > 0) html += `<div class="rdh-badge rdh-badge--habitos">🧱 ${pendingHabitos} Hábitos</div>`;
+        else html += `<div class="rdh-badge rdh-badge--done">🧱 Concluídos</div>`;
+
+        if (pendingVicios > 0) html += `<div class="rdh-badge rdh-badge--vicios">🛡️ ${pendingVicios} Vícios</div>`;
+        else html += `<div class="rdh-badge rdh-badge--done">🛡️ Protegido</div>`;
+
+        hdrBadges.innerHTML = html;
+      }
+
+      function rsecWrap(cards, idPrefix) {
+        if (!cards.length) return '';
+        const limit = 4;
+        if (cards.length <= limit) return cards.join('');
+        const vis = cards.slice(0, limit).join('');
+        const hid = cards.slice(limit).join('');
+        return `
+          ${vis}
+          <div id="${idPrefix}-hidden" style="display:none;margin-top:8px">${hid}</div>
+          <button class="rsec-show-more" id="${idPrefix}-btn" onclick="toggleRsec('${idPrefix}')">Ver mais ${cards.length - limit} itens ▼</button>
+        `;
+      }
+      
+      function toggleRsec(id) {
+        const div = document.getElementById(id + '-hidden');
+        const btn = document.getElementById(id + '-btn');
+        if (div.style.display === 'none') {
+          div.style.display = 'block';
+          btn.textContent = 'Recolher ▲';
+        } else {
+          div.style.display = 'none';
+          btn.textContent = `Ver mais ${div.children.length} itens ▼`;
+        }
+      }
+
+      function openCtx(type, id) {
+        const acts = `
+          <button class="ctx-sheet-item" onclick="execCtx('${type}','${id}','pular')"><span class="ctx-sheet-icon">⏭️</span><div class="ctx-sheet-lbl">Pular Hoje<div class="ctx-sheet-sub">Não quebra a ofensiva</div></div></button>
+          <button class="ctx-sheet-item danger" onclick="execCtx('${type}','${id}','falha')"><span class="ctx-sheet-icon">❌</span><div class="ctx-sheet-lbl">Falhei Hoje<div class="ctx-sheet-sub">Zera a sequência atual</div></div></button>
+          <button class="ctx-sheet-item" onclick="execCtx('${type}','${id}','ontem')"><span class="ctx-sheet-icon">⏪</span><div class="ctx-sheet-lbl">Preencher Ontem<div class="ctx-sheet-sub">Lançamento retroativo</div></div></button>
+        `;
+        document.getElementById('mbg-confirm').classList.add('open');
+        document.getElementById('m-confirm').innerHTML = `
+          <div class="m-title">Opções</div>
+          <div style="display:flex;flex-direction:column;gap:0;">${acts}</div>
+          <div style="margin-top:16px;text-align:center;"><button class="btn btn-g" onclick="closeM('mbg-confirm')">Cancelar</button></div>
+        `;
+      }
+
+      function execCtx(type, id, action) {
+        closeM('mbg-confirm');
+        const dHoje = today();
+        const dOntem = new Date(); dOntem.setDate(dOntem.getDate() - 1);
+        const sOntem = dOntem.toLocaleDateString('sv');
+
+        let item, reg;
+        if (type === 'hab') {
+          item = S.habitos.find(x => x.id === id);
+          if(!item) return;
+          item.registros = item.registros || {};
+          if (action === 'pular') item.registros[dHoje] = 'pulou';
+          if (action === 'falha') item.registros[dHoje] = 'faltou';
+          if (action === 'ontem') item.registros[sOntem] = 'feito';
+          renderHabitos();
+        } else if (type === 'des') {
+          item = S.desafios.find(x => x.id === id);
+          if(!item) return;
+          item.registros = item.registros || {};
+          if (action === 'pular') item.registros[dHoje] = 'pulou';
+          if (action === 'falha') item.registros[dHoje] = 'cedi';
+          if (action === 'ontem') item.registros[sOntem] = item.modo === 'construir' ? 'feito' : 'resistiu';
+          renderDesafios();
+        } else if (type === 'vic') {
+          item = S.vicios.find(x => x.id === id);
+          if(!item) return;
+          item.registros = item.registros || {};
+          if (action === 'pular') item.registros[dHoje] = 'pulou';
+          if (action === 'falha') item.registros[dHoje] = 'cedi';
+          if (action === 'ontem') item.registros[sOntem] = 'resistiu';
+          renderVicios();
+        }
+        updateRotinaHeader();
+        syncG();
+      }
+
+      function getStreak(registros, startStr) {
+        if (!registros) return 0;
+        let c = 0;
+        const limit = 365;
+        for (let i = 0; i < limit; i++) {
+          const d = new Date(); d.setDate(d.getDate() - i);
+          const ds = d.toLocaleDateString('sv');
+          if (startStr && ds < startStr) break;
+          const r = registros[ds];
+          if (r === 'feito' || r === 'resistiu') c++;
+          else if (r === 'pulou' || (ds === today() && !r)) { /* skip */ }
+          else break;
+        }
+        return c;
+      }
+
+      function renderDesafios() {
+        const list = document.getElementById('desafios-list');
+        const hdrCount = document.getElementById('desafios-hdr-count');
+        if (!list) return;
+
+        const ativos = (S.desafios||[]).filter(d => d.ativo !== false);
+        if (hdrCount) hdrCount.textContent = ativos.length;
+
+        if (ativos.length === 0) {
+          list.innerHTML = '<div class="empty">🎯<br>Nenhum desafio ativo.</div>';
+          updateRotinaHeader();
+          return;
+        }
+
+        const _desCards = ativos.map(d => {
+          const inicio = new Date(d.inicioEm + 'T00:00:00');
+          const hoje = new Date(today() + 'T00:00:00');
+          const diaAtual = Math.floor((hoje - inicio) / 86400000) + 1;
+          const diasRestantes = Math.max(0, d.duracaoDias - diaAtual + 1);
+          const concluido = diaAtual > d.duracaoDias;
+          const pct = Math.min(100, Math.round((diaAtual - 1) / d.duracaoDias * 100));
+          const reg = (d.registros || {})[today()] || '';
+          
+          let btnHtml = '';
+          if (concluido) {
+            btnHtml = `<button class="hab-btn hab-btn--check done">🎉 Finalizado</button>`;
+          } else {
+            if (d.modo === 'construir') {
+              if (reg === 'feito') btnHtml = `<button class="hab-btn hab-btn--check done" onclick="cycleDesafioDay('${d.id}','${today()}')">✓ Feito</button>`;
+              else if (reg === 'faltou') btnHtml = `<button class="hab-btn hab-btn--cedi done" onclick="cycleDesafioDay('${d.id}','${today()}')">✕ Falha</button>`;
+              else btnHtml = `<button class="hab-btn hab-btn--check" onclick="cycleDesafioDay('${d.id}','${today()}')">Marcar Feito</button>`;
+            } else {
+              if (reg === 'resistiu') btnHtml = `<button class="hab-btn hab-btn--resistir done" onclick="cycleDesafioDay('${d.id}','${today()}')">🛡️ Resisti</button>`;
+              else if (reg === 'cedi') btnHtml = `<button class="hab-btn hab-btn--cedi done" onclick="cycleDesafioDay('${d.id}','${today()}')">✕ Cedi</button>`;
+              else btnHtml = `<button class="hab-btn hab-btn--resistir" onclick="cycleDesafioDay('${d.id}','${today()}')">Resistir</button>`;
+            }
+          }
+
+          const streak = getStreak(d.registros, d.inicioEm);
+          const streakHtml = streak > 2 ? `<div class="streak-badge ${streak > 10 ? 'streak-badge--high' : ''}">🔥 ${streak}</div>` : '';
+
+          return `<div class="hab-card">
+            <div class="hab-card-top">
+              <div class="hab-card-nome">\${esc(d.nome)} \${streakHtml} <div class="hab-card-meta">\${d.modo === 'construir' ? '🧱 Construir' : '💣 Resistir'}</div></div>
+              <div class="hab-card-actions">
+                <button class="hab-btn--ctx" onclick="openCtx('des','\${d.id}')">⋮</button>
+                <button class="hab-btn--ctx" onclick="removeDesafio('\${d.id}')" style="color:var(--red)">×</button>
+              </div>
+            </div>
+            <div class="hab-prog-wrap">
+              <div class="hab-prog-label"><span>Dia \${diaAtual}/\${d.duracaoDias} (\${diasRestantes}d restantes)</span><span>\${pct}%</span></div>
+              <div class="hab-prog-track"><div class="hab-prog-fill \${d.modo==='resistir'?'hab-prog-fill--vicio':''}" style="width:\${pct}%"></div></div>
+            </div>
+            <div style="text-align:right">\${btnHtml}</div>
+          </div>`;
+        });
+
+        list.innerHTML = rsecWrap(_desCards, 'desafios');
+        updateRotinaHeader();
+      }
+
+      function renderHabitos() {
+        const list = document.getElementById('habitos-list');
+        const hdrCount = document.getElementById('habitos-hdr-count');
+        if (!list) return;
+
+        const hj = today();
+        const dObj = new Date(hj + 'T00:00:00');
+        const wDay = dObj.getDay();
+
+        let countHj = 0;
+        const cards = (S.habitos||[]).map(h => {
+          const mapDays = [6, 0, 1, 2, 3, 4, 5];
+          const bit = mapDays[wDay];
+          const isToday = h.dias[bit] === '1';
+          if (isToday) countHj++;
+          if (!isToday) return ''; 
+
+          const reg = (h.registros || {})[hj] || '';
+          let btnHtml = '';
+          if (reg === 'feito') btnHtml = `<button class="hab-btn hab-btn--check done" onclick="cycleHabitoDay('\${h.id}','\${hj}')">✓ Feito</button>`;
+          else if (reg === 'parcial') btnHtml = `<button class="hab-btn hab-btn--parcial done" onclick="cycleHabitoDay('\${h.id}','\${hj}')">~ Parcial</button>`;
+          else if (reg === 'faltou') btnHtml = `<button class="hab-btn hab-btn--cedi done" onclick="cycleHabitoDay('\${h.id}','\${hj}')">✕ Falha</button>`;
+          else btnHtml = `<button class="hab-btn hab-btn--check" onclick="cycleHabitoDay('\${h.id}','\${hj}')">Marcar Feito</button>`;
+
+          let vincHtml = '';
+          if (h.links && h.links.length > 0) {
+            h.links.forEach(lk => {
+              const p = findPredio(lk);
+              if (p) vincHtml += `<span class="habito-vtag">\${esc(p.nome)}</span>`;
+            });
+          }
+
+          const streak = getStreak(h.registros, null);
+          const streakHtml = streak > 2 ? `<div class="streak-badge \${streak > 10 ? 'streak-badge--high' : ''}">🔥 \${streak}</div>` : '';
+
+          return `<div class="hab-card">
+            <div class="hab-card-top">
+              <div class="hab-card-nome">\${esc(h.nome)} \${streakHtml} <div class="hab-card-meta">\${vincHtml}</div></div>
+              <div class="hab-card-actions">
+                <button class="hab-btn--ctx" onclick="openCtx('hab','\${h.id}')">⋮</button>
+                <button class="hab-btn--ctx" onclick="editHabito('\${h.id}')">✎</button>
+              </div>
+            </div>
+            <div style="text-align:right">\${btnHtml}</div>
+          </div>`;
+        }).filter(Boolean);
+
+        if (hdrCount) hdrCount.textContent = countHj;
+
+        if (cards.length === 0) {
+          list.innerHTML = '<div class="empty">🧱<br>Nenhum hábito para hoje.</div>';
+        } else {
+          list.innerHTML = rsecWrap(cards, 'habitos');
+        }
+        updateRotinaHeader();
+      }
+
+      function renderVicios() {
+        const list = document.getElementById('vicios-list');
+        const hdrCount = document.getElementById('vicios-hdr-count');
+        if (!list) return;
+
+        const ativos = (S.vicios||[]).filter(v => v.ativo !== false);
+        if (hdrCount) hdrCount.textContent = ativos.length;
+
+        if (ativos.length === 0) {
+          list.innerHTML = '<div class="empty">🛡️<br>Nenhum vício rastreado.</div>';
+          updateRotinaHeader();
+          return;
+        }
+
+        const _vicCards = ativos.map(v => {
+          const reg = (v.registros || {})[today()] || '';
+          let btnHtml = '';
+          if (reg === 'resistiu') btnHtml = `<button class="hab-btn hab-btn--resistir done" onclick="cycleVicioDay('\${v.id}','\${today()}')">🛡️ Protegido</button>`;
+          else if (reg === 'cedi') btnHtml = `<button class="hab-btn hab-btn--cedi done" onclick="cycleVicioDay('\${v.id}','\${today()}')">✕ Cedi</button>`;
+          else btnHtml = `<button class="hab-btn hab-btn--resistir" onclick="cycleVicioDay('\${v.id}','\${today()}')">Estou Limpo</button>`;
+
+          let vincHtml = '';
+          if (v.links && v.links.length > 0) {
+            v.links.forEach(lk => {
+              const p = findPredio(lk);
+              if (p) vincHtml += `<span class="habito-vtag">\${esc(p.nome)}</span>`;
+            });
+          }
+
+          const streak = getStreak(v.registros, null);
+          const streakHtml = streak > 0 ? `<div class="streak-badge \${streak > 10 ? 'streak-badge--high' : ''}">🛡️ \${streak}</div>` : '';
+
+          return `<div class="hab-card">
+            <div class="hab-card-top">
+              <div class="hab-card-nome">\${esc(v.nome)} \${streakHtml} <div class="hab-card-meta">\${vincHtml}</div></div>
+              <div class="hab-card-actions">
+                <button class="hab-btn--ctx" onclick="openCtx('vic','\${v.id}')">⋮</button>
+                <button class="hab-btn--ctx" onclick="removeVicio('\${v.id}')" style="color:var(--red)">×</button>
+              </div>
+            </div>
+            <div style="text-align:right">\${btnHtml}</div>
+          </div>`;
+        });
+
+        list.innerHTML = rsecWrap(_vicCards, 'vicios');
+        updateRotinaHeader();
+      }
+
+      function moveTaskTo(id, newCol) {
+        const t = S.caderno.find(x => x.id === id);
+        if (!t) return;
+        t.status = newCol;
+        t.modificadoEm = new Date().toISOString();
+        renderKanban();
+        syncG();
+      }
+
+      function renderKanban() {
+        const afazerList = document.getElementById('k-afazer');
+        const fazendoList = document.getElementById('k-fazendo');
+        const feitoList = document.getElementById('k-feito');
+        if (!afazerList || !fazendoList || !feitoList) return;
+        
+        afazerList.innerHTML = ''; fazendoList.innerHTML = ''; feitoList.innerHTML = '';
+        
+        const cols = ['k-afazer', 'k-fazendo', 'k-feito'];
+        cols.forEach(c => {
+          const el = document.getElementById(c);
+          if (el) {
+            el.removeAttribute('ondragover');
+            el.removeAttribute('ondrop');
+          }
+        });
+
+        const activeTasks = S.caderno.filter(t => !t.inbox && t.status !== 'removido');
+        const kCount = { afazer: 0, fazendo: 0, feito: 0 };
+        
+        activeTasks.sort((a, b) => b.prioridade - a.prioridade).forEach(t => {
+          kCount[t.status]++;
+          const pk = 'p' + t.prioridade;
+          
+          let actionBtns = '';
+          if (t.status === 'afazer') {
+            actionBtns = `<button class="k-btn-move" onclick="moveTaskTo('\${t.id}', 'fazendo')">Iniciar ▶</button>`;
+          } else if (t.status === 'fazendo') {
+            actionBtns = `
+              <button class="k-btn-move" onclick="moveTaskTo('\${t.id}', 'afazer')">◀ Voltar</button>
+              <button class="k-btn-move" onclick="moveTaskTo('\${t.id}', 'feito')" style="color:var(--green)">✓ Concluir</button>`;
+          } else if (t.status === 'feito') {
+            actionBtns = `<button class="k-btn-move" onclick="moveTaskTo('\${t.id}', 'fazendo')">◀ Retomar</button>`;
+          }
+
+          let breadcrumb = '';
+          if (t.link) {
+            const p = findPredio(t.link);
+            if (p) breadcrumb = `<div style="font-size:9px;color:var(--t3);margin-bottom:4px">📍 \${esc(p.nome)}</div>`;
+          }
+
+          const cardHtml = `<div class="k-card" data-id="\${t.id}">
+            \${breadcrumb}
+            <div class="k-card-top">
+              <span class="k-card-txt">\${esc(t.texto)}</span>
+              <div style="display:flex;">
+                  <button class="k-card-del" onclick="editTask('\${t.id}')">✎</button>
+                  <button class="k-card-del" onclick="removeTask('\${t.id}')">×</button>
+              </div>
+            </div>
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-top:8px">
+              <div style="display:flex;gap:6px">
+                \${t.tag ? \`<span class="k-tag k-tag-\${t.tag}">\${TAG_LABELS[t.tag] || t.tag}</span>\` : (PRI_LABELS[pk] ? \`<span class="k-tag \${pk}">\${PRI_LABELS[pk]}</span>\` : '')}
+              </div>
+              <div style="display:flex;gap:4px">
+                \${actionBtns}
+              </div>
+            </div>
+          </div>`;
+
+          if (t.status === 'afazer') afazerList.innerHTML += cardHtml;
+          else if (t.status === 'fazendo') fazendoList.innerHTML += cardHtml;
+          else if (t.status === 'feito') feitoList.innerHTML += cardHtml;
+        });
+
+        document.getElementById('k-afazer-n').textContent = kCount.afazer;
+        document.getElementById('k-fazendo-n').textContent = kCount.fazendo;
+        document.getElementById('k-feito-n').textContent = kCount.feito;
+      }
+
+      function openM_addVicio() {
+        document.getElementById('vi-nome').value = '';
+        openM('mbg-vi');
+      }
+
+      function renovarContrato(id) {
+        const c = S.contratos.find(x => x.id === id);
+        if (!c) return;
+        c.renovadoEm = new Date().toISOString();
+        toast('Contrato Renovado!');
+        renderContratos();
+        syncG();
+      }
+
+      function renderInbox() {
+        const lst = document.getElementById('inbox-list');
+        const hC = document.getElementById('inbox-hdr-count');
+        if (!lst) return;
+
+        const arr = S.caderno.filter(x => x.inbox);
+        if (hC) hC.textContent = arr.length;
+
+        if (arr.length === 0) {
+          lst.innerHTML = '<div class="empty">Caixa de entrada vazia.</div>';
+          return;
+        }
+
+        arr.sort((a,b) => new Date(b.criadoEm).getTime() - new Date(a.criadoEm).getTime());
+
+        let h = '';
+        arr.forEach(t => {
+          h += `<div class="inbox-item">
+            <div class="inbox-txt">\${esc(t.texto)}
+              <div class="inbox-meta">\${dtf(t.criadoEm)}</div>
+            </div>
+            <div style="display:flex;gap:4px;flex-shrink:0;">
+              <button class="triage-btn" onclick="openTriage('\${t.id}')">Triar</button>
+              <button class="xbtn" onclick="removeTask('\${t.id}')">×</button>
+            </div>
+          </div>`;
+        });
+        lst.innerHTML = h;
+      }
+
+      function addIdea(txt) {
+        if (!txt.trim()) return;
+        S.caderno.unshift({
+          id: gid(), texto: txt.trim(), inbox: true,
+          status: 'afazer', link: '', prioridade: 00, tag: '', desc: '', criadoEm: new Date().toISOString()
+        });
+        renderInbox();
+        syncG();
+      }
+
+      function savePredi() {
+        const t = document.getElementById('pi-tipo').value;
+        if (t === 'longo') {
+          const ano = parseInt(document.getElementById('pi-horizonte').value);
+          const curYear = new Date().getFullYear();
+          if (!ano || ano < curYear) {
+            alert('A meta de longo prazo deve ser para o futuro (ano no mínimo ' + curYear + ').');
+            return;
+          }
+        }
+        
+        const id = document.getElementById('pi-id').value;
+        const o = {
+          nome: document.getElementById('pi-nome').value.trim(),
+          tipo: t,
+          status: document.getElementById('pi-status').value,
+          area: document.getElementById('pi-area').value,
+          icone: document.getElementById('pi-icone').value,
+          modificadoEm: new Date().toISOString()
+        };
+        if(!o.nome) return alert('Nome obrigatório');
+        
+        if(t==='longo') {
+          o.horizonteAno = document.getElementById('pi-horizonte').value;
+        } else if(t==='projeto') {
+          o.vincLongo = document.getElementById('pi-vinc-longo').value;
+          o.prazo = document.getElementById('pi-prazo').value;
+        } else if(t==='chave') {
+          o.vincProj = document.getElementById('pi-vinc-proj').value;
+        }
+        
+        if(id) {
+          const idx = S.predio.findIndex(x=>x.id===id);
+          if(idx>-1) S.predio[idx] = {...S.predio[idx], ...o};
+        } else {
+          o.id = gid();
+          o.criadoEm = new Date().toISOString();
+          S.predio.push(o);
+        }
+        closeM('mbg-pi'); renderPredio(); syncG();
+      }
+
+      function saveEditPredi() { savePredi(); }
+    
 </script>
 </body>
 </html>
