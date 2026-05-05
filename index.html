@@ -743,22 +743,22 @@
       flex: 1
     }
 
-    .day-cell {
-      flex: 1;
-      height: 26px;
-      border-radius: 4px;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border: 1px solid var(--b1);
-      background: var(--s2);
-      transition: var(--tr);
-      font-size: 9px;
-      color: var(--t3);
-      font-family: Georgia, serif;
-      min-width: 0;
-    }
+          .day-cell {
+        flex: 0 0 auto;
+        width: 24px;
+        height: 24px;
+        border-radius: 4px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: 1px solid var(--b1);
+        background: var(--s2);
+        transition: var(--tr);
+        font-size: 9px;
+        color: var(--t3);
+        font-family: Georgia, serif;
+      }
 
     .day-cell:hover {
       border-color: var(--b2)
@@ -998,7 +998,24 @@
       color: var(--green)
     }
 
-    .k-card-del {
+          .k-btn-move {
+        background: var(--s2);
+        border: 1px solid var(--b2);
+        color: var(--t2);
+        border-radius: 4px;
+        padding: 4px 12px;
+        font-size: 11px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .k-btn-move:hover {
+        background: var(--b2);
+        color: var(--t1);
+      }
+
+      .k-card-del {
       background: none;
       border: none;
       color: var(--t3);
@@ -1010,7 +1027,24 @@
       flex-shrink: 0
     }
 
-    .k-card:hover .k-card-del {
+    .k-card:hover       .k-btn-move {
+        background: var(--s2);
+        border: 1px solid var(--b2);
+        color: var(--t2);
+        border-radius: 4px;
+        padding: 4px 12px;
+        font-size: 11px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .k-btn-move:hover {
+        background: var(--b2);
+        color: var(--t1);
+      }
+
+      .k-card-del {
       opacity: 1
     }
 
@@ -4276,15 +4310,7 @@
         text-transform: uppercase;
       }
 
-      /* ── Day cells: slightly larger ─────────────────────────── */
-      .day-cell {
-        font-family: var(--ui-font);
-        font-size: 10px;
-        font-weight: 500;
-        width: 30px;
-        height: 30px;
-        border-radius: 6px;
-      }
+      
 
       /* ── Sync status text ────────────────────────────────────── */
       .sync-info-text {
