@@ -1766,6 +1766,33 @@ input:focus, textarea:focus, select:focus {
   .uni-card-nome{ font-size:18px }
 }
 
+
+/* ── Add-rotina modal options ─────────────────────────────── */
+.add-rotina-opt{
+  display:flex;align-items:center;gap:14px;width:100%;
+  background:var(--s1);border:1px solid var(--b1);border-radius:var(--r);
+  padding:14px 16px;cursor:pointer;text-align:left;
+  transition:border-color var(--tr),background var(--tr);
+}
+.add-rotina-opt:hover{border-color:var(--acc);background:var(--s2)}
+.add-rotina-icon{font-size:24px;flex-shrink:0}
+.add-rotina-label{font-size:15px;font-weight:600;color:var(--text);font-family:Georgia,serif;margin-bottom:2px}
+.add-rotina-desc{font-size:12px;color:var(--t2);font-family:var(--ui-font);line-height:1.4}
+
+/* ── Hábito tipo toggle ────────────────────────────────────── */
+.hab-tipo-toggle{
+  display:flex;gap:8px;margin-bottom:14px;
+}
+.hab-tipo-btn{
+  flex:1;padding:8px 12px;border-radius:var(--rs);
+  border:1px solid var(--b1);background:none;
+  color:var(--t2);font-size:13px;font-family:var(--ui-font);
+  cursor:pointer;font-weight:600;transition:var(--tr);
+}
+.hab-tipo-btn.active{
+  border-color:var(--acc);color:var(--acc);background:var(--acc-d);
+}
+
 </style>
 </head>
 <body>
@@ -1873,11 +1900,9 @@ input:focus, textarea:focus, select:focus {
 
     <div class="rot-unified-header">
       <span class="rot-unified-title">Hoje</span>
-      <div style="display:flex;gap:6px">
+      <div style="display:flex;gap:6px;align-items:center">
         <button class="rot-sec-btn" onclick="openReorderModalGlobal()" title="Reordenar">⇅</button>
-        <button class="rot-sec-btn" id="btn-rot-add-desafio" title="Novo desafio">🔥+</button>
-        <button class="rot-sec-btn" id="btn-rot-add-habito" title="Novo hábito">🧱+</button>
-        <button class="rot-sec-btn" onclick="openM('mbg-add-vicio')" title="Novo vício">🛡️+</button>
+        <button class="btn btn-a btn-sm" onclick="openM('mbg-add-rotina')" style="padding:6px 14px;font-size:12px;border-radius:var(--rs)">+ Adicionar</button>
       </div>
     </div>
 
@@ -2088,6 +2113,33 @@ input:focus, textarea:focus, select:focus {
 </div>
 </div>
 
+
+<!-- ══ MODAL: Adicionar à Rotina ═══════════════════════════ -->
+<div class="mbg" id="mbg-add-rotina">
+<div class="modal" style="padding:0 0 16px">
+  <div style="display:flex;align-items:center;padding:16px 18px 14px;border-bottom:1px solid var(--b1)">
+    <div class="m-title" style="margin:0;flex:1">Adicionar à Rotina</div>
+    <button onclick="closeM('mbg-add-rotina')" style="background:none;border:none;color:var(--t2);font-size:22px;cursor:pointer;line-height:1;padding:0">×</button>
+  </div>
+  <div style="padding:14px 18px 0;display:flex;flex-direction:column;gap:10px">
+    <button class="add-rotina-opt" onclick="closeM('mbg-add-rotina');openM('mbg-add-habito')">
+      <span class="add-rotina-icon">🧱</span>
+      <div>
+        <div class="add-rotina-label">Hábito</div>
+        <div class="add-rotina-desc">Algo a construir ou a evitar — diário ou semanal</div>
+      </div>
+    </button>
+    <button class="add-rotina-opt" onclick="closeM('mbg-add-rotina');openM('mbg-add-desafio')">
+      <span class="add-rotina-icon">🔥</span>
+      <div>
+        <div class="add-rotina-label">Desafio</div>
+        <div class="add-rotina-desc">Meta com prazo definido — 7, 21, 30 dias ou mais</div>
+      </div>
+    </button>
+  </div>
+</div>
+</div>
+
 <!-- ══ MODAL: Triagem ════════════════════════════════════════ -->
 <div class="mbg" id="mbg-triage">
 <div class="modal">
@@ -2231,11 +2283,6 @@ input:focus, textarea:focus, select:focus {
   <div class="m-tag">Novo Desafio</div>
   <div class="lbl gap">Nome do desafio</div>
   <input type="text" id="inp-des-nome" placeholder="Ex: Ler 30 min, Sem redes sociais...">
-  <div class="lbl gap">Modo</div>
-  <div style="display:flex;gap:8px;margin-bottom:12px">
-    <button class="btn btn-g" id="des-mode-construir" onclick="setDesafioMode('construir')" style="flex:1;border-color:var(--green);color:var(--green)">🧱 Construir</button>
-    <button class="btn btn-g" id="des-mode-resistir" onclick="setDesafioMode('resistir')" style="flex:1">💣 Resistir</button>
-  </div>
   <input type="hidden" id="inp-des-modo" value="construir">
   <div class="lbl gap">Duração (dias)</div>
   <div style="display:flex;gap:8px;margin-bottom:12px">
@@ -2268,7 +2315,12 @@ input:focus, textarea:focus, select:focus {
 <div class="modal">
   <button class="m-close" onclick="closeM('mbg-add-habito')">×</button>
   <div class="m-title">Novo hábito</div>
-  <div class="lbl">Nome do hábito</div>
+  <div class="hab-tipo-toggle">
+    <button class="hab-tipo-btn active" id="btn-tipo-construir" onclick="setHabTipo('construir')">🧱 Construir</button>
+    <button class="hab-tipo-btn" id="btn-tipo-evitar" onclick="setHabTipo('evitar')">🛡️ Evitar</button>
+  </div>
+  <input type="hidden" id="inp-hab-tipo" value="construir">
+  <div class="lbl gap">Nome do hábito</div>
   <input type="text" id="inp-hab-nome" placeholder="Ex: 1h de estudo, Exercício, Meditação...">
   <div class="lbl gap">Dias ativos na semana</div>
   <div class="dias-grid" id="inp-hab-dias">
@@ -2989,6 +3041,24 @@ function saveDesafio() {
   const modo = document.getElementById('inp-des-modo').value;
   const dur  = parseInt(document.getElementById('inp-des-dur').value) || 21;
   if (!S.desafios) S.desafios = [];
+
+  // ── Migrar vícios para hábitos com tipo='evitar' ─────────────
+  if (S.vicios && S.vicios.length > 0) {
+    S.vicios.forEach(function(v) {
+      var already = (S.habitos||[]).find(function(h){ return h.id === v.id; });
+      if (!already) {
+        S.habitos.push({
+          id: v.id, nome: v.nome, tipo: 'evitar',
+          registros: v.registros || {}, diasAtivos: v.diasAtivos || [],
+          criadoEm: v.criadoEm || '', ordem: v.ordem || 999,
+          vinculoIds: v.vinculoIds || []
+        });
+      }
+    });
+    S.vicios = [];
+  }
+  // Garantir que hábitos sem tipo recebam 'construir'
+  (S.habitos||[]).forEach(function(h){ if (!h.tipo) h.tipo = 'construir'; });
   S.desafios.push({ id: uid(), nome, modo, duracaoDias: dur, inicioEm: today(), registros: {}, ativo: true });
   persist(); closeM('mbg-add-desafio');
   document.getElementById('inp-des-nome').value = '';
@@ -3401,12 +3471,13 @@ function removeAddHabVinculo(id) {
 }
 
 function saveHabito() {
+  const tipoHab = (document.getElementById('inp-hab-tipo')||{value:'construir'}).value || 'construir';
   const nome = document.getElementById('inp-hab-nome').value.trim();
   if (!nome) return document.getElementById('inp-hab-nome').focus();
   const diasAtivos = getDiasAtivos('inp-hab-dias');
   const freqAlvo = diasAtivos ? diasAtivos.length : 7;
   const vinculoId = _addHabVinculos[0] || null;
-  S.habitos.push({ id: uid(), nome, vinculoId, vinculoIds: [..._addHabVinculos], registros: {}, freqAlvo, diasAtivos });
+  S.habitos.push({ id: uid(), nome, tipo: tipoHab, vinculoId, vinculoIds: [..._addHabVinculos], registros: {}, freqAlvo, diasAtivos });
   persist(); closeM('mbg-add-habito'); renderHabitos(); _updateRotinaTabCounts(); renderRotinaStrip();
 }
 
@@ -6384,9 +6455,7 @@ function getRotinaOrdem() {
   (S.habitos||[]).filter(function(h){return !h.arquivado;}).forEach(function(h,i){
     all.push({id:h.id, tipo:'hab', prio:1, ordem:h.ordem!=null?h.ordem:i});
   });
-  (S.vicios||[]).forEach(function(v,i){
-    all.push({id:v.id, tipo:'vic', prio:2, ordem:v.ordem!=null?v.ordem:i});
-  });
+  // S.vicios are migrated to S.habitos with tipo='evitar' — no need to add separately
   // Apply global custom order if exists
   var globalOrdem = S.rotinaOrdem;
   if (globalOrdem && globalOrdem.length > 0) {
@@ -6487,8 +6556,12 @@ function buildUniCard(item, tipo, ti, week, t) {
     var streak = calcHabitoStreakV4(item);
     sub += (area ? '<span class="hab-area-pill">&darr; '+area+'</span>' : '')
          + (streak>1 ? '<span class="hab-streak-pill">\uD83D\uDD25 '+streak+'d</span>' : '')
-         + '<span class="hab-prog-label">'+res.feito+'/'+res.alvo+' na semana</span>';
-    actionBtn = '<button class="btn-check" onclick="checkUniItem(\''+id+'\',\'hab\')">CHECK</button>';
+         + (evitar
+         ? '<span class="hab-prog-label">Dia '+streak+' de sequência</span>'
+         : '<span class="hab-prog-label">'+res.feito+'/'+res.alvo+' na semana</span>');
+    actionBtn = evitar
+      ? '<button class="btn-resisti" onclick="checkUniItem(\''+id+'\',\'hab\')" style="font-size:11px">RESISTI</button>'
+      : '<button class="btn-check" onclick="checkUniItem(\''+id+'\',\'hab\')">CHECK</button>';
   } else if (tipo === 'vic') {
     var streak = calcVicioStreak(item.registros||{});
     pct = Math.min(100, Math.round(streak/30*100));
@@ -6507,6 +6580,7 @@ function buildUniCard(item, tipo, ti, week, t) {
     actionBtn = '<button class="'+(resist?'btn-resisti':'btn-des-ok')+'" onclick="checkUniItem(\''+id+'\',\'des\')">'+(resist?'RESISTI':'CHECK')+'</button>';
   }
 
+    if (tipo==='hab' && item.tipo==='evitar') ti = {label:'EVITAR', cls:'vic', icon:'🛡️'};
   return '<div class="uni-card" id="ucard-'+id+'">'
     + '<div class="uni-type-badge '+ti.cls+'">'+ti.icon+' '+ti.label+'</div>'
     + '<div class="uni-card-row">'
@@ -6534,7 +6608,7 @@ function checkUniItem(id, tipo) {
   if (el) { el.classList.add('uni-card-out'); setTimeout(doCheck, 200); }
   else doCheck();
   function doCheck(){
-    if (tipo==='hab') item.registros[today()] = 'feito';
+    if (tipo==='hab') item.registros[today()] = (item.tipo==='evitar') ? 'resistiu' : 'feito';
     else if (tipo==='vic') item.registros[today()] = 'resistiu';
     else item.registros[today()] = item.modo==='resistir'?'resistiu':'feito';
     persist(); renderRotina();
@@ -6591,6 +6665,29 @@ function renderPorao()    { renderRotina(); }
 function renderDesafios() { renderRotina(); }
 function renderRotinaStrip() { renderDiaResumo(); }
 function _updateRotinaTabCounts() { renderDiaResumo(); }
+
+
+function setHabTipo(tipo) {
+  var inp = document.getElementById('inp-hab-tipo');
+  if (inp) inp.value = tipo;
+  ['construir','evitar'].forEach(function(t){
+    var btn = document.getElementById('btn-tipo-'+t);
+    if (btn) btn.classList.toggle('active', t === tipo);
+  });
+  var nomeLbl = document.getElementById('inp-hab-nome');
+  if (nomeLbl) {
+    nomeLbl.placeholder = tipo === 'evitar'
+      ? 'Ex: Redes sociais antes de dormir'
+      : 'Ex: Beber 2L de água';
+  }
+}
+
+// Reset hábito modal when opening
+var _origOpenM = openM;
+openM = function(id) {
+  if (id === 'mbg-add-habito') setHabTipo('construir');
+  _origOpenM(id);
+};
 
 </script>
 </body>
