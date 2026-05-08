@@ -615,6 +615,29 @@ select option{background:var(--s2)}
   display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;
 }
 
+/* ── Task list (simplified) ─────────────────────────────────── */
+.task-item{
+  background:var(--s1);border:1px solid var(--b1);border-radius:var(--rs);
+  padding:10px 12px;margin-bottom:6px;
+  display:flex;align-items:center;gap:8px;animation:fadeIn .18s ease;
+  transition:border-color var(--tr);
+}
+.task-item:hover{border-color:var(--b2)}
+.task-item.concluida{opacity:.55}
+.task-item.concluida .task-txt{text-decoration:line-through;color:var(--t3)}
+.task-check{
+  width:20px;height:20px;border:2px solid var(--b2);border-radius:4px;
+  background:none;cursor:pointer;flex-shrink:0;display:flex;align-items:center;
+  justify-content:center;font-size:12px;transition:var(--tr);color:transparent;
+}
+.task-check:hover{border-color:var(--green);color:var(--green)}
+.task-check.done{border-color:var(--green);background:var(--gd);color:var(--green)}
+.task-txt{flex:1;font-size:14px;font-family:Georgia,serif;color:var(--text);line-height:1.4;word-break:break-word}
+.task-del{background:none;border:none;color:var(--t3);font-size:16px;cursor:pointer;padding:0 3px;flex-shrink:0;opacity:0;transition:opacity var(--tr)}
+.task-item:hover .task-del{opacity:1}
+.task-del:hover{color:var(--red)}
+.task-concluida-em{font-size:10px;color:var(--t3);font-family:var(--ui-font);flex-shrink:0}
+
 /* ── Ideias accordion ───────────────────────────────────────── */
 .ideias-accordion-hdr{
   display:flex;align-items:center;gap:8px;cursor:pointer;
@@ -1234,6 +1257,24 @@ input:focus, textarea:focus, select:focus {
   border-radius: 4px 4px 0 0;
 }
 
+/* ── Desktop: Prédio 2-col layout ───────────────────────────── */
+@media(min-width:1024px){
+  #sec-predio{ overflow:hidden; display:flex; flex-direction:column; }
+  .predio-floors-wrap{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:0 24px;
+    overflow-y:auto;
+    padding:20px 28px;
+    align-items:start;
+    flex:1;
+  }
+  .floor-col-left{ grid-column:1; }
+  .floor-col-right{ grid-column:2; }
+  .floor-col-full{ grid-column:1/-1; }
+}
+
+
 /* ── Rotina column headers ───────────────────────────────── */
 .rotina-col-title {
   font-size: 12px;
@@ -1353,6 +1394,26 @@ input:focus, textarea:focus, select:focus {
   .rotina-panel{ padding:20px 28px;max-width:900px }
   .rotina-tab{ padding:16px 20px;font-size:13px }
   #sec-rotina{ overflow:hidden }
+  .rotina-scroll{ max-width:780px; }
+}
+
+@media(min-width:1024px){
+  #sec-caderno{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    grid-template-rows:auto auto 1fr;
+    gap:0 28px;
+    padding:20px 28px;
+    overflow-y:auto;
+    align-items:start;
+  }
+  .inbox-bar{ grid-column:1; position:sticky;top:0;background:var(--bg);padding-top:0;z-index:10;margin:0 }
+  #sec-caderno .sec-h:nth-of-type(1){ grid-column:1 }
+  #sec-caderno #list-inbox{ grid-column:1 }
+  #sec-caderno .sec-h.mt2{ grid-column:2;margin-top:0 }
+  #sec-caderno #tarefas-mes-stat,
+  #sec-caderno #list-tarefas-pendentes,
+  #sec-caderno #tarefas-concluidas-section{ grid-column:2 }
 }
 
 /* ── Desafio card ────────────────────────────────────────────── */
@@ -1498,11 +1559,22 @@ input:focus, textarea:focus, select:focus {
 
 /* ── Rotina unified scroll ──────────────────────────────────── */
 .rotina-strip{
-  display:flex;align-items:center;padding:8px 16px;
+  display:flex;align-items:center;gap:10px;padding:10px 16px;
   border-bottom:1px solid var(--b1);font-size:11px;
   color:var(--t2);font-family:var(--ui-font);
-  background:var(--s1);flex-shrink:0;min-height:36px;
-  letter-spacing:.3px;
+  background:var(--s1);flex-shrink:0;min-height:40px;
+  letter-spacing:.2px;flex-wrap:wrap;
+}
+.strip-greeting{
+  font-size:12px;color:var(--text);letter-spacing:0;
+}
+.strip-kpi{
+  font-size:12px;font-weight:600;color:var(--text);
+  background:var(--s2);border:1px solid var(--b1);border-radius:10px;
+  padding:2px 8px;
+}
+.strip-sub{
+  font-size:11px;color:var(--acc);letter-spacing:0;
 }
 .rotina-scroll{
   flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;
@@ -1636,7 +1708,7 @@ input:focus, textarea:focus, select:focus {
   <span class="logo">Can<em>teiro</em> <span style="font-size:11px;color:var(--t2);font-weight:normal;letter-spacing:0">Pessoal</span></span>
   <div id="sync-dot" class="sync-dot" title="Status da sync" style="flex-shrink:0"></div>
   <span id="sync-lbl" style="font-size:10px;color:var(--t3);font-family:Georgia,serif;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap"></span>
-  <span class="version-badge" style="flex-shrink:0" title="Versão do app">v2.8</span>
+  <span class="version-badge" style="flex-shrink:0" title="Versão do app">v3.0</span>
   <button class="icon-btn" style="flex-shrink:0" onclick="openM('mbg-history')">Hist.</button>
   <button class="icon-btn" style="flex-shrink:0" onclick="openSettingsModal()">⚙</button>
 </div>
@@ -1783,23 +1855,25 @@ input:focus, textarea:focus, select:focus {
   <div class="sec-h">Caixa de Entrada <span class="badge" id="inbox-cnt">0</span></div>
   <div id="list-inbox"></div>
 
-  <div class="sec-h mt2">
-    Kanban
-    <button class="btn btn-g btn-sm" onclick="openDirectTask()">+ Tarefa</button>
+  <div class="sec-h mt2" style="display:flex;align-items:center;gap:8px">
+    <span class="sec-h-info">Tarefas <span class="badge" id="cnt-tarefas-pendentes">0</span></span>
+    <button class="btn btn-g btn-sm" style="margin-left:auto" onclick="openDirectTask()">+ Tarefa</button>
   </div>
-  <div class="kanban">
-    <div class="k-col k-afazer" data-col="afazer">
-      <div class="k-col-hdr">A Fazer <span id="cnt-afazer" class="badge">0</span></div>
-      <div id="col-afazer"></div>
-    </div>
-    <div class="k-col k-fazendo" data-col="fazendo">
-      <div class="k-col-hdr">Fazendo <span id="cnt-fazendo" class="badge">0</span></div>
-      <div id="col-fazendo"></div>
-    </div>
-    <div class="k-col k-feito" data-col="feito">
-      <div class="k-col-hdr">Feito <span id="cnt-feito" class="badge">0</span></div>
-      <div id="col-feito"></div>
-    </div>
+
+  <!-- Estatística mensal -->
+  <div id="tarefas-mes-stat" style="font-size:11px;color:var(--t2);font-family:var(--ui-font);margin-bottom:10px;padding:7px 10px;background:var(--s1);border:1px solid var(--b1);border-radius:var(--rs)"></div>
+
+  <!-- Lista de tarefas pendentes -->
+  <div id="list-tarefas-pendentes"></div>
+
+  <!-- Concluídas recentes (< 7 dias) -->
+  <div id="tarefas-concluidas-section" style="margin-top:14px">
+    <button class="ideias-accordion-hdr" id="tarefas-concluidas-toggle" onclick="toggleConcluidas()" style="width:100%;background:none;border:none;cursor:pointer;padding:0">
+      <span class="ideias-accordion-title">✓ CONCLUÍDAS RECENTES</span>
+      <span class="badge" id="cnt-tarefas-concluidas" style="margin-right:4px">0</span>
+      <span class="ideias-accordion-caret" id="caret-concluidas">▾</span>
+    </button>
+    <div id="list-tarefas-concluidas" style="display:none;margin-top:8px"></div>
   </div>
 </div>
 <div id="sec-predio" class="sec">
@@ -1809,9 +1883,9 @@ input:focus, textarea:focus, select:focus {
   <span id="contratos-back-btn" style="display:none"></span>
   <!-- Mobile tab nav -->
   <div class="predio-nav" id="predio-nav">
-    <button class="predio-nav-tab active" onclick="setPredioTab('frentes',this)">AÇÕES</button>
-    <button class="predio-nav-tab" onclick="setPredioTab('ciclos',this)">TRIMESTRE</button>
-    <button class="predio-nav-tab" onclick="setPredioTab('horizontes',this)">LONGO PRAZO</button>
+    <button class="predio-nav-tab active" onclick="setPredioTab('frentes',this)">PROJETOS</button>
+    <button class="predio-nav-tab" onclick="setPredioTab('ciclos',this)">AÇÕES</button>
+    <button class="predio-nav-tab" onclick="setPredioTab('horizontes',this)">METAS TRIMESTRAIS</button>
     <button class="predio-nav-tab" onclick="setPredioTab('pilares',this)">ÁREAS</button>
     <button class="predio-nav-tab" onclick="setPredioTab('fundacao',this)">PROPÓSITO</button>
     <div style="flex:1"></div>
@@ -1821,9 +1895,11 @@ input:focus, textarea:focus, select:focus {
   <!-- Insights / analisador -->
   <div class="metas-insights" id="metas-insights-bar"></div>
 
-  <div class="floor" id="fl-frentes">
+  <div class="predio-floors-wrap">
+
+  <div class="floor floor-col-left" id="fl-frentes">
     <div class="floor-hdr">
-      <span class="floor-tag">AÇÕES</span>
+      <span class="floor-tag">PROJETOS</span>
       <span class="floor-count-badge" id="fl-frentes-count"></span>
       <em class="floor-caret">▾</em>
     </div>
@@ -1831,43 +1907,43 @@ input:focus, textarea:focus, select:focus {
       <div id="preview-frentes" class="floor-preview"></div>
       <div id="fl-frentes-tutorial" style="display:none"></div>
       <div id="warn-ciclos-frentes" style="display:none"></div>
-      <button class="btn btn-g btn-sm gap" onclick="openAddPredi('frentes')">+ Nova ação</button>
+      <button class="btn btn-g btn-sm gap" onclick="openAddPredi('frentes')">+ Novo projeto</button>
       <div id="list-frentes" class="gap"></div>
     </div>
   </div>
 
-  <div class="floor" id="fl-ciclos">
+  <div class="floor floor-col-left" id="fl-ciclos">
     <div class="floor-hdr">
-      <span class="floor-tag">TRIMESTRE</span>
+      <span class="floor-tag">AÇÕES</span>
       <span class="floor-count-badge" id="fl-ciclos-count"></span>
       <em class="floor-caret">▾</em>
     </div>
     <div class="floor-body">
       <div id="fl-ciclos-tutorial" style="display:none"></div>
       <div id="preview-ciclos" class="floor-preview"></div>
-      <div id="warn-ciclos" class="warn" style="display:none;font-size:11px;color:var(--red);margin-top:4px">Limite de 3 metas trimestrais atingido.</div>
-      <button class="btn btn-g btn-sm gap" id="btn-add-ciclo" onclick="openAddPredi('ciclos')">+ Nova meta trimestral</button>
+      <div id="warn-ciclos" class="warn" style="display:none;font-size:11px;color:var(--red);margin-top:4px">Limite de 3 ações ativas atingido.</div>
+      <button class="btn btn-g btn-sm gap" id="btn-add-ciclo" onclick="openAddPredi('ciclos')">+ Nova ação</button>
       <div id="list-ciclos" class="gap"></div>
     </div>
   </div>
 
-  <div class="floor" id="fl-horizontes">
+  <div class="floor floor-col-right" id="fl-horizontes">
     <div class="floor-hdr">
-      <span class="floor-tag">LONGO PRAZO</span>
+      <span class="floor-tag">METAS TRIMESTRAIS</span>
       <span class="floor-count-badge" id="fl-horizontes-count"></span>
       <em class="floor-caret">▾</em>
     </div>
     <div class="floor-body">
       <div id="fl-horizontes-tutorial" style="display:none"></div>
       <div id="preview-horizontes" class="floor-preview"></div>
-      <button class="btn btn-g btn-sm gap" onclick="openAddPredi('horizontes')">+ Nova meta de longo prazo</button>
+      <button class="btn btn-g btn-sm gap" onclick="openAddPredi('horizontes')">+ Nova meta trimestral</button>
       <div id="list-horizontes" class="gap"></div>
     </div>
   </div>
 
-  <div class="floor" id="fl-pilares">
+  <div class="floor floor-col-right" id="fl-pilares">
     <div class="floor-hdr">
-      <span class="floor-tag">ÁREAS DE FOCO</span>
+      <span class="floor-tag">ÁREAS</span>
       <span class="floor-count-badge" id="fl-pilares-count"></span>
       <em class="floor-caret">▾</em>
     </div>
@@ -1879,7 +1955,7 @@ input:focus, textarea:focus, select:focus {
     </div>
   </div>
 
-  <div class="floor" id="fl-fundacao">
+  <div class="floor floor-col-full" id="fl-fundacao">
     <div class="floor-hdr">
       <span class="floor-tag">PROPÓSITO MAIOR</span>
       <em class="floor-caret">▾</em>
@@ -1909,7 +1985,7 @@ input:focus, textarea:focus, select:focus {
     </div>
   </div>
 
-  <div class="floor" id="fl-contratos">
+  <div class="floor floor-col-full" id="fl-contratos">
     <div class="floor-hdr">
       <span class="floor-tag">CONTRATOS</span>
       <span class="floor-count-badge" id="fl-contratos-count"></span>
@@ -1922,6 +1998,8 @@ input:focus, textarea:focus, select:focus {
       <div id="list-contratos" class="gap"></div>
     </div>
   </div>
+
+  </div><!-- /predio-floors-wrap -->
 
 </div>
 
@@ -1941,10 +2019,10 @@ input:focus, textarea:focus, select:focus {
   <div class="m-text" id="triage-txt"></div>
 
   <div id="t-s1">
-    <div class="m-actions">
-      <button class="btn btn-g" onclick="tAct('discard')">🗑 Apagar item</button>
-      <button class="btn btn-g" onclick="tAct('project')">📁 Criar Ação</button>
-      <button class="btn btn-a" onclick="tAct('task')">✓ Criar Tarefa</button>
+    <div class="m-actions" style="display:flex;gap:7px;flex-wrap:wrap">
+      <button class="btn btn-a" style="flex:1;min-width:100px" onclick="tAct('task')">✓ Criar Tarefa</button>
+      <button class="btn btn-g" style="flex:1;min-width:100px" onclick="tAct('project')">📁 Criar Projeto</button>
+      <button class="btn" style="background:none;border:1px solid var(--b1);color:var(--t3);padding:8px 12px;border-radius:var(--rs);cursor:pointer;font-family:var(--ui-font);font-size:12px" onclick="tAct('discard')" title="Apagar">🗑</button>
     </div>
   </div>
 
@@ -2137,6 +2215,11 @@ input:focus, textarea:focus, select:focus {
   <input type="hidden" id="add-predi-tipo">
   <div class="lbl" id="add-predi-lbl">Nome</div>
   <input type="text" id="inp-predi-nome" placeholder="">
+  <!-- Desc field para Áreas (pilares) -->
+  <div id="pilar-desc-field" style="display:none">
+    <div class="lbl gap">Descrição (opcional)</div>
+    <textarea id="inp-predi-desc-pilar" rows="2" placeholder="O que esta área significa para você..."></textarea>
+  </div>
   <div id="predi-desc-field" style="display:none">
     <div class="lbl gap">Descrição (opcional)</div>
     <textarea id="inp-predi-desc-generic" rows="2" placeholder="Contexto, detalhes, motivação..."></textarea>
@@ -2148,11 +2231,11 @@ input:focus, textarea:focus, select:focus {
     <input type="date" id="inp-predi-prazo">
   </div>
   <div id="horizonte-extras" style="display:none">
-    <div class="lbl gap">Ano-alvo (ex: 2030)</div>
+    <div class="lbl gap">Ano-alvo (horizonte, ex: 2030)</div>
     <input type="number" id="inp-predi-ano" placeholder="Ex: 2030" min="2024" max="2060" style="width:140px">
   </div>
   <div id="predi-pilar-field" style="display:none">
-    <div class="lbl gap">Área de foco (opcional)</div>
+    <div class="lbl gap">Área (opcional)</div>
     <select id="inp-predi-pilar"><option value="">Sem vínculo</option></select>
   </div>
   <div class="m-actions">
@@ -2166,14 +2249,9 @@ input:focus, textarea:focus, select:focus {
 <div class="mbg" id="mbg-add-task">
 <div class="modal">
   <button class="m-close" onclick="closeM('mbg-add-task')">×</button>
-  <div class="m-title">Adicionar tarefa</div>
-  <div class="lbl">Descrição</div>
-  <input type="text" id="inp-task-txt" placeholder="O que precisa ser feito?" onkeydown="if(event.key==='Enter')saveTaskDirect()">
-  <div class="lbl gap">Coluna inicial</div>
-  <select id="inp-task-col">
-    <option value="afazer">A Fazer</option>
-    <option value="fazendo">Fazendo</option>
-  </select>
+  <div class="m-title">Nova tarefa</div>
+  <div class="lbl">O que precisa ser feito?</div>
+  <textarea id="inp-task-txt" rows="2" placeholder="Descreva a tarefa..." onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();saveTaskDirect()}"></textarea>
   <div class="m-actions">
     <button class="btn btn-g" onclick="closeM('mbg-add-task')">Cancelar</button>
     <button class="btn btn-a" onclick="saveTaskDirect()">Adicionar</button>
@@ -2233,7 +2311,7 @@ input:focus, textarea:focus, select:focus {
   </div>
   <div class="m-actions">
     <div id="edit-predi-pilar-wrap" style="display:none">
-      <div class="lbl gap">Área de foco (opcional)</div>
+      <div class="lbl gap">Área (opcional)</div>
       <select id="edit-predi-pilar"><option value="">Sem vínculo</option></select>
     </div>
     <button class="btn btn-g" onclick="closeM('mbg-edit-predi')">Cancelar</button>
@@ -2490,13 +2568,13 @@ input:focus, textarea:focus, select:focus {
         <div class="ob-item-example">Exemplos: Meus Negócios · Minha Saúde · Meus Estudos · Minha Família</div>
       </div>
       <div class="ob-item">
-        <div class="ob-item-tag">Grandes Saltos</div>
+        <div class="ob-item-tag">Metas Trimestrais</div>
         <div class="ob-item-title">1 a 10 anos</div>
         <div class="ob-item-desc">Os seus objetivos de 1 a 10 anos. Defina um ano-alvo para cada grande conquista.</div>
         <div class="ob-item-example">"Fazer o meu negócio gerar renda suficiente para ser minha principal fonte de sustento até 2030."</div>
       </div>
       <div class="ob-item">
-        <div class="ob-item-tag">Trimestre</div>
+        <div class="ob-item-tag">Ações</div>
         <div class="ob-item-title">Próximos 90 dias</div>
         <div class="ob-item-desc">Máximo <strong>3 focos</strong> para este trimestre. Uma data de entrega próxima força a execução imediata.</div>
         <div class="ob-item-example">"Terminar o módulo de SQL do curso e criar o escopo do banco de dados do meu projeto até 31 de julho."</div>
@@ -2605,7 +2683,7 @@ function blank() {
     pilares: [], pilares_arquivados: [],
     horizontes: [], ciclos: [], frentes: [],
     habitos: [], habitosArquivados: [],
-    inbox: [], tarefas: [],
+    inbox: [], tarefas: [], tarefasArquivadas: [],
     ideias: [], tagIdeias: [],
     vicios: [], descarte: [], historico: [],
     contratos: [], desafios: []
@@ -2910,8 +2988,12 @@ function renderRotinaStrip() {
   const el = document.getElementById('rotina-strip');
   if (!el) return;
   const t = today();
+  const diasSemana = ['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'];
+  const dow = new Date().getDay();
+  const diaNome = diasSemana[dow];
   const habs = (S.habitos||[]).filter(h => !h.arquivado);
   const habFeitos = habs.filter(h => (h.registros||{})[t] === 'feito').length;
+  const habRestantes = habs.length - habFeitos;
   let bestStreak = 0;
   habs.forEach(h => {
     let s = 0; const d = new Date();
@@ -2924,12 +3006,29 @@ function renderRotinaStrip() {
   const desAtivos = (S.desafios||[]).filter(d => d.ativo !== false).length;
   const vicOk  = (S.vicios||[]).filter(v => (v.registros||{})[t] === 'resistiu').length;
   const vicTot = (S.vicios||[]).length;
-  const parts = [];
-  if (habs.length)  parts.push(`🧱 ${habFeitos}/${habs.length} hoje`);
-  if (bestStreak>1) parts.push(`🔥 ${bestStreak}d`);
-  if (desAtivos)    parts.push(`🎯 ${desAtivos} desafio${desAtivos>1?'s':''}`);
-  if (vicTot)       parts.push(`🛡️ ${vicOk}/${vicTot}`);
-  el.textContent = parts.join('  ·  ');
+
+  // Saudação baseada na hora
+  const hr = new Date().getHours();
+  const saudacao = hr < 12 ? 'Bom dia' : hr < 18 ? 'Boa tarde' : 'Boa noite';
+
+  // Build strip HTML
+  let stripHTML = `<span class="strip-greeting">${saudacao} · <strong>${diaNome}</strong></span>`;
+
+  if (habs.length > 0) {
+    const pct = Math.round(habFeitos / habs.length * 100);
+    const cor = pct === 100 ? 'var(--green)' : pct >= 50 ? 'var(--acc)' : 'var(--t2)';
+    stripHTML += `<span class="strip-kpi" style="color:${cor}">🧱 ${habFeitos}/${habs.length}</span>`;
+    if (habRestantes > 0) stripHTML += `<span class="strip-sub">${habRestantes} restante${habRestantes>1?'s':''}</span>`;
+  }
+  if (bestStreak > 1) stripHTML += `<span class="strip-kpi">🔥 ${bestStreak}d</span>`;
+  if (vicTot > 0) {
+    const vicCor = vicOk === vicTot ? 'var(--green)' : vicOk > 0 ? 'var(--acc)' : 'var(--t2)';
+    stripHTML += `<span class="strip-kpi" style="color:${vicCor}">🛡️ ${vicOk}/${vicTot}</span>`;
+  }
+  if (desAtivos > 0) stripHTML += `<span class="strip-kpi">🎯 ${desAtivos}</span>`;
+
+  el.innerHTML = stripHTML;
+
   const meta = document.getElementById('hab-hoje-meta');
   if (meta && habs.length) meta.textContent = `${habFeitos}/${habs.length} hoje`;
 }
@@ -3144,7 +3243,7 @@ function renderHabitos() {
     const vinculos = ids.map(id => getPrediLabel(id)).filter(Boolean);
     const vinculoHtml = vinculos.length
       ? `<div class="habito-vinculos">${vinculos.map(v => {
-          const tipoLabel = {frentes:'Ação',ciclos:'Trimestre',horizontes:'Grandes Saltos',pilares:'Área de foco'}[v.tipo] || v.tipo;
+          const tipoLabel = {frentes:'Projeto',ciclos:'Ação',horizontes:'Meta Trimestral',pilares:'Área'}[v.tipo] || v.tipo;
           return `<span class="habito-vtag">↳ ${esc(tipoLabel)}: ${esc(v.nome.slice(0,20))}</span>`;
         }).join('')}</div>`
       : '';
@@ -3243,7 +3342,7 @@ function renderEditVinculos(ids) {
   container.innerHTML = ids.map(id => {
     const lbl = getPrediLabel(id);
     if (!lbl) return '';
-    const tipoLabel = {frentes:'Ação',ciclos:'Trimestre',horizontes:'Grandes Saltos',pilares:'Área de foco'}[lbl.tipo] || lbl.tipo;
+    const tipoLabel = {frentes:'Projeto',ciclos:'Ação',horizontes:'Meta Trimestral',pilares:'Área'}[lbl.tipo] || lbl.tipo;
     return `<div style="display:flex;align-items:center;gap:6px;margin-bottom:5px">
       <span class="habito-vtag" style="font-size:11px;padding:3px 8px">${esc(tipoLabel)}: ${esc(lbl.nome.slice(0,30))}</span>
       <button onclick="removeVinculo('${id}')" style="background:none;border:none;color:var(--red);cursor:pointer;font-size:14px;padding:0">×</button>
@@ -3281,9 +3380,9 @@ function buildVincularPicker(containerId, onSelectFn) {
   const container = document.getElementById(containerId);
   if (!container) return;
   const tipos = [
-    {key:'frentes',    label:'Ação'},
-    {key:'ciclos',     label:'Trimestre'},
-    {key:'horizontes', label:'Longo Prazo'},
+    {key:'frentes',    label:'Projeto'},
+    {key:'ciclos',     label:'Ação'},
+    {key:'horizontes', label:'Meta Trimestral'},
     {key:'pilares',    label:'Área de foco'},
   ];
   let out = '';
@@ -3323,7 +3422,7 @@ function renderVinculosChips(ids, chipsContainerId, removeFn) {
     container.innerHTML = '<span style="font-size:11px;color:var(--t3);font-family:Georgia,serif">Nenhum vínculo ainda</span>';
     return;
   }
-  const labels = {frentes:'Ação',ciclos:'Trimestre',horizontes:'L.Prazo',pilares:'Área'};
+  const labels = {frentes:'Projeto',ciclos:'Ação',horizontes:'Meta Trim.',pilares:'Área'};
   container.innerHTML = ids.map(id => {
     const lbl = getPrediLabel(id);
     if (!lbl) return '';
@@ -3583,7 +3682,7 @@ function tWizard(destino) {
     if (destino === 'pedir-ajuda') { urgente = true;     tag = 'pedir-ajuda'; }
     if (destino === 'afazer')      { urgente = true; importante = true; }
     const ordem = S.tarefas.filter(t => t.coluna === 'afazer').length;
-    S.tarefas.push({ id: uid(), texto: txt, urgente, importante, coluna: 'afazer', tag, criadoEm: today(), ordem });
+    S.tarefas.push({ id: uid(), texto: txt, coluna: 'pendente', tag, criadoEm: today(), ordem });
     persist(); closeM('mbg-triage'); renderKanban();
     showToast('✓ Tarefa criada!');
     return;
@@ -3597,7 +3696,7 @@ function tWizard(destino) {
   if (destino === 'pedir-ajuda') { urgente = true;     tag = 'pedir-ajuda'; }
   if (destino === 'afazer')      { urgente = true; importante = true; }
   const ordem = S.tarefas.filter(t => t.coluna === 'afazer').length;
-  S.tarefas.push({ id: uid(), texto: item.texto, urgente, importante, coluna, tag, criadoEm: today(), ordem });
+  S.tarefas.push({ id: uid(), texto: item.texto, coluna: 'pendente', tag, criadoEm: today(), ordem });
   persist(); closeM('mbg-triage'); renderCaderno();
   showToast('✓ Tarefa criada!');
 }
@@ -3737,11 +3836,7 @@ function removeIdeia(id) {
 function ideiaParaKanban(id) {
   const ideia = (S.ideias || []).find(x => x.id === id);
   if (!ideia) return;
-  S.tarefas.push({
-    id: uid(), texto: ideia.texto,
-    urgente: false, importante: false,
-    coluna: 'afazer', criadoEm: today()
-  });
+  S.tarefas.push({ id: uid(), texto: ideia.texto, coluna: 'pendente', criadoEm: today() });
   S.ideias = (S.ideias || []).filter(x => x.id !== id);
   persist(); renderIdeias(); renderKanban();
   showToast('💡 Ideia enviada para o Kanban');
@@ -3793,194 +3888,167 @@ function removeTag(id) {
 }
 
 /* ── Kanban ──────────────────────────────────────────────── */
-const COLUNAS = ['afazer', 'fazendo', 'feito'];
-const COL_LABELS = { afazer: 'A Fazer', fazendo: 'Fazendo', feito: 'Feito' };
-const PRI_LABELS = { '11': 'Fazer agora', '10': 'Planejar', '01': 'Pedir Ajuda', '00': '' };
-const TAG_LABELS = { 'agendar': '📅 Planejar', 'pedir-ajuda': '🤝 Pedir Ajuda' };
+/* ═══════════════════════════════════════════════════════════
+   TAREFAS (lista simplificada)
+═══════════════════════════════════════════════════════════ */
+const TASK_ARCHIVE_DAYS = 7; // dias até concluída sumir da lista recente
 
-let dragTaskId = null;
-let dragOverCol = null;
-
-// ── Kanban: calcula posição de inserção dentro da coluna ──────
-function getDropIndex(colEl, clientY) {
-  const cards = [...colEl.querySelectorAll('.k-card:not(.dragging)')];
-  for (let i = 0; i < cards.length; i++) {
-    const rect = cards[i].getBoundingClientRect();
-    if (clientY < rect.top + rect.height / 2) return i;
-  }
-  return cards.length;
+function getMonthKey(dateStr) {
+  if (!dateStr) return '';
+  return dateStr.slice(0, 7); // YYYY-MM
 }
 
-// Mostra/atualiza indicador visual de inserção
-function updateDropIndicator(colEl, clientY) {
-  colEl.querySelectorAll('.k-drop-indicator').forEach(el => el.remove());
-  const cards = [...colEl.querySelectorAll('.k-card:not(.dragging)')];
-  const idx = getDropIndex(colEl, clientY);
-  const indicator = document.createElement('div');
-  indicator.className = 'k-drop-indicator';
-  if (idx >= cards.length) {
-    colEl.appendChild(indicator);
-  } else {
-    colEl.insertBefore(indicator, cards[idx]);
-  }
-}
-
-let _touchDragId=null,_touchDragEl=null,_touchGhost=null,_touchLongTimer=null;
-
-function initKanbanDrop() {
-  document.querySelectorAll('.k-col[data-col]').forEach(colEl => {
-    const contentEl = colEl.querySelector('[id^="col-"]');
-    colEl.addEventListener('dragover', e => {
-      e.preventDefault(); colEl.classList.add('drag-over');
-      if (contentEl) updateDropIndicator(contentEl, e.clientY);
-    });
-    colEl.addEventListener('dragleave', e => {
-      if (!colEl.contains(e.relatedTarget)) {
-        colEl.classList.remove('drag-over');
-        if (contentEl) contentEl.querySelectorAll('.k-drop-indicator').forEach(el=>el.remove());
-      }
-    });
-    colEl.addEventListener('drop', e => {
-      e.preventDefault(); colEl.classList.remove('drag-over');
-      if (!contentEl) return;
-      const dropIdx = getDropIndex(contentEl, e.clientY);
-      contentEl.querySelectorAll('.k-drop-indicator').forEach(el=>el.remove());
-      if (dragTaskId) moveTaskTo(dragTaskId, colEl.dataset.col, dropIdx);
-    });
+// Auto-arquiva concluídas com mais de TASK_ARCHIVE_DAYS
+function autoArchiveTarefas() {
+  if (!S.tarefasArquivadas) S.tarefasArquivadas = [];
+  const t = today();
+  const toArchive = (S.tarefas||[]).filter(x => {
+    if (x.coluna !== 'feito' && x.coluna !== 'concluida') return false;
+    if (!x.concluidoEm) return false;
+    const diff = Math.round((new Date(t+'T00:00:00') - new Date(x.concluidoEm+'T00:00:00')) / 86400000);
+    return diff >= TASK_ARCHIVE_DAYS;
   });
-  // Touch: long-press on handle activates drag
-  document.addEventListener('touchstart', e => {
-    const handle = e.target.closest('.k-drag-handle');
-    if (!handle) return;
-    const card = handle.closest('.k-card'); if (!card) return;
-    _touchLongTimer = setTimeout(() => {
-      _touchDragId = card.dataset.id; _touchDragEl = card;
-      card.classList.add('touch-dragging');
-      _touchGhost = card.cloneNode(true);
-      Object.assign(_touchGhost.style, {
-        position:'fixed',zIndex:'999',opacity:'.88',pointerEvents:'none',
-        width:card.offsetWidth+'px',transform:'rotate(2deg) scale(1.03)',
-        boxShadow:'0 10px 30px rgba(0,0,0,.5)',borderRadius:'8px'
-      });
-      document.body.appendChild(_touchGhost);
-      const t=e.touches[0];
-      _touchGhost.style.left=(t.clientX-card.offsetWidth/2)+'px';
-      _touchGhost.style.top=(t.clientY-36)+'px';
-      if(navigator.vibrate) navigator.vibrate(40);
-    }, 320);
-  }, {passive:false});
+  if (toArchive.length === 0) return false;
+  toArchive.forEach(t => {
+    S.tarefasArquivadas.push({ id: t.id, texto: t.texto, criadoEm: t.criadoEm, concluidoEm: t.concluidoEm, mes: getMonthKey(t.concluidoEm) });
+  });
+  const archiveIds = new Set(toArchive.map(x => x.id));
+  S.tarefas = (S.tarefas||[]).filter(x => !archiveIds.has(x.id));
+  return true;
+}
 
-  document.addEventListener('touchmove', e => {
-    clearTimeout(_touchLongTimer);
-    if (!_touchDragId) return;
-    e.preventDefault();
-    const t=e.touches[0];
-    if(_touchGhost){
-      _touchGhost.style.left=(t.clientX-(_touchDragEl?_touchDragEl.offsetWidth/2:60))+'px';
-      _touchGhost.style.top=(t.clientY-36)+'px';
-    }
-    document.querySelectorAll('.k-col').forEach(c=>c.classList.remove('drag-over'));
-    const over=document.elementFromPoint(t.clientX,t.clientY);
-    const col=over&&over.closest('.k-col[data-col]');
-    if(col) col.classList.add('drag-over');
-  }, {passive:false});
-
-  document.addEventListener('touchend', e => {
-    clearTimeout(_touchLongTimer);
-    if(!_touchDragId){ return; }
-    const t=e.changedTouches[0];
-    if(_touchGhost){_touchGhost.remove();_touchGhost=null;}
-    if(_touchDragEl){_touchDragEl.classList.remove('touch-dragging');_touchDragEl=null;}
-    document.querySelectorAll('.k-col').forEach(c=>c.classList.remove('drag-over'));
-    const over=document.elementFromPoint(t.clientX,t.clientY);
-    const col=over&&over.closest('.k-col[data-col]');
-    if(col&&col.dataset.col){
-      const contentEl=col.querySelector('[id^="col-"]');
-      const dropIdx=contentEl?getDropIndex(contentEl,t.clientY):0;
-      moveTaskTo(_touchDragId,col.dataset.col,dropIdx);
-      if(navigator.vibrate) navigator.vibrate(20);
-    }
-    _touchDragId=null;
-  }, {passive:false});
+function getMesLabel(mesKey) {
+  if (!mesKey) return '';
+  const [y, m] = mesKey.split('-');
+  const meses = ['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'];
+  return meses[parseInt(m)-1] + ' ' + y;
 }
 
 function renderKanban() {
-  COLUNAS.forEach(col => {
-    const tasks = S.tarefas.filter(t => t.coluna === col)
-      .sort((a, b) => (a.ordem ?? 999) - (b.ordem ?? 999));
-    document.getElementById('cnt-' + col).textContent = tasks.length;
-    document.getElementById('col-' + col).innerHTML = tasks.length === 0
-      ? '<div style="font-size:11px;color:var(--t3);padding:4px 0;font-family:Georgia,serif">Vazio</div>'
-      : tasks.map(t => {
-          const pk = (t.importante?'1':'0')+(t.urgente?'1':'0');
-          return `<div class="k-card" draggable="true" data-id="${t.id}"
-            ondragstart="onCardDragStart(event,'${t.id}')"
-            ondragend="onCardDragEnd()">
-            <div class="k-card-top">
-              <span class="k-drag-handle" title="Arrastar">⠿</span>
-              <span class="k-card-txt">${esc(t.texto)}</span>
-              <button class="k-card-del" onclick="event.stopPropagation();removeTask('${t.id}')">×</button>
-            </div>
-            <div>
-              ${t.tag ? `<span class="k-tag k-tag-${t.tag}">${TAG_LABELS[t.tag]||t.tag}</span>` : (PRI_LABELS[pk] ? `<span class="k-tag p${pk}">${PRI_LABELS[pk]}</span>` : '')}
-            </div>
-          </div>`;
-        }).join('');
-  });
+  if (!S.tarefas) S.tarefas = [];
+  if (!S.tarefasArquivadas) S.tarefasArquivadas = [];
+
+  // Auto-archive old completed tasks
+  if (autoArchiveTarefas()) persist();
+
+  const pendentes = (S.tarefas||[]).filter(t => t.coluna !== 'feito' && t.coluna !== 'concluida')
+    .sort((a,b)=>(a.ordem??999)-(b.ordem??999));
+  const concluidas = (S.tarefas||[]).filter(t => t.coluna === 'feito' || t.coluna === 'concluida')
+    .sort((a,b)=>(b.concluidoEm||'').localeCompare(a.concluidoEm||''));
+
+  // Update counters
+  const cntPend = document.getElementById('cnt-tarefas-pendentes');
+  const cntConc = document.getElementById('cnt-tarefas-concluidas');
+  if (cntPend) cntPend.textContent = pendentes.length;
+  if (cntConc) cntConc.textContent = concluidas.length;
+
+  // Monthly stat
+  const mesAtual = getMonthKey(today());
+  const concMes = (S.tarefasArquivadas||[]).filter(x=>x.mes===mesAtual).length
+    + concluidas.filter(x=>getMonthKey(x.concluidoEm)===mesAtual).length;
+  const stat = document.getElementById('tarefas-mes-stat');
+  if (stat) {
+    const total = (S.tarefasArquivadas||[]).length + concluidas.length;
+    stat.innerHTML = total > 0
+      ? `📊 <strong>${concMes}</strong> tarefa${concMes!==1?'s':''} concluída${concMes!==1?'s':''} este mês` +
+        (total > concMes ? ` · <span style="color:var(--t3)">${total} no histórico total</span>` : '')
+      : 'Nenhuma tarefa concluída ainda.';
+  }
+
+  // Pending list
+  const listPend = document.getElementById('list-tarefas-pendentes');
+  if (listPend) {
+    if (pendentes.length === 0) {
+      listPend.innerHTML = '<div class="empty" style="padding:20px 0">Nenhuma tarefa pendente. ✓</div>';
+    } else {
+      listPend.innerHTML = pendentes.map(t =>
+        `<div class="task-item" data-id="${t.id}">
+          <button class="task-check" onclick="toggleTaskConcluida('${t.id}')" title="Concluir"></button>
+          <span class="task-txt">${esc(t.texto)}</span>
+          <button class="task-del" onclick="removeTask('${t.id}')" title="Remover">×</button>
+        </div>`
+      ).join('');
+    }
+  }
+
+  // Completed list (recent, < TASK_ARCHIVE_DAYS)
+  const listConc = document.getElementById('list-tarefas-concluidas');
+  if (listConc) {
+    if (concluidas.length === 0) {
+      listConc.innerHTML = '<div style="font-size:12px;color:var(--t3);padding:8px 0;font-family:var(--ui-font)">Nenhuma tarefa concluída recentemente.</div>';
+    } else {
+      listConc.innerHTML = concluidas.map(t => {
+        const diasAtras = Math.round((new Date(today()+'T00:00:00') - new Date((t.concluidoEm||today())+'T00:00:00')) / 86400000);
+        const diasLabel = diasAtras === 0 ? 'hoje' : diasAtras === 1 ? 'ontem' : `há ${diasAtras}d`;
+        const diasRestantes = TASK_ARCHIVE_DAYS - diasAtras;
+        return `<div class="task-item concluida">
+          <button class="task-check done" onclick="toggleTaskConcluida('${t.id}')" title="Desfazer">✓</button>
+          <span class="task-txt">${esc(t.texto)}</span>
+          <span class="task-concluida-em">${diasLabel} · some em ${diasRestantes}d</span>
+          <button class="task-del" onclick="removeTask('${t.id}')" title="Remover">×</button>
+        </div>`;
+      }).join('');
+    }
+  }
 }
 
-function onCardDragStart(e, id) {
-  dragTaskId = id;
-  e.dataTransfer.effectAllowed = 'move';
-  setTimeout(() => {
-    const el = document.querySelector(`.k-card[data-id="${id}"]`);
-    if (el) el.classList.add('dragging');
-  }, 0);
-}
-function onCardDragEnd() {
-  dragTaskId = null;
-  document.querySelectorAll('.k-card.dragging').forEach(el => el.classList.remove('dragging'));
-  document.querySelectorAll('.k-col.drag-over').forEach(el => el.classList.remove('drag-over'));
-  document.querySelectorAll('.k-drop-indicator').forEach(el => el.remove());
+let concluidasOpen = false;
+function toggleConcluidas() {
+  concluidasOpen = !concluidasOpen;
+  const list = document.getElementById('list-tarefas-concluidas');
+  const caret = document.getElementById('caret-concluidas');
+  if (list) list.style.display = concluidasOpen ? 'block' : 'none';
+  if (caret) caret.textContent = concluidasOpen ? '▴' : '▾';
 }
 
-function moveTaskTo(id, coluna, insertIdx) {
-  const task = S.tarefas.find(x => x.id === id); if (!task) return;
-  const wasCol = task.coluna;
-  task.coluna = coluna;
-  if (coluna === 'feito' && wasCol !== 'feito') task.concluidoEm = today();
-  // Reordena: remove da posição atual, insere no índice alvo
-  const colTasks = S.tarefas.filter(t => t.id !== id && t.coluna === coluna)
-    .sort((a, b) => (a.ordem ?? 999) - (b.ordem ?? 999));
-  colTasks.splice(insertIdx, 0, task);
-  colTasks.forEach((t, i) => { t.ordem = i; });
+function toggleTaskConcluida(id) {
+  const task = (S.tarefas||[]).find(x => x.id === id); if (!task) return;
+  const isConcluida = task.coluna === 'feito' || task.coluna === 'concluida';
+  if (isConcluida) {
+    task.coluna = 'pendente';
+    delete task.concluidoEm;
+  } else {
+    task.coluna = 'feito';
+    task.concluidoEm = today();
+  }
   persist(); renderKanban();
 }
 
-function moveTask(id, coluna) {
-  // Fallback sem posição — insere no final
-  const colTasks = S.tarefas.filter(t => t.coluna === coluna && t.id !== id);
-  moveTaskTo(id, coluna, colTasks.length);
+// Legacy: moveTaskTo kept for compat but simplified
+function moveTaskTo(id, coluna, insertIdx) {
+  const task = (S.tarefas||[]).find(x => x.id === id); if (!task) return;
+  if (coluna === 'feito' || coluna === 'concluida') {
+    task.coluna = 'feito';
+    task.concluidoEm = today();
+  } else {
+    task.coluna = 'pendente';
+    delete task.concluidoEm;
+  }
+  persist(); renderKanban();
 }
+function moveTask(id, coluna) { moveTaskTo(id, coluna, 0); }
 
 function removeTask(id) {
   showConfirm('Remover esta tarefa?', () => {
-    S.tarefas = S.tarefas.filter(x => x.id !== id);
+    S.tarefas = (S.tarefas||[]).filter(x => x.id !== id);
     persist(); renderKanban();
   });
 }
 
-/* toggles for add-task modal */
-let taskTogUrg = false, taskTogImp = false; // mantido para retrocompatibilidade com tarefas existentes
+// Drag-and-drop: stripped (single list, no columns)
+function initKanbanDrop() {}
+function onCardDragStart() {}
+function onCardDragEnd() {}
+
+/* toggles for add-task modal — legacy vars kept for compat */
+let taskTogUrg = false, taskTogImp = false;
 
 function saveTaskDirect() {
   const txt = document.getElementById('inp-task-txt').value.trim();
   if (!txt) return document.getElementById('inp-task-txt').focus();
-  const col = document.getElementById('inp-task-col').value;
-  const ordem = S.tarefas.filter(t => t.coluna === col).length;
-  S.tarefas.push({ id: uid(), texto: txt, urgente: false, importante: false, coluna: col, criadoEm: today(), ordem });
+  const ordem = (S.tarefas||[]).filter(t => t.coluna !== 'feito' && t.coluna !== 'concluida').length;
+  S.tarefas.push({ id: uid(), texto: txt, coluna: 'pendente', criadoEm: today(), ordem });
   document.getElementById('inp-task-txt').value = '';
-  document.getElementById('inp-task-col').value = 'afazer';
   persist(); closeM('mbg-add-task'); renderKanban();
 }
 
@@ -3988,17 +4056,17 @@ function saveTaskDirect() {
    PRÉDIO
 ═══════════════════════════════════════════════════════════ */
 const PREDI_CONFIGS = {
-  frentes:    { label: 'Nova ação',                lbl: 'Nome da ação',           extras: true,  anoAlvo: false, hasDesc: false },
-  ciclos:     { label: 'Nova meta trimestral',     lbl: 'Meta dos 90 dias',       extras: false, anoAlvo: false, hasDesc: true  },
-  horizontes: { label: 'Novo grande salto', lbl: 'Grandes Saltos (1-10 anos)', extras: false, anoAlvo: true,  hasDesc: true  },
+  frentes:    { label: 'Novo projeto',                lbl: 'Nome do projeto',           extras: true,  anoAlvo: false, hasDesc: false },
+  ciclos:     { label: 'Novo projeto',     lbl: 'Nome da ação',       extras: false, anoAlvo: false, hasDesc: true  },
+  horizontes: { label: 'Nova meta trimestral', lbl: 'Meta trimestral (visão de futuro)', extras: false, anoAlvo: true,  hasDesc: true  },
   pilares:    { label: 'Nova área de foco',        lbl: 'Área de foco',           extras: false, anoAlvo: false, hasDesc: false }
 };
 
 // Placeholders para os campos de nome
 const PREDI_PLACEHOLDERS = {
-  frentes:    'Ex: Fazer o design das embalagens e cadastrar o produto para venda',
-  ciclos:     'Ex: Terminar o módulo de SQL e criar o escopo do banco de dados até 31 de julho',
-  horizontes: 'Ex: Fazer meu negócio gerar renda suficiente até 2030',
+  frentes:    'Ex: Criar landing page do produto com formulário de contato',
+  ciclos:     'Ex: Fechar 3 novos clientes até o fim do trimestre',
+  horizontes: 'Ex: Ter liberdade financeira com renda passiva até 2030',
   pilares:    'Ex: Meus Negócios, Minha Saúde, Meus Estudos'
 };
 
@@ -4039,8 +4107,10 @@ function renderPredio() {
   renderMetasInsights();
   initPredioNav();
   const limit = S.ciclos.filter(x => !x.status || x.status === 'ativo').length >= 3;
-  document.getElementById('warn-ciclos').style.display = limit ? 'block' : 'none';
-  document.getElementById('btn-add-ciclo').style.display = limit ? 'none' : 'inline-flex';
+  const warnCiclos = document.getElementById('warn-ciclos');
+  const btnAddCiclo = document.getElementById('btn-add-ciclo');
+  if (warnCiclos) warnCiclos.style.display = limit ? 'block' : 'none';
+  if (btnAddCiclo) btnAddCiclo.style.display = limit ? 'none' : 'inline-flex';
   // Atualiza contadores nos headers
   const contadores = {
     frentes:    S.frentes.filter(x => !x.status || x.status==='ativo').length,
@@ -4115,7 +4185,7 @@ function renderPrediSection(tipo) {
       </div>`;
     }
 
-    // 1.2 — badge de prazo para frentes e ciclos; ciclos usa criadoEm+90 se sem prazo
+    // badge de prazo para projetos e ações; ações usa criadoEm+90 se sem prazo
     let metaRow = '';
     if (tipo === 'frentes' && item.prazo) {
       metaRow = `<div style="margin-top:4px">${buildPrazoBadge(item.prazo)}</div>`;
@@ -4138,18 +4208,21 @@ function renderPrediSection(tipo) {
         metaRow = (metaRow || '') + `<div style="margin-top:3px"><span style="font-size:9px;color:var(--acc);background:var(--acc-d);border:1px solid var(--acc-g);border-radius:3px;padding:1px 6px;font-family:Georgia,serif">📍 ${pNome}</span></div>`;
       }
     }
-    // ÁREAS: show linked habits count
+    // ÁREAS: show description + linked habits count
     if (tipo === 'pilares') {
       const habVinc = (S.habitos||[]).filter(h => {
         const ids = h.vinculoIds || (h.vinculoId ? [h.vinculoId] : []);
         return ids.includes(item.id);
       }).length;
-      if (habVinc > 0) metaRow = `<div class="area-hab-badge">🧱 ${habVinc} hábito${habVinc>1?'s':''} vinculado${habVinc>1?'s':''}</div>`;
+      let areaInfo = '';
+      if (item.descricao) areaInfo += `<div style="font-size:12px;color:var(--t2);margin-top:4px;line-height:1.5;font-family:Georgia,serif">${esc(item.descricao)}</div>`;
+      if (habVinc > 0) areaInfo += `<div class="area-hab-badge" style="margin-top:4px">🧱 ${habVinc} hábito${habVinc>1?'s':''} vinculado${habVinc>1?'s':''}</div>`;
+      if (areaInfo) metaRow = areaInfo;
     }
-    // LONGO PRAZO: show completed ciclos linked
+    // METAS TRIMESTRAIS: show completed ações linked
     if (tipo === 'horizontes') {
       const ciclosR = (S.historico||[]).filter(h=>h.tipo==='ciclos'&&h.statusFinal==='concluido'&&h.horizonteVinculo===item.id).length;
-      if (ciclosR > 0) metaRow = `<div class="horizonte-link-badge">📎 ${ciclosR} trimestre${ciclosR>1?'s':''} realizados</div>`;
+      if (ciclosR > 0) metaRow = `<div class="horizonte-link-badge">📎 ${ciclosR} ação${ciclosR>1?'ões':''} realizada${ciclosR>1?'s':''}</div>`;
     }
     if (tipo === 'horizontes' && item.anoAlvo) {
       const anos = item.anoAlvo - new Date().getFullYear();
@@ -4240,7 +4313,7 @@ document.addEventListener('click', () => {
 function quickConcluir(tipo, id) {
   const item = S[tipo].find(x => x.id === id); if (!item) return;
   const nome = item.nome || item.texto || '';
-  const tipoLabel = {frentes:'ação',ciclos:'meta trimestral',horizontes:'objetivo',pilares:'área'}[tipo] || 'meta';
+  const tipoLabel = {frentes:'projeto',ciclos:'ação',horizontes:'meta trimestral',pilares:'área'}[tipo] || 'meta';
   showConfirm(`Concluir a ${tipoLabel} "${nome.slice(0,40)}"?`, () => {
     let atrasoDias = 0;
     if (item.prazo) {
@@ -4300,6 +4373,12 @@ function openAddPredi(tipo, initialNome) {
     document.getElementById('inp-predi-prazo').value = '';
   }
   if (cfg.anoAlvo) document.getElementById('inp-predi-ano').value = '';
+  // Show pilar-desc-field for 'pilares'
+  const pilarDescField = document.getElementById('pilar-desc-field');
+  if (pilarDescField) {
+    pilarDescField.style.display = tipo === 'pilares' ? 'block' : 'none';
+    if (tipo === 'pilares') document.getElementById('inp-predi-desc-pilar').value = '';
+  }
   const pilarField = document.getElementById('predi-pilar-field');
   if (pilarField) {
     const showPilar = ['frentes','ciclos','horizontes'].includes(tipo);
@@ -4334,6 +4413,9 @@ function savePredi() {
     item.descricao = cfg.hasDesc ? document.getElementById('inp-predi-desc-generic').value.trim() : '';
   } else {
     item.texto = nome;
+    // Áreas agora têm descrição opcional
+    const pilarDescEl = document.getElementById('inp-predi-desc-pilar');
+    if (tipo === 'pilares' && pilarDescEl) item.descricao = pilarDescEl.value.trim();
   }
   S[tipo].push(item);
   persist(); closeM('mbg-add-predi'); renderPredio();
@@ -4361,7 +4443,7 @@ function arquivarPilar(id) {
 function openPrediDetail(tipo, id) {
   const item = S[tipo].find(x => x.id === id); if (!item) return;
   const nome = item.nome || item.texto || '';
-  const tipoNomes = {frentes:'Ação',ciclos:'Trimestre',horizontes:'Grandes Saltos',pilares:'Área de foco'};
+  const tipoNomes = {frentes:'Projeto',ciclos:'Ação',horizontes:'Meta Trimestral',pilares:'Área'};
   document.getElementById('detail-nome').textContent = nome;
   document.getElementById('detail-tipo-badge').innerHTML =
     `<span style="font-size:10px;color:var(--acc);background:var(--acc-d);border:1px solid var(--acc-g);border-radius:3px;padding:2px 8px;font-family:Georgia,serif">${tipoNomes[tipo]||tipo}</span>`;
@@ -4389,8 +4471,8 @@ function openEditPredi(tipo, id) {
   document.getElementById('edit-predi-tipo').value = tipo;
   document.getElementById('edit-predi-id').value   = id;
   document.getElementById('edit-predi-nome').value = item.nome || item.texto || '';
-  // Descrição — só para frentes, ciclos, horizontes
-  const hasDesc = ['frentes','ciclos','horizontes'].includes(tipo);
+  // Descrição — para frentes, ciclos, horizontes E pilares
+  const hasDesc = ['frentes','ciclos','horizontes','pilares'].includes(tipo);
   const descWrap = document.getElementById('edit-predi-desc-wrap');
   descWrap.style.display = hasDesc ? 'block' : 'none';
   if (hasDesc) document.getElementById('edit-predi-desc').value = item.descricao || '';
@@ -4423,7 +4505,7 @@ function saveEditPredi() {
   const item = S[tipo].find(x => x.id === id);
   if (!item) return;
   if ('nome' in item) item.nome = nome; else item.texto = nome;
-  if (['frentes','ciclos','horizontes'].includes(tipo))
+  if (['frentes','ciclos','horizontes','pilares'].includes(tipo))
     item.descricao = document.getElementById('edit-predi-desc').value.trim();
   if (['frentes','ciclos'].includes(tipo))
     item.prazo = document.getElementById('edit-predi-prazo').value;
@@ -4685,7 +4767,7 @@ function renderHistory() {
       list.innerHTML = '<div class="empty">Nenhuma meta encerrada ainda.</div>';
       return;
     }
-    const tipoNomes = {frentes:'Ação',ciclos:'Trimestre',horizontes:'Grandes Saltos',pilares:'Área de foco'};
+    const tipoNomes = {frentes:'Projeto',ciclos:'Ação',horizontes:'Meta Trimestral',pilares:'Área'};
     list.innerHTML = S.historico.slice().reverse().map(h => {
       const tipoLabel = tipoNomes[h.tipo] || h.tipo;
       const atrasoBadge = h.atrasoDias > 0
@@ -4866,24 +4948,42 @@ function saveContrato() {
 }
 
 // Verifica se um contrato está desbloqueado (chamado a cada render)
+// Para hábito/vício: usa semana calendário (Seg–Dom), mas ignora dias
+// anteriores à criação do contrato na semana em que foi criado.
+function getWeekDaysFromContrato(criadoEm) {
+  const week = getWeekDays(); // Seg–Dom da semana atual
+  if (!criadoEm) return week;
+  // Se o contrato foi criado esta semana, conta só a partir do dia de criação
+  const criado = criadoEm.slice(0,10);
+  if (week.includes(criado)) {
+    const idx = week.indexOf(criado);
+    return week.slice(idx); // só dias a partir da criação
+  }
+  return week;
+}
+
 function checkContratoDesbloqueado(c) {
   if (c.desbloqueado || c.resgatado) return c.desbloqueado;
   const week = getWeekDays();
 
   if (c.tipoAlvo === 'meta') {
-    // Desbloqueado quando a meta está no histórico como concluída
     return (S.historico || []).some(h => h.id === c.alvoId || h.nome === c.alvoNome && h.statusFinal === 'concluido');
   }
   if (c.tipoAlvo === 'habito') {
     const h = S.habitos.find(x => x.id === c.alvoId);
     if (!h) return false;
-    const { pct } = calcPctHabito(h, week);
+    // Se contrato criado esta semana: usa dias parciais, mas não julga como falha/sucesso ainda
+    const relevantDays = getWeekDaysFromContrato(c.criadoEm);
+    if (relevantDays.length < 7 && week.includes(today())) return false; // semana incompleta: neutro
+    const { pct } = calcPctHabito(h, relevantDays.length === 7 ? week : relevantDays);
     return pct >= 100;
   }
   if (c.tipoAlvo === 'vicio') {
     const v = S.vicios.find(x => x.id === c.alvoId);
     if (!v) return false;
-    const { pct } = calcPctVicio(v, week);
+    const relevantDays = getWeekDaysFromContrato(c.criadoEm);
+    if (relevantDays.length < 7 && week.includes(today())) return false; // semana incompleta: neutro
+    const { pct } = calcPctVicio(v, relevantDays.length === 7 ? week : relevantDays);
     return pct >= 100;
   }
   return false;
@@ -5569,7 +5669,7 @@ function buildDeleteZone() {
   hist.forEach(h => {
     items += `<div class="dash-delete-item">
       <span class="dash-delete-name">${esc(h.nome.slice(0,30))}</span>
-      <span class="dash-delete-meta">${{frentes:'Ação',ciclos:'Trimestre',horizontes:'Grandes Saltos',pilares:'Área de foco'}[h.tipo]||h.tipo} · ${h.statusFinal}</span>
+      <span class="dash-delete-meta">${{frentes:'Projeto',ciclos:'Ação',horizontes:'Meta Trimestral',pilares:'Área'}[h.tipo]||h.tipo} · ${h.statusFinal}</span>
       <button class="dash-delete-btn" onclick="deleteHistHard('${h.id}')">Excluir</button>
     </div>`;
   });
@@ -5908,6 +6008,7 @@ function init() {
   if (!S.tagIdeias) S.tagIdeias = [];
   if (!S.contratos) S.contratos = [];
   if (!S.desafios) S.desafios = [];
+  if (!S.tarefasArquivadas) S.tarefasArquivadas = [];
 
   // Fix add habito button — safe selector (element may have changed)
   const addHabBtn = document.querySelector('[onclick*="mbg-add-habito"]');
