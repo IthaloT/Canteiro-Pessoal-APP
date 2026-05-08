@@ -1693,6 +1693,230 @@ input:focus, textarea:focus, select:focus {
   .rsec-show-more{ padding:8px 28px }
 }
 
+
+/* ═══════════════════════════════════════════════════════════
+   ROTINA — Novo Design
+═══════════════════════════════════════════════════════════ */
+
+/* ── Resumo do Dia ─────────────────────────────────────── */
+.dia-resumo{
+  padding:16px 16px 12px;
+  border-bottom:1px solid var(--b1);
+  flex-shrink:0;
+}
+.dia-resumo-title{
+  font-size:18px;font-weight:700;color:var(--text);
+  font-family:Georgia,serif;margin-bottom:2px;
+}
+.dia-resumo-date{
+  font-size:11px;color:var(--t2);font-family:var(--ui-font);
+  margin-bottom:10px;
+}
+.dia-badges{display:flex;gap:8px;flex-wrap:wrap}
+.dia-badge{
+  display:inline-flex;align-items:center;gap:5px;
+  padding:5px 12px;border-radius:20px;
+  font-size:12px;font-weight:600;font-family:var(--ui-font);
+  cursor:default;
+}
+.dia-badge.badge-desafio{background:rgba(212,100,23,.18);color:#E8872A;border:1px solid rgba(212,100,23,.3)}
+.dia-badge.badge-habito{background:rgba(74,127,193,.18);color:#6AABEE;border:1px solid rgba(74,127,193,.3)}
+.dia-badge.badge-habito-done{background:rgba(61,158,106,.18);color:var(--green);border:1px solid rgba(61,158,106,.3)}
+.dia-badge.badge-vicio{background:rgba(123,94,167,.18);color:#A07FCA;border:1px solid rgba(123,94,167,.3)}
+.dia-all-done{
+  font-size:14px;color:var(--green);font-family:Georgia,serif;
+  text-align:center;padding:6px 0;
+}
+
+/* ── Seção accordion ───────────────────────────────────── */
+.rot-sec{
+  border-bottom:1px solid var(--b1);
+  overflow:hidden;
+}
+.rot-sec-hdr{
+  display:flex;align-items:center;gap:8px;
+  padding:14px 16px;cursor:pointer;
+  user-select:none;transition:background var(--tr);
+}
+.rot-sec-hdr:active{background:var(--s1)}
+.rot-sec-icon{font-size:16px;flex-shrink:0}
+.rot-sec-label{
+  flex:1;font-size:14px;font-weight:600;color:var(--text);
+  font-family:var(--ui-font);
+}
+.rot-sec-badge{
+  font-size:10px;font-weight:700;color:var(--t3);
+  font-family:var(--ui-font);
+}
+.rot-sec-hdr-actions{display:flex;gap:4px;flex-shrink:0}
+.rot-sec-btn{
+  background:none;border:1px solid var(--b1);color:var(--t3);
+  border-radius:var(--rs);width:26px;height:26px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:13px;cursor:pointer;transition:var(--tr);
+}
+.rot-sec-btn:hover{border-color:var(--acc);color:var(--acc)}
+.rot-sec-caret{
+  color:var(--t3);font-size:10px;flex-shrink:0;
+  transition:transform .2s;
+}
+.rot-sec-caret.closed{transform:rotate(-90deg)}
+.rot-sec-body{padding:0 16px 14px}
+.rot-sec-body.hidden{display:none}
+
+/* ── Habit / Vício Card ────────────────────────────────── */
+.hab-card{
+  background:var(--s1);border-radius:var(--r);
+  padding:16px;margin-bottom:8px;
+  animation:habCardIn .22s cubic-bezier(.34,1.56,.64,1);
+  overflow:hidden;
+}
+@keyframes habCardIn{
+  from{opacity:0;transform:translateY(8px) scale(.97)}
+  to{opacity:1;transform:translateY(0) scale(1)}
+}
+.hab-card-out{
+  animation:habCardOut .2s ease forwards!important;
+}
+@keyframes habCardOut{
+  to{opacity:0;transform:translateX(48px);max-height:0;padding:0;margin:0}
+}
+.hab-card-top{display:flex;align-items:center;gap:12px}
+.hab-card-info{flex:1;min-width:0}
+.hab-card-nome{
+  font-size:17px;font-weight:600;color:var(--text);
+  font-family:Georgia,serif;margin-bottom:5px;
+  line-height:1.3;word-break:break-word;
+}
+.hab-card-meta{
+  display:flex;align-items:center;gap:6px;flex-wrap:wrap;
+  margin-bottom:8px;
+}
+.hab-area-tag{
+  font-size:10px;padding:2px 8px;border-radius:3px;
+  font-family:var(--ui-font);font-weight:600;
+  background:var(--acc-d);border:1px solid var(--acc-g);color:var(--acc);
+  white-space:nowrap;overflow:hidden;max-width:150px;text-overflow:ellipsis;
+}
+.hab-streak{
+  font-size:11px;color:var(--green);font-family:var(--ui-font);font-weight:600;
+}
+.hab-prog-txt{
+  font-size:11px;color:var(--t2);font-family:var(--ui-font);
+}
+.hab-progress-track{
+  height:4px;background:var(--s3);border-radius:2px;overflow:hidden;
+}
+.hab-progress-fill{
+  height:100%;background:var(--acc);border-radius:2px;
+  transition:width .4s ease;
+}
+.hab-progress-fill.fill-green{background:var(--green)}
+.hab-progress-fill.fill-purple{background:#7B5EA7}
+.hab-card-btns{
+  display:flex;flex-direction:column;align-items:center;
+  gap:6px;flex-shrink:0;
+}
+.btn-check{
+  background:#7B5EA7;color:#fff;border:none;
+  border-radius:8px;padding:10px 16px;
+  font-size:13px;font-weight:700;font-family:var(--ui-font);
+  cursor:pointer;letter-spacing:.5px;
+  transition:background .15s,transform .1s;
+  white-space:nowrap;min-width:72px;text-align:center;
+}
+.btn-check:active{transform:scale(.95)}
+.btn-check:hover{background:#9370B8}
+.btn-check.done{
+  background:var(--s3);color:var(--t3);cursor:not-allowed;
+  letter-spacing:0;
+}
+.btn-resisti{
+  background:var(--acc);color:#0E0E0E;border:none;
+  border-radius:8px;padding:10px 12px;
+  font-size:12px;font-weight:700;font-family:var(--ui-font);
+  cursor:pointer;letter-spacing:.3px;
+  transition:background .15s,transform .1s;
+  white-space:nowrap;min-width:72px;text-align:center;
+}
+.btn-resisti:active{transform:scale(.95)}
+.btn-resisti:hover{background:#E8B425}
+.btn-resisti.done{background:var(--s3);color:var(--t3);cursor:not-allowed}
+.hab-menu-btn{
+  background:none;border:none;color:var(--t3);
+  font-size:18px;cursor:pointer;padding:2px 6px;
+  border-radius:var(--rs);line-height:1;
+  transition:color var(--tr);letter-spacing:2px;
+}
+.hab-menu-btn:hover{color:var(--text)}
+
+/* Desafio card (mesma estrutura) */
+.des-card{ /* herda .hab-card */ }
+.btn-des-check{
+  background:#3D9E6A;color:#fff;border:none;
+  border-radius:8px;padding:10px 14px;
+  font-size:12px;font-weight:700;font-family:var(--ui-font);
+  cursor:pointer;letter-spacing:.3px;
+  transition:background .15s,transform .1s;
+  white-space:nowrap;min-width:72px;text-align:center;
+}
+.btn-des-check:active{transform:scale(.95)}
+.btn-des-check.done{background:var(--s3);color:var(--t3);cursor:not-allowed}
+
+/* ── Restantes counter ─────────────────────────────────── */
+.rsec-restantes{
+  font-size:12px;color:var(--t3);font-family:var(--ui-font);
+  padding:2px 0 4px;letter-spacing:.2px;
+}
+.rsec-done-msg{
+  font-size:13px;color:var(--green);font-family:Georgia,serif;
+  padding:10px 0 4px;text-align:center;
+}
+
+/* ── 3-dot menu items ──────────────────────────────────── */
+.hab-menu-item{
+  display:block;width:100%;padding:14px 20px;
+  text-align:left;background:none;border:none;
+  border-bottom:1px solid var(--b1);
+  color:var(--text);font-size:14px;cursor:pointer;
+  font-family:Georgia,serif;transition:background var(--tr);
+}
+.hab-menu-item:last-child{border-bottom:none}
+.hab-menu-item:hover{background:var(--s2);color:var(--acc)}
+.hab-menu-item.danger{color:var(--red)}
+.hab-menu-item.danger:hover{background:var(--rd)}
+.hab-menu-item.marked{color:var(--green)}
+.hab-menu-item.disabled{color:var(--t3);cursor:default}
+.hab-menu-item.disabled:hover{background:none;color:var(--t3)}
+
+/* ── Reorder modal ─────────────────────────────────────── */
+.reorder-item{
+  display:flex;align-items:center;gap:10px;
+  padding:11px 0;border-bottom:1px solid var(--b1);
+}
+.reorder-item:last-child{border-bottom:none}
+.reorder-nome{flex:1;font-size:14px;font-family:Georgia,serif;color:var(--text)}
+.reorder-btns{display:flex;gap:4px;flex-shrink:0}
+.reorder-btn{
+  background:var(--s2);border:1px solid var(--b1);color:var(--t2);
+  border-radius:var(--rs);width:30px;height:30px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:14px;cursor:pointer;transition:var(--tr);
+}
+.reorder-btn:hover{border-color:var(--acc);color:var(--acc)}
+.reorder-btn:disabled{opacity:.3;cursor:not-allowed}
+
+/* ── Desktop tweaks ────────────────────────────────────── */
+@media(min-width:1024px){
+  .dia-resumo{padding:20px 28px 16px}
+  .rotina-scroll{max-width:620px}
+  .rot-sec-hdr{padding:14px 28px}
+  .rot-sec-body{padding:0 28px 16px}
+  .hab-card{padding:18px 20px}
+  .hab-card-nome{font-size:18px}
+  .btn-check,.btn-resisti{padding:12px 20px;font-size:14px;min-width:88px}
+}
+
 </style>
 </head>
 <body>
@@ -1708,7 +1932,7 @@ input:focus, textarea:focus, select:focus {
   <span class="logo">Can<em>teiro</em> <span style="font-size:11px;color:var(--t2);font-weight:normal;letter-spacing:0">Pessoal</span></span>
   <div id="sync-dot" class="sync-dot" title="Status da sync" style="flex-shrink:0"></div>
   <span id="sync-lbl" style="font-size:10px;color:var(--t3);font-family:Georgia,serif;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap"></span>
-  <span class="version-badge" style="flex-shrink:0" title="Versão do app">v3.0</span>
+  <span class="version-badge" style="flex-shrink:0" title="Versão do app">v4.0</span>
   <button class="icon-btn" style="flex-shrink:0" onclick="openM('mbg-history')">Hist.</button>
   <button class="icon-btn" style="flex-shrink:0" onclick="openSettingsModal()">⚙</button>
 </div>
@@ -1793,57 +2017,80 @@ input:focus, textarea:focus, select:focus {
 
 <main>
 
-<!-- ══ HÁBITOS ══════════════════════════════════════════════ -->
+<!-- ══ ROTINA ══════════════════════════════════════════════ -->
 <div id="sec-rotina" class="sec active">
 
-  <!-- ── Micro-data strip ── -->
-  <div class="rotina-strip" id="rotina-strip"></div>
+  <!-- ── Resumo do Dia ── -->
+  <div class="dia-resumo" id="dia-resumo"></div>
 
-  <!-- ── Single scroll page ── -->
+  <!-- ── Scroll area ── -->
   <div class="rotina-scroll">
 
-    <!-- NÍVEL 1: DESAFIOS -->
-    <div class="rotina-section">
-      <div class="rotina-sec-hdr rotina-sec-hdr--desafios">
-        <span class="rsec-icon">🎯</span>
-        <span class="rsec-label">DESAFIOS ATIVOS</span>
-        <span class="rsec-count" id="rtab-des-cnt">0</span>
-        <button class="rsec-add" onclick="openM('mbg-add-desafio')" title="Novo desafio">+</button>
+    <!-- DESAFIOS -->
+    <div class="rot-sec" id="rotina-sec-desafios" style="display:none">
+      <div class="rot-sec-hdr" onclick="toggleRotSec('desafios')">
+        <span class="rot-sec-icon">🔥</span>
+        <span class="rot-sec-label">Meus Desafios</span>
+        <span class="rot-sec-badge" id="rsec-badge-desafios"></span>
+        <div class="rot-sec-hdr-actions">
+          <button class="rot-sec-btn" onclick="event.stopPropagation();openReorderModal('desafios')" title="Reordenar">⇅</button>
+          <button class="rot-sec-btn" onclick="event.stopPropagation();openM('mbg-add-desafio')" title="Novo">+</button>
+        </div>
+        <span class="rot-sec-caret" id="rsec-caret-desafios">▾</span>
       </div>
-      <div id="list-desafios" class="rsec-body"></div>
+      <div class="rot-sec-body" id="rsec-body-desafios">
+        <div id="rsec-card-desafios"></div>
+        <div class="rsec-restantes" id="rsec-cnt-desafios"></div>
+      </div>
     </div>
 
-    <!-- NÍVEL 2: HÁBITOS -->
-    <div class="rotina-section">
-      <div class="rotina-sec-hdr rotina-sec-hdr--habitos">
-        <span class="rsec-icon">🧱</span>
-        <span class="rsec-label">HÁBITOS DE CONSTRUÇÃO</span>
-        <span class="rsec-count" id="rtab-hab-cnt">0</span>
-        <span class="rsec-meta" id="hab-hoje-meta"></span>
-        <button class="rsec-add" onclick="openM_addHabito()" title="Novo hábito">+</button>
+    <!-- HÁBITOS -->
+    <div class="rot-sec" id="rotina-sec-habitos" style="display:none">
+      <div class="rot-sec-hdr" onclick="toggleRotSec('habitos')">
+        <span class="rot-sec-icon">🧱</span>
+        <span class="rot-sec-label">Hábitos de Construção</span>
+        <span class="rot-sec-badge" id="rsec-badge-habitos"></span>
+        <div class="rot-sec-hdr-actions">
+          <button class="rot-sec-btn" onclick="event.stopPropagation();openReorderModal('habitos')" title="Reordenar">⇅</button>
+          <button class="rot-sec-btn" onclick="event.stopPropagation();openM_addHabito()" title="Novo">+</button>
+        </div>
+        <span class="rot-sec-caret" id="rsec-caret-habitos">▾</span>
       </div>
-      <div class="week-label" style="padding:10px 16px 0">
-        <span id="week-range"></span>
-        <span id="week-stat" style="color:var(--acc)"></span>
+      <div class="rot-sec-body" id="rsec-body-habitos">
+        <div id="rsec-card-habitos"></div>
+        <div class="rsec-restantes" id="rsec-cnt-habitos"></div>
       </div>
-      <div id="list-habitos" class="rsec-body"></div>
     </div>
 
-    <!-- NÍVEL 3: VÍCIOS -->
-    <div class="rotina-section">
-      <div class="rotina-sec-hdr rotina-sec-hdr--vicios">
-        <span class="rsec-icon">🛡️</span>
-        <span class="rsec-label">VÍCIOS RASTREADOS</span>
-        <span class="rsec-count" id="rtab-vic-cnt">0</span>
-        <button class="rsec-add" onclick="openM('mbg-add-vicio')" title="Novo vício">+</button>
+    <!-- VÍCIOS -->
+    <div class="rot-sec" id="rotina-sec-vicios" style="display:none">
+      <div class="rot-sec-hdr" onclick="toggleRotSec('vicios')">
+        <span class="rot-sec-icon">🛡️</span>
+        <span class="rot-sec-label">Vícios Rastreados</span>
+        <span class="rot-sec-badge" id="rsec-badge-vicios"></span>
+        <div class="rot-sec-hdr-actions">
+          <button class="rot-sec-btn" onclick="event.stopPropagation();openReorderModal('vicios')" title="Reordenar">⇅</button>
+          <button class="rot-sec-btn" onclick="event.stopPropagation();openM('mbg-add-vicio')" title="Novo">+</button>
+        </div>
+        <span class="rot-sec-caret" id="rsec-caret-vicios">▾</span>
       </div>
-      <div id="list-vicios" class="rsec-body"></div>
-      <div id="disc-cnt" style="display:none">0</div>
-      <div id="list-descarte" style="display:none"></div>
+      <div class="rot-sec-body" id="rsec-body-vicios">
+        <div id="rsec-card-vicios"></div>
+        <div class="rsec-restantes" id="rsec-cnt-vicios"></div>
+      </div>
+    </div>
+
+    <!-- hidden legacy IDs for compat -->
+    <div style="display:none">
+      <span id="rtab-des-cnt"></span><span id="rtab-hab-cnt"></span>
+      <span id="rtab-vic-cnt"></span><span id="hab-hoje-meta"></span>
+      <span id="week-range"></span><span id="week-stat"></span>
+      <span id="list-habitos"></span><span id="list-vicios"></span>
+      <span id="list-desafios"></span><span id="disc-cnt"></span>
+      <span id="list-descarte"></span>
     </div>
 
   </div>
-
 </div><!-- /sec-rotina -->
 
 <!-- ══ CADERNO ══════════════════════════════════════════════ -->
@@ -1883,9 +2130,9 @@ input:focus, textarea:focus, select:focus {
   <span id="contratos-back-btn" style="display:none"></span>
   <!-- Mobile tab nav -->
   <div class="predio-nav" id="predio-nav">
-    <button class="predio-nav-tab active" onclick="setPredioTab('frentes',this)">PROJETOS</button>
-    <button class="predio-nav-tab" onclick="setPredioTab('ciclos',this)">AÇÕES</button>
-    <button class="predio-nav-tab" onclick="setPredioTab('horizontes',this)">METAS TRIMESTRAIS</button>
+    <button class="predio-nav-tab active" onclick="setPredioTab('frentes',this)">AÇÕES</button>
+    <button class="predio-nav-tab" onclick="setPredioTab('ciclos',this)">TRIMESTRAIS</button>
+    <button class="predio-nav-tab" onclick="setPredioTab('horizontes',this)">LONGO PRAZO</button>
     <button class="predio-nav-tab" onclick="setPredioTab('pilares',this)">ÁREAS</button>
     <button class="predio-nav-tab" onclick="setPredioTab('fundacao',this)">PROPÓSITO</button>
     <div style="flex:1"></div>
@@ -1899,7 +2146,7 @@ input:focus, textarea:focus, select:focus {
 
   <div class="floor floor-col-left" id="fl-frentes">
     <div class="floor-hdr">
-      <span class="floor-tag">PROJETOS</span>
+      <span class="floor-tag">AÇÕES</span>
       <span class="floor-count-badge" id="fl-frentes-count"></span>
       <em class="floor-caret">▾</em>
     </div>
@@ -1907,14 +2154,14 @@ input:focus, textarea:focus, select:focus {
       <div id="preview-frentes" class="floor-preview"></div>
       <div id="fl-frentes-tutorial" style="display:none"></div>
       <div id="warn-ciclos-frentes" style="display:none"></div>
-      <button class="btn btn-g btn-sm gap" onclick="openAddPredi('frentes')">+ Novo projeto</button>
+      <button class="btn btn-g btn-sm gap" onclick="openAddPredi('frentes')">+ Nova ação</button>
       <div id="list-frentes" class="gap"></div>
     </div>
   </div>
 
   <div class="floor floor-col-left" id="fl-ciclos">
     <div class="floor-hdr">
-      <span class="floor-tag">AÇÕES</span>
+      <span class="floor-tag">TRIMESTRAIS</span>
       <span class="floor-count-badge" id="fl-ciclos-count"></span>
       <em class="floor-caret">▾</em>
     </div>
@@ -1922,14 +2169,14 @@ input:focus, textarea:focus, select:focus {
       <div id="fl-ciclos-tutorial" style="display:none"></div>
       <div id="preview-ciclos" class="floor-preview"></div>
       <div id="warn-ciclos" class="warn" style="display:none;font-size:11px;color:var(--red);margin-top:4px">Limite de 3 ações ativas atingido.</div>
-      <button class="btn btn-g btn-sm gap" id="btn-add-ciclo" onclick="openAddPredi('ciclos')">+ Nova ação</button>
+      <button class="btn btn-g btn-sm gap" id="btn-add-ciclo" onclick="openAddPredi('ciclos')">+ Nova trimestral</button>
       <div id="list-ciclos" class="gap"></div>
     </div>
   </div>
 
   <div class="floor floor-col-right" id="fl-horizontes">
     <div class="floor-hdr">
-      <span class="floor-tag">METAS TRIMESTRAIS</span>
+      <span class="floor-tag">LONGO PRAZO</span>
       <span class="floor-count-badge" id="fl-horizontes-count"></span>
       <em class="floor-caret">▾</em>
     </div>
@@ -2003,6 +2250,30 @@ input:focus, textarea:focus, select:focus {
 
 </div>
 
+
+
+<!-- ══ MODAL: Menu 3 pontos (hábito/vício/desafio) ═══════════════ -->
+<div class="mbg" id="mbg-hab-menu">
+<div class="modal" style="padding:8px 0 16px">
+  <div style="display:flex;align-items:center;justify-content:space-between;padding:12px 20px 10px">
+    <div class="m-title" id="hab-menu-titulo" style="margin:0;font-size:15px"></div>
+    <button class="m-close" onclick="closeM('mbg-hab-menu')" style="position:static;font-size:20px;color:var(--t2)">×</button>
+  </div>
+  <div id="hab-menu-items"></div>
+</div>
+</div>
+
+<!-- ══ MODAL: Reordenar ═══════════════════════════════════════════ -->
+<div class="mbg" id="mbg-reorder">
+<div class="modal">
+  <button class="m-close" onclick="closeM('mbg-reorder')">×</button>
+  <div class="m-title" id="reorder-title">Reordenar</div>
+  <div id="reorder-list" style="margin-top:8px"></div>
+  <div class="m-actions" style="margin-top:16px">
+    <button class="btn btn-a" onclick="saveReorder()">Salvar ordem</button>
+  </div>
+</div>
+</div>
 
 <!-- ══ MODAL: Triagem ════════════════════════════════════════ -->
 <div class="mbg" id="mbg-triage">
@@ -2950,7 +3221,7 @@ function setTab(name, el) {
   document.getElementById('sec-' + name).classList.add('active');
   el.classList.add('active');
   const renders = {
-    rotina: () => { renderHabitos(); renderPorao(); renderDesafios(); _updateRotinaTabCounts(); renderRotinaStrip(); },
+    rotina: () => { renderHabitos(); renderVicios(); renderDesafios(); renderDiaResumo(); },
     caderno: renderCaderno,
     predio: renderPredio,
   };
@@ -2984,300 +3255,428 @@ function rsecWrap(items, sectionId, renderFn) {
   return visible.join('') + `<button class="rsec-show-more" onclick="rsecShowMore('${sectionId}')">${btnLabel}</button>`;
 }
 
-function renderRotinaStrip() {
-  const el = document.getElementById('rotina-strip');
+/* ═══════════════════════════════════════════════════════════
+   ROTINA — Sistema de fila (1 card por vez)
+═══════════════════════════════════════════════════════════ */
+
+// Estado das seções
+const _rotSecOpen = { desafios: true, habitos: true, vicios: true };
+
+function toggleRotSec(id) {
+  _rotSecOpen[id] = !_rotSecOpen[id];
+  const body = document.getElementById('rsec-body-' + id);
+  const caret = document.getElementById('rsec-caret-' + id);
+  if (body) body.classList.toggle('hidden', !_rotSecOpen[id]);
+  if (caret) caret.classList.toggle('closed', !_rotSecOpen[id]);
+}
+
+// ── Resumo do Dia ──────────────────────────────────────────────
+function renderDiaResumo() {
+  const el = document.getElementById('dia-resumo');
   if (!el) return;
   const t = today();
-  const diasSemana = ['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'];
-  const dow = new Date().getDay();
-  const diaNome = diasSemana[dow];
-  const habs = (S.habitos||[]).filter(h => !h.arquivado);
-  const habFeitos = habs.filter(h => (h.registros||{})[t] === 'feito').length;
-  const habRestantes = habs.length - habFeitos;
-  let bestStreak = 0;
-  habs.forEach(h => {
-    let s = 0; const d = new Date();
-    for (let i = 0; i < 365; i++) {
-      const ds = d.toLocaleDateString('sv'); d.setDate(d.getDate() - 1);
-      if ((h.registros||{})[ds] === 'feito') s++; else break;
-    }
-    if (s > bestStreak) bestStreak = s;
-  });
-  const desAtivos = (S.desafios||[]).filter(d => d.ativo !== false).length;
-  const vicOk  = (S.vicios||[]).filter(v => (v.registros||{})[t] === 'resistiu').length;
-  const vicTot = (S.vicios||[]).length;
+  const meses = ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
+  const dias  = ['Domingo','Segunda-feira','Terça-feira','Quarta-feira','Quinta-feira','Sexta-feira','Sábado'];
+  const now   = new Date();
+  const dateStr = `${dias[now.getDay()]}, ${now.getDate()} de ${meses[now.getMonth()]} de ${now.getFullYear()}`;
 
-  // Saudação baseada na hora
-  const hr = new Date().getHours();
-  const saudacao = hr < 12 ? 'Bom dia' : hr < 18 ? 'Boa tarde' : 'Boa noite';
+  const habs     = (S.habitos||[]).filter(h => !h.arquivado);
+  const habPend  = habs.filter(h => (h.registros||{})[t] !== 'feito').length;
+  const desAtiv  = (S.desafios||[]).filter(d => d.ativo !== false).length;
+  const vicTot   = (S.vicios||[]).length;
+  const vicOk    = (S.vicios||[]).filter(v => (v.registros||{})[t] === 'resistiu').length;
+  const allDone  = habs.length > 0 && habPend === 0 && vicOk === vicTot && vicTot > 0;
 
-  // Build strip HTML
-  let stripHTML = `<span class="strip-greeting">${saudacao} · <strong>${diaNome}</strong></span>`;
-
+  let badges = '';
+  if (desAtiv > 0) badges += `<span class="dia-badge badge-desafio">🔥 ${desAtiv} Desafio${desAtiv>1?'s':''}</span>`;
   if (habs.length > 0) {
-    const pct = Math.round(habFeitos / habs.length * 100);
-    const cor = pct === 100 ? 'var(--green)' : pct >= 50 ? 'var(--acc)' : 'var(--t2)';
-    stripHTML += `<span class="strip-kpi" style="color:${cor}">🧱 ${habFeitos}/${habs.length}</span>`;
-    if (habRestantes > 0) stripHTML += `<span class="strip-sub">${habRestantes} restante${habRestantes>1?'s':''}</span>`;
+    if (habPend > 0)
+      badges += `<span class="dia-badge badge-habito">🧱 ${habPend} Hábito${habPend>1?'s':''}</span>`;
+    else
+      badges += `<span class="dia-badge badge-habito-done">🧱 Hábitos ✓</span>`;
   }
-  if (bestStreak > 1) stripHTML += `<span class="strip-kpi">🔥 ${bestStreak}d</span>`;
-  if (vicTot > 0) {
-    const vicCor = vicOk === vicTot ? 'var(--green)' : vicOk > 0 ? 'var(--acc)' : 'var(--t2)';
-    stripHTML += `<span class="strip-kpi" style="color:${vicCor}">🛡️ ${vicOk}/${vicTot}</span>`;
-  }
-  if (desAtivos > 0) stripHTML += `<span class="strip-kpi">🎯 ${desAtivos}</span>`;
+  if (vicTot > 0)
+    badges += `<span class="dia-badge badge-vicio">🛡️ ${vicOk}/${vicTot} Vício${vicTot>1?'s':''}</span>`;
 
-  el.innerHTML = stripHTML;
-
-  const meta = document.getElementById('hab-hoje-meta');
-  if (meta && habs.length) meta.textContent = `${habFeitos}/${habs.length} hoje`;
-}
-
-
-function rotinaAddAction() {
-  if (rotinaView === 'construir') openM_addHabito();
-  else if (rotinaView === 'destruir') openM('mbg-add-vicio');
-  else openM('mbg-add-desafio');
-}
-
-function _updateRotinaTabCounts() {
-  const hc = document.getElementById('rtab-hab-cnt');
-  const vc = document.getElementById('rtab-vic-cnt');
-  const dc = document.getElementById('rtab-des-cnt');
-  if (hc) hc.textContent = (S.habitos||[]).filter(h=>!h.arquivado).length;
-  if (vc) vc.textContent = (S.vicios||[]).length;
-  if (dc) dc.textContent = (S.desafios||[]).filter(d=>d.ativo!==false).length;
-}
-
-
-/* ══════════════════════════════════════════════════════════════
-   DESAFIOS
-══════════════════════════════════════════════════════════════ */
-function setDesafioMode(modo) {
-  document.getElementById('inp-des-modo').value = modo;
-  const bc = document.getElementById('des-mode-construir');
-  const br = document.getElementById('des-mode-resistir');
-  bc.style.cssText = modo==='construir'
-    ? 'flex:1;border-color:var(--green);color:var(--green);background:rgba(61,158,106,.1)'
-    : 'flex:1';
-  br.style.cssText = modo==='resistir'
-    ? 'flex:1;border-color:var(--red);color:var(--red);background:var(--rd)'
-    : 'flex:1';
-}
-
-function setDesafioDur(dias) {
-  document.getElementById('inp-des-dur').value = dias;
-  document.querySelectorAll('.des-dur-preset').forEach(b => {
-    b.classList.toggle('active', parseInt(b.textContent) === dias);
-    b.style.background = parseInt(b.textContent) === dias ? 'var(--acc-d)' : '';
-    b.style.borderColor = parseInt(b.textContent) === dias ? 'var(--acc)' : '';
-    b.style.color = parseInt(b.textContent) === dias ? 'var(--acc)' : '';
-  });
-}
-
-function saveDesafio() {
-  const nome = document.getElementById('inp-des-nome').value.trim();
-  if (!nome) return document.getElementById('inp-des-nome').focus();
-  const modo = document.getElementById('inp-des-modo').value;
-  const dur  = parseInt(document.getElementById('inp-des-dur').value) || 21;
-  if (!S.desafios) S.desafios = [];
-  S.desafios.push({ id: uid(), nome, modo, duracaoDias: dur, inicioEm: today(), registros: {}, ativo: true });
-  persist(); closeM('mbg-add-desafio');
-  document.getElementById('inp-des-nome').value = '';
-  renderDesafios(); _updateRotinaTabCounts();
-}
-
-function renderDesafios() {
-  const list = document.getElementById('list-desafios');
-  if (!list) return;
-  if (!S.desafios) S.desafios = [];
-  const ativos = S.desafios.filter(d => d.ativo !== false);
-
-  if (ativos.length === 0) {
-    list.innerHTML = '<div class="empty" style="padding:40px 16px">🎯<br>Nenhum desafio ativo.<br><span style="font-size:11px;color:var(--t3)">Crie um desafio para se comprometer com algo por um período definido.</span></div>';
-    return;
-  }
-
-  const _desCards = ativos.map(d => {
-    const inicio = new Date(d.inicioEm + 'T00:00:00');
-    const hoje = new Date(today() + 'T00:00:00');
-    const diaAtual = Math.floor((hoje - inicio) / 86400000) + 1;
-    const diasRestantes = Math.max(0, d.duracaoDias - diaAtual + 1);
-    const concluido = diaAtual > d.duracaoDias;
-    const pct = Math.min(100, Math.round((diaAtual - 1) / d.duracaoDias * 100));
-
-    // Build day grid (last 14 or full if short)
-    const gridDias = Math.min(d.duracaoDias, 21);
-    const startOffset = Math.max(0, diaAtual - gridDias);
-    let dayGrid = '';
-    for (let i = startOffset; i < d.duracaoDias; i++) {
-      const d2 = new Date(inicio); d2.setDate(inicio.getDate() + i);
-      const ds = d2.toLocaleDateString('sv');
-      const reg = (d.registros||{})[ds] || '';
-      const isFuture = d2 > hoje;
-      const isToday = ds === today();
-      let cls = 'day-cell';
-      if (isFuture) cls += ' future';
-      else if (d.modo === 'construir') cls += reg === 'feito' ? ' feito' : ' faltou';
-      else cls += reg === 'resistiu' ? ' feito' : reg === 'cedi' ? ' faltou' : ' faltou';
-      const onclick = isFuture ? '' : `cycleDesafioDay('${d.id}','${ds}')`;
-      const label = ['S','T','Q','Q','S','S','D'][d2.getDay()];
-      dayGrid += `<div class="${cls}${isToday?' today':''}" ${onclick ? `onclick="${onclick}"` : ''} style="${isFuture?'opacity:.25;cursor:default':''}">${reg === 'feito' || reg === 'resistiu' ? '✓' : reg === 'cedi' || (reg && d.modo==='construir' && reg!=='feito') ? '✕' : label}</div>`;
+  el.innerHTML = `
+    <div class="dia-resumo-title">Resumo do Dia</div>
+    <div class="dia-resumo-date">${dateStr}</div>
+    ${allDone
+      ? '<div class="dia-all-done">✓ Tudo feito hoje! Excelente.</div>'
+      : `<div class="dia-badges">${badges || '<span style="color:var(--t3);font-size:12px">Sem itens configurados ainda.</span>'}</div>`
     }
-
-    const statusLabel = concluido
-      ? '🎉 Concluído!'
-      : `Dia ${diaAtual}/${d.duracaoDias} · ${diasRestantes}d restantes`;
-
-    return `<div class="desafio-card">
-      <div class="desafio-hdr">
-        <span class="desafio-nome">${esc(d.nome)}</span>
-        <span class="desafio-mode-badge ${d.modo}">${d.modo === 'construir' ? '🧱 Construir' : '💣 Resistir'}</span>
-        <button class="habito-del" onclick="removeDesafio('${d.id}')">×</button>
-      </div>
-      <div class="desafio-progress-wrap">
-        <div class="desafio-progress-bar">
-          <div class="desafio-progress-fill ${concluido?'done':d.modo}" style="width:${pct}%"></div>
-        </div>
-        <div class="desafio-days-label">
-          <span>${statusLabel}</span>
-          <span style="color:var(--t3)">${pct}%</span>
-        </div>
-      </div>
-      <div class="desafio-day-grid">${dayGrid}</div>
-    </div>`;
-  });
-  list.innerHTML = ativos.length === 0 ? '<div class="empty" style="padding:40px 16px">🎯<br>Nenhum desafio ativo.<br><span style="font-size:11px;color:var(--t3)">Crie um desafio para se comprometer com algo por um período definido.</span></div>' : rsecWrap(_desCards, 'desafios');
+  `;
 }
 
-function cycleDesafioDay(id, ds) {
-  const d = (S.desafios||[]).find(x => x.id === id); if (!d) return;
-  if (!d.registros) d.registros = {};
-  const cur = d.registros[ds] || '';
-  if (d.modo === 'construir') {
-    d.registros[ds] = cur === 'feito' ? '' : 'feito';
-  } else {
-    d.registros[ds] = cur === 'resistiu' ? 'cedi' : cur === 'cedi' ? '' : 'resistiu';
+// ── Helpers ────────────────────────────────────────────────────
+function calcHabitoStreak(h) {
+  let s = 0; const d = new Date();
+  for (let i = 0; i < 365; i++) {
+    const ds = d.toLocaleDateString('sv'); d.setDate(d.getDate()-1);
+    if ((h.registros||{})[ds] === 'feito') s++; else break;
   }
-  persist(); renderDesafios();
+  return s;
 }
 
-function removeDesafio(id) {
-  showConfirm('Remover este desafio?', () => {
-    S.desafios = (S.desafios||[]).filter(x => x.id !== id);
-    persist(); renderDesafios(); _updateRotinaTabCounts();
-  });
+function getAreaTag(vinculoIds) {
+  const ids = vinculoIds || [];
+  for (const id of ids) {
+    const p = (S.pilares||[]).find(x => x.id === id);
+    if (p) return esc((p.texto||p.nome||'').slice(0,24));
+  }
+  return null;
 }
 
-function flipFloor(id) { document.getElementById('fl-' + id).classList.toggle('open'); }
-
-/* ═══════════════════════════════════════════════════════════
-   MODAIS
-═══════════════════════════════════════════════════════════ */
-function openM(id) { document.getElementById(id).classList.add('open'); }
-function closeM(id) { document.getElementById(id).classList.remove('open'); }
-document.querySelectorAll('.mbg').forEach(bg => bg.addEventListener('click', e => { if (e.target === bg) bg.classList.remove('open'); }));
-
-function showConfirm(msg, onOk) {
-  document.getElementById('confirm-msg').textContent = msg;
-  const btn = document.getElementById('confirm-ok');
-  const newBtn = btn.cloneNode(true);
-  btn.parentNode.replaceChild(newBtn, btn);
-  newBtn.onclick = () => { closeM('mbg-confirm'); onOk(); };
-  openM('mbg-confirm');
+function animateCardOut(id, callback) {
+  const card = document.getElementById(id);
+  if (card) {
+    card.classList.add('hab-card-out');
+    setTimeout(callback, 220);
+  } else {
+    callback();
+  }
 }
 
-// Dupla confirmação — para ações irreversíveis
-function showConfirm2(msg1, msg2, onOk) {
-  showConfirm(msg1, () => showConfirm(msg2, onOk));
-}
-
-/* ═══════════════════════════════════════════════════════════
-   HÁBITOS
-═══════════════════════════════════════════════════════════ */
-const DAY_LABELS = ['Seg','Ter','Qua','Qui','Sex','Sáb','Dom'];
-const HAB_CYCLE = ['feito', 'parcial', 'faltou', null];
-
-// ── Helpers de cálculo de % com freqAlvo e diasAtivos ──────────
-function calcPctHabito(h, days) {
-  const diasValidos = getHabDiasAtivos(h, days);
-  const freqAlvo = Math.min(h.freqAlvo || 7, diasValidos.length || 1);
-  const regs = h.registros || {};
-  const feito = diasValidos.filter(d => regs[d] === 'feito').length;
-  return { feito, alvo: freqAlvo, pct: Math.min(100, Math.round(feito / freqAlvo * 100)), diasValidos };
-}
-function calcPctVicio(v, days) {
-  const diasValidos = v.diasAtivos ? days.filter(d => v.diasAtivos.includes(new Date(d+'T12:00:00').getDay())) : days;
-  const regs = v.registros || {};
-  const resistiu = diasValidos.filter(d => regs[d] === 'resistiu').length;
-  const alvo = diasValidos.length || 1;
-  return { resistiu, alvo, pct: Math.round(resistiu / alvo * 100), diasValidos };
-}
-
+// ── renderHabitos ───────────────────────────────────────────────
 function renderHabitos() {
+  renderDiaResumo();
+  const t    = today();
+  const habs = (S.habitos||[]).filter(h => !h.arquivado)
+    .sort((a,b) => (a.ordem??999)-(b.ordem??999));
   const week = getWeekDays();
-  const t = today();
-  document.getElementById('week-range').textContent = `Semana: ${fmtDate(week[0])} — ${fmtDate(week[6])}`;
 
-  // Global week stat usando freqAlvo
-  let totalAlvo = 0, totalFeito = 0;
-  S.habitos.forEach(h => {
-    const { feito, alvo } = calcPctHabito(h, week);
-    totalAlvo += alvo; totalFeito += feito;
-  });
-  const pct = totalAlvo ? Math.round(totalFeito / totalAlvo * 100) : 0;
-  document.getElementById('week-stat').textContent = S.habitos.length ? `${pct}% da semana` : '';
+  const sec = document.getElementById('rotina-sec-habitos');
+  if (!sec) return;
 
-  const list = document.getElementById('list-habitos');
-  if (S.habitos.length === 0) {
-    list.innerHTML = '<div class="empty">Nenhum hábito ainda.<br>Adicione rotinas que quer rastrear.</div>';
+  if (habs.length === 0) { sec.style.display = 'none'; return; }
+  sec.style.display = 'block';
+
+  const pendentes  = habs.filter(h => (h.registros||{})[t] !== 'feito');
+  const concluidos = habs.length - pendentes.length;
+  const badge = document.getElementById('rsec-badge-habitos');
+  if (badge) badge.textContent = concluidos > 0 ? `${concluidos}/${habs.length} ✓` : '';
+
+  const cardEl = document.getElementById('rsec-card-habitos');
+  const cntEl  = document.getElementById('rsec-cnt-habitos');
+
+  if (pendentes.length === 0) {
+    if (cardEl) cardEl.innerHTML = '<div class="rsec-done-msg">✓ Todos os hábitos de hoje concluídos!</div>';
+    if (cntEl)  cntEl.textContent = '';
+    // Auto-recolhe seção
+    if (_rotSecOpen.habitos) { _rotSecOpen.habitos = false; toggleRotSec('habitos'); }
     return;
   }
 
-  const _habCards = S.habitos.map(h => {
-    const regs = h.registros || {};
-    const { feito, alvo, pct: habPct } = calcPctHabito(h, week);
-    const diasAtivosSet = h.diasAtivos ? new Set(h.diasAtivos) : null;
+  const h   = pendentes[0];
+  const rest = pendentes.length - 1;
+  const { feito, alvo, pct } = calcPctHabito(h, week);
+  const streak  = calcHabitoStreak(h);
+  const areaTag = getAreaTag(h.vinculoIds || (h.vinculoId ? [h.vinculoId] : []));
+  const areaHtml = areaTag ? `<span class="hab-area-tag">↳ ${areaTag}</span>` : '';
+  const strHtml  = streak > 1 ? `<span class="hab-streak">🔥 ${streak}d</span>` : '';
+  const fillCls  = pct >= 100 ? 'fill-green' : '';
 
-    const ids = h.vinculoIds || (h.vinculoId ? [h.vinculoId] : []);
-    const vinculos = ids.map(id => getPrediLabel(id)).filter(Boolean);
-    const vinculoHtml = vinculos.length
-      ? `<div class="habito-vinculos">${vinculos.map(v => {
-          const tipoLabel = {frentes:'Projeto',ciclos:'Ação',horizontes:'Meta Trimestral',pilares:'Área'}[v.tipo] || v.tipo;
-          return `<span class="habito-vtag">↳ ${esc(tipoLabel)}: ${esc(v.nome.slice(0,20))}</span>`;
-        }).join('')}</div>`
-      : '';
-
-    const days = week.map((d, i) => {
-      const est = regs[d] || '';
-      const isToday = d === t;
-      // dia inativo para este hábito fica esmaecido
-      const dow = new Date(d+'T12:00:00').getDay();
-      const inativo = diasAtivosSet && !diasAtivosSet.has(dow);
-      const icon = est === 'feito' ? '✓' : est === 'parcial' ? '½' : est === 'faltou' ? '✕' : DAY_LABELS[i].slice(0,1);
-      const dayOnclick = inativo ? '' : `cycleHabitoDay('${h.id}','${d}')`;
-      const dayStyle   = inativo ? 'opacity:.3;cursor:default' : '';
-      return `<div class="day-cell${est ? ' '+est : ''}${isToday ? ' today' : ''}${inativo ? ' inactive' : ''}" onclick="${dayOnclick}" title="${DAY_LABELS[i]}${inativo?' (inativo)':''}" style="${dayStyle}">${icon}</div>`;
-    }).join('');
-
-    const freqLabel = h.freqAlvo && h.freqAlvo < 7 ? ` · meta: ${h.freqAlvo}x/sem` : '';
-    return `<div class="habito-row">
-      <div class="habito-top">
-        <div class="habito-nome">${esc(h.nome)}<span style="font-size:9px;color:var(--t3);margin-left:6px;font-family:Georgia,serif">${freqLabel}</span></div>
-        <div class="habito-actions">
-          <button class="habito-edit" onclick="openEditHabito('${h.id}')">✎</button>
-          <button class="habito-del" onclick="removeHabito('${h.id}')">×</button>
+  if (cardEl) cardEl.innerHTML = `
+    <div class="hab-card" id="habcard-${h.id}">
+      <div class="hab-card-top">
+        <div class="hab-card-info">
+          <div class="hab-card-nome">${esc(h.nome)}</div>
+          <div class="hab-card-meta">${areaHtml}${strHtml}<span class="hab-prog-txt">${feito}/${alvo} na semana</span></div>
+          <div class="hab-progress-track">
+            <div class="hab-progress-fill fill-purple ${fillCls}" style="width:${pct}%" id="habfill-${h.id}"></div>
+          </div>
+        </div>
+        <div class="hab-card-btns">
+          <button class="btn-check" onclick="checkHabito('${h.id}')">CHECK</button>
+          <button class="hab-menu-btn" onclick="openHabMenu(event,'${h.id}','habito')">···</button>
         </div>
       </div>
-      ${vinculoHtml}
-      <div class="habito-bottom">
-        <div class="days-grid">${days}</div>
-        <div class="habito-stat">${feito}/${alvo} <span style="font-size:9px;color:${habPct>=100?'var(--green)':habPct>=50?'var(--acc)':'var(--red)'}">${habPct}%</span></div>
+    </div>`;
+
+  if (cntEl) cntEl.textContent = rest > 0 ? `+ ${rest} restante${rest>1?'s':''}` : '';
+}
+
+function checkHabito(id) {
+  const h = (S.habitos||[]).find(x=>x.id===id); if (!h) return;
+  if (!h.registros) h.registros = {};
+  animateCardOut('habcard-'+id, () => {
+    h.registros[today()] = 'feito';
+    persist(); renderHabitos();
+  });
+}
+
+// ── renderVicios ───────────────────────────────────────────────
+function renderVicios() {
+  renderDiaResumo();
+  const t = today();
+  const vicios = (S.vicios||[]).sort((a,b)=>(a.ordem??999)-(b.ordem??999));
+
+  const sec = document.getElementById('rotina-sec-vicios');
+  if (!sec) return;
+
+  if (vicios.length === 0) { sec.style.display = 'none'; return; }
+  sec.style.display = 'block';
+
+  const pendentes  = vicios.filter(v => !(v.registros||{})[t]);
+  const registrados = vicios.length - pendentes.length;
+  const badge = document.getElementById('rsec-badge-vicios');
+  if (badge) badge.textContent = registrados > 0 ? `${registrados}/${vicios.length} ✓` : '';
+
+  const cardEl = document.getElementById('rsec-card-vicios');
+  const cntEl  = document.getElementById('rsec-cnt-vicios');
+
+  if (pendentes.length === 0) {
+    if (cardEl) cardEl.innerHTML = '<div class="rsec-done-msg">✓ Todos os vícios registrados hoje!</div>';
+    if (cntEl)  cntEl.textContent = '';
+    if (_rotSecOpen.vicios) { _rotSecOpen.vicios = false; toggleRotSec('vicios'); }
+    return;
+  }
+
+  const v    = pendentes[0];
+  const rest = pendentes.length - 1;
+  const streak = calcVicioStreak(v.registros||{});
+  const strHtml = streak > 0 ? `<span class="hab-streak">🔥 ${streak}d</span>` : '';
+  const areaTag = getAreaTag(v.vinculoIds || (v.vinculoId ? [v.vinculoId] : []));
+  const areaHtml = areaTag ? `<span class="hab-area-tag">↳ ${areaTag}</span>` : '';
+  const pct = Math.min(100, Math.round(streak / 30 * 100));
+
+  if (cardEl) cardEl.innerHTML = `
+    <div class="hab-card" id="viccard-${v.id}">
+      <div class="hab-card-top">
+        <div class="hab-card-info">
+          <div class="hab-card-nome">${esc(v.nome)}</div>
+          <div class="hab-card-meta">${areaHtml}${strHtml}<span class="hab-prog-txt">Dia ${streak} de sequência</span></div>
+          <div class="hab-progress-track">
+            <div class="hab-progress-fill" style="width:${pct}%" id="vicfill-${v.id}"></div>
+          </div>
+        </div>
+        <div class="hab-card-btns">
+          <button class="btn-resisti" onclick="registrarVicio('${v.id}','resistiu')">RESISTI</button>
+          <button class="hab-menu-btn" onclick="openHabMenu(event,'${v.id}','vicio')">···</button>
+        </div>
       </div>
     </div>`;
-  });
-  list.innerHTML = S.habitos.length === 0 ? '' : rsecWrap(_habCards, 'habitos');
+
+  if (cntEl) cntEl.textContent = rest > 0 ? `+ ${rest} restante${rest>1?'s':''}` : '';
 }
+
+function renderPorao() { renderVicios(); }
+
+function registrarVicio(id, status) {
+  const v = (S.vicios||[]).find(x=>x.id===id); if (!v) return;
+  if (!v.registros) v.registros = {};
+  animateCardOut('viccard-'+id, () => {
+    v.registros[today()] = status;
+    persist(); renderVicios();
+  });
+}
+
+// ── renderDesafios ─────────────────────────────────────────────
+function renderDesafios() {
+  renderDiaResumo();
+  const t = today();
+  const desafios = (S.desafios||[]).filter(d=>d.ativo!==false)
+    .sort((a,b)=>(a.ordem??999)-(b.ordem??999));
+
+  const sec = document.getElementById('rotina-sec-desafios');
+  if (!sec) return;
+
+  if (desafios.length === 0) { sec.style.display = 'none'; return; }
+  sec.style.display = 'block';
+
+  const badge = document.getElementById('rsec-badge-desafios');
+  const pendentes = desafios.filter(d => !(d.registros||{})[t]);
+  const reg = desafios.length - pendentes.length;
+  if (badge) badge.textContent = reg > 0 ? `${reg}/${desafios.length} ✓` : '';
+
+  const cardEl = document.getElementById('rsec-card-desafios');
+  const cntEl  = document.getElementById('rsec-cnt-desafios');
+
+  if (pendentes.length === 0) {
+    if (cardEl) cardEl.innerHTML = '<div class="rsec-done-msg">✓ Todos os desafios de hoje marcados!</div>';
+    if (cntEl)  cntEl.textContent = '';
+    if (_rotSecOpen.desafios) { _rotSecOpen.desafios = false; toggleRotSec('desafios'); }
+    return;
+  }
+
+  const d    = pendentes[0];
+  const rest = pendentes.length - 1;
+  const inicio = new Date(d.inicioEm + 'T00:00:00');
+  const hoje   = new Date(t + 'T00:00:00');
+  const diaAtual = Math.floor((hoje - inicio) / 86400000) + 1;
+  const pct   = Math.min(100, Math.round((diaAtual-1) / d.duracaoDias * 100));
+  const modeCls = d.modo === 'resistir' ? 'btn-resisti' : 'btn-des-check';
+  const modeLabel = d.modo === 'resistir' ? 'RESISTI' : 'CHECK';
+
+  if (cardEl) cardEl.innerHTML = `
+    <div class="hab-card" id="descard-${d.id}">
+      <div class="hab-card-top">
+        <div class="hab-card-info">
+          <div class="hab-card-nome">${esc(d.nome)}</div>
+          <div class="hab-card-meta">
+            <span class="hab-prog-txt">Dia ${diaAtual} de ${d.duracaoDias}</span>
+          </div>
+          <div class="hab-progress-track">
+            <div class="hab-progress-fill fill-green" style="width:${pct}%"></div>
+          </div>
+        </div>
+        <div class="hab-card-btns">
+          <button class="${modeCls}" onclick="checkDesafioHoje('${d.id}')">${modeLabel}</button>
+          <button class="hab-menu-btn" onclick="openHabMenu(event,'${d.id}','desafio')">···</button>
+        </div>
+      </div>
+    </div>`;
+
+  if (cntEl) cntEl.textContent = rest > 0 ? `+ ${rest} restante${rest>1?'s':''}` : '';
+}
+
+function checkDesafioHoje(id) {
+  const d = (S.desafios||[]).find(x=>x.id===id); if (!d) return;
+  if (!d.registros) d.registros = {};
+  animateCardOut('descard-'+id, () => {
+    const t = today();
+    d.registros[t] = d.modo === 'resistir' ? 'resistiu' : 'feito';
+    persist(); renderDesafios();
+  });
+}
+
+// ── renderRotinaStrip (legacy alias) ───────────────────────────
+function renderRotinaStrip() { renderDiaResumo(); }
+
+function rotinaAddAction() { openM_addHabito(); }
+
+function _updateRotinaTabCounts() { /* handled by renderDiaResumo */ }
+
+// ── 3-dot Menu ─────────────────────────────────────────────────
+let _habMenuId = null, _habMenuTipo = null;
+
+function openHabMenu(e, id, tipo) {
+  e.stopPropagation();
+  _habMenuId = id; _habMenuTipo = tipo;
+
+  let item = null;
+  if (tipo === 'habito') item = (S.habitos||[]).find(x=>x.id===id);
+  else if (tipo === 'vicio') item = (S.vicios||[]).find(x=>x.id===id);
+  else item = (S.desafios||[]).find(x=>x.id===id);
+
+  const tit = document.getElementById('hab-menu-titulo');
+  if (tit) tit.textContent = item ? (item.nome||item.texto||'') : '';
+
+  const regs = item?.registros || {};
+  const yest = new Date(); yest.setDate(yest.getDate()-1);
+  const yestStr = yest.toLocaleDateString('sv');
+  const two = new Date(); two.setDate(two.getDate()-2);
+  const twoStr = two.toLocaleDateString('sv');
+
+  const doneKey = tipo === 'vicio' ? 'resistiu' : 'feito';
+  const yestDone = regs[yestStr] === doneKey;
+  const twoDone  = regs[twoStr] === doneKey;
+
+  const yestLbl = yestDone ? `✓ Ontem já marcado — toque para desmarcar` : `↩ Marcar ontem`;
+  const twoLbl  = twoDone  ? `✓ Anteontem já marcado — desmarcar`       : `↩ Marcar anteontem`;
+
+  const menuItems = document.getElementById('hab-menu-items');
+  if (!menuItems) return;
+
+  let html = `
+    <button class="hab-menu-item${yestDone?' marked':''}" onclick="markPrevDay('${yestStr}')">${yestLbl}</button>
+    <button class="hab-menu-item${twoDone?' marked':''}" onclick="markPrevDay('${twoStr}')">${twoLbl}</button>`;
+
+  if (tipo === 'habito') {
+    html += `<button class="hab-menu-item" onclick="closeM('mbg-hab-menu');openEditHabito('${id}')">✏️ Editar hábito</button>`;
+    html += `<button class="hab-menu-item danger" onclick="closeM('mbg-hab-menu');removeHabito('${id}')">🗑 Excluir hábito</button>`;
+  } else if (tipo === 'vicio') {
+    html += `<button class="hab-menu-item danger" onclick="closeM('mbg-hab-menu');removeVicio('${id}')">🗑 Excluir vício</button>`;
+  } else {
+    html += `<button class="hab-menu-item danger" onclick="closeM('mbg-hab-menu');removeDesafio('${id}')">🗑 Excluir desafio</button>`;
+  }
+
+  menuItems.innerHTML = html;
+  openM('mbg-hab-menu');
+}
+
+function markPrevDay(dateStr) {
+  if (!_habMenuId || !_habMenuTipo) return;
+  let item = null;
+  const doneKey = _habMenuTipo === 'vicio' ? 'resistiu' : 'feito';
+  if (_habMenuTipo === 'habito')  item = (S.habitos||[]).find(x=>x.id===_habMenuId);
+  else if (_habMenuTipo === 'vicio') item = (S.vicios||[]).find(x=>x.id===_habMenuId);
+  else item = (S.desafios||[]).find(x=>x.id===_habMenuId);
+  if (!item) return;
+  if (!item.registros) item.registros = {};
+  if (item.registros[dateStr] === doneKey) delete item.registros[dateStr];
+  else item.registros[dateStr] = doneKey;
+  persist();
+  closeM('mbg-hab-menu');
+  renderHabitos(); renderVicios(); renderDesafios();
+  showToast(item.registros[dateStr] ? '✓ Dia anterior marcado' : 'Dia anterior desmarcado');
+}
+
+// ── Reordenar ──────────────────────────────────────────────────
+let _reorderTipo = null;
+let _reorderItems = [];
+
+function openReorderModal(tipo) {
+  _reorderTipo = tipo;
+  const titles = {habitos:'Reordenar Hábitos',vicios:'Reordenar Vícios',desafios:'Reordenar Desafios'};
+  const tit = document.getElementById('reorder-title');
+  if (tit) tit.textContent = titles[tipo] || 'Reordenar';
+
+  let items = [];
+  if (tipo === 'habitos') items = (S.habitos||[]).filter(h=>!h.arquivado);
+  else if (tipo === 'vicios') items = (S.vicios||[]);
+  else items = (S.desafios||[]).filter(d=>d.ativo!==false);
+  items.sort((a,b)=>(a.ordem??999)-(b.ordem??999));
+  _reorderItems = items.map(x=>x.id);
+
+  renderReorderList();
+  openM('mbg-reorder');
+}
+
+function renderReorderList() {
+  const list = document.getElementById('reorder-list');
+  if (!list) return;
+  let src = [];
+  if (_reorderTipo === 'habitos') src = S.habitos||[];
+  else if (_reorderTipo === 'vicios') src = S.vicios||[];
+  else src = S.desafios||[];
+
+  list.innerHTML = _reorderItems.map((id, i) => {
+    const item = src.find(x=>x.id===id);
+    const nome = item ? esc(item.nome||item.texto||'') : id;
+    return `<div class="reorder-item">
+      <span class="reorder-nome">${nome}</span>
+      <div class="reorder-btns">
+        <button class="reorder-btn" onclick="moveReorderItem(${i},-1)" ${i===0?'disabled':''}>↑</button>
+        <button class="reorder-btn" onclick="moveReorderItem(${i},1)" ${i===_reorderItems.length-1?'disabled':''}>↓</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function moveReorderItem(i, dir) {
+  const j = i + dir;
+  if (j < 0 || j >= _reorderItems.length) return;
+  [_reorderItems[i], _reorderItems[j]] = [_reorderItems[j], _reorderItems[i]];
+  renderReorderList();
+}
+
+function saveReorder() {
+  let src = [];
+  if (_reorderTipo === 'habitos') src = S.habitos||[];
+  else if (_reorderTipo === 'vicios') src = S.vicios||[];
+  else src = S.desafios||[];
+  _reorderItems.forEach((id, i) => {
+    const item = src.find(x=>x.id===id);
+    if (item) item.ordem = i;
+  });
+  persist();
+  closeM('mbg-reorder');
+  renderHabitos(); renderVicios(); renderDesafios();
+  showToast('✓ Ordem salva');
+}
+
+function renderHabitos_legacy() {} // stub
 
 function cycleHabitoDay(id, date) {
   const h = S.habitos.find(x => x.id === id);
@@ -3342,7 +3741,7 @@ function renderEditVinculos(ids) {
   container.innerHTML = ids.map(id => {
     const lbl = getPrediLabel(id);
     if (!lbl) return '';
-    const tipoLabel = {frentes:'Projeto',ciclos:'Ação',horizontes:'Meta Trimestral',pilares:'Área'}[lbl.tipo] || lbl.tipo;
+    const tipoLabel = {frentes:'Ação',ciclos:'Trimestral',horizontes:'Meta Trimestral',pilares:'Área'}[lbl.tipo] || lbl.tipo;
     return `<div style="display:flex;align-items:center;gap:6px;margin-bottom:5px">
       <span class="habito-vtag" style="font-size:11px;padding:3px 8px">${esc(tipoLabel)}: ${esc(lbl.nome.slice(0,30))}</span>
       <button onclick="removeVinculo('${id}')" style="background:none;border:none;color:var(--red);cursor:pointer;font-size:14px;padding:0">×</button>
@@ -3380,9 +3779,9 @@ function buildVincularPicker(containerId, onSelectFn) {
   const container = document.getElementById(containerId);
   if (!container) return;
   const tipos = [
-    {key:'frentes',    label:'Projeto'},
-    {key:'ciclos',     label:'Ação'},
-    {key:'horizontes', label:'Meta Trimestral'},
+    {key:'frentes',    label:'Ação'},
+    {key:'ciclos',     label:'Trimestral'},
+    {key:'horizontes', label:'Longo Prazo'},
     {key:'pilares',    label:'Área de foco'},
   ];
   let out = '';
@@ -3422,7 +3821,7 @@ function renderVinculosChips(ids, chipsContainerId, removeFn) {
     container.innerHTML = '<span style="font-size:11px;color:var(--t3);font-family:Georgia,serif">Nenhum vínculo ainda</span>';
     return;
   }
-  const labels = {frentes:'Projeto',ciclos:'Ação',horizontes:'Meta Trim.',pilares:'Área'};
+  const labels = {frentes:'Ação',ciclos:'Trimestral',horizontes:'Meta Trim.',pilares:'Área'};
   container.innerHTML = ids.map(id => {
     const lbl = getPrediLabel(id);
     if (!lbl) return '';
@@ -4056,15 +4455,15 @@ function saveTaskDirect() {
    PRÉDIO
 ═══════════════════════════════════════════════════════════ */
 const PREDI_CONFIGS = {
-  frentes:    { label: 'Novo projeto',                lbl: 'Nome do projeto',           extras: true,  anoAlvo: false, hasDesc: false },
-  ciclos:     { label: 'Novo projeto',     lbl: 'Nome da ação',       extras: false, anoAlvo: false, hasDesc: true  },
+  frentes:    { label: 'Nova ação',                lbl: 'Nome da ação',           extras: true,  anoAlvo: false, hasDesc: false },
+  ciclos:     { label: 'Nova trimestral', lbl: 'Meta trimestral',       extras: false, anoAlvo: false, hasDesc: true  },
   horizontes: { label: 'Nova meta trimestral', lbl: 'Meta trimestral (visão de futuro)', extras: false, anoAlvo: true,  hasDesc: true  },
   pilares:    { label: 'Nova área de foco',        lbl: 'Área de foco',           extras: false, anoAlvo: false, hasDesc: false }
 };
 
 // Placeholders para os campos de nome
 const PREDI_PLACEHOLDERS = {
-  frentes:    'Ex: Criar landing page do produto com formulário de contato',
+  frentes:    'Ex: Publicar página de vendas com formulário e integração de pagamento',
   ciclos:     'Ex: Fechar 3 novos clientes até o fim do trimestre',
   horizontes: 'Ex: Ter liberdade financeira com renda passiva até 2030',
   pilares:    'Ex: Meus Negócios, Minha Saúde, Meus Estudos'
@@ -4313,7 +4712,7 @@ document.addEventListener('click', () => {
 function quickConcluir(tipo, id) {
   const item = S[tipo].find(x => x.id === id); if (!item) return;
   const nome = item.nome || item.texto || '';
-  const tipoLabel = {frentes:'projeto',ciclos:'ação',horizontes:'meta trimestral',pilares:'área'}[tipo] || 'meta';
+  const tipoLabel = {frentes:'ação',ciclos:'trimestral',horizontes:'objetivo de longo prazo',pilares:'área'}[tipo] || 'meta';
   showConfirm(`Concluir a ${tipoLabel} "${nome.slice(0,40)}"?`, () => {
     let atrasoDias = 0;
     if (item.prazo) {
@@ -4443,7 +4842,7 @@ function arquivarPilar(id) {
 function openPrediDetail(tipo, id) {
   const item = S[tipo].find(x => x.id === id); if (!item) return;
   const nome = item.nome || item.texto || '';
-  const tipoNomes = {frentes:'Projeto',ciclos:'Ação',horizontes:'Meta Trimestral',pilares:'Área'};
+  const tipoNomes = {frentes:'Ação',ciclos:'Trimestral',horizontes:'Meta Trimestral',pilares:'Área'};
   document.getElementById('detail-nome').textContent = nome;
   document.getElementById('detail-tipo-badge').innerHTML =
     `<span style="font-size:10px;color:var(--acc);background:var(--acc-d);border:1px solid var(--acc-g);border-radius:3px;padding:2px 8px;font-family:Georgia,serif">${tipoNomes[tipo]||tipo}</span>`;
@@ -4556,61 +4955,6 @@ function closeGoalConfirm(status) {
    PORÃO
 ═══════════════════════════════════════════════════════════ */
 const VICIO_CYCLE = ['resistiu', 'cedi', null];
-
-function renderPorao() {
-  renderVicios();
-  renderDescarte();
-}
-
-function renderVicios() {
-  const list = document.getElementById('list-vicios');
-  const t = today();
-  const week = getWeekDays();
-
-  if (S.vicios.length === 0) {
-    list.innerHTML = '<div class="empty">Nenhum vício rastreado.<br>Adicione comportamentos a eliminar.</div>';
-    return;
-  }
-
-  const _vicCards = S.vicios.map(v => {
-    const regs = v.registros || {};
-    const streak = calcVicioStreak(regs);
-    const diasAtivosSet = v.diasAtivos ? new Set(v.diasAtivos) : null;
-    const diasLabel = v.diasAtivos ? `${v.diasAtivos.length}x/sem` : 'todo dia';
-
-    // Grade semanal — mesma estrutura que hábitos, cores binárias
-    const days = week.map((d, i) => {
-      const est = regs[d] || '';
-      const isT = d === t;
-      const dow = new Date(d+'T12:00:00').getDay();
-      const inativo = diasAtivosSet && !diasAtivosSet.has(dow);
-      // Mapeamento: resistiu→feito (verde), cedi→faltou (vermelho)
-      const cls = inativo ? '' : est === 'resistiu' ? 'feito' : est === 'cedi' ? 'faltou' : '';
-      const onclick = inativo ? '' : `cycleVicioDay('${v.id}','${d}')`;
-      const style = inativo ? 'opacity:.3;cursor:default' : '';
-      const icon = est === 'resistiu' ? '✓' : est === 'cedi' ? '✕' : DAY_LABELS[i].slice(0,1);
-      return `<div class="day-cell ${cls}${isT?' today':''}" onclick="${onclick}" style="${style}" title="${DAY_LABELS[i]}${inativo?' (inativo)':''}">${icon}</div>`;
-    }).join('');
-
-    const { pct: semPct, resistiu: semResistiu, alvo: semAlvo } = calcPctVicio(v, week);
-
-    return `<div class="habito-row">
-      <div class="habito-top">
-        <span class="habito-nome">${esc(v.nome)}</span>
-        <div class="habito-actions">
-          <span class="streak${streak===0?' zero':''}" style="font-size:10px;background:${streak>0?'var(--gd)':'var(--rd)'};border:1px solid ${streak>0?'rgba(61,158,106,.3)':'rgba(200,75,75,.3)'};color:${streak>0?'var(--green)':'var(--red)'};border-radius:20px;padding:2px 8px;font-family:Georgia,serif">🔥 ${streak}d</span>
-          <button class="habito-del" onclick="removeVicio('${v.id}')">×</button>
-        </div>
-      </div>
-      <div class="habito-bottom">
-        <div class="days-grid">${days}</div>
-        <div class="habito-stat">${semResistiu}/${semAlvo} <span style="font-size:9px;color:${semPct>=100?'var(--green)':semPct>=50?'var(--acc)':'var(--red)'}">${semPct}%</span></div>
-      </div>
-      <div style="font-size:10px;color:var(--t3);font-family:Georgia,serif;margin-top:4px">${diasLabel} · clique no dia para registrar</div>
-    </div>`;
-  });
-  list.innerHTML = S.vicios.length === 0 ? '<div class="empty">Nenhum vício rastreado.<br>Adicione comportamentos a eliminar.</div>' : rsecWrap(_vicCards, 'vicios');
-}
 
 function markVicioResistiu(id) {
   const v = S.vicios.find(x => x.id === id); if (!v) return;
@@ -4767,7 +5111,7 @@ function renderHistory() {
       list.innerHTML = '<div class="empty">Nenhuma meta encerrada ainda.</div>';
       return;
     }
-    const tipoNomes = {frentes:'Projeto',ciclos:'Ação',horizontes:'Meta Trimestral',pilares:'Área'};
+    const tipoNomes = {frentes:'Ação',ciclos:'Trimestral',horizontes:'Meta Trimestral',pilares:'Área'};
     list.innerHTML = S.historico.slice().reverse().map(h => {
       const tipoLabel = tipoNomes[h.tipo] || h.tipo;
       const atrasoBadge = h.atrasoDias > 0
@@ -4879,7 +5223,7 @@ function popularAlvosContrato(tipo) {
   let itens = [];
   if (tipo === 'meta') {
     ['frentes','ciclos','horizontes'].forEach(t => {
-      const nomes = {frentes:'Ação',ciclos:'Trimestre',horizontes:'Grandes Saltos'};
+      const nomes = {frentes:'Ação',ciclos:'Trimestral',horizontes:'Longo Prazo'};
       S[t].filter(x => !x.status || x.status === 'ativo').forEach(item => {
         itens.push({ id: item.id, label: `[${nomes[t]}] ${(item.nome||item.texto||'').slice(0,40)}` });
       });
@@ -5669,7 +6013,7 @@ function buildDeleteZone() {
   hist.forEach(h => {
     items += `<div class="dash-delete-item">
       <span class="dash-delete-name">${esc(h.nome.slice(0,30))}</span>
-      <span class="dash-delete-meta">${{frentes:'Projeto',ciclos:'Ação',horizontes:'Meta Trimestral',pilares:'Área'}[h.tipo]||h.tipo} · ${h.statusFinal}</span>
+      <span class="dash-delete-meta">${{frentes:'Ação',ciclos:'Trimestral',horizontes:'Meta Trimestral',pilares:'Área'}[h.tipo]||h.tipo} · ${h.statusFinal}</span>
       <button class="dash-delete-btn" onclick="deleteHistHard('${h.id}')">Excluir</button>
     </div>`;
   });
@@ -5986,7 +6330,7 @@ function renderAll() {
   const activeTab = document.querySelector('.tab.active');
   const name = activeTab ? activeTab.id.replace('tab-', '') : 'rotina';
   const renders = {
-    rotina:  () => { renderHabitos(); renderPorao(); renderDesafios(); _updateRotinaTabCounts(); renderRotinaStrip(); },
+    rotina:  () => { renderHabitos(); renderVicios(); renderDesafios(); renderDiaResumo(); },
     caderno: renderCaderno,
     predio:  renderPredio,
   };
@@ -6078,12 +6422,11 @@ function init() {
 
   if (!navigator.onLine) document.getElementById('offline-banner').classList.add('show');
 
-  // Initial render — call full render for active tab
+  // Initial render
   renderHabitos();
-  renderPorao();
+  renderVicios();
   renderDesafios();
-  _updateRotinaTabCounts();
-  renderRotinaStrip();
+  renderDiaResumo();
 
   // Onboarding
   checkOnboarding();
