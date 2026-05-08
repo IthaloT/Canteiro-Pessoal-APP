@@ -857,21 +857,8 @@ select option{background:var(--s2)}
 }
 .contratos-back-btn:hover{color:var(--text)}
 
-/* ── Notes per item ────────────────────────────────────────── */
-.pi-nota-toggle{
-  background:none;border:none;color:var(--t3);font-size:10px;
-  cursor:pointer;font-family:Georgia,serif;padding:4px 0 0;
-  letter-spacing:.3px;transition:color var(--tr);
-}
-.pi-nota-toggle:hover,.pi-nota-toggle.has-nota{color:var(--acc)}
-.pi-nota-area{
-  width:100%;background:var(--s2);border:1px solid var(--b1);
-  border-radius:var(--rs);color:var(--text);padding:7px 9px;
-  font-size:12px;font-family:Georgia,serif;resize:none;
-  min-height:52px;margin-top:5px;outline:none;
-  transition:border-color var(--tr);
-}
-.pi-nota-area:focus{border-color:var(--acc)}
+
+
 
 /* ── Horizonte link badge ──────────────────────────────────── */
 .horizonte-link-badge{
@@ -1704,6 +1691,81 @@ input:focus, textarea:focus, select:focus {
   text-align:center;padding:18px 0 6px;
   font-size:13px;color:var(--t3);font-family:var(--ui-font);line-height:1.6;
 }
+
+/* ── Predio card description preview ─────────────────────── */
+.pi-desc-preview{
+  font-size:11px;color:var(--t2);font-family:var(--ui-font);
+  margin-top:3px;line-height:1.5;
+  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;
+  overflow:hidden;
+}
+
+
+/* ═══ ROTINA UNIFICADA ════════════════════════════════════════ */
+.rot-unified-header{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:14px 16px 10px;border-bottom:1px solid var(--b1);
+}
+.rot-unified-title{
+  font-size:15px;font-weight:700;color:var(--text);font-family:var(--ui-font);
+}
+#rot-unified-list{ padding:12px 16px 0; }
+/* Unified card */
+.uni-card{
+  background:var(--s1);border:1px solid var(--b1);border-radius:var(--r);
+  padding:14px;margin-bottom:10px;
+  animation:habIn .2s ease;overflow:hidden;
+}
+.uni-card.uni-card-out{ animation:habOut .18s ease forwards }
+.uni-type-badge{
+  display:inline-flex;align-items:center;gap:4px;
+  font-size:10px;font-weight:700;letter-spacing:.5px;
+  padding:2px 7px;border-radius:3px;margin-bottom:8px;
+  font-family:var(--ui-font);
+}
+.uni-type-badge.des{ background:rgba(212,100,23,.18);color:#E8872A;border:1px solid rgba(212,100,23,.3)}
+.uni-type-badge.hab{ background:rgba(74,127,193,.18);color:#6AABEE;border:1px solid rgba(74,127,193,.3)}
+.uni-type-badge.vic{ background:rgba(123,94,167,.18);color:#A07FCA;border:1px solid rgba(123,94,167,.3)}
+.uni-card-row{ display:flex;align-items:center;gap:10px }
+.uni-card-info{ flex:1;min-width:0 }
+.uni-card-nome{
+  font-size:17px;font-weight:600;color:var(--text);
+  font-family:Georgia,serif;line-height:1.3;margin-bottom:5px;
+  word-break:break-word;
+}
+.uni-card-sub{
+  display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-bottom:7px;
+}
+.uni-bar-track{ height:4px;background:var(--s3);border-radius:2px;overflow:hidden }
+.uni-bar-fill{ height:100%;border-radius:2px;transition:width .4s ease;background:var(--acc) }
+.uni-bar-fill.green{ background:var(--green) }
+.uni-bar-fill.purple{ background:#7B5EA7 }
+.uni-card-btns{ display:flex;flex-direction:column;align-items:center;gap:5px;flex-shrink:0 }
+/* Done section */
+#rot-unified-done{ padding:0 16px 16px }
+.rot-done-section-hdr{
+  font-size:11px;letter-spacing:.8px;text-transform:uppercase;
+  color:var(--t3);font-family:var(--ui-font);padding:8px 0 6px;
+  border-top:1px solid var(--b1);margin-top:4px;
+}
+.uni-card-done{
+  display:flex;align-items:center;gap:8px;padding:8px 0;
+  border-bottom:1px solid var(--b1);opacity:.55;
+}
+.uni-card-done:last-child{ border-bottom:none }
+.uni-done-nome{
+  flex:1;font-size:13px;font-family:Georgia,serif;color:var(--t2);
+  text-decoration:line-through;
+}
+.uni-done-type{ font-size:11px }
+@media(min-width:1024px){
+  .rot-unified-header{ padding:16px 28px 12px }
+  #rot-unified-list{ padding:14px 28px 0 }
+  #rot-unified-done{ padding:0 28px 16px }
+  .uni-card{ padding:16px 18px }
+  .uni-card-nome{ font-size:18px }
+}
+
 </style>
 </head>
 <body>
@@ -1809,56 +1871,18 @@ input:focus, textarea:focus, select:focus {
   <div class="dia-resumo" id="dia-resumo"></div>
   <div class="rotina-scroll">
 
-    <div class="rot-sec" id="rot-sec-desafios">
-      <div class="rot-sec-hdr" onclick="toggleRotSec('desafios')">
-        <span class="rot-sec-icon">🔥</span>
-        <span class="rot-sec-label">Meus Desafios</span>
-        <span class="rot-sec-meta" id="rot-meta-desafios"></span>
-        <div class="rot-sec-actions" onclick="event.stopPropagation()">
-          <button class="rot-sec-btn" onclick="openReorderModal('desafios')">⇅</button>
-          <button class="rot-sec-btn" id="btn-rot-add-desafio">+</button>
-        </div>
-        <span class="rot-sec-caret" id="rot-caret-desafios">▾</span>
-      </div>
-      <div class="rot-sec-body" id="rot-body-desafios">
-        <div id="rot-card-desafios"></div>
-        <div class="rot-restantes" id="rot-cnt-desafios"></div>
+    <div class="rot-unified-header">
+      <span class="rot-unified-title">Hoje</span>
+      <div style="display:flex;gap:6px">
+        <button class="rot-sec-btn" onclick="openReorderModalGlobal()" title="Reordenar">⇅</button>
+        <button class="rot-sec-btn" id="btn-rot-add-desafio" title="Novo desafio">🔥+</button>
+        <button class="rot-sec-btn" id="btn-rot-add-habito" title="Novo hábito">🧱+</button>
+        <button class="rot-sec-btn" onclick="openM('mbg-add-vicio')" title="Novo vício">🛡️+</button>
       </div>
     </div>
 
-    <div class="rot-sec" id="rot-sec-habitos">
-      <div class="rot-sec-hdr" onclick="toggleRotSec('habitos')">
-        <span class="rot-sec-icon">🧱</span>
-        <span class="rot-sec-label">Hábitos de Construção</span>
-        <span class="rot-sec-meta" id="rot-meta-habitos"></span>
-        <div class="rot-sec-actions" onclick="event.stopPropagation()">
-          <button class="rot-sec-btn" onclick="openReorderModal('habitos')">⇅</button>
-          <button class="rot-sec-btn" id="btn-rot-add-habito">+</button>
-        </div>
-        <span class="rot-sec-caret" id="rot-caret-habitos">▾</span>
-      </div>
-      <div class="rot-sec-body" id="rot-body-habitos">
-        <div id="rot-card-habitos"></div>
-        <div class="rot-restantes" id="rot-cnt-habitos"></div>
-      </div>
-    </div>
-
-    <div class="rot-sec" id="rot-sec-vicios">
-      <div class="rot-sec-hdr" onclick="toggleRotSec('vicios')">
-        <span class="rot-sec-icon">🛡️</span>
-        <span class="rot-sec-label">Vícios Rastreados</span>
-        <span class="rot-sec-meta" id="rot-meta-vicios"></span>
-        <div class="rot-sec-actions" onclick="event.stopPropagation()">
-          <button class="rot-sec-btn" onclick="openReorderModal('vicios')">⇅</button>
-          <button class="rot-sec-btn" onclick="openM('mbg-add-vicio')">+</button>
-        </div>
-        <span class="rot-sec-caret" id="rot-caret-vicios">▾</span>
-      </div>
-      <div class="rot-sec-body" id="rot-body-vicios">
-        <div id="rot-card-vicios"></div>
-        <div class="rot-restantes" id="rot-cnt-vicios"></div>
-      </div>
-    </div>
+    <div id="rot-unified-list"></div>
+    <div id="rot-unified-done" style="margin-top:8px"></div>
 
   </div>
   <!-- Legacy IDs kept for compatibility with unchanged JS functions -->
@@ -2045,6 +2069,21 @@ input:focus, textarea:focus, select:focus {
   <div class="m-actions" style="margin-top:14px">
     <button class="btn btn-g" onclick="closeM('mbg-reorder')">Cancelar</button>
     <button class="btn btn-a" onclick="saveReorder()">Salvar</button>
+  </div>
+</div>
+</div>
+
+
+<!-- ══ MODAL: Reordenar Rotina Global ══════════════════════ -->
+<div class="mbg" id="mbg-reorder-global">
+<div class="modal">
+  <button class="m-close" onclick="closeM('mbg-reorder-global')">×</button>
+  <div class="m-title">Reordenar Rotina</div>
+  <div style="font-size:11px;color:var(--t3);font-family:var(--ui-font);margin-bottom:12px">Arraste para definir a ordem de exibição</div>
+  <div id="reorder-global-list" style="margin-top:8px"></div>
+  <div class="m-actions" style="margin-top:14px">
+    <button class="btn btn-g" onclick="closeM('mbg-reorder-global')">Cancelar</button>
+    <button class="btn btn-a" onclick="saveReorderGlobal()">Salvar</button>
   </div>
 </div>
 </div>
@@ -2576,7 +2615,7 @@ function blank() {
     inbox: [], tarefas: [],
     ideias: [], tagIdeias: [],
     vicios: [], descarte: [], historico: [],
-    contratos: [], desafios: []
+    contratos: [], desafios: [], rotinaOrdem: []
   };
 }
 
@@ -3956,10 +3995,10 @@ function saveTaskDirect() {
    PRÉDIO
 ═══════════════════════════════════════════════════════════ */
 const PREDI_CONFIGS = {
-  frentes:    { label: 'Nova ação',                lbl: 'Nome da ação',           extras: true,  anoAlvo: false, hasDesc: false },
+  frentes:    { label: 'Nova ação',                lbl: 'Nome da ação',           extras: true,  anoAlvo: false, hasDesc: true },
   ciclos:     { label: 'Nova meta trimestral',     lbl: 'Meta dos 90 dias',       extras: false, anoAlvo: false, hasDesc: true  },
   horizontes: { label: 'Nova meta de longo prazo', lbl: 'Objetivo de longo prazo', extras: false, anoAlvo: true,  hasDesc: true  },
-  pilares:    { label: 'Nova área de foco',        lbl: 'Área de foco',           extras: false, anoAlvo: false, hasDesc: false }
+  pilares:    { label: 'Nova área de foco',        lbl: 'Área de foco',           extras: false, anoAlvo: false, hasDesc: true }
 };
 
 // Placeholders para os campos de nome
@@ -4147,6 +4186,7 @@ function renderPrediSection(tipo) {
       <div class="pi-top" onclick="event.stopPropagation()">
         <div style="flex:1;min-width:0" onclick="openPrediDetail('${tipo}','${item.id}')">
           <span class="pi-txt">${esc(nome)}${rodadaTag}</span>
+          ${item.descricao ? `<div class="pi-desc-preview">${esc(item.descricao.slice(0,80))}${item.descricao.length>80?'…':''}</div>` : ''}
           ${metaRow}
         </div>
         <div style="display:flex;align-items:center;gap:6px;flex-shrink:0;margin-left:8px">
@@ -4158,15 +4198,6 @@ function renderPrediSection(tipo) {
         </div>
       </div>
       ${habSection}
-      <div onclick="event.stopPropagation()">
-        <button class="pi-nota-toggle${item.notas?(' has-nota'):''}" onclick="toggleNota('${item.id}',event)">📝 ${item.notas?'Ver notas':'Notas'}</button>
-        <div id="pi-nota-${item.id}" style="display:none">
-          <textarea class="pi-nota-area" rows="2"
-            placeholder="Anotações internas, contexto, lembretes..."
-            onblur="saveNota('${tipo}','${item.id}',this.value)"
-          >${esc(item.notas||'')}</textarea>
-        </div>
-      </div>
     </div>`;
   }).join('');
 }
@@ -4257,10 +4288,10 @@ function openAddPredi(tipo, initialNome) {
   const nomeEl = document.getElementById('inp-predi-nome');
   nomeEl.value = initialNome || '';
   nomeEl.placeholder = PREDI_PLACEHOLDERS[tipo] || '';
-  // desc field for ciclos/horizontes
+  // desc field for all types
   const descField = document.getElementById('predi-desc-field');
-  descField.style.display = cfg.hasDesc ? 'block' : 'none';
-  if (cfg.hasDesc) document.getElementById('inp-predi-desc-generic').value = '';
+  descField.style.display = 'block';
+  document.getElementById('inp-predi-desc-generic').value = '';
   document.getElementById('frente-extras').style.display = cfg.extras ? 'block' : 'none';
   document.getElementById('horizonte-extras').style.display = cfg.anoAlvo ? 'block' : 'none';
   if (cfg.extras) {
@@ -4288,7 +4319,7 @@ function savePredi() {
   if (pilarSel && ['frentes','ciclos','horizontes'].includes(tipo)) item.pilarId = pilarSel.value || null;
   if (tipo === 'frentes') {
     item.nome = nome;
-    item.descricao = document.getElementById('inp-predi-desc').value.trim();
+    item.descricao = (document.getElementById('inp-predi-desc-generic') || document.getElementById('inp-predi-desc') || {value:''}).value.trim();
     item.prazo = document.getElementById('inp-predi-prazo').value;
   } else if (tipo === 'horizontes') {
     item.nome = nome;
@@ -4302,6 +4333,9 @@ function savePredi() {
     item.descricao = cfg.hasDesc ? document.getElementById('inp-predi-desc-generic').value.trim() : '';
   } else {
     item.texto = nome;
+    // Save description for pilares
+    const descEl = document.getElementById('inp-predi-desc-generic');
+    if (descEl) item.descricao = descEl.value.trim();
   }
   S[tipo].push(item);
   persist(); closeM('mbg-add-predi'); renderPredio();
@@ -4358,7 +4392,7 @@ function openEditPredi(tipo, id) {
   document.getElementById('edit-predi-id').value   = id;
   document.getElementById('edit-predi-nome').value = item.nome || item.texto || '';
   // Descrição — só para frentes, ciclos, horizontes
-  const hasDesc = ['frentes','ciclos','horizontes'].includes(tipo);
+  const hasDesc = ['frentes','ciclos','horizontes','pilares'].includes(tipo);
   const descWrap = document.getElementById('edit-predi-desc-wrap');
   descWrap.style.display = hasDesc ? 'block' : 'none';
   if (hasDesc) document.getElementById('edit-predi-desc').value = item.descricao || '';
@@ -4391,7 +4425,7 @@ function saveEditPredi() {
   const item = S[tipo].find(x => x.id === id);
   if (!item) return;
   if ('nome' in item) item.nome = nome; else item.texto = nome;
-  if (['frentes','ciclos','horizontes'].includes(tipo))
+  if (['frentes','ciclos','horizontes','pilares'].includes(tipo))
     item.descricao = document.getElementById('edit-predi-desc').value.trim();
   if (['frentes','ciclos'].includes(tipo))
     item.prazo = document.getElementById('edit-predi-prazo').value;
@@ -6331,6 +6365,232 @@ function renderDesafios() { renderDesafiosV4(); }
 function renderRotinaStrip() { renderDiaResumo(); }
 function _updateRotinaTabCounts() { renderDiaResumo(); }
 
+
+
+/* ═══════════════════════════════════════════════════════════
+   ROTINA UNIFICADA — lista única ordenável
+═══════════════════════════════════════════════════════════ */
+
+// Ordem global: array de {id, tipo} persisted in S.rotinaOrdem
+// Por padrão: desafios(0) → hábitos(1) → vícios(2)
+
+function getRotinaOrdem() {
+  var t = today();
+  // Collect all active items
+  var all = [];
+  (S.desafios||[]).filter(function(d){return d.ativo!==false;}).forEach(function(d,i){
+    all.push({id:d.id, tipo:'des', prio:0, ordem:d.ordem!=null?d.ordem:i});
+  });
+  (S.habitos||[]).filter(function(h){return !h.arquivado;}).forEach(function(h,i){
+    all.push({id:h.id, tipo:'hab', prio:1, ordem:h.ordem!=null?h.ordem:i});
+  });
+  (S.vicios||[]).forEach(function(v,i){
+    all.push({id:v.id, tipo:'vic', prio:2, ordem:v.ordem!=null?v.ordem:i});
+  });
+  // Apply global custom order if exists
+  var globalOrdem = S.rotinaOrdem;
+  if (globalOrdem && globalOrdem.length > 0) {
+    var ordMap = {};
+    globalOrdem.forEach(function(o,i){ ordMap[o.id] = i; });
+    all.sort(function(a,b){
+      var oa = ordMap[a.id]!=null ? ordMap[a.id] : 999;
+      var ob = ordMap[b.id]!=null ? ordMap[b.id] : 999;
+      return oa - ob;
+    });
+  } else {
+    all.sort(function(a,b){ return a.prio !== b.prio ? a.prio-b.prio : a.ordem-b.ordem; });
+  }
+  return all;
+}
+
+function renderRotina() {
+  renderDiaResumo();
+  // Wire add buttons
+  var btnD = document.getElementById('btn-rot-add-desafio');
+  if (btnD && !btnD._w) { btnD._w=1; btnD.onclick=function(){openM('mbg-add-desafio');}; }
+  var btnH = document.getElementById('btn-rot-add-habito');
+  if (btnH && !btnH._w) { btnH._w=1; btnH.onclick=function(){openM_addHabito();}; }
+
+  var t    = today();
+  var week = getWeekDays();
+  var ordem = getRotinaOrdem();
+
+  var pendentes = [];
+  var concluidos = [];
+
+  ordem.forEach(function(o){
+    var item = null; var done = false;
+    if (o.tipo==='des') {
+      item = (S.desafios||[]).find(function(x){return x.id===o.id;});
+      done = item && !!((item.registros||{})[t]);
+    } else if (o.tipo==='hab') {
+      item = (S.habitos||[]).find(function(x){return x.id===o.id;});
+      done = item && (item.registros||{})[t]==='feito';
+    } else {
+      item = (S.vicios||[]).find(function(x){return x.id===o.id;});
+      done = item && !!((item.registros||{})[t]);
+    }
+    if (!item) return;
+    if (done) concluidos.push({item:item, tipo:o.tipo});
+    else pendentes.push({item:item, tipo:o.tipo});
+  });
+
+  var listEl = document.getElementById('rot-unified-list');
+  var doneEl = document.getElementById('rot-unified-done');
+  if (!listEl) return;
+
+  var typeInfo = {
+    des: {label:'DESAFIO', cls:'des', icon:'🔥'},
+    hab: {label:'HÁBITO',  cls:'hab', icon:'🧱'},
+    vic: {label:'VÍCIO',   cls:'vic', icon:'🛡️'},
+  };
+
+  if (pendentes.length === 0 && concluidos.length === 0) {
+    listEl.innerHTML = '<div class="rot-empty-state" style="padding:24px 0">Adicione hábitos, vícios ou desafios para começar.</div>';
+    if (doneEl) doneEl.innerHTML = '';
+    return;
+  }
+
+  if (pendentes.length === 0) {
+    listEl.innerHTML = '<div class="rot-done-msg" style="padding:20px 0">✓ Tudo feito hoje!</div>';
+  } else {
+    listEl.innerHTML = pendentes.map(function(p){
+      return buildUniCard(p.item, p.tipo, typeInfo[p.tipo], week, t);
+    }).join('');
+  }
+
+  if (doneEl) {
+    if (concluidos.length === 0) { doneEl.innerHTML = ''; return; }
+    doneEl.innerHTML = '<div class="rot-done-section-hdr">✓ Concluídos hoje</div>'
+      + concluidos.map(function(c){
+          var ti = typeInfo[c.tipo];
+          return '<div class="uni-card-done">'
+            + '<span class="uni-done-type">'+ti.icon+'</span>'
+            + '<span class="uni-done-nome">'+(c.item.nome||c.item.texto||'')+'</span>'
+            + '</div>';
+        }).join('');
+  }
+}
+
+function buildUniCard(item, tipo, ti, week, t) {
+  var id  = item.id;
+  var nom = esc(item.nome||item.texto||'');
+  var area = getAreaPill(item.vinculoIds||(item.vinculoId?[item.vinculoId]:[]));
+  var sub = '';
+  var pct = 0;
+  var fillCls = '';
+  var actionBtn = '';
+
+  if (tipo === 'hab') {
+    var res = calcPctHabito(item, week);
+    pct = res.pct; fillCls = pct>=100?'green':'purple';
+    var streak = calcHabitoStreakV4(item);
+    sub += (area ? '<span class="hab-area-pill">&darr; '+area+'</span>' : '')
+         + (streak>1 ? '<span class="hab-streak-pill">\uD83D\uDD25 '+streak+'d</span>' : '')
+         + '<span class="hab-prog-label">'+res.feito+'/'+res.alvo+' na semana</span>';
+    actionBtn = '<button class="btn-check" onclick="checkUniItem(\''+id+'\',\'hab\')">CHECK</button>';
+  } else if (tipo === 'vic') {
+    var streak = calcVicioStreak(item.registros||{});
+    pct = Math.min(100, Math.round(streak/30*100));
+    sub += (area ? '<span class="hab-area-pill">&darr; '+area+'</span>' : '')
+         + (streak>0 ? '<span class="hab-streak-pill">\uD83D\uDD25 '+streak+'d</span>' : '')
+         + '<span class="hab-prog-label">Dia '+streak+' de sequ\u00eancia</span>';
+    actionBtn = '<button class="btn-resisti" onclick="checkUniItem(\''+id+'\',\'vic\')">RESISTI</button>';
+  } else { // des
+    var inicio = new Date((item.inicioEm||t)+'T00:00:00');
+    var hoje   = new Date(t+'T00:00:00');
+    var diaAt  = Math.max(1,Math.floor((hoje-inicio)/86400000)+1);
+    var dur    = item.duracaoDias||30;
+    pct = Math.min(100,Math.round((diaAt-1)/dur*100));
+    var resist = item.modo==='resistir';
+    sub += '<span class="hab-prog-label">Dia '+diaAt+' de '+dur+'</span>';
+    actionBtn = '<button class="'+(resist?'btn-resisti':'btn-des-ok')+'" onclick="checkUniItem(\''+id+'\',\'des\')">'+(resist?'RESISTI':'CHECK')+'</button>';
+  }
+
+  return '<div class="uni-card" id="ucard-'+id+'">'
+    + '<div class="uni-type-badge '+ti.cls+'">'+ti.icon+' '+ti.label+'</div>'
+    + '<div class="uni-card-row">'
+      + '<div class="uni-card-info">'
+        + '<div class="uni-card-nome">'+nom+'</div>'
+        + '<div class="uni-card-sub">'+sub+'</div>'
+        + '<div class="uni-bar-track"><div class="uni-bar-fill '+fillCls+'" style="width:'+pct+'%"></div></div>'
+      + '</div>'
+      + '<div class="uni-card-btns">'
+        + actionBtn
+        + '<button class="hab-dots-btn" onclick="openItemMenu(event,\''+id+'\',\''+tipo+'\')">···</button>'
+      + '</div>'
+    + '</div>'
+  + '</div>';
+}
+
+function checkUniItem(id, tipo) {
+  var item = null;
+  if (tipo==='hab') item = (S.habitos||[]).find(function(x){return x.id===id;});
+  else if (tipo==='vic') item = (S.vicios||[]).find(function(x){return x.id===id;});
+  else item = (S.desafios||[]).find(function(x){return x.id===id;});
+  if (!item) return;
+  if (!item.registros) item.registros = {};
+  var el = document.getElementById('ucard-'+id);
+  if (el) { el.classList.add('uni-card-out'); setTimeout(doCheck, 200); }
+  else doCheck();
+  function doCheck(){
+    if (tipo==='hab') item.registros[today()] = 'feito';
+    else if (tipo==='vic') item.registros[today()] = 'resistiu';
+    else item.registros[today()] = item.modo==='resistir'?'resistiu':'feito';
+    persist(); renderRotina();
+  }
+}
+
+/* ── Global reorder ──────────────────────────────────────────── */
+var _gReordIds = [];
+
+function openReorderModalGlobal() {
+  var tEl = document.getElementById('reorder-title');
+  // Use the existing reorder modal but with global content
+  var listEl = document.getElementById('reorder-global-list');
+  var ordem = getRotinaOrdem();
+  _gReordIds = ordem.map(function(o){ return {id:o.id, tipo:o.tipo}; });
+  renderGlobalReorderRows();
+  openM('mbg-reorder-global');
+}
+
+function renderGlobalReorderRows(){
+  var el = document.getElementById('reorder-global-list'); if(!el) return;
+  var typeInfo = {des:{icon:'🔥',label:'Desafio'},hab:{icon:'🧱',label:'Hábito'},vic:{icon:'🛡️',label:'Vício'}};
+  el.innerHTML = _gReordIds.map(function(o,i){
+    var pool = o.tipo==='hab'?(S.habitos||[]):o.tipo==='vic'?(S.vicios||[]):(S.desafios||[]);
+    var it = pool.find(function(x){return x.id===o.id;});
+    var ti = typeInfo[o.tipo]||{icon:'',label:''};
+    var nome = it?(it.nome||it.texto||''):o.id;
+    return '<div class="reorder-row">'
+      +'<span style="font-size:13px;margin-right:4px">'+ti.icon+'</span>'
+      +'<span class="reorder-nome">'+esc(nome)+'</span>'
+      +'<div class="reorder-arrows">'
+        +'<button class="reorder-arrow" onclick="moveGlobalRow('+i+',-1)"'+(i===0?' disabled':'')+'>\u2191</button>'
+        +'<button class="reorder-arrow" onclick="moveGlobalRow('+i+',1)"'+(i===_gReordIds.length-1?' disabled':'')+'>\u2193</button>'
+      +'</div></div>';
+  }).join('');
+}
+
+function moveGlobalRow(i,dir){
+  var j=i+dir; if(j<0||j>=_gReordIds.length) return;
+  var tmp=_gReordIds[i]; _gReordIds[i]=_gReordIds[j]; _gReordIds[j]=tmp;
+  renderGlobalReorderRows();
+}
+
+function saveReorderGlobal(){
+  S.rotinaOrdem = _gReordIds.slice();
+  persist(); closeM('mbg-reorder-global'); renderRotina();
+  showToast('✓ Ordem salva');
+}
+
+/* Keep old render functions as aliases for compatibility */
+function renderHabitos()  { renderRotina(); }
+function renderVicios()   { renderRotina(); }
+function renderPorao()    { renderRotina(); }
+function renderDesafios() { renderRotina(); }
+function renderRotinaStrip() { renderDiaResumo(); }
+function _updateRotinaTabCounts() { renderDiaResumo(); }
 
 </script>
 </body>
