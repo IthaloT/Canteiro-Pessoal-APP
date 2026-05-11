@@ -1793,6 +1793,40 @@ input:focus, textarea:focus, select:focus {
   border-color:var(--acc);color:var(--acc);background:var(--acc-d);
 }
 
+
+/* ── Caderno desktop: 2 colunas ────────────────────────────── */
+@media(min-width:1024px){
+  #sec-caderno{
+    display:grid;
+    grid-template-columns:360px 1fr;
+    gap:0 28px;
+    padding:20px 28px;
+    overflow-y:auto;
+    align-items:start;
+    height:100%;
+    box-sizing:border-box;
+  }
+  /* Inbox fica na col esquerda */
+  #sec-caderno .inbox-bar,
+  #sec-caderno .sec-h:first-of-type,
+  #sec-caderno #list-inbox{ grid-column:1 }
+  /* Kanban fica na col direita */
+  #sec-caderno .sec-h.mt2,
+  #sec-caderno .kanban,
+  #sec-caderno [id^="tarefas"]{ grid-column:2 }
+  /* Kanban volta a 3 colunas no desktop */
+  #sec-caderno .kanban{
+    flex-direction:row !important;
+    flex-wrap:nowrap;
+    gap:12px;
+  }
+  #sec-caderno .k-col{
+    flex:1;min-width:0;
+    max-height:calc(100vh - 160px);
+    overflow-y:auto;
+  }
+}
+
 </style>
 </head>
 <body>
@@ -6551,9 +6585,10 @@ function buildUniCard(item, tipo, ti, week, t) {
   var actionBtn = '';
 
   if (tipo === 'hab') {
+    var evitar = (item.tipo === 'evitar');
     var res = calcPctHabito(item, week);
-    pct = res.pct; fillCls = pct>=100?'green':'purple';
-    var streak = calcHabitoStreakV4(item);
+    pct = res.pct; fillCls = pct>=100?'green':(evitar?'':'purple');
+    var streak = evitar ? calcVicioStreak(item.registros||{}) : calcHabitoStreakV4(item);
     sub += (area ? '<span class="hab-area-pill">&darr; '+area+'</span>' : '')
          + (streak>1 ? '<span class="hab-streak-pill">\uD83D\uDD25 '+streak+'d</span>' : '')
          + (evitar
